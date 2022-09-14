@@ -63,14 +63,14 @@
                                     <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2"><span>OR Using
                                             Account Details</span></p>
                                     <div class="card-body pt-0">
-                                        <form class="form-horizontal" action="#">
+                                        <form class="form-horizontal" action="${pageContext.request.contextPath }/login" method="post">
                                             <fieldset class="form-group floating-label-form-group">
                                                 <label for="user-name">Your Username</label>
-                                                <input type="text" class="form-control" id="user-name" placeholder="Your Username">
+                                                <input type="text" class="form-control" id="user-name" placeholder="Your Username" name="memberEmail">
                                             </fieldset>
                                             <fieldset class="form-group floating-label-form-group mb-1">
                                                 <label for="user-password">Enter Password</label>
-                                                <input type="password" class="form-control" id="user-password" placeholder="Enter Password">
+                                                <input type="password" class="form-control" id="user-password" placeholder="Enter Password" name="memberPw">
                                             </fieldset>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-12 text-center text-sm-left">

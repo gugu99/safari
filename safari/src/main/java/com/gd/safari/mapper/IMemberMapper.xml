@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IMemberMapper">
+	<!-- 회원가입 -->
+	<insert id="insertMember" parameterType="com.gd.safari.vo.Member">
+		INSERT INTO member (
+			member_email
+			, member_pw
+			, active
+			, certified
+			, create_date
+		) VALUES (
+			TRIM(#{memberEmail})
+			, PASSWORD(#{memberPw})
+			, 'N'
+			, #{certified}
+			, NOW()
+		)
+	</insert>
+	<!-- 로그인 -->
+	<select id="selectMemberByLogin" resultType="com.gd.safari.vo.Member" parameterType="com.gd.safari.vo.Member">
+		SELECT 
+			member_email memberEmail
+			, member_pw memberPw
+			, active
+		FROM member
+		WHERE member_email = #{memberEmail} and member_pw = PASSWORD(#{memberPw})
+	</select>
+</mapper>
