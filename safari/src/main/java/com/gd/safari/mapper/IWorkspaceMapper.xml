@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IWorkspaceMapper">
+
+	<insert id="insertWorkspace" parameterType ="com.gd.safari.vo.Workspace">
+	
+		INSERT INTO workspace(
+			work_name,create_date,update_date,admin_email 
+		)VALUE (
+			  #{workName}
+			, now()
+			, now()
+			, #{adminEmail}
+		)
+		
+	</insert>
+
+	<delete id="deleteWorkspace" parameterType="int">
+	
+		DELETE FROM workspace
+		WHERE work_no = #{workNO}
+		
+	</delete>
+	
+	<update id="updateWorkspace" parameterType ="com.gd.safari.vo.Workspace">
+	
+		UPDATE workspace SET
+			  work_name = #{workName}
+			, update_date = #{updateDate}
+			  WHERE work_no = #{workNo}
+		
+	</update>
+	
+	
+	
+</mapper>
