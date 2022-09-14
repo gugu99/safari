@@ -1,5 +1,9 @@
 package com.gd.safari.vo;
 
-public class TodoListLike {
+import lombok.Data;
 
+@Data
+public class TodoListLike {
+	private int todolistNo;
+	private String memberEmail;
 }

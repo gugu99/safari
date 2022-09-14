@@ -1,5 +1,9 @@
 package com.gd.safari.vo;
 
-public class BoardLike {
+import lombok.Data;
 
+@Data
+public class BoardLike {
+	private int boardNo;
+	private String memberEmail;
 }

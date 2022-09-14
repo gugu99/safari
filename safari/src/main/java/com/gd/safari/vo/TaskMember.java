@@ -1,5 +1,9 @@
 package com.gd.safari.vo;
 
-public class TaskMember {
+import lombok.Data;
 
+@Data
+public class TaskMember {
+	private int taskNo;
+	private int projectMemberNo;
 }

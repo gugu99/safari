@@ -2,7 +2,7 @@ package com.gd.safari.service;
 
 import com.gd.safari.vo.Member;
 
-public interface IAccountService {
+public interface IMemberService {
 	// 회원가입
 	int addMember(Member member);
 	// 로그인

@@ -9,7 +9,7 @@ import com.gd.safari.vo.Member;
 
 @Service
 @Transactional
-public class AccountService implements IAccountService {
+public class MemberService implements IMemberService {
 	@Autowired private IMemberMapper memberMapper;
 	
 	// 회원가입
@@ -17,7 +17,7 @@ public class AccountService implements IAccountService {
 	public int addMember(Member member) {
 		return memberMapper.insertMember(member);
 	}
-
+	// 로그인
 	@Override
 	public Member getMemberByLogin(Member member) {
 		return memberMapper.selectMemberByLogin(member);
