@@ -1,5 +1,11 @@
 package com.gd.safari.vo;
 
-public class NoteCommentLike {
+import lombok.Data;
 
+@Data
+public class NoteCommentLike {
+	int noteCmtNo;
+	String memberEmaill;
+	String createDate;
+	
 }

@@ -1,5 +1,16 @@
 package com.gd.safari.vo;
 
-public class ProfileImg {
+import lombok.Data;
 
+@Data
+public class ProfileImg {
+	int workMemberNo;
+	String filename;
+	String fileExt;
+	String originName;
+	String fileType;
+	int fileSize;
+	String createDate;
+	String updateDate;
+	
 }

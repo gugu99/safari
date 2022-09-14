@@ -1,5 +1,10 @@
 package com.gd.safari.vo;
 
-public class WorkspaceGuest {
+import lombok.Data;
 
+@Data
+public class WorkspaceGuest {
+	String memberEmail;
+	int workNo;
+	String createDate;
 }

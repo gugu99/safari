@@ -1,5 +1,15 @@
 package com.gd.safari.vo;
 
-public class NoteComment {
+import lombok.Data;
 
+@Data
+public class NoteComment {
+	int noteCmtNo;
+	int notNO;
+	String notecmtContent;
+	String notecmtWriter;
+	String notecmtFix;
+	String createDate;
+	String updateDate;
+	int noteCmtUpperNo;
 }

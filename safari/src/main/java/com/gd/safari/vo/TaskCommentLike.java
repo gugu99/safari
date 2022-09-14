@@ -1,5 +1,11 @@
 package com.gd.safari.vo;
 
-public class TaskCommentLike {
+import lombok.Data;
 
+@Data
+public class TaskCommentLike {
+	int taskCmtNo;
+	String memberEmail;
+	String createDate;
+	
 }
