@@ -1,5 +1,13 @@
 package com.gd.safari.vo;
 
-public class Note {
+import lombok.Data;
 
+@Data
+public class Note {
+	private int noteNo;
+	private String noteContent;
+	private String noteWriter;
+	private String createDate;
+	private String updateDate;
+	private int tasklistNo;
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.gd.safari.commons.TeamColor;
-import com.gd.safari.service.IAccountService;
+import com.gd.safari.service.IMemberService;
 import com.gd.safari.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class AccountController {
-	@Autowired private IAccountService accountService;
+	@Autowired private IMemberService accountService;
 	
 	// 로그인 페이지 이동
 	@GetMapping("/login")
@@ -33,7 +33,7 @@ public class AccountController {
 		Member loginMember = accountService.getMemberByLogin(member);
 		session.setAttribute("login", loginMember);
 		
-		return "index";
+		return "redirect:/index";
 	}
 	
 	// 회원가입 페이지 이동
