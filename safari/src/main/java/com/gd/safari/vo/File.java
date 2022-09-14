@@ -11,7 +11,7 @@ public class File {
 	String fileExt;
 	String originName;
 	String fileType;
-	int fileSize;
+	long fileSize;
 	String createDate;
 	String updateDate;
 	
