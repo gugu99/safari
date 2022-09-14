@@ -1,5 +1,11 @@
 package com.gd.safari.vo;
 
-public class FeedbackReceiver {
+import lombok.Data;
 
+@Data
+public class FeedbackReceiver {
+	private int feedbackNo;
+	private String feedbackReceiver;
+	private String createDate;
+	private String updateDate;
 }

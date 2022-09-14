@@ -1,5 +1,10 @@
 package com.gd.safari.vo;
 
-public class ProjectGroupConn {
+import lombok.Data;
 
+@Data
+public class ProjectGroupConn {
+	private int projectNo;
+	private int projectGroupNo;
+	private String createDate;
 }
