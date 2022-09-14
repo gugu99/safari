@@ -1,5 +1,7 @@
 package com.gd.safari.controller;
 
+import java.util.Random;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class AccountController {
-	@Autowired private IMemberService accountService;
+	@Autowired private IMemberService memberService;
 	
 	// 로그인 페이지 이동
 	@GetMapping("/login")
@@ -29,11 +31,11 @@ public class AccountController {
 	@PostMapping("/login")
 	public String login(HttpSession session, Member member) {
 		log.debug(TeamColor.CSH + "로그인 액션");
-		
-		Member loginMember = accountService.getMemberByLogin(member);
+		// 로그인 메서드 실행 후 세션에 담기
+		Member loginMember = memberService.getMemberByLogin(member);
 		session.setAttribute("login", loginMember);
 		
-		return "redirect:/index";
+		return "redirect:/safari/index";
 	}
 	
 	// 회원가입 페이지 이동
@@ -43,10 +45,41 @@ public class AccountController {
 		return "account/register";
 	}
 	
+	// 회원가입 액션
+	@PostMapping("/register")
+	public String register(Member member) {
+		log.debug(TeamColor.CSH + "회원가입 액션");
+		// 인증번호 넣기
+		member.setCertified(certified_key());
+		// 디버깅
+		log.debug(TeamColor.CSH + member);
+		memberService.addMember(member);
+		
+		return "redirect:/login";
+	}
+	
 	// 비밀번호 찾기 페이지 이동
 	@GetMapping("/recover-password")
 	public String recoverPassword() {
 		log.debug(TeamColor.CSH + "비밀번호 찾기 페이지");
 		return "account/recover-password";
+	}
+	
+	// 인증번호 생성
+    private String certified_key() {
+		Random random = new Random();
+		StringBuffer sb = new StringBuffer();
+		int num = 0;
+
+		do {
+			num = random.nextInt(75) + 48;
+			if ((num >= 48 && num <= 57) || (num >= 65 && num <= 90) || (num >= 97 && num <= 122)) {
+				sb.append((char) num);
+			} else {
+				continue;
+			}
+
+		} while (sb.length() < 10);
+		return sb.toString();
 	}
 }

@@ -57,31 +57,22 @@
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body text-center">
-                                        <a href="#" class="btn btn-social mb-1 mr-1 btn-outline-facebook"><span class="fa fa-facebook"></span> <span class="px-1">facebook</span> </a>
                                         <a href="#" class="btn btn-social mb-1 btn-outline-google"><span class="fa fa-google-plus font-medium-4"></span> <span class="px-1">google</span> </a>
                                     </div>
                                     <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>OR Using
                                             Email</span></p>
                                     <div class="card-body pt-0">
-                                        <form class="form-horizontal" action="index.html">
-                                            <fieldset class="form-group floating-label-form-group">
-                                                <label for="user-name">User Name</label>
-                                                <input type="text" class="form-control" id="user-name" placeholder="User Name">
-                                            </fieldset>
+                                        <form class="form-horizontal" action="${pageContext.request.contextPath}/register" method="post">
                                             <fieldset class="form-group floating-label-form-group">
                                                 <label for="user-email">Your Email Address</label>
-                                                <input type="email" class="form-control" id="user-email" placeholder="Your Email Address">
+                                                <input type="email" class="form-control" id="user-email" placeholder="Your Email Address" name="memberEmail">
                                             </fieldset>
                                             <fieldset class="form-group floating-label-form-group mb-1">
                                                 <label for="user-password">Enter Password</label>
-                                                <input type="password" class="form-control" id="user-password" placeholder="Enter Password">
+                                                <input type="password" class="form-control" id="user-password" placeholder="Enter Password" name="memberPw">
                                             </fieldset>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-12 text-center text-sm-left pr-0">
-                                                    <fieldset>
-                                                        <input type="checkbox" id="remember-me" class="chk-remember">
-                                                        <label for="remember-me"> Remember Me</label>
-                                                    </fieldset>
                                                 </div>
                                                 <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/recover-password" class="card-link">Forgot Password?</a></div>
                                             </div>

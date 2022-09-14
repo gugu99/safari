@@ -57,7 +57,6 @@
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body pt-0 text-center">
-                                        <a href="#" class="btn btn-social mb-1 mr-1 btn-outline-facebook"><span class="fa fa-facebook"></span> <span class="px-1">facebook</span> </a>
                                         <a href="#" class="btn btn-social mb-1 mr-1 btn-outline-google"><span class="fa fa-google-plus font-medium-4"></span> <span class="px-1">google</span> </a>
                                     </div>
                                     <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2"><span>OR Using

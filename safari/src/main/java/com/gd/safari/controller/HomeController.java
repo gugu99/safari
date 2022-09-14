@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 	
 	// 홈 페이지 이동(로그인 전)
-	@GetMapping("/")
+	@GetMapping({"/","/home"})
 	public String home() {
 		return "home";
 	}
 	
 	// 인덱스 페이지 이동(로그인 후)
-	@GetMapping("/index")
+	@GetMapping("/safari/index")
 	public String index() {
 		return "index";
 	}
