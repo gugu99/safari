@@ -1,5 +1,10 @@
 package com.gd.safari.vo;
 
-public class ScheduleCommentLike {
+import lombok.Data;
 
+@Data
+public class ScheduleCommentLike {
+	private int scheduleCmtNo;
+	private String memberEmail;
+	private String createDate;
 }
