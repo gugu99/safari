@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IWorkspaceMemberMapper">
+
+	<insert id="insertWorkspaceCreater" parameterType="com.gd.safari.vo.WorkspaceMember">
+		<selectKey keyProperty="adminEmail" order="BEFORE" resultType="string"> 
+			<!--  mariadb : SELECT LAST_INSERT_ID() -->
+			SELECT admin_email adminEmail FROM workspace   
+		</selectKey>
+		
+		<selectKey keyProperty="workNo" order="BEFORE" resultType="int"> 
+			<!--  mariadb : SELECT LAST_INSERT_ID() -->
+			SELECT work_no workNo FROM workspace   
+		</selectKey>
+	
+		INSERT INTO workspace_member(
+		work_member_name
+		, active
+		, work_member_level
+		, create_date
+		, update_date
+		, work_no
+		, work_member_email)
+		VALUES(
+		  Y
+		, 4
+		, NOW()
+		, NOW()
+		, #{workNo}
+		, #{adminEmail}
+		
+		)
+		
+	</insert>
+
+
+</mapper>
