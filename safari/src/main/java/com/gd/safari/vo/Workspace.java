@@ -1,5 +1,8 @@
 package com.gd.safari.vo;
 
+import lombok.Data;
+
+@Data
 public class Workspace {
 
 	int workNo;
