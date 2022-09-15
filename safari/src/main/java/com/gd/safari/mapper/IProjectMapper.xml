@@ -10,4 +10,24 @@
 		WHERE
 			work_no = #{workNo}
 	</select>
+	
+	<insert id="insertProject" parameterType="java.util.Map">
+		<selectKey keyProperty="projectNo" resultType="int" order="AFTER">
+			<!-- 방금 생성한 키값을 받아옴 -->
+			SELECT LAST_INSERT_ID() as projectNo
+		</selectKey>
+		INSERT INTO project (
+			work_no
+			, project_name
+			, project_auth
+			, create_date
+			, update_date
+		) VALUES (
+			#{workNo}
+			, #{projectName}
+			, #{projectAuth}
+			, NOW()
+			, NOW()
+		)
+	</insert>
 </mapper>

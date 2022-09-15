@@ -40,11 +40,17 @@ public class ProjectController {
 	}
 	
 	@PostMapping("/safari/project")
-	public String project(@RequestParam Map<String, Object> map) {
+	public String project(HttpSession session, @RequestParam Map<String, Object> map) {
 		log.debug(TeamColor.CSK + "프로젝트 추가");
-		log.debug(TeamColor.CSK + map);
 		
-		// TODO 프로젝트 추가 메소드가 들어갈 자리
+		// 워크스페이스 페이지에서 세션에 담은 workspaceNo를 받아온다
+		int workNo = (Integer)session.getAttribute("workNo");
+		map.put("workNo", workNo);
+		
+		log.debug(TeamColor.CSK + map);
+		// log.debug(TeamColor.CSK + map.keySet()); // workNo, projectName, projectAuth, projectMemberList
+		
+		projectService.addProject(map);
 		
 		return "redirect:/safari/project";
 	}

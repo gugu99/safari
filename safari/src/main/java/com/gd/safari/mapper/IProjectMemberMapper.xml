@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IProjectMemberMapper">
+	<insert id="insertProjectMember" parameterType="com.gd.safari.vo.ProjectMember">
+		INSERT INTO project_member(
+			work_member_no
+			, project_no
+			, project_member_auth
+			, active
+			, create_date
+			, update_date
+		) VALUES (
+			#{workMemberNo}
+			, #{projectNo}
+			, 'Y'
+			, 'Y'
+			, NOW()
+			, NOW()
+		)
+	</insert>
+</mapper>
