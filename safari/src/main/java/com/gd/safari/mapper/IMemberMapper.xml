@@ -17,6 +17,14 @@
 			, NOW()
 		)
 	</insert>
+	<!-- 중복 아이디 확인 -->
+	<select id="selectMemberEmailByCheck" resultType="string" parameterType="com.gd.safari.vo.Member">
+		SELECT
+			member_email memberEmail
+		FROM member
+		WHERE
+			member_email = TRIM(#{memberEmail})
+	</select>
 	<!-- 로그인 -->
 	<select id="selectMemberByLogin" resultType="com.gd.safari.vo.Member" parameterType="com.gd.safari.vo.Member">
 		SELECT 
@@ -24,6 +32,17 @@
 			, member_pw memberPw
 			, active
 		FROM member
-		WHERE member_email = #{memberEmail} and member_pw = PASSWORD(#{memberPw})
+		WHERE 
+			member_email = #{memberEmail} 
+			and member_pw = PASSWORD(#{memberPw})
 	</select>
+	<!-- 탈퇴 -->
+	<update id="updateActiveByDeleteAccount" parameterType="com.gd.safari.vo.Member">
+		UPDATE member
+		SET
+			active = 'X'
+		WHERE
+			member_email = #{memberEmail} 
+			and member_pw = PASSWORD(#{memberPw})
+	</update>
 </mapper>

@@ -62,21 +62,21 @@
                                     <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>OR Using
                                             Email</span></p>
                                     <div class="card-body pt-0">
-                                        <form class="form-horizontal" action="${pageContext.request.contextPath}/account/register" method="post">
+                                        <form class="form-horizontal" action="${pageContext.request.contextPath}/account/register" method="post" id="form">
                                             <fieldset class="form-group floating-label-form-group">
                                                 <label for="user-email">Your Email Address</label>
-                                                <input type="email" class="form-control" id="user-email" placeholder="Your Email Address" name="memberEmail">
+                                                <input type="email" class="form-control" placeholder="Your Email Address" name="memberEmail" id="memberEmail">
                                             </fieldset>
                                             <fieldset class="form-group floating-label-form-group mb-1">
                                                 <label for="user-password">Enter Password</label>
-                                                <input type="password" class="form-control" id="user-password" placeholder="Enter Password" name="memberPw">
+                                                <input type="password" class="form-control" placeholder="Enter Password (8자 이상, 대소문자, 숫자, 특수문자 포함)" name="memberPw" id="memberPw">
                                             </fieldset>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-12 text-center text-sm-left pr-0">
                                                 </div>
                                                 <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link">Forgot Password?</a></div>
                                             </div>
-                                            <button type="submit" class="btn btn-outline-primary btn-block"><i class="feather icon-user"></i> Register</button>
+                                            <button type="button" class="btn btn-outline-primary btn-block" id="btn"><i class="feather icon-user"></i> Register</button>
                                         </form>
                                     </div>
                                     <div class="card-body pt-0">
@@ -109,7 +109,43 @@
     <!-- BEGIN: Page JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/form-login-register.js"></script>
     <!-- END: Page JS-->
-
+	
+	<!-- BEGIN: 회원가입 정규식 JS -->
+	<script>
+		var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
+		var reg_pass = RegExp(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z])(?=.*[^\w]).{8,}/);
+		
+		$('#btn').click(function(){
+			if ($('#memberEmail').val() == '') {
+				alert('이메일칸이 빈칸입니다.');
+				$('#memberEmail').focus();
+			} else if (!reg_email.test($('#memberEmail').val())) {
+				alert('이메일형식을 확인해주세요.\nexample@example.com');
+				$('#memberEmail').focus();
+			} else if ($('#memberPw').val() == '') {
+				alert('비밀번호칸이 빈칸입니다.');
+				$('#memberPw').focus();
+			} else if (!reg_pass.test($('#memberPw').val())) {
+				alert('비밀번호형식을 확인해주세요.\n최소한 8자 대소문자 1개이상 + 숫자 1개이상 + 특수문자 1개이상');
+				$('#memberPw').focus();
+			} else {
+				$.ajax({
+					url : '/account/duplicateEmail',
+					type : 'post',
+					data : {customerCkId : $('#memberEmail').val()},
+					success : function(json){
+						// alert(json);
+						if(json == 'memberEmail ok'){
+							$('#form').submit();
+						} else {
+							alert('이미 사용중이거나 탈퇴한 이메일입니다.');
+							$('#memberEmail').focus();
+						}
+					}
+				});
+			}
+		});
+	</script>
 </body>
 <!-- END: Body-->
 
