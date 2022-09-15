@@ -1,5 +1,7 @@
 package com.gd.safari.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.gd.safari.vo.Workspace;
@@ -12,6 +14,8 @@ public interface IWorkspaceMapper {
 	int deleteWorkspace(int workNo);
 	// 워크스페이스 수정
 	int updateWorkspace(Workspace workspace);
-	Workspace selectWorkspace();
-	
+	// 워크스페이스 리스트
+	List<Workspace> selectWorkspaceList(String workMemberEmail);
+
+
 }

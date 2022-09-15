@@ -32,12 +32,13 @@ public class WorkspaceController {
 		workspace.setAdminEmail(adminEmail);
 		workspace.setWorkName(workName);
 		int row = workspaceService.addWorkspace(workspace,workMemberName); // 워크스페이스 생성 메서드
-		return "redirect:/safari/workspaceIndex";
+		return "redirect:/safari/workspace/workspaceMain";
 	}
 	
-	@GetMapping("/safari/workspaceIndex")
-	public String workspaceIndex () {
-		return "workspaceIndex";
+	@GetMapping("/safari/workspaceMain")
+	public String workspaceIndex (HttpSession session,@RequestParam(value = "workNo") int workNo) {
+		session.setAttribute("workNo", workNo);
+		return "workspace/workspaceMain";
 	}
 	
 	
@@ -48,6 +49,9 @@ public class WorkspaceController {
 		int row = workspaceService.removeWorkspace(workNo);
 		return "redirect:/safari/workspaceIndex";
 	}
+	
+
+	
 	
 
 }

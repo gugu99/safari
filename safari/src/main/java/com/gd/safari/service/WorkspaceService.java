@@ -1,5 +1,7 @@
 package com.gd.safari.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +40,14 @@ public class WorkspaceService implements IWorkspaceService {
 	public int removeWorkspace(int workNo) {
 		log.debug(TeamColor.CJM+workNo +"Service WorkNo"); // workNo 디버깅
 		return workspaceMapper.deleteWorkspace(workNo);
+	}
+
+
+	@Override
+	public List<Workspace> getWorkspaceList(String workMemberEmail) {
+		
+		
+		return workspaceMapper.selectWorkspaceList(workMemberEmail);
 	}
 
 }

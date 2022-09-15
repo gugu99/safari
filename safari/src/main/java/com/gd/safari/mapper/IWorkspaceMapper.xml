@@ -25,15 +25,25 @@
 		
 	</delete>
 	
-	<update id="updateWorkspace" parameterType ="com.gd.safari.vo.Workspace">
+	<update id="updateWorkspace" parameterType ="com.gd.safari.vo.Workspace">  <!--미완성 -->
 	
-		UPDATE workspace SET
-			  work_name = #{workName}
-			, update_date = #{updateDate}
-			  WHERE work_no = #{workNo}
+		  UPDATE workspace SET
+		  work_name = #{workName}
+		, update_date = #{updateDate}
+		  WHERE work_no = #{workNo}
 		
 	</update>
 	
+	<select id = "selectWorkspaceList" parameterType="String" resultType ="com.gd.safari.vo.Workspace">
+		SELECT distinct 
+			  w.work_no     workNo
+			, w.work_name   workName
+			, w.create_date createDate
+			, w.update_date updateDate
+		FROM workspace_member wm  inner join workspace w
+		where  wm.work_member_email = #{workMemberEmail}
+	
+	</select>
 	
 	
 </mapper>
