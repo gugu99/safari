@@ -7,13 +7,11 @@
 			member_email
 			, member_pw
 			, active
-			, certified
 			, create_date
 		) VALUES (
 			TRIM(#{memberEmail})
 			, PASSWORD(#{memberPw})
-			, 'N'
-			, #{certified}
+			, 'Y'
 			, NOW()
 		)
 	</insert>

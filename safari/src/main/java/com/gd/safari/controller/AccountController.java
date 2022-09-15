@@ -1,7 +1,5 @@
 package com.gd.safari.controller;
 
-import java.util.Random;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gd.safari.commons.TeamColor;
+import com.gd.safari.service.IMailService;
 import com.gd.safari.service.IMemberService;
 import com.gd.safari.vo.Member;
 
@@ -22,6 +21,25 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class AccountController {
 	@Autowired private IMemberService memberService;
+	@Autowired private IMailService mailService;
+	
+	// 메일 확인
+	@GetMapping("/account/mailConfirm")
+	public @ResponseBody String mailConfirm(@RequestParam(value = "email") String email) {
+		log.debug(TeamColor.CSH + this.getClass() + " 로그인 페이지");
+		String code;
+		// 꼭 예외처리를 하지 않아도 되는 익셉션을 발생시킨다.
+		try {
+			code = mailService.sendSimpleMessage(email);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+		
+		System.out.println("인증코드 : " + code);
+		
+		return code;
+	}
 	
 	// 로그인 페이지 이동
 	@GetMapping("/account/login")
@@ -80,8 +98,6 @@ public class AccountController {
 	@PostMapping("/account/register")
 	public String register(Model model, Member member) {
 		log.debug(TeamColor.CSH + this.getClass() + " 회원가입 액션");
-		// 인증번호 넣기
-		member.setCertified(certified_key());
 		// 디버깅
 		log.debug(TeamColor.CSH + member);
 		// 서비스 호출
@@ -188,23 +204,5 @@ public class AccountController {
 		}
 		
 		return "redirect:/safari/logout";
-	}
-	
-	// 인증번호 생성
-    private String certified_key() {
-		Random random = new Random();
-		StringBuffer sb = new StringBuffer();
-		int num = 0;
-
-		do {
-			num = random.nextInt(75) + 48;
-			if ((num >= 48 && num <= 57) || (num >= 65 && num <= 90) || (num >= 97 && num <= 122)) {
-				sb.append((char) num);
-			} else {
-				continue;
-			}
-
-		} while (sb.length() < 10);
-		return sb.toString();
 	}
 }

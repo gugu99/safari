@@ -64,11 +64,18 @@
                                     <div class="card-body pt-0">
                                         <form class="form-horizontal" action="${pageContext.request.contextPath}/account/register" method="post" id="form">
                                             <fieldset class="form-group floating-label-form-group">
-                                                <label for="user-email">Your Email Address</label>
+                                                <label for="memberEmail">Your Email Address</label>
                                                 <input type="email" class="form-control" placeholder="Your Email Address" name="memberEmail" id="memberEmail">
                                             </fieldset>
+                                            <div class="card-body pt-0">
+                                           	 	<button type="button" class="btn btn-outline-primary btn-block" id="checkBtn"><i class="feather icon-unlock"></i> Check Email</button>
+                                            </div>
+                                            <fieldset class="form-group floating-label-form-group mb-1">    
+                                                <label for="mailconfirm" id="mailconfirmTxt">Your Email Certification Number</label>
+                                                <input type="text" class="form-control" placeholder="Your Email Certification Number" id="mailconfirm">
+                                            </fieldset>
                                             <fieldset class="form-group floating-label-form-group mb-1">
-                                                <label for="user-password">Enter Password</label>
+                                                <label for="memberPw">Enter Password</label>
                                                 <input type="password" class="form-control" placeholder="Enter Password (8자 이상, 대소문자, 숫자, 특수문자 포함)" name="memberPw" id="memberPw">
                                             </fieldset>
                                             <div class="form-group row">
@@ -110,8 +117,48 @@
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/form-login-register.js"></script>
     <!-- END: Page JS-->
 	
-	<!-- BEGIN: 회원가입 정규식 JS -->
+	<!-- BEGIN: 회원가입 JS -->
 	<script>
+		// 이메일 인증번호
+		$('#checkBtn').click(function(){
+			$.ajax({
+				type : 'GET',
+				url : '/account/mailConfirm',
+				data : {email : $('#memberEmail').val()},
+				success : function(data){
+					alert('해당 이메일로 인증번호 발송이 완료되었습니다. 확인부탁드립니다.');
+					console.log("data : " + data);
+					chkEmailConfirm(data, $('#mailconfirm'), $('#mailconfirmTxt'));
+				}
+			});
+		});
+		
+		// 이메일 인증번호 체크 함수
+		function chkEmailConfirm(data, $mailconfirm, $mailconfirmTxt){
+			$('#mailconfirm').on('keyup', function(){
+				// 인증번호 틀린 경우
+				if(data != $('#mailconfirm').val()){
+					emconfirmchk = false;
+					$('#mailconfirmTxt').html("<span id='emconfirmchk'>인증번호가 잘못되었습니다.</span>");
+					$('#emconfirmchk').css({
+						"color" : "#FA3E3E",
+						"font-weight" : "bold",
+						"font-size" : "10px"
+					});
+				// 인증번호 확인된 경우
+				} else {
+					emconfirmchk = true;
+					$('#mailconfirmTxt').html("<span id='emconfirmchk'>인증번호가 확인되었습니다.</span>");
+					$('#emconfirmchk').css({
+						"color" : "#0D6EFD",
+						"font-weight" : "bold",
+						"font-size" : "10px"
+					});
+				}
+			});
+		}
+		
+		// 회원가입 정규식
 		var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
 		var reg_pass = RegExp(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z])(?=.*[^\w]).{8,}/);
 		
@@ -128,10 +175,18 @@
 			} else if (!reg_pass.test($('#memberPw').val())) {
 				alert('비밀번호형식을 확인해주세요.\n최소한 8자 대소문자 1개이상 + 숫자 1개이상 + 특수문자 1개이상');
 				$('#memberPw').focus();
+			} else if ($('#mailconfirm').val() == ''){
+				alert('이메일 인증번호칸이 빈칸입니다.');
+				$('#mailconfirm').focus();
+			} else if ($('#emconfirmchk').val() == '인증번호가 잘못되었습니다.'){
+				// 디버깅
+				console.log($('#emconfirmchk').val());
+				alert('인증번호가 잘못되었습니다.');
+				$('#mailconfirm').focus();
 			} else {
 				$.ajax({
 					url : '/account/duplicateEmail',
-					type : 'post',
+					type : 'POST',
 					data : {memberEmail : $('#memberEmail').val()},
 					success : function(json){
 						if(json == 'memberEmail ok'){
@@ -145,7 +200,7 @@
 			}
 		});
 	</script>
-	<!-- END: 회원가입 정규식 JS -->
+	<!-- END: 회원가입 JS -->
 </body>
 <!-- END: Body-->
 
