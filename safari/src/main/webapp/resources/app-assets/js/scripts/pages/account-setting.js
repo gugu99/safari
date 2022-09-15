@@ -25,7 +25,7 @@ $(document).ready(function () {
   });
   // birthdate date
   $('.birthdate-picker').pickadate({
-    format: 'mmmm, d, yyyy'
+    format: 'yyyy-mm-dd'
   });
 });
 (function (window, document, $) {

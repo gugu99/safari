@@ -16,100 +16,95 @@
                                         <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" id="myModalLabel17">일정 작성</h4>
+                                                    <h3 class="modal-title" id="myModalLabel17">일정 작성</h3>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-		                                                <form novalidate>
+		                                                <form action="#" method="post">
 		                                                    <div class="row">
+		                                                        <div class="col-12">
+		                                                            <div class="form-group">
+		                                                                <label for="account-website"><span class="fa fa-pencil mr-1"></span>Title</label>
+		                                                                <input type="text" class="form-control" id="scheduleTitle" name="scheduleTitle" placeholder="제목을 입력하세요.">
+		                                                            </div>
+		                                                        </div>
+		                                                        <div class="col-6">
+		                                                            <div class="form-group">
+		                                                                <div class="controls">
+		                                                                    <label for="account-birth-date"><span class="fa fa-calendar mr-1"></span>Start date</label>
+		                                                                    <input type="text" class="form-control birthdate-picker" name="scheduleStart" placeholder="시작일을 설정하세요." id="account-birth-date" >
+		                                                                </div>
+		                                                            </div>
+		                                                        </div>
 		                                                        
-		                                                        <div class="col-12">
+		                                                        <div class="col-6">
 		                                                            <div class="form-group">
 		                                                                <div class="controls">
-		                                                                    <label for="account-birth-date">Start date</label>
-		                                                                    <input type="text" class="form-control birthdate-picker" required placeholder="Birth date" id="account-birth-date" data-validation-required-message="This birthdate field is required">
+		                                                                    <label for="account-birth-date"><span class="fa fa-calendar mr-1"></span>End date</label>
+		                                                                    <input type="text" class="form-control birthdate-picker" name="scheduleEnd" placeholder="마감일을 설정하세요." id="account-birth-date" >
 		                                                                </div>
 		                                                            </div>
 		                                                        </div>
 		                                                        <div class="col-12">
 		                                                            <div class="form-group">
-		                                                                <div class="controls">
-		                                                                    <label for="account-birth-date">End date</label>
-		                                                                    <input type="text" class="form-control birthdate-picker" required placeholder="Birth date" id="account-birth-date" data-validation-required-message="This birthdate field is required">
-		                                                                </div>
-		                                                            </div>
-		                                                        </div>
-		                                                        <div class="col-12">
-		                                                            <div class="form-group">
-		                                                                <label for="accountSelect">Country</label>
-		                                                                <select class="form-control" id="accountSelect">
-		                                                                    <option>USA</option>
-		                                                                    <option>India</option>
-		                                                                    <option>Canada</option>
-		                                                                </select>
-		                                                            </div>
-		                                                        </div>
-		                                                        <div class="col-12">
-		                                                            <div class="form-group">
-		                                                                <label for="languageselect2">Languages</label>
-		                                                                <select class="form-control" id="languageselect2" multiple="multiple">
-		                                                                    <option value="English" selected>English</option>
+		                                                                <label for="languageselect2"><span class="fa fa-users mr-2"></span>참석자</label>
+		                                                                <select class="form-control" name="scheduleMemberEmail" id="languageselect2" multiple="multiple">
+		                                                                    <option value="English" >English</option>
 		                                                                    <option value="Spanish">Spanish</option>
 		                                                                    <option value="French">French</option>
 		                                                                    <option value="Russian">Russian</option>
 		                                                                    <option value="German">German</option>
-		                                                                    <option value="Arabic" selected>Arabic</option>
+		                                                                    <option value="Arabic" >Arabic</option>
 		                                                                    <option value="Sanskrit">Sanskrit</option>
 		                                                                </select>
 		                                                            </div>
 		                                                        </div>
-		                                                        <div class="col-12">
+		                                                        <div class="col-10">
 		                                                            <div class="form-group">
-		                                                                <div class="controls">
-		                                                                    <label for="account-phone">Phone</label>
-		                                                                    <input type="text" class="form-control" id="account-phone" required placeholder="Phone number" value="(+656) 254 2568" data-validation-required-message="This phone number field is required">
-		                                                                </div>
+		                                                                <label for="account-website"><span class="fa fa-map-marker mr-2"></span>장소</label>
+		                                                                <input type="text" class="form-control" name="scheduleLocation" id="addr" placeholder="주소를 입력하세요.">
+		                                                            </div>
+		                                                        </div>
+		                                                        <div class="col-2">
+		                                                        	<div class="form-group">
+		                                                            	<button type="button" id="addrBtn" class="btn btn-secondary pull-right mt-2">주소 찾기</button>
 		                                                            </div>
 		                                                        </div>
 		                                                        <div class="col-12">
 		                                                            <div class="form-group">
-		                                                                <label for="account-website">Website</label>
-		                                                                <input type="text" class="form-control" id="account-website" placeholder="Website address">
+		                                                                <label for="account-website"><span class="fa fa-map-marker mr-2"></span>상세 장소</label>
+		                                                                <input type="text" class="form-control" id="account-website" placeholder="주소를 입력하세요.">
 		                                                            </div>
 		                                                        </div>
 		                                                        <div class="col-12">
 		                                                            <div class="form-group">
-		                                                                <label for="musicselect2">Favourite Music</label>
-		                                                                <select class="form-control" id="musicselect2" multiple="multiple">
-		                                                                    <option value="Rock">Rock</option>
-		                                                                    <option value="Jazz" selected>Jazz</option>
-		                                                                    <option value="Disco">Disco</option>
-		                                                                    <option value="Pop">Pop</option>
-		                                                                    <option value="Techno">Techno</option>
-		                                                                    <option value="Folk" selected>Folk</option>
-		                                                                    <option value="Hip hop">Hip hop</option>
+		                                                                <label for="accountTextarea"><span class="fa fa-pencil-square-o mr-1"></span>내용</label>
+		                                                                <textarea class="form-control" id="accountTextarea" rows="3" placeholder="내용을 입력하세요."></textarea>
+		                                                            </div>
+		                                                        </div>
+		                                                         <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
+		                                                            <div class="form-group">
+		                                                                <label for="accountSelect"><span class="fa fa-lock mr-1"></span>공개설정</label>
+		                                                                <select class="form-control" id="accountSelect">
+		                                                                    <option selected>전체공개</option>
+		                                                                    <option>관리자, 작성자만 공개</option>
 		                                                                </select>
 		                                                            </div>
 		                                                        </div>
-		                                                        <div class="col-12">
-		                                                            <div class="form-group">
-		                                                                <label for="accountTextarea">Bio</label>
-		                                                                <textarea class="form-control" id="accountTextarea" rows="3" placeholder="Your Bio data here..."></textarea>
-		                                                            </div>
-		                                                        </div>
 		                                                        <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
-		                                                            <button type="submit" class="btn btn-primary mr-sm-1 mb-1 mb-sm-0">Save
-		                                                                changes</button>
 		                                                            <button type="reset" class="btn btn-light">Cancel</button>
 		                                                        </div>
 		                                                    </div>
 		                                                </form>
+	                                                <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
+														<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
+													</div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-outline-primary">Save changes</button>
+                                                    <button type="button" class="btn btn-outline-primary">올리기</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -117,7 +112,6 @@
                                     
                                 </div>
                             </div>
-                            
                         </div>
                 </div>
             </div>
