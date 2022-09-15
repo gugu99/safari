@@ -8,7 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>Schedule</title>
+    <title>Board</title>
     <link rel="apple-touch-icon" href="${pageContext.request.contextPath }/resources/app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath }/resources/app-assets/images/ico/favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
@@ -78,7 +78,7 @@
                                      <p class="card-text">가나다라마바사아자차카타파</p>
                                      <ul class="list-inline mb-0">
                                          <li class="pr-1"><a href="#" class=""><span class="fa fa-thumbs-o-up"></span> Like</a></li>
-                                         <li class="pr-1"><span class="fa fa-commenting-o"></span> Comment</li>
+                                         <li class="pr-1"><a href="#" class=""><span class="fa fa-commenting-o"></span> Comment</a></li>
                                      </ul>
                                  </div>
                              </div>
