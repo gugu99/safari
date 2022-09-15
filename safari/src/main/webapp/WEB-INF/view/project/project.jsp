@@ -74,77 +74,7 @@
                     <div class="chat-sidebar-list-wrapper pt-2">
                     	<!-- Button trigger modal -->
                         <h6 class="px-2 pb-25 mb-0">PROJECT<button type="button" data-toggle="modal" data-target="#bootstrap" class="float-right"><i class="feather icon-plus cursor-pointer"></i></button></h6>
-                            <div class="form-group">
-                                
-                                <!-- Modal -->
-                                <!-- Modal -->
-                                <!-- Modal -->
-                        
-                                <div class="modal fade text-left" id="bootstrap" tabindex="-1" role="dialog" aria-labelledby="myModalLabel35" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h3 class="modal-title" id="myModalLabel35">프로젝트 추가</h3>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div><!-- modal header -->
-                                            <form method="post" action="${pageContext.request.contextPath}/safari/project">
-                                                <div class="modal-body">
-                                                    <fieldset class="form-group floating-label-form-group">
-                                                    	<label for="projectGroup">프로젝트 그룹</label>
-                                                       <select name="projectGroupNo" class="form-control" id="projectGroup">
-			                                                <option value="none" selected="" disabled="">프로젝트 그룹</option>
-			                                                <!-- TODO 프로젝트 그룹 리스트를 받아와서 띄울 자리 -->
-			                                                <!-- projectGroupNo는 null 허용 -->
-			                                                <option value="design">design</option>
-			                                                <option value="development">development</option>
-			                                                <option value="illustration">illustration</option>
-			                                                <option value="branding">branding</option>
-			                                                <option value="video">video</option>
-			                                            </select>
-                                                    </fieldset>
-                                                    <br>
-                                                    <fieldset class="form-group floating-label-form-group">
-                                                       <label for="projectAuth">공개범위</label>
-                                                       <select name="projectAuth" class="form-control" id="projectAuth">
-			                                                <option value="N">public</option>
-			                                                <option value="Y">private</option>
-			                                            </select>
-                                                    </fieldset>
-                                                    <br>
-                                                    <fieldset class="form-group floating-label-form-group">
-                                                        <label for="projectName">프로젝트 이름</label>
-                                                        <input type="text" class="form-control" id="projectName" name="projectName">
-                                                    </fieldset>
-                                                </div>
-		                                        <div class="form-group col-12 mb-2">
-		                                        <div class="card-content collapse show">
-		                                            <label for="projectMember">프로젝트 멤버</label>
-		                                            <select class="select2 form-control" multiple="multiple" id="projectMember" onChange="selectProjectMember(this)">
-	                                                    <option value="1">Alaska</option>
-	                                                    <option value="2">Hawaii</option>
-	                                                    <option value="3">California</option>
-	                                                    <option value="4">Nevada</option>
-	                                                    <option value="5">Oregon</option>
-	                                                    <option value="6">Washington</option>
-		                                            </select>
-		                                        </div>
-		                                        <input type="hidden" id="projectMemberList" name="projectMemberList" value="">
-                                           </div>
-                                          
-                                           <div class="modal-footer">
-                                               <input type="reset" class="projectForm btn btn-outline-secondary btn-lg" data-dismiss="modal" value="닫기">
-                                               <input type="submit" class="projectForm btn btn-outline-primary btn-lg" value="프로젝트 생성">
-                                           </div>
-                                         </form>
-                                    </div>
-                                </div>
-                        </div>
-                        </div>
-                        
-                        
-                        
+                        <%@ include file="/WEB-INF/view/project/addProjectModal.jsp"%>
                         <ul class="chat-sidebar-list">
                             <li>
                                 <h6 class="mb-0">내가 속한 프로젝트</h6>
@@ -161,25 +91,48 @@
                         </ul>
                         
                         <h6 class="px-2 pt-2 pb-25 mb-0">PROJECT GROUP<button type="button" class="float-right" onclick="addProjectGroup()"><i class="feather icon-plus float-right cursor-pointer"></i></button></h6>                        
-                        
+                        <!-- 프로젝트 그룹 생성 버튼을 눌렀을 시 입력창이 나타날 곳-->
+                        <div id="addProjectGroup" class="px-2 pt-2 pb-25 mb-0"></div>
                         <ul class="chat-sidebar-list">
-                        	<li id="addProjectGroup"></li>
                             <li>
-                                <h6 class="mb-0">프로젝트 그룹</h6>
+                                <h6 class="mb-0">프로젝트 그룹 ex<button type="button" class="float-right"><i class="feather icon-chevron-down float-right cursor-pointer"></i></button></h6>
                             </li>
                         </ul>
                       </div>
   				  </div>
-    		</div> <!-- END: side bar -->
-    		
+  			</div>
+    	</div> <!-- END: side bar -->
     		
     		
     		<div class="content-right">
-            <div class="content-overlay"></div>
-            <div class="content-wrapper">
-                <div class="content-header row">
-                </div>
-                <div class="content-body">
+            	<div class="content-overlay"></div>
+            	<div class="content-wrapper">
+		            <div class="content-header row pt-2 pl-2">
+		            	<div class="content-header-left col-md-6 col-12 mb-2">
+		                    <h3 class="content-header-title mb-0">Project Summary</h3>
+		                    <div class="row breadcrumbs-top">
+		                        <div class="breadcrumb-wrapper col-12">
+		                            <ol class="breadcrumb">
+		                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+		                                </li>
+		                                <li class="breadcrumb-item"><a href="#">Project</a>
+		                                </li>
+		                                <li class="breadcrumb-item active">Project Summary
+		                                </li>
+		                            </ol>
+		                        </div>
+		                    </div>
+		                </div>
+		                <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2 pr-2">
+		                    <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+		                        <div class="btn-group" role="group">
+		                            <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-settings icon-left"></i> Settings</button>
+		                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1"><a class="dropdown-item" href="card-bootstrap.html">Bootstrap Cards</a><a class="dropdown-item" href="component-buttons-extended.html">Buttons Extended</a></div>
+		                        </div><a class="btn btn-outline-primary" href="full-calender-basic.html"><i class="feather icon-mail"></i></a><a class="btn btn-outline-primary" href="timeline-center.html"><i class="feather icon-pie-chart"></i></a>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="content-body">
     		
     		<!-- Card drag area section start -->
                 <section id="drag-area">
@@ -282,13 +235,11 @@
     		</div>
     		</div>
     		</div>
+    		</div>
     		
     	</div>
     </div>
     <!-- END: Content-->
-               	
-    
-    
 
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
