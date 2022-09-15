@@ -1,7 +1,8 @@
 package com.gd.safari.controller;
 
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,13 +21,13 @@ public class WorkspaceMemberController {
 	@Autowired private IWorkspaceMemberService workspaceMemberService;
 	
 	@GetMapping("/safari/workspaceMemberList")
-	public String workspaceMemberList (Model model) {
+	public String workspaceMemberList (Model model,HttpSession session) {
+		int workNo = (Integer)session.getAttribute("workNo");								// 세션 워크넘버 가져오
+		List<WorkspaceMember> list = workspaceMemberService.getWorkspaceMemberList(workNo); // 워크스페이스멤버 리스트 출력
+		model.addAttribute("workspaceMemberList", list); 								    // 매핑
+		log.debug(TeamColor.CJM+list +"Controller workName"); 							    // 워크스페이스 멤버 리스트 디버깅
 		
-		List<WorkspaceMember> list = workspaceMemberService.getWorkspaceMemberList(); // 워크스페이스멤버 리스트 출
-		model.addAttribute("workspaceMemberList", list); 							 // 매핑
-		log.debug(TeamColor.CJM+list +"Controller workName"); // 워크스페이스 멤버 리스 디버깅
-		
-		return "workspace/workspaceMemberList";  //workspaceMember List 출력 
+		return "workmember/workspaceMemberList";  										    //workspaceMember List 출력 
 	}
 	
 }

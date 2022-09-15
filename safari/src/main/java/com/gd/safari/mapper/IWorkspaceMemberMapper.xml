@@ -48,7 +48,7 @@
 	
 	</insert>
 	
-	<select id = "selectWorkspaceMemberList" resultType="com.gd.safari.vo.WorkspaceMember">
+	<select id = "selectWorkspaceMemberList" parameterType="int" resultType="com.gd.safari.vo.WorkspaceMember">
 		SELECT 
 			  work_member_no    workMemberNo
 			, work_member_name  workMemberName
@@ -64,7 +64,7 @@
 			, work_no           workNo
 			, work_member_email workMemberEmail
 		FROM workspace_member
-		WHERE work_no = #{workno}
+		WHERE work_no = #{workNo}
 	
 	
 	</select>
