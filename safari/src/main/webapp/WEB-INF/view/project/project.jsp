@@ -40,7 +40,8 @@
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/assets/css/style.css">
     <!-- END: Custom CSS-->
-
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <!-- END: Head-->
 
@@ -74,10 +75,10 @@
                     	<!-- Button trigger modal -->
                         <h6 class="px-2 pb-25 mb-0">PROJECT<button type="button" data-toggle="modal" data-target="#bootstrap" class="float-right"><i class="feather icon-plus cursor-pointer"></i></button></h6>
                             <div class="form-group">
-                                <!-- Modal -->
-                                <!-- Modal -->
-                                <!-- Modal -->
                                 
+                                <!-- Modal -->
+                                <!-- Modal -->
+                                <!-- Modal -->
                         
                                 <div class="modal fade text-left" id="bootstrap" tabindex="-1" role="dialog" aria-labelledby="myModalLabel35" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -88,8 +89,7 @@
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div><!-- modal header -->
-                                            
-                                            <form class="projectForm" method="post" action="${pageContext.request.contextPath }/addProject">
+                                            <form method="post" action="${pageContext.request.contextPath}/safari/project">
                                                 <div class="modal-body">
                                                     <fieldset class="form-group floating-label-form-group">
                                                     	<label for="projectGroup">프로젝트 그룹</label>
@@ -121,19 +121,16 @@
 		                                        <div class="form-group col-12 mb-2">
 		                                        <div class="card-content collapse show">
 		                                            <label for="projectMember">프로젝트 멤버</label>
-		                                            <select class="select2 form-control" multiple="multiple" name="projectMember[]">
-		                                                <optgroup label="Alaskan/Hawaiian Time Zone">
-		                                                    <option value="AK">Alaska</option>
-		                                                    <option value="HI">Hawaii</option>
-		                                                </optgroup>
-		                                                <optgroup label="Pacific Time Zone">
-		                                                    <option value="CA" selected>California</option>
-		                                                    <option value="NV">Nevada</option>
-		                                                    <option value="OR">Oregon</option>
-		                                                    <option value="WA">Washington</option>
-		                                                </optgroup>
+		                                            <select class="select2 form-control" multiple="multiple" id="projectMember" onChange="selectProjectMember(this)">
+	                                                    <option value="1">Alaska</option>
+	                                                    <option value="2">Hawaii</option>
+	                                                    <option value="3">California</option>
+	                                                    <option value="4">Nevada</option>
+	                                                    <option value="5">Oregon</option>
+	                                                    <option value="6">Washington</option>
 		                                            </select>
 		                                        </div>
+		                                        <input type="hidden" id="projectMemberList" name="projectMemberList" value="">
                                            </div>
                                           
                                            <div class="modal-footer">
@@ -163,8 +160,10 @@
                             </li>
                         </ul>
                         
-                        <h6 class="px-2 pt-2 pb-25 mb-0">PROJECT GROUP<i class="feather icon-plus float-right cursor-pointer"></i></h6>
+                        <h6 class="px-2 pt-2 pb-25 mb-0">PROJECT GROUP<button type="button" class="float-right" onclick="addProjectGroup()"><i class="feather icon-plus float-right cursor-pointer"></i></button></h6>                        
+                        
                         <ul class="chat-sidebar-list">
+                        	<li id="addProjectGroup"></li>
                             <li>
                                 <h6 class="mb-0">프로젝트 그룹</h6>
                             </li>
@@ -334,7 +333,7 @@
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/modal/components-modal.js"></script>
     <!-- END: Page JS-->
     
-     <!-- BEGIN: Page Vendor JS-->
+    <!-- BEGIN: Page Vendor JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
     <!-- END: Page Vendor JS-->
 
@@ -342,6 +341,10 @@
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/select/form-select2.js"></script>
     <!-- END: Page JS-->
 
+    <!-- BEGIN: Page JS-->
+    <script src="${pageContext.request.contextPath }/resources/assets/js/projectMember.js"></script>
+    <!-- END: Page JS-->
+    
 </body>
 <!-- END: Body-->
 
