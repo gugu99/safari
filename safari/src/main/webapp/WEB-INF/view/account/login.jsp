@@ -62,7 +62,7 @@
                                     <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2"><span>OR Using
                                             Account Details</span></p>
                                     <div class="card-body pt-0">
-                                        <form class="form-horizontal" action="${pageContext.request.contextPath }/login" method="post">
+                                        <form class="form-horizontal" action="${pageContext.request.contextPath }/account/login" method="post">
                                             <fieldset class="form-group floating-label-form-group">
                                                 <label for="user-name">Your Username</label>
                                                 <input type="text" class="form-control" id="user-name" placeholder="Your Username" name="memberEmail">
@@ -78,7 +78,7 @@
                                                         <label for="remember-me"> Remember Me</label>
                                                     </fieldset>
                                                 </div>
-                                                <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/recover-password" class="card-link">Forgot Password?</a></div>
+                                                <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link">Forgot Password?</a></div>
                                             </div>
                                             <button type="submit" class="btn btn-outline-primary btn-block"><i class="feather icon-unlock"></i> Login</button>
                                         </form>
@@ -86,7 +86,7 @@
                                     <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>New to
                                             Safari ?</span></p>
                                     <div class="card-body">
-                                        <a href="${pageContext.request.contextPath }/register" class="btn btn-outline-danger btn-block"><i class="feather icon-user"></i> Register</a>
+                                        <a href="${pageContext.request.contextPath }/account/register" class="btn btn-outline-danger btn-block"><i class="feather icon-user"></i> Register</a>
                                     </div>
                                 </div>
                             </div>

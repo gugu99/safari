@@ -62,7 +62,7 @@
                                     <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>OR Using
                                             Email</span></p>
                                     <div class="card-body pt-0">
-                                        <form class="form-horizontal" action="${pageContext.request.contextPath}/register" method="post">
+                                        <form class="form-horizontal" action="${pageContext.request.contextPath}/account/register" method="post">
                                             <fieldset class="form-group floating-label-form-group">
                                                 <label for="user-email">Your Email Address</label>
                                                 <input type="email" class="form-control" id="user-email" placeholder="Your Email Address" name="memberEmail">
@@ -74,13 +74,13 @@
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-12 text-center text-sm-left pr-0">
                                                 </div>
-                                                <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/recover-password" class="card-link">Forgot Password?</a></div>
+                                                <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link">Forgot Password?</a></div>
                                             </div>
                                             <button type="submit" class="btn btn-outline-primary btn-block"><i class="feather icon-user"></i> Register</button>
                                         </form>
                                     </div>
                                     <div class="card-body pt-0">
-                                        <a href="${pageContext.request.contextPath }/login" class="btn btn-outline-danger btn-block"><i class="feather icon-unlock"></i> Login</a>
+                                        <a href="${pageContext.request.contextPath }/account/login" class="btn btn-outline-danger btn-block"><i class="feather icon-unlock"></i> Login</a>
                                     </div>
                                 </div>
                             </div>

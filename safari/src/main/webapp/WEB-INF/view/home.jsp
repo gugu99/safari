@@ -8,7 +8,7 @@
 <body>
 	<h3>Home</h3>
 	<div>Safari 협업툴</div>
-	<a href="${pageContext.request.contextPath }/login">로그인</a>
-	<a href="${pageContext.request.contextPath }/register">회원가입</a>
+	<a href="${pageContext.request.contextPath }/account/login">로그인</a>
+	<a href="${pageContext.request.contextPath }/account/register">회원가입</a>
 </body>
 </html>

@@ -66,8 +66,8 @@
                                     </div>
                                 </div>
                                 <div class="card-footer border-0">
-                                    <p class="float-sm-left text-center"><a href="${pageContext.request.contextPath }/login" class="card-link">Login</a></p>
-                                    <p class="float-sm-right text-center">New to Safari ? <a href="${pageContext.request.contextPath }/register" class="card-link">Create Account</a></p>
+                                    <p class="float-sm-left text-center"><a href="${pageContext.request.contextPath }/account/login" class="card-link">Login</a></p>
+                                    <p class="float-sm-right text-center">New to Safari ? <a href="${pageContext.request.contextPath }/account/register" class="card-link">Create Account</a></p>
                                 </div>
                             </div>
                         </div>
