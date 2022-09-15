@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class TaskCommentLike {
-	int taskCmtNo;
-	String memberEmail;
-	String createDate;
+	private int taskCmtNo;		// 업무 코멘트번호
+	private String memberEmail;	// 멤버이메일
+	private String createDate;	// 생성일
 	
 }

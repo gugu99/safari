@@ -7,18 +7,18 @@ import lombok.Data;
 public class WorkspaceMember {
 
 	
-	int workMemberNo;
-	String workMemberName;
-	String workMemberAddr;
-	String workMemberBirth;
-	String workMemberPhone;
-	String workMemberDept;
-	String workMemberPos;
-	String active;
-	String workMemberLevel;
-	String createDate;
-	String updateDate;
-	int workNo;
-	String workMemberEmail;
+	private int workMemberNo;			// 워크스페이스 멤버번호
+	private String workMemberName;   	// 워크스페이스 멤버이름
+	private String workMemberAddr;		// 워크스페이스 멤버주소
+	private String workMemberBirth;		// 워크스페이스 멤버생년월일
+	private String workMemberPhone;		// 워크스페이스 멤버전화번호
+	private String workMemberDept;		// 워크스페이스 멤버부서
+	private String workMemberPos;		// 워크스페이스 멤버직급
+	private String active;				// 워크스페이스 멤버활동여부
+	private String workMemberLevel;		// 워크스페이스 멤버권한레벨	
+	private String createDate;			// 워크스페이스 멤생성일
+	private String updateDate;			// 워크스페이스 멤버수정일	
+	private int workNo;					// 워크스페이스 번호
+	private String workMemberEmail;		// 워크스페이스 멤버이메일
 	
 }
