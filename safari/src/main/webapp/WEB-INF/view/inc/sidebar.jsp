@@ -20,17 +20,17 @@
             </li>
             <li class=" navigation-header"><span>Apps</span><i class=" feather icon-minus" data-toggle="tooltip" data-placement="right" data-original-title="Apps"></i>
             </li>
-            <li class=" nav-item"><a href="${pageContext.request.contextPath }/projectSummary"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Project Summary">Project Summary</span></a>
+            <li class=" nav-item"><a href="${pageContext.request.contextPath }/safari/projectSummary"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Project Summary">Project Summary</span></a>
             </li>
-            <li class=" nav-item"><a href="${pageContext.request.contextPath }/chat"><i class="feather icon-message-square"></i><span class="menu-title" data-i18n="Chat Application">Chat Application</span></a>
+            <li class=" nav-item"><a href="${pageContext.request.contextPath }/safari/chat"><i class="feather icon-message-square"></i><span class="menu-title" data-i18n="Chat Application">Chat Application</span></a>
             </li>
-            <li class=" nav-item"><a href="${pageContext.request.contextPath }/todoList"><i class="feather icon-check-square"></i><span class="menu-title" data-i18n="Todo Application">Todo Application</span></a>
+            <li class=" nav-item"><a href="${pageContext.request.contextPath }/safari/todoList"><i class="feather icon-check-square"></i><span class="menu-title" data-i18n="Todo Application">Todo Application</span></a>
             </li>
-            <li class=" nav-item"><a href="${pageContext.request.contextPath }/taskList"><i class="feather icon-file-plus"></i><span class="menu-title" data-i18n="Kanban Application">Kanban Application</span></a>
+            <li class=" nav-item"><a href="${pageContext.request.contextPath }/safari/taskList"><i class="feather icon-file-plus"></i><span class="menu-title" data-i18n="Kanban Application">Kanban Application</span></a>
             </li>
-             <li class=" nav-item"><a href="${pageContext.request.contextPath }/scheduleList"><i class="feather icon-watch"></i><span class="menu-title" data-i18n="Coming Soon">Schedule</span></a>
+             <li class=" nav-item"><a href="${pageContext.request.contextPath }/safari/scheduleList"><i class="feather icon-watch"></i><span class="menu-title" data-i18n="Coming Soon">Schedule</span></a>
              </li>
-            <li class=" nav-item"><a href="${pageContext.request.contextPath }/workspace-member-list"><i class="feather icon-users"></i><span class="menu-title" data-i18n="Contacts">Users</span></a>
+            <li class=" nav-item"><a href="${pageContext.request.contextPath }/safari/workspace-member-list"><i class="feather icon-users"></i><span class="menu-title" data-i18n="Contacts">Users</span></a>
             </li>
         </ul>
     </div>

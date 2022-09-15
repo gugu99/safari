@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ChatController {
 	
 	// 채팅 페이지 이동
-	@GetMapping("/chat")
+	@GetMapping("/safari/chat")
 	public String chat() {
 		return "chat/chat";
 	}
