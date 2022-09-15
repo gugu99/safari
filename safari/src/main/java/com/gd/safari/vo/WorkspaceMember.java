@@ -18,7 +18,7 @@ public class WorkspaceMember {
 	String workMemberLevel;
 	String createDate;
 	String updateDate;
-	int workNO;
+	int workNo;
 	String workMemberEmail;
 	
 }

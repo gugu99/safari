@@ -3,11 +3,14 @@
 <mapper namespace="com.gd.safari.mapper.IWorkspaceMapper">
 
 	<insert id="insertWorkspace" parameterType ="com.gd.safari.vo.Workspace">
-	
+		
 		INSERT INTO workspace(
-			work_name,create_date,update_date,admin_email 
-		)VALUE (
-			  #{workName}
+			  work_name
+			, create_date
+			, update_date
+			, admin_email 
+		)VALUES (
+			 #{workName}
 			, now()
 			, now()
 			, #{adminEmail}

@@ -8,5 +8,5 @@ import com.gd.safari.vo.WorkspaceMember;
 public interface IWorkspaceMemberMapper {
 
 	int insertWorkspaceCreater(WorkspaceMember workspaceMember); // 관리자 워크스페이스 멤버추가
-	
+	int insertWorkspaceMember(WorkspaceMember workspaceMember);
 }

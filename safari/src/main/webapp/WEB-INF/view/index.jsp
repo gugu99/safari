@@ -42,10 +42,14 @@
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body pt-0">
-                                        <form class="form-horizontal" action="${pageContext.request.contextPath }/addWorkspace" method="post">
+                                        <form class="form-horizontal" action="${pageContext.request.contextPath }/safari/addWorkspace" method="post">
                                             <fieldset class="form-group floating-label-form-group">
                                                 <label for="workName">Workspace name</label>
                                                 <input name="workName" type="text" class="form-control" id="workName" placeholder="name">
+                                            </fieldset>
+                                            <fieldset class="form-group floating-label-form-group">
+                                                <label for="workName">Admin name</label>
+                                                <input name="workMemberName" type="text" class="form-control" id="workMemberName" placeholder="name">
                                             </fieldset>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-12 text-center text-sm-left">
