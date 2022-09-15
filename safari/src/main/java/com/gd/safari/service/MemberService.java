@@ -24,15 +24,33 @@ public class MemberService implements IMemberService {
 	}
 	// 중복 아이디 확인
 	@Override
-	public String getMemberEmailByCheck(Member member) {
+	public boolean getMemberEmailByCheck(String memberEmail) {
 		log.debug(TeamColor.CSH + this.getClass() + " getMemberEmailByCheck (중복 아이디 확인)");
-		return memberMapper.selectMemberEmailByCheck(member);
+		// 리턴값 초기화
+		boolean result = false;
+		// 매퍼 호출
+		String resultEmail = memberMapper.selectMemberEmailByCheck(memberEmail);
+		
+		// 분기 resultEmail가 null일 경우 중복되지 않은 아이디
+		if(resultEmail == null) {
+			result = true;
+		}
+		
+		// 디버깅
+		log.debug(resultEmail + " : " + result + " - null : true를 만족해야 사용 가능한 아이디");
+		return result;
 	}
 	// 로그인
 	@Override
 	public Member getMemberByLogin(Member member) {
 		log.debug(TeamColor.CSH + this.getClass() + " getMemberByLogin (로그인)");
 		return memberMapper.selectMemberByLogin(member);
+	}
+	// 계정 활성화 (active 값을 Y로 변경 - N일 경우만! X일 경우는 탈퇴된 계정이라 활성화되지 않음)
+	@Override
+	public int modifyActiveByUnlockUser(Member member) {
+		log.debug(TeamColor.CSH + this.getClass() + " modifyActiveByUnlockUser (계정 활성화)");
+		return memberMapper.updateActiveByUnlockUser(member);
 	}
 	// 탈퇴 (active 값을 X로 변경)
 	@Override

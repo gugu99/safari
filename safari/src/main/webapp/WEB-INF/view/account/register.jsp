@@ -132,9 +132,8 @@
 				$.ajax({
 					url : '/account/duplicateEmail',
 					type : 'post',
-					data : {customerCkId : $('#memberEmail').val()},
+					data : {memberEmail : $('#memberEmail').val()},
 					success : function(json){
-						// alert(json);
 						if(json == 'memberEmail ok'){
 							$('#form').submit();
 						} else {
@@ -146,6 +145,7 @@
 			}
 		});
 	</script>
+	<!-- END: 회원가입 정규식 JS -->
 </body>
 <!-- END: Body-->
 

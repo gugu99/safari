@@ -36,15 +36,25 @@ public class AccountController {
 		log.debug(TeamColor.CSH + this.getClass() + " 로그인 액션");
 		// 서비스 호출
 		Member loginMember = memberService.getMemberByLogin(member);
-		// 세션에 담기
-		session.setAttribute("login", loginMember);
 		// 로그인 실패
 		if(loginMember == null) {
 			log.debug(TeamColor.CSH + "로그인 실패");
 			// 모델에 에러메세지 담기
 			model.addAttribute("errorMsg", "Login Fail");
 			return "account/login";
+			
+		// active 값에 따른 분기	
+		} else if("X".equals(loginMember.getActive())) {
+			log.debug(TeamColor.CSH + "로그인 실패 : 탈퇴한 계정입니다.");
+			// 모델에 에러메세지 담기
+			model.addAttribute("errorMsg", "Login Fail - Deleted Account");
+			return "account/login";
+		} else if("N".equals(loginMember.getActive())) {
+			log.debug(TeamColor.CSH + "로그인 실패 : 비활성화된 계정입니다.");
+			return "redirect:/account/unlock-user";
 		}
+		// 세션에 담기
+		session.setAttribute("login", loginMember);
 		
 		return "redirect:/safari/index";
 	}
@@ -99,14 +109,14 @@ public class AccountController {
 		
 		// 리턴받을 변수 초기화
 		// 리턴값 boolean - true (email 사용가능)
-		boolean emailAvailable = false;
+		boolean emailAvailable = memberService.getMemberEmailByCheck(memberEmail);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		
 		// 메서드의 결과에 따라 json 분기
 		if(emailAvailable) { // 성공
 			jsonStr = "memberEmail ok";
-		} else {
+		} else { // 실패
 			jsonStr = "not ok";
 		}
 		
@@ -121,10 +131,33 @@ public class AccountController {
 	}
 	
 	// 계정잠금해제 페이지 이동
-	@GetMapping("/lock/unlock-user")
+	@GetMapping("/account/unlock-user")
 	public String unlockUser() {
 		log.debug(TeamColor.CSH + this.getClass() + " 계정잠금해제 페이지");
 		return "account/unlock-user";
+	}
+	
+	// 계정잠금해제 액션
+	@PostMapping("/account/unlock-user")
+	public String unlockUser(Model model, Member member) {
+		log.debug(TeamColor.CSH + this.getClass() + " 계정잠금해제 액션");
+
+		// 디버깅
+		log.debug(TeamColor.CSH + member);
+		// 서비스 호출
+		int row = memberService.modifyActiveByUnlockUser(member);
+		
+		// 서비스메서의 리턴값이 1이라면 성공
+		if(row == 1) {
+			log.debug(TeamColor.CSH + "계정잠금해제 성공");
+		} else {
+			log.debug(TeamColor.CSH + "계정잠금해제 실패");
+			// 모델에 에러메세지 담기
+			model.addAttribute("errorMsg", "Unlock User Fail");
+			return "account/login";
+		}
+		
+		return "redirect:/account/login";
 	}
 	
 	// 계정삭제(탈퇴) 페이지 이동

@@ -18,7 +18,7 @@
 		)
 	</insert>
 	<!-- 중복 아이디 확인 -->
-	<select id="selectMemberEmailByCheck" resultType="string" parameterType="com.gd.safari.vo.Member">
+	<select id="selectMemberEmailByCheck" resultType="string" parameterType="string">
 		SELECT
 			member_email memberEmail
 		FROM member
@@ -36,6 +36,16 @@
 			member_email = #{memberEmail} 
 			and member_pw = PASSWORD(#{memberPw})
 	</select>
+	<!-- 계정 활성화 (active 값을 Y로 변경 - N일 경우만! X일 경우는 탈퇴된 계정이라 활성화되지 않음) -->
+	<update id="updateActiveByUnlockUser" parameterType="com.gd.safari.vo.Member">
+		UPDATE member
+		SET
+			active = 'Y'
+		WHERE
+			member_email = #{memberEmail} 
+			and member_pw = PASSWORD(#{memberPw})
+			and active = 'N'
+	</update>
 	<!-- 탈퇴 -->
 	<update id="updateActiveByDeleteAccount" parameterType="com.gd.safari.vo.Member">
 		UPDATE member

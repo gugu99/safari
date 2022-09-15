@@ -56,29 +56,27 @@
                         <div class="col-lg-4 col-md-8 col-10 box-shadow-2 p-0">
                             <div class="card border-grey border-lighten-3 px-2 py-2 m-0">
                                 <div class="card-header border-0 text-center">
-                                    <h5 class="card-title mt-1">${login.memberEmail}</h5>
+                                    <h5 class="card-title mt-1">Unlock User</h5>
                                 </div>
 
                                 <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2"><span>Unlock your account</span></p>
                                 <div class="card-content">
                                     <div class="card-body">
-                                        <form class="form-horizontal" action="${pageContext.request.contextPath }/safari/unlock-user" novalidate>
-                                            <fieldset class="form-group position-relative has-icon-left">
-                                                <input type="password" class="form-control form-control-lg" id="password" placeholder="Enter Password" required>
-                                                <div class="form-control-position">
-                                                    <i class="fa fa-key"></i>
-                                                </div>
+                                        <form class="form-horizontal" action="${pageContext.request.contextPath }/account/unlock-user" method="post" id="form">
+                                            <fieldset class="form-group floating-label-form-group">
+                                                <label for="user-email">Your Email Address</label>
+                                                <input type="email" class="form-control" placeholder="Your Email Address" name="memberEmail" id="memberEmail">
+                                            </fieldset>
+                                            <fieldset class="form-group floating-label-form-group mb-1">
+                                                <label for="user-password">Enter Password</label>
+                                                <input type="password" class="form-control" placeholder="Enter Password" name="memberPw" id="memberPw">
                                             </fieldset>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-12 text-center text-sm-left pr-0">
-                                                    <fieldset>
-                                                        <input type="checkbox" id="remember-me" class="chk-remember">
-                                                        <label for="remember-me"> Remember Me</label>
-                                                    </fieldset>
                                                 </div>
                                                 <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link"><i class="feather icon-unlock"></i> Forgot Password?</a></div>
                                             </div>
-                                            <button type="submit" class="btn btn-outline-primary btn-lg btn-block"><i class="icon-lock4"></i> Unlock</button>
+                                            <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="btn"><i class="icon-lock4"></i> Unlock</button>
                                             <a href="${pageContext.request.contextPath }/safari/logout" class="btn btn-outline-danger btn-lg btn-block"><i class="feather icon-power"></i> Logout</a>
                                         </form>
                                     </div>
@@ -113,7 +111,27 @@
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/ui/breadcrumbs-with-stats.js"></script>
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/form-login-register.js"></script>
     <!-- END: Page JS-->
-
+    
+	<!-- BEGIN: 계정활성화 정규식 JS -->
+	<script>
+		var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
+		
+		$('#btn').click(function(){
+			if ($('#memberEmail').val() == '') {
+				alert('이메일칸이 빈칸입니다.');
+				$('#memberEmail').focus();
+			} else if (!reg_email.test($('#memberEmail').val())) {
+				alert('이메일형식을 확인해주세요.\nexample@example.com');
+				$('#memberEmail').focus();
+			} else if ($('#memberPw').val() == '') {
+				alert('비밀번호칸이 빈칸입니다.');
+				$('#memberPw').focus();
+			} else {
+				$('#form').submit();
+			}
+		});
+	</script>
+	<!-- END: 계정활성화 정규식 JS -->
 </body>
 <!-- END: Body-->
 
