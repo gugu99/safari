@@ -7,6 +7,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
+    <meta name="keywords" content="admin template, stack admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="PIXINVENT">
     <title>PROJECT</title>
     <link rel="apple-touch-icon" href="${pageContext.request.contextPath }/resources/app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath }/resources/app-assets/images/ico/favicon.ico">
@@ -29,6 +33,8 @@
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/vendors/css/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/vendors/css/extensions/dragula.min.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/vendors/css/forms/selects/select2.min.css">
+    
     <!-- END: Vendor CSS-->
     
     <!-- BEGIN: Custom CSS-->
@@ -65,7 +71,83 @@
                         </div>
                     </div>
                     <div class="chat-sidebar-list-wrapper pt-2">
-                        <h6 class="px-2 pb-25 mb-0">PROJECT<a href="${pageContext.request.contextPath}/addProject"><i class="feather icon-plus float-right cursor-pointer" data-toggle="modal" data-target="#iconModal"></i></a></h6>
+                    	<!-- Button trigger modal -->
+                        <h6 class="px-2 pb-25 mb-0">PROJECT<button type="button" data-toggle="modal" data-target="#bootstrap" class="float-right"><i class="feather icon-plus cursor-pointer"></i></button></h6>
+                            <div class="form-group">
+                                <!-- Modal -->
+                                <!-- Modal -->
+                                <!-- Modal -->
+                                
+                        
+                                <div class="modal fade text-left" id="bootstrap" tabindex="-1" role="dialog" aria-labelledby="myModalLabel35" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h3 class="modal-title" id="myModalLabel35">프로젝트 추가</h3>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div><!-- modal header -->
+                                            
+                                            <form class="projectForm" method="post" action="${pageContext.request.contextPath }/addProject">
+                                                <div class="modal-body">
+                                                    <fieldset class="form-group floating-label-form-group">
+                                                    	<label for="projectGroup">프로젝트 그룹</label>
+                                                       <select name="projectGroupNo" class="form-control" id="projectGroup">
+			                                                <option value="none" selected="" disabled="">프로젝트 그룹</option>
+			                                                <!-- TODO 프로젝트 그룹 리스트를 받아와서 띄울 자리 -->
+			                                                <!-- projectGroupNo는 null 허용 -->
+			                                                <option value="design">design</option>
+			                                                <option value="development">development</option>
+			                                                <option value="illustration">illustration</option>
+			                                                <option value="branding">branding</option>
+			                                                <option value="video">video</option>
+			                                            </select>
+                                                    </fieldset>
+                                                    <br>
+                                                    <fieldset class="form-group floating-label-form-group">
+                                                       <label for="projectAuth">공개범위</label>
+                                                       <select name="projectAuth" class="form-control" id="projectAuth">
+			                                                <option value="N">public</option>
+			                                                <option value="Y">private</option>
+			                                            </select>
+                                                    </fieldset>
+                                                    <br>
+                                                    <fieldset class="form-group floating-label-form-group">
+                                                        <label for="projectName">프로젝트 이름</label>
+                                                        <input type="text" class="form-control" id="projectName" name="projectName">
+                                                    </fieldset>
+                                                </div>
+		                                        <div class="form-group col-12 mb-2">
+		                                        <div class="card-content collapse show">
+		                                            <label for="projectMember">프로젝트 멤버</label>
+		                                            <select class="select2 form-control" multiple="multiple" name="projectMember[]">
+		                                                <optgroup label="Alaskan/Hawaiian Time Zone">
+		                                                    <option value="AK">Alaska</option>
+		                                                    <option value="HI">Hawaii</option>
+		                                                </optgroup>
+		                                                <optgroup label="Pacific Time Zone">
+		                                                    <option value="CA" selected>California</option>
+		                                                    <option value="NV">Nevada</option>
+		                                                    <option value="OR">Oregon</option>
+		                                                    <option value="WA">Washington</option>
+		                                                </optgroup>
+		                                            </select>
+		                                        </div>
+                                           </div>
+                                          
+                                           <div class="modal-footer">
+                                               <input type="reset" class="projectForm btn btn-outline-secondary btn-lg" data-dismiss="modal" value="닫기">
+                                               <input type="submit" class="projectForm btn btn-outline-primary btn-lg" value="프로젝트 생성">
+                                           </div>
+                                         </form>
+                                    </div>
+                                </div>
+                        </div>
+                        </div>
+                        
+                        
+                        
                         <ul class="chat-sidebar-list">
                             <li>
                                 <h6 class="mb-0">내가 속한 프로젝트</h6>
@@ -248,6 +330,17 @@
 	<div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
 
+ 	<!-- BEGIN: Page JS-->
+    <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/modal/components-modal.js"></script>
+    <!-- END: Page JS-->
+    
+     <!-- BEGIN: Page Vendor JS-->
+    <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/select/form-select2.js"></script>
+    <!-- END: Page JS-->
 
 </body>
 <!-- END: Body-->
