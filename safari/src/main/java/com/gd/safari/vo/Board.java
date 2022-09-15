@@ -3,15 +3,15 @@ package com.gd.safari.vo;
 import lombok.Data;
 
 @Data
-public class Board {
-	private int boardNo;
-	private int projectNo;
-	private String boardTitle;
-	private String boardContent;
-	private String boardLocation;
-	private String boardAuth;
-	private String boardFix;
-	private String boardWriter;
-	private String createDate;
-	private String updateDate;
+public class Board { 				// 보드(게시판)를 위한 vo
+	private int boardNo; 			// 보드 번호(PK)
+	private int projectNo;			// 프로젝트 번호(FK)
+	private String boardTitle;		// 보드 제목
+	private String boardContent;	// 보드 내용
+	private String boardLocation;	// 보드 장소(api로 지도를 보여준다.)
+	private String boardAuth;		// 보드 공개 범위
+	private String boardFix;		// 보드 고정
+	private String boardWriter;		// 보드 작성자
+	private String createDate;		// 생성일
+	private String updateDate;		// 수정일
 }
