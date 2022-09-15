@@ -73,7 +73,7 @@
                     </div>
                     <div class="chat-sidebar-list-wrapper pt-2">
                     	<!-- Button trigger modal -->
-                        <h6 class="px-2 pb-25 mb-0">PROJECT<button type="button" data-toggle="modal" data-target="#bootstrap" class="float-right"><i class="feather icon-plus cursor-pointer"></i></button></h6>
+                        <h5 class="px-2 pb-25 mb-0">PROJECT<button type="button" data-toggle="modal" data-target="#bootstrap" class="float-right"><i class="feather icon-plus cursor-pointer"></i></button></h5>
                         <%@ include file="/WEB-INF/view/project/addProjectModal.jsp"%>
                         <ul class="chat-sidebar-list">
                             <li>
@@ -90,13 +90,16 @@
                             </li>
                         </ul>
                         
-                        <h6 class="px-2 pt-2 pb-25 mb-0">PROJECT GROUP<button type="button" class="float-right" onclick="addProjectGroup()"><i class="feather icon-plus float-right cursor-pointer"></i></button></h6>                        
+                        <h5 class="px-2 pt-2 pb-25 mb-0">PROJECT GROUP<button type="button" class="float-right" onclick="addProjectGroup()"><i class="feather icon-plus float-right cursor-pointer"></i></button></h5>                        
                         <!-- 프로젝트 그룹 생성 버튼을 눌렀을 시 입력창이 나타날 곳-->
                         <div id="addProjectGroup" class="px-2 pt-2 pb-25 mb-0"></div>
                         <ul class="chat-sidebar-list">
-                            <li>
-                                <h6 class="mb-0">프로젝트 그룹 ex<button type="button" class="float-right"><i class="feather icon-chevron-down float-right cursor-pointer"></i></button></h6>
-                            </li>
+                        
+                        	<c:forEach var="pg" items="${projectGroupList}">
+	                            <li>
+	                                <h6 class="mb-0">${pg.projectGroupName}<button type="button" class="float-right"><i class="feather icon-chevron-down float-right cursor-pointer"></i></button></h6>
+	                            </li>
+                            </c:forEach>
                         </ul>
                       </div>
   				  </div>
@@ -109,7 +112,7 @@
             	<div class="content-wrapper">
 		            <div class="content-header row pt-2 pl-2">
 		            	<div class="content-header-left col-md-6 col-12 mb-2">
-		                    <h3 class="content-header-title mb-0">Project Summary</h3>
+		                    <h3 class="content-header-title mb-0">프로젝트 리스트</h3>
 		                    <div class="row breadcrumbs-top">
 		                        <div class="breadcrumb-wrapper col-12">
 		                            <ol class="breadcrumb">
@@ -134,111 +137,52 @@
 		            </div>
 		            <div class="content-body">
     		
-    		<!-- Card drag area section start -->
+    			<!-- Card drag area section start -->
+    			<!-- 프로젝트 카드 -->
                 <section id="drag-area">
                     <div class="row" id="card-drag-area">
-                        <div class="col-md-3 col-sm-12 pl-3 pt-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title">Card Heading 1</h4>
-                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                    <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li><a data-action="collapse"><i class="feather icon-minus"></i></a></li>
-                                            <li><a data-action="reload"><i class="feather icon-rotate-cw"></i></a></li>
-                                            <li><a data-action="close"><i class="feather icon-x"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="card-content collapse show">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Content title</h4>
-                                        <p class="card-text">Jelly beans sugar plum cheesecake cookie oat cake soufflÃ©.Tootsie roll bonbon liquorice tiramisu pie powder.Donut sweet roll marzipan pastry cookie cake tootsie roll oat cake cookie.</p>
-                                        <p class="card-text">Sweet roll marzipan pastry halvah. Cake bear claw sweet. Tootsie roll pie marshmallow lollipop chupa chups donut fruitcake cake.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-sm-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title">Card Heading 2</h4>
-                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                    <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li><a data-action="collapse"><i class="feather icon-minus"></i></a></li>
-                                            <li><a data-action="reload"><i class="feather icon-rotate-cw"></i></a></li>
-                                            <li><a data-action="close"><i class="feather icon-x"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="card-content collapse show">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Content title</h4>
-                                        <p class="card-text">Jelly beans sugar plum cheesecake cookie oat cake soufflÃ©.Tootsie roll bonbon liquorice tiramisu pie powder.Donut sweet roll marzipan pastry cookie cake tootsie roll oat cake cookie.</p>
-                                        <p class="card-text">Sweet roll marzipan pastry halvah. Cake bear claw sweet. Tootsie roll pie marshmallow lollipop chupa chups donut fruitcake cake.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-sm-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title">Card Heading 3</h4>
-                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                    <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li><a data-action="collapse"><i class="feather icon-minus"></i></a></li>
-                                            <li><a data-action="reload"><i class="feather icon-rotate-cw"></i></a></li>
-                                            <li><a data-action="close"><i class="feather icon-x"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="card-content collapse show">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Content title</h4>
-                                        <p class="card-text">Jelly beans sugar plum cheesecake cookie oat cake soufflÃ©.Tootsie roll bonbon liquorice tiramisu pie powder.Donut sweet roll marzipan pastry cookie cake tootsie roll oat cake cookie.</p>
-                                        <p class="card-text">Sweet roll marzipan pastry halvah. Cake bear claw sweet. Tootsie roll pie marshmallow lollipop chupa chups donut fruitcake cake.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-sm-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title">Card Heading 4</h4>
-                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                    <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li><a data-action="collapse"><i class="feather icon-minus"></i></a></li>
-                                            <li><a data-action="reload"><i class="feather icon-rotate-cw"></i></a></li>
-                                            <li><a data-action="close"><i class="feather icon-x"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="card-content collapse show">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Content title</h4>
-                                        <p class="card-text">Jelly beans sugar plum cheesecake cookie oat cake soufflÃ©.Tootsie roll bonbon liquorice tiramisu pie powder.Donut sweet roll marzipan pastry cookie cake tootsie roll oat cake cookie.</p>
-                                        <p class="card-text">Sweet roll marzipan pastry halvah. Cake bear claw sweet. Tootsie roll pie marshmallow lollipop chupa chups donut fruitcake cake.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    	
+                    	<!-- 프로젝트 리스트 반복문! -->
+                    	<c:forEach var="p" items="${projectList}">
+                    	
+	                        <div class="col-md-3 col-sm-12 pl-3 pt-3">
+	                            <div class="card">
+	                                <div class="card-header">
+	                                	<!-- TODO 프로젝트 개별 링크 추가 -->
+	                                	<h4 class="card-title">${p.projectName}</h4>
+	                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+	                                    <div class="heading-elements">
+	                                        <ul class="list-inline mb-0">
+	                                            <li><a href=""><i class="fa fa-star-o"></i></a></li><!-- 즐겨찾기 -->
+	                                            <li><a href=""><i class="feather icon-edit"></i></a></li><!-- 수정 -->
+	                                            <li><a href=""><i class="feather icon-slash"></i></a></li><!-- 삭제 -->
+	                                        </ul>
+	                                    </div>
+	                                </div>
+	                                <div class="card-content collapse show">
+	                                    <div class="card-body">
+	                                        <p class="card-text text-right mb-0">72%</p>
+	                                         <div class="progress progress-sm mb-2">
+                                           		<div class="progress-bar bg-info" role="progressbar" style="width: 72%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                      		</div>
+		                                        <p class="card-text text-right mb-0">프로젝트 멤버 보여주기</p>
+		                                        <p class="card-text text-right">${p.createDate}</p>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        
+						</c:forEach>
+						
                     </div>
                 </section>
                 <!-- // Card drag area section end -->
     		
+    			</div>
     		</div>
-    		</div>
-    		</div>
-    		</div>
-    		
     	</div>
     </div>
+    		
     <!-- END: Content-->
 
     <div class="sidenav-overlay"></div>
@@ -267,18 +211,9 @@
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/cards/draggable.js"></script>
     
     
-    <!-- BEGIN: Footer-->
-    <footer class="footer footer-static footer-light navbar-border">
-        <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2"><span class="float-md-left d-block d-md-inline-block">Copyright &copy; 2020 <a class="text-bold-800 grey darken-2" href="https://1.envato.market/pixinvent_portfolio" target="_blank">PIXINVENT </a></span><span class="float-md-right d-none d-lg-block">Hand-crafted & Made with <i class="feather icon-heart pink"></i></span></p>
-    </footer>
-    <!-- END: Footer-->
-
     <!-- BEGIN: Page Vendor JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
     <!-- END: Page Vendor JS-->
-
-	<div class="sidenav-overlay"></div>
-    <div class="drag-target"></div>
 
  	<!-- BEGIN: Page JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/modal/components-modal.js"></script>

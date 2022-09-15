@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IProjectGroupMapper">
+	<select id="selectProjectGroupListByWorkspaceNo" resultType="com.gd.safari.vo.ProjectGroup" parameterType="int">
+		SELECT distinct
+			pg.projectgroup_name projectgroupName
+		FROM project_group pg
+		LEFT JOIN project_group_conn pc
+		on pg.projectgroup_no = pc.projectgroup_no
+	</select>
+</mapper>
