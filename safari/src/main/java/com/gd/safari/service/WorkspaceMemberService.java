@@ -1,5 +1,7 @@
 package com.gd.safari.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,10 @@ public class WorkspaceMemberService implements IWorkspaceMemberService{
 	log.debug(TeamColor.CJM+workspaceMember +"Controller workName"); // workspaceMember 디버깅
 	
 		return workspaceMemberMapper.insertWorkspaceMember(workspaceMember);
+	}
+	@Override
+	public List<WorkspaceMember> getWorkspaceMemberList() {
+		return workspaceMemberMapper.selectWorkspaceMemberList(); //workspaceMember List 
 	}
 
 }
