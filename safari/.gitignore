@@ -164,6 +164,7 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 application-jdbc.properties
+my.properties
 
 # Eclipse m2e generated files
 # Eclipse Core
