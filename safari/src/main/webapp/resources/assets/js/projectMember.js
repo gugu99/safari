@@ -21,9 +21,9 @@ function addProjectGroup(){
 	const contextPath = location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
 	
 	form = "<form method='post' action='" + contextPath + "/projectGroup'>"
-			+ "<input type='text' name='projectGroupName'>"
-			+ "<button type='submit' class='float-right'>생성</button>"
-		+ "</form>";
+				+ "<input type='text' name='projectGroupName'>"
+				+ "<button type='submit' class='float-right'>생성</button>"
+			+ "</form>";
 	
 	console.log(contextPath);
 	console.log(form);
