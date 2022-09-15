@@ -6,7 +6,7 @@
             <div class="navbar-header">
                 <ul class="nav navbar-nav flex-row">
                     <li class="nav-item mobile-menu d-lg-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="feather icon-menu font-large-1"></i></a></li>
-                    <li class="nav-item mr-auto"><a class="navbar-brand" href="${pageContext.request.contextPath }/index"><img class="brand-logo" alt="stack admin logo" src="${pageContext.request.contextPath }/resources/app-assets/images/logo/stack-logo-light.png">
+                    <li class="nav-item mr-auto"><a class="navbar-brand" href="${pageContext.request.contextPath }/safari/index"><img class="brand-logo" alt="stack admin logo" src="${pageContext.request.contextPath }/resources/app-assets/images/logo/stack-logo-light.png">
                             <h2 class="brand-text">Safari</h2>
                         </a></li>
                     <li class="nav-item d-none d-lg-block nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="toggle-icon feather icon-toggle-right font-medium-3 white" data-ticon="feather.icon-toggle-right"></i></a></li>
