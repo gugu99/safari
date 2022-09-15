@@ -115,26 +115,36 @@ body.vertical-layout.vertical-menu-modern .content, body.vertical-layout.vertica
 				<div class="container">
 				<div class="row">
 				<!-- 워크스페이스 목록-->
+				<c:forEach var="r" items="${workspaceList}">
 				<div class="col-lg-4 col-md-4">
 						<div class="card text-center">
 							<div class="card-content">
 								<div class="card-body">
-									<h4 class="card-title success">workspace</h4>
+										<div class="col-md-12 col-sm-12 col-12 fonticon-container">
+                                                <div class="fonticon-wrap">
+                                                   <a><i class="feather icon-delete"></i></a>
+                                                </div>
+                                            </div>
+									<h4 class="card-title success">${r.workName }
+									
+									</h4>
+									
 									<p class="card-text">
-									<div class="col-md-12 col-sm-12 col-12 fonticon-container">
-										<div class="fonticon-wrap">
-											<i class="fa fa-plus"></i>
-										</div>
-									</div>
+									
+									</p>
+									<p class="card-text">
+									${r.createDate }
+									</p>
 									<!-- Button trigger modal -->
+									
+									<a href="${pageContext.request.contextPath }/safari/workspaceMain?workNo=${r.workNo}">
 									<button type="button" class="btn btn-outline-success"
-										data-toggle="modal" data-target="#iconForm">create
-										workspace</button>
+										data-toggle="modal" data-target="#iconForm">show workspace</button></a>
 								</div>
 							</div>
 						</div>
 					</div>
-				
+				</c:forEach>
 				
 				
 				<!--워크스페이스 추가 폼  -->
