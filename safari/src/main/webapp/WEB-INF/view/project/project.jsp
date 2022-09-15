@@ -199,7 +199,7 @@
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/core/app.js"></script>
     <!-- END: Theme JS-->
     
-   <!-- BEGIN: Page Vendor JS-->
+   	<!-- BEGIN: Page Vendor JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/extensions/dragula.min.js"></script>
     <!-- END: Page Vendor JS-->
     

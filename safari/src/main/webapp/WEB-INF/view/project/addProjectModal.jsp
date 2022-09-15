@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="form-group">
 	<div class="modal fade text-left" id="bootstrap" tabindex="-1" role="dialog" aria-labelledby="myModalLabel35" aria-hidden="true">
@@ -29,13 +30,10 @@
                 <div class="card-content collapse show">
                     <label for="projectMember">프로젝트 멤버</label>
                     <select class="select2 form-control" multiple="multiple" id="projectMember" onChange="selectProjectMember(this)">
-                           <!-- 프로젝트 멤버 리스트를 띄울 곳 -->
-                             <option value="1">Alaska</option>
-                             <option value="2">Hawaii</option>
-                             <option value="3">California</option>
-                             <option value="4">Nevada</option>
-                             <option value="5">Oregon</option>
-                             <option value="6">Washington</option>
+                            <!-- 워크스페이스 멤버 리스트를 띄울 곳 -->
+                           <c:forEach var="wm" items="${workspaceMemberList}">
+                             	<option value="${wm.workMemberNo}">${wm.workMemberName}</option>
+                           </c:forEach>
                       </select>
                   </div>
                   <input type="hidden" id="projectMemberList" name="projectMemberList" value="">
