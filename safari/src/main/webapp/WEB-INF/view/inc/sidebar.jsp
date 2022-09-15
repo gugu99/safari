@@ -30,7 +30,7 @@
             </li>
              <li class=" nav-item"><a href="${pageContext.request.contextPath }/safari/scheduleList"><i class="feather icon-watch"></i><span class="menu-title" data-i18n="Coming Soon">Schedule</span></a>
              </li>
-            <li class=" nav-item"><a href="${pageContext.request.contextPath }/safari/workspace-member-list"><i class="feather icon-users"></i><span class="menu-title" data-i18n="Contacts">Users</span></a>
+            <li class=" nav-item"><a href="${pageContext.request.contextPath }/safari/workspaceMemberList"><i class="feather icon-users"></i><span class="menu-title" data-i18n="Contacts">Member</span></a>
             </li>
         </ul>
     </div>
