@@ -1,5 +1,7 @@
 package com.gd.safari.mapper;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.gd.safari.vo.Member;
@@ -14,10 +16,16 @@ public interface IMemberMapper {
 	String selectMemberEmailByCheck(String memberEmail);
 	// 로그인
 	Member selectMemberByLogin(Member member);
+	// 마지막 로그인 날짜
+	int updateMemberLastLogin(String memberEmail);
 	// 비밀번호 찾기 (랜덤비밀번호를 이메일로 전송해준 뒤 비밀번호 변경)
 	int updateMemberPwByRecoverPw(Member member);
+	// 비밀번호 변경 (원래 계정과 새로운 비밀번호 받기)
+	int updateMemberPw(Map<String, Object> map);
 	// 계정 활성화 (active 값을 Y로 변경 - N일 경우만! X일 경우는 탈퇴된 계정이라 활성화되지 않음)
-	int updateActiveByUnlockUser(Member member);
+	int updateMemberActiveYByUnlockUser(Member member);
+	// 계정 비활성화 (active 값을 N으로 변경 - Y일 경우만! X일 경우는 탈퇴된 계정이라 비활성화되지 않음)
+	int updateMemberActiveN();
 	// 탈퇴 (active 값을 X로 변경)
-	int updateActiveByDeleteAccount(Member member);
+	int updateMemberActiveXByDeleteAccount(Member member);
 }

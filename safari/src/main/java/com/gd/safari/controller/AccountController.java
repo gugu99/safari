@@ -1,5 +1,7 @@
 package com.gd.safari.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +45,11 @@ public class AccountController {
 	
 	// 로그인 페이지 이동
 	@GetMapping("/account/login")
-	public String login() { 
+	public String login(Model model) { 
 		log.debug(TeamColor.CSH + this.getClass() + " 로그인 페이지");
+		
+		log.debug(TeamColor.CSH + model.getAttribute("errorMsg"));
+		
 		return "account/login";
 	}
 	
@@ -59,7 +64,7 @@ public class AccountController {
 			log.debug(TeamColor.CSH + "로그인 실패");
 			// 모델에 에러메세지 담기
 			model.addAttribute("errorMsg", "Login Fail");
-			return "account/login";
+			return "redirect:/account/login?errorMsg=" + model.getAttribute("errorMsg");
 			
 		// active 값에 따른 분기	
 		} else if("X".equals(loginMember.getActive())) {
@@ -191,6 +196,28 @@ public class AccountController {
 		return "redirect:/account/login";
 	}
 	
+	// 비밀번호 변경 액션
+	@PostMapping("account/change-password")
+	public String changePassword(Model model, Map<String, Object> map) {
+		log.debug(TeamColor.CSH + this.getClass() + " 비밀번호 변경 액션");
+		// 디버깅
+		log.debug(TeamColor.CSH + map);
+		// 서비스 호출
+		int row = memberService.modifyMemberPw(map);
+		
+		// 서비스메서드의 리턴값이 1이라면 성공
+		if(row == 1) {
+			log.debug(TeamColor.CSH + "비밀번호 변경 성공");
+		} else {
+			log.debug(TeamColor.CSH + "비밀번호 변경 실패");
+			// 모델에 에러메세지 담기
+			model.addAttribute("errorMsg", "Recover Password Fail");
+			return "account/recover-password";
+		}
+		
+		return "redirect:/account/login";
+	}
+	
 	// 계정잠금해제 페이지 이동
 	@GetMapping("/account/unlock-user")
 	public String unlockUser() {
@@ -206,7 +233,7 @@ public class AccountController {
 		// 디버깅
 		log.debug(TeamColor.CSH + member);
 		// 서비스 호출
-		int row = memberService.modifyActiveByUnlockUser(member);
+		int row = memberService.modifyMemberActiveYByUnlockUser(member);
 		
 		// 서비스메서의 리턴값이 1이라면 성공
 		if(row == 1) {
@@ -236,7 +263,7 @@ public class AccountController {
 		// 디버깅
 		log.debug(TeamColor.CSH + member);
 		// 서비스 호출
-		int row = memberService.modifyActiveByDeleteAccount(member);
+		int row = memberService.modifyMemberActiveXByDeleteAccount(member);
 		
 		// 서비스메서드의 리턴값이 1이라면 성공
 		if(row == 1) {

@@ -1,5 +1,7 @@
 package com.gd.safari.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,7 +64,17 @@ public class MemberService implements IMemberService {
 	@Override
 	public Member getMemberByLogin(Member member) {
 		log.debug(TeamColor.CSH + this.getClass() + " getMemberByLogin (로그인)");
-		return memberMapper.selectMemberByLogin(member);
+		// 로그인 메서드 실행
+		Member resultMember = memberMapper.selectMemberByLogin(member);
+		
+		log.debug(TeamColor.CSH + resultMember);
+		
+		// 활성화된 이메일이라면 마지막 로그인 날짜 변경하는 메서드 실행
+		if(resultMember != null && resultMember.getActive().equals("Y")) {
+			memberMapper.updateMemberLastLogin(member.getMemberEmail());
+		}
+		
+		return resultMember;
 	}
 	// 비밀번호 찾기 (랜덤비밀번호를 이메일로 전송해준 뒤 비밀번호 변경)
 	@Override
@@ -70,16 +82,28 @@ public class MemberService implements IMemberService {
 		log.debug(TeamColor.CSH + this.getClass() + " modifyMemberPwByRecoverPw (비밀번호 찾기)");
 		return memberMapper.updateMemberPwByRecoverPw(member);
 	}
+	// 비밀번호 변경 (원래 계정과 새로운 비밀번호 받기)
+	@Override
+	public int modifyMemberPw(Map<String, Object> map) {
+		log.debug(TeamColor.CSH + this.getClass() + " modifyMemberPw (비밀번호 변경)");
+		return memberMapper.updateMemberPw(map);
+	}
 	// 계정 활성화 (active 값을 Y로 변경 - N일 경우만! X일 경우는 탈퇴된 계정이라 활성화되지 않음)
 	@Override
-	public int modifyActiveByUnlockUser(Member member) {
-		log.debug(TeamColor.CSH + this.getClass() + " modifyActiveByUnlockUser (계정 활성화)");
-		return memberMapper.updateActiveByUnlockUser(member);
+	public int modifyMemberActiveYByUnlockUser(Member member) {
+		log.debug(TeamColor.CSH + this.getClass() + " modifyMemberActiveYByUnlockUser (계정 활성화)");
+		return memberMapper.updateMemberActiveYByUnlockUser(member);
+	}
+	// 계정 비활성화 (active 값을 N으로 변경 - Y일 경우만! X일 경우는 탈퇴된 계정이라 비활성화되지 않음) - 스프링 스케쥴러가 자동으로 실행
+	@Override
+	public int modifyMemberActiveN() {
+		log.debug(TeamColor.CSH + this.getClass() + " modifyMemberActiveN (계정 비활성화)");
+		return memberMapper.updateMemberActiveN();
 	}
 	// 탈퇴 (active 값을 X로 변경)
 	@Override
-	public int modifyActiveByDeleteAccount(Member member) {
-		log.debug(TeamColor.CSH + this.getClass() + " modifyActiveByRemoveAccount (탈퇴)");
-		return memberMapper.updateActiveByDeleteAccount(member);
+	public int modifyMemberActiveXByDeleteAccount(Member member) {
+		log.debug(TeamColor.CSH + this.getClass() + " modifyMemberActiveXByDeleteAccount (탈퇴)");
+		return memberMapper.updateMemberActiveXByDeleteAccount(member);
 	}
 }

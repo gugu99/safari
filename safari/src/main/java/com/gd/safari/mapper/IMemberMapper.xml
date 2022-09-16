@@ -8,10 +8,12 @@
 			, member_pw
 			, active
 			, create_date
+			, update_date
 		) VALUES (
 			TRIM(#{memberEmail})
 			, PASSWORD(#{memberPw})
 			, 'Y'
+			, NOW()
 			, NOW()
 		)
 	</insert>
@@ -30,7 +32,7 @@
 		FROM member
 		WHERE
 			member_email = TRIM(#{memberEmail})
-			and active IN('Y','N')
+			AND active IN('Y','N')
 	</select>
 	<!-- 로그인 -->
 	<select id="selectMemberByLogin" resultType="com.gd.safari.vo.Member" parameterType="com.gd.safari.vo.Member">
@@ -38,37 +40,72 @@
 			member_email memberEmail
 			, member_pw memberPw
 			, active
+			, update_date updateDate
 		FROM member
 		WHERE 
-			member_email = #{memberEmail} 
-			and member_pw = PASSWORD(#{memberPw})
+			member_email = #{memberEmail}
+			AND member_pw = PASSWORD(#{memberPw})
 	</select>
+	<!-- 마지막 로그인 날짜 -->
+	<!-- active값이 N이면 session에 로그인정보를 설정하지 않고 휴면계정해지(아이디/패스워드 입력) 페이지로 포워드 -->
+	<!-- selectMemberByLogin 반환값에서 active값이 Y이면 호출 -->
+	<update id="updateMemberLastLogin" parameterType="string">
+		UPDATE member
+		SET 
+			last_login = NOW()
+		WHERE
+			member_email = #{memberEmail}
+	</update>
 	<!-- 비밀번호 찾기 (랜덤비밀번호를 이메일로 전송해준 뒤 비밀번호 변경) -->
 	<update id="updateMemberPwByRecoverPw" parameterType="com.gd.safari.vo.Member">
 		UPDATE member
 		SET
 			member_pw = PASSWORD(#{memberPw})
+			, update_date = NOW()
 		WHERE
 			member_email = #{memberEmail}
-			and active = 'Y'
+			AND active IN('Y','N')
+	</update>
+	<!-- 비밀번호 변경 (원래 계정과 새로운 비밀번호 받기) -->
+	<update id="updateMemberPw" parameterType="map">
+		UPDATE member
+		SET
+			member_pw = PASSWORD(#{newPw})
+			, update_date = NOW()
+		WHERE
+			member_email = #{memberEmail} 
+			AND member_pw = PASSWORD(#{memberPw})
 	</update>
 	<!-- 계정 활성화 (active 값을 Y로 변경 - N일 경우만! X일 경우는 탈퇴된 계정이라 활성화되지 않음) -->
-	<update id="updateActiveByUnlockUser" parameterType="com.gd.safari.vo.Member">
+	<update id="updateMemberActiveYByUnlockUser" parameterType="com.gd.safari.vo.Member">
 		UPDATE member
 		SET
 			active = 'Y'
+			, update_date = NOW()
 		WHERE
 			member_email = #{memberEmail} 
-			and member_pw = PASSWORD(#{memberPw})
-			and active = 'N'
+			AND member_pw = PASSWORD(#{memberPw})
+			AND active = 'N'
+	</update>
+	<!-- 마지막 로그인이 90일 이후면 휴면계정처리 쿼리 : 스프링 스케쥴러 설정으로 호출 -->
+	<!-- 계정 비활성화 (active 값을 N으로 변경 - Y일 경우만! X일 경우는 탈퇴된 계정이라 비활성화되지 않음) -->
+	<update id="updateMemberActiveN">
+		UPDATE member
+		SET
+			active = 'N'
+			, update_date = NOW()
+		WHERE
+			DATEDIFF(NOW(), last_login) > 90 
+			AND active = 'Y'
 	</update>
 	<!-- 탈퇴 -->
-	<update id="updateActiveByDeleteAccount" parameterType="com.gd.safari.vo.Member">
+	<update id="updateMemberActiveXByDeleteAccount" parameterType="com.gd.safari.vo.Member">
 		UPDATE member
 		SET
 			active = 'X'
+			, update_date = NOW()
 		WHERE
 			member_email = #{memberEmail} 
-			and member_pw = PASSWORD(#{memberPw})
+			AND member_pw = PASSWORD(#{memberPw})
 	</update>
 </mapper>

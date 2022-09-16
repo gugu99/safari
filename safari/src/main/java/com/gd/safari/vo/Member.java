@@ -8,4 +8,6 @@ public class Member {			// 멤버를 위한 vo
 	private String memberPw;	// 멤버 비밀번호
 	private String active;		// 멤버 활성화
 	private String createDate;	// 생성일
+	private String updateDate;	// 수정일
+	private String lastLogin; 	// 마지막 로그인
 }

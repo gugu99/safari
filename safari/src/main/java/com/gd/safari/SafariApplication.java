@@ -10,9 +10,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @ServletComponentScan
+@EnableScheduling
 @PropertySource("classpath:my.properties")
 public class SafariApplication {
 	// 메일 구동을 위한 유저이름, 비밀번호 my.properties에서 받아오기
