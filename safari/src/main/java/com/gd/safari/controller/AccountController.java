@@ -26,7 +26,7 @@ public class AccountController {
 	
 	// 로그인 페이지 이동
 	@GetMapping("/account/login")
-	public String login(Model model, @RequestParam(value = "errorMsg", required=false) String errorMsg) {
+	public String login(Model model, @RequestParam(value = "errorMsg", required = false) String errorMsg) {
 		log.debug(TeamColor.CSH + this.getClass() + " 로그인 페이지");
 		// 모델값에 에러메세지 담기
 		model.addAttribute("errorMsg", errorMsg);
@@ -53,7 +53,7 @@ public class AccountController {
 			return "redirect:/account/unlock-user";
 		}
 		// 세션에 담기
-		session.setAttribute("login", loginMember);
+		session.setAttribute("login", loginMember.getMemberEmail());
 		
 		return "redirect:/safari/index";
 	}
@@ -70,7 +70,7 @@ public class AccountController {
 	
 	// 회원가입 페이지 이동
 	@GetMapping("/account/register")
-	public String register(Model model, @RequestParam(value = "errorMsg", required=false) String errorMsg) {
+	public String register(Model model, @RequestParam(value = "errorMsg", required = false) String errorMsg) {
 		log.debug(TeamColor.CSH + this.getClass() + " 회원가입 페이지");
 		// 모델값에 에러메세지 담기
 		model.addAttribute("errorMsg", errorMsg);
@@ -99,7 +99,7 @@ public class AccountController {
 	
 	// 비밀번호 찾기 페이지 이동
 	@GetMapping("/account/recover-password")
-	public String recoverPassword(Model model, @RequestParam(value = "errorMsg", required=false) String errorMsg) {
+	public String recoverPassword(Model model, @RequestParam(value = "errorMsg", required = false) String errorMsg) {
 		log.debug(TeamColor.CSH + this.getClass() + " 비밀번호 찾기 페이지");
 		// 모델값에 에러메세지 담기
 		model.addAttribute("errorMsg", errorMsg);
@@ -148,7 +148,7 @@ public class AccountController {
 	
 	// 계정잠금해제 페이지 이동
 	@GetMapping("/account/unlock-user")
-	public String unlockUser(Model model, @RequestParam(value = "errorMsg", required=false) String errorMsg) {
+	public String unlockUser(Model model, @RequestParam(value = "errorMsg", required = false) String errorMsg) {
 		log.debug(TeamColor.CSH + this.getClass() + " 계정잠금해제 페이지");
 		// 모델값에 에러메세지 담기
 		model.addAttribute("errorMsg", errorMsg);
@@ -178,7 +178,7 @@ public class AccountController {
 	
 	// 계정삭제(탈퇴) 페이지 이동
 	@GetMapping("/safari/delete-account")
-	public String deleteAccount(Model model, @RequestParam(value = "errorMsg", required=false) String errorMsg) {
+	public String deleteAccount(Model model, @RequestParam(value = "errorMsg", required = false) String errorMsg) {
 		log.debug(TeamColor.CSH + this.getClass() + " 계정삭제(탈퇴) 페이지");
 		// 모델값에 에러메세지 담기
 		model.addAttribute("errorMsg", errorMsg);

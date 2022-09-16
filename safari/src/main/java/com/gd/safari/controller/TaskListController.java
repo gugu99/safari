@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class TaskListController {
 	
 	// 업무 페이지 이동
-	@GetMapping("/taskList")
+	@GetMapping("/safari/taskList")
 	public String task() {
 		return "task/taskList";
 	}

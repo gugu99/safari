@@ -29,7 +29,7 @@ public class HomeController {
 	// 워크스페이스 리스트
 	@GetMapping("/safari/index")
 		public String index(HttpSession session ,Model model) {
-			String adminEmail = ((Member)session.getAttribute("login")).getMemberEmail();   // 세션 이메일불러오기
+			String adminEmail = (String)session.getAttribute("login");   // 세션 이메일불러오기
 			log.debug(TeamColor.CJM+adminEmail +"Controller adminEmail"); 					// adminEmail 디버깅
 			List<Workspace> list= workspaceService.getWorkspaceList(adminEmail);		    // workList 실행
 			model.addAttribute("workspaceList", list);
