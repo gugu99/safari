@@ -1,0 +1,16 @@
+@charset "UTF-8";
+body.vertical-layout.vertical-menu-modern .content, body.vertical-layout.vertical-menu-modern .footer
+	{
+	margin-left: 0px;
+}
+
+.fonticon-container>.fonticon-wrap {
+	float: none;
+	width: auto;
+	height: auto;
+	line-height: normal;
+	text-align: center;
+	border-radius: 0.1875rem;
+	margin-right: 1rem;
+	margin-bottom: 1.5rem;
+}
