@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html class="loading" lang="ko" data-textdirection="ltr">
 <!-- BEGIN: Head-->
 
 <head>
@@ -66,7 +66,7 @@ body.vertical-layout.vertical-menu-modern .content, body.vertical-layout.vertica
 
 				<div class="col-lg-4 col-md-6 col-sm-12">
 					<div class="form-group">
-						<!-- Modal -->
+						<!-- Add Modal -->
 						<div class="modal fade text-left" id="iconForm" tabindex="-1"
 							role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
 							<div class="modal-dialog" role="document">
@@ -116,16 +116,60 @@ body.vertical-layout.vertical-menu-modern .content, body.vertical-layout.vertica
 					<div class="row">
 						<!-- 워크스페이스 목록-->
 						<c:forEach var="r" items="${workspaceList}">
+							<c:set var="i" value="${i+1 }" />
 							<div class="col-lg-4 col-md-4">
 								<div class="card text-center">
 									<div class="card-content">
 										<div class="card-body">
-											
+											<!-- Button trigger modal -->
+
+
+
 											<div class="col-md-12 col-sm-12 col-12 fonticon-container">
 												<div class="fonticon-wrap" style="text-align: end">
-											 		<a onclick="del();" href="${pageContext.request.contextPath}/safari/removeWorkspace?workNo=${r.workNo}"><i class="fa fa-times"></i></a>
+													<button type="button" data-toggle="modal"
+														data-target="#inlineForm${i }">
+														<i class="fa fa-times"></i>
+													</button>
 												</div>
 											</div>
+											<div class="modal fade text-left" id="inlineForm${i }"
+												tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+												aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<label class="modal-title text-text-bold-600"
+																id="myModalLabel33">워크스페이스삭제</label>
+															<button type="button" class="close" data-dismiss="modal"
+																aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<form
+															action="${pageContext.request.contextPath}/safari/removeWorkspace">
+															<div class="modal-body">
+
+																<label>비밀번호</label>
+																<div class="form-group">
+																	<input name="memberPw" type="password"
+																		placeholder="Password" class="form-control">
+																</div>
+															</div>
+															<div class="modal-footer">
+																<input name="workNo" type="hidden"
+																	class="btn btn-outline-primary btn-lg"
+																	value="${r.workNo }"> <input type="reset"
+																	class="btn btn-outline-secondary btn-lg"
+																	data-dismiss="modal" value="닫기"> <input
+																	type="submit" class="btn btn-outline-primary btn-lg"
+																	value="삭제">
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+
 											<h4 class="card-title success">${r.workName }</h4>
 
 											<p class="card-text"></p>
@@ -186,13 +230,25 @@ body.vertical-layout.vertical-menu-modern .content, body.vertical-layout.vertica
 	<!-- js -->
 
 
+
+
+	<!-- Modal -->
+
+
+
+
+
+
+
 </body>
 <!-- END: Body-->
 <script>
-function del() {
-  if (confirm("정말 삭제하시겠습니까?")){
-	  list_ok.submit();
-  }
- }
+	function del() {
+		if (confirm("정말 삭제하시겠습니까?")) {
+			list_ok.submit();
+		} else {
+		}
+
+	}
 </script>
 </html>

@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
+import com.gd.safari.mapper.IMemberMapper;
 import com.gd.safari.mapper.IWorkspaceMapper;
 import com.gd.safari.mapper.IWorkspaceMemberMapper;
+import com.gd.safari.vo.Member;
 import com.gd.safari.vo.Workspace;
 import com.gd.safari.vo.WorkspaceMember;
 
@@ -20,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class WorkspaceService implements IWorkspaceService {
 	@Autowired private IWorkspaceMapper workspaceMapper;
 	@Autowired private IWorkspaceMemberMapper workspaceMemberMapper;
-	
+	@Autowired private IMemberMapper memberMapper;
 	@Override
 	public int addWorkspace(Workspace workspace , String workMemberName) {
 		log.debug(TeamColor.CJM+workspace +"Service workspace");				 	 // workspace 디버깅
@@ -37,10 +39,18 @@ public class WorkspaceService implements IWorkspaceService {
 
 
 	@Override
-	public int removeWorkspace(int workNo) {
-		log.debug(TeamColor.CJM+workNo +"Service WorkNo"); // workNo 디버깅
-		workspaceMemberMapper.deleteWorkspaceMember(workNo);
-		return workspaceMapper.deleteWorkspace(workNo);
+	public int removeWorkspace(int workNo,Member member) {
+		log.debug(TeamColor.CJM+workNo +"Service WorkNo"); 						// workNo 디버깅
+		log.debug(TeamColor.CJM+member +"Service member"); 						// member 디버깅
+		
+		Member resultMember = memberMapper.selectMemberByLogin(member);			// member 조회
+		log.debug(TeamColor.CJM+resultMember +"Service resultMember"); 
+		if(resultMember!=null) {
+		workspaceMemberMapper.deleteWorkspaceMember(workNo);					// member 삭제
+		return workspaceMapper.deleteWorkspace(workNo);	}						// 워크스페이스 삭제
+		
+		return 0;
+					
 	}
 
 
