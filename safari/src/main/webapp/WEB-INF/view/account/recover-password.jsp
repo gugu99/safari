@@ -33,7 +33,7 @@
 
 <!-- BEGIN: Body-->
 
-<body class="vertical-layout vertical-menu-modern 1-column   blank-page blank-page" data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
+<body class="vertical-layout vertical-menu-modern 1-column   blank-page blank-page" data-open="click" data-menu="vertical-menu-modern" data-col="1-column" id="body">
     <!-- BEGIN: Content-->
     <div class="app-content content">
         <div class="content-overlay"></div>
@@ -49,8 +49,9 @@
                                     <div class="card-title text-center">
                                         <img src="${pageContext.request.contextPath }/resources/app-assets/images/logo/stack-logo-dark.png" alt="branding logo">
                                     </div>
-                                    <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2"><span>We will send
-                                            you a link to reset password.</span></h6>
+                                    <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
+                                    	<span>비밀번호 복구</span>
+                                    </h6>
                                 </div>
                                 <!-- BEGIN: 에러메세지 -->
                                	<p class="card-subtitle text-muted text-center font-small-3 mx-2">
@@ -61,19 +62,19 @@
                                     <div class="card-body">
                                         <form class="form-horizontal" action="${pageContext.request.contextPath }/account/recover-password" method="post" id="form">
                                             <fieldset class="form-group position-relative has-icon-left">
-                                                <input type="email" class="form-control form-control-lg" placeholder="Your Email Address" name="memberEmail" id="memberEmail" required>
+                                                <input type="email" class="form-control form-control-lg" placeholder="이메일을 입력해주세요" name="memberEmail" id="memberEmail">
+                                                <input type="hidden" name="memberPw" id="memberPw">
                                                 <div class="form-control-position">
                                                     <i class="feather icon-mail"></i>
                                                 </div>
-                                                <input type="hidden" name="memberPw" id="memberPw">
                                             </fieldset>
-                                            <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="btn"><i class="feather icon-unlock"></i> Recover Password</button>
+                                            <button type="button" class="btn btn-outline-primary btn-lg btn-block" onkeyup="insertComment()" id="btn"><i class="feather icon-unlock"></i> 비밀번호 복구</button>
                                         </form>
                                     </div>
                                 </div>
                                 <div class="card-footer border-0">
-                                    <p class="float-sm-left text-center"><a href="${pageContext.request.contextPath }/account/login" class="card-link">Login</a></p>
-                                    <p class="float-sm-right text-center">New to Safari ? <a href="${pageContext.request.contextPath }/account/register" class="card-link">Create Account</a></p>
+                                    <p class="float-sm-left text-center"><a href="${pageContext.request.contextPath }/account/login" class="card-link">로그인</a></p>
+                                    <p class="float-sm-right text-center"> Safari에 처음 방문하셨나요? <a href="${pageContext.request.contextPath }/account/register" class="card-link"> 회원가입</a></p>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +135,6 @@
 									alert('해당 이메일로 비밀번호 발송이 완료되었습니다. 확인부탁드립니다.');
 									// console.log("data : " + data);
 									$('#memberPw').val(data);
-									// 질문 !!
 									if($('#memberPw').val() != ''){
 										$('#form').submit();
 									}
@@ -144,6 +144,12 @@
 					}
 				});
 			}
+		});
+
+		$('#body').keydown(function(e) {
+		      if(e.keyCode == 13) { // 엔터키 클릭시 로그인버튼 클릭 트리거
+		         $('#btn').trigger('click');
+		      }
 		});
 	</script>
 	<!-- END: 비밀번호 찾기 JS -->

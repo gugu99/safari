@@ -65,10 +65,10 @@
                                 <!-- END: 에러메세지 -->
                                 <div class="card-content">
                                     <div class="card-body">
-                                        <form class="form-horizontal" action="${pageContext.request.contextPath }/safari/delete-account" method="post">
+                                        <form class="form-horizontal" action="${pageContext.request.contextPath }/safari/delete-account" method="post" id="form">
                                             <fieldset class="form-group position-relative has-icon-left">
                                                 <input type="hidden" value="${login.memberEmail}" name="memberEmail">
-                                                <input type="password" class="form-control form-control-lg" id="password" placeholder="비밀번호를 입력해주세요" name="memberPw" required>
+                                                <input type="password" class="form-control form-control-lg" placeholder="비밀번호를 입력해주세요" name="memberPw" id="memberPw">
                                                 <div class="form-control-position">
                                                     <i class="fa fa-key"></i>
                                                 </div>
@@ -78,7 +78,7 @@
                                                 </div>
                                                 <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link"><i class="feather icon-unlock"></i> 비밀번호 찾기</a></div>
                                             </div>
-                                            <button type="submit" class="btn btn-outline-danger btn-lg btn-block"><i class="icon-lock4"></i> 계정 삭제</button>
+                                            <button type="button" class="btn btn-outline-danger btn-lg btn-block" id="btn"><i class="icon-lock4"></i> 계정 삭제</button>
                                             <a href="${pageContext.request.contextPath }/safari/logout" class="btn btn-outline-primary btn-lg btn-block"><i class="feather icon-power"></i> 로그아웃</a>
                                         </form>
                                     </div>
@@ -113,7 +113,19 @@
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/ui/breadcrumbs-with-stats.js"></script>
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/form-login-register.js"></script>
     <!-- END: Page JS-->
-
+	
+    <!-- BEGIN: 계정삭제 JS-->
+    <script>
+		$('#btn').click(function(){
+			if ($('#memberPw').val() == '') {
+				alert('비밀번호칸이 빈칸입니다.');
+				$('#memberPw').focus();
+			} else {
+				$('#form').submit();
+			}
+		});
+	</script>
+    <!-- END: 계정삭제 JS-->
 </body>
 <!-- END: Body-->
 

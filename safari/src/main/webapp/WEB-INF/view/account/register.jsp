@@ -52,47 +52,49 @@
                                     <div class="card-title text-center">
                                         <img src="${pageContext.request.contextPath }/resources/app-assets/images/logo/stack-logo-dark.png" alt="branding logo">
                                     </div>
-                                    <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2"><span>Easily
-                                            Using</span></h6>
+                                    <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
+                                    	<span>소셜 회원가입</span>
+                                    </h6>
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body text-center">
                                         <a href="#" class="btn btn-social mb-1 btn-outline-google"><span class="fa fa-google-plus font-medium-4"></span> <span class="px-1">google</span> </a>
                                     </div>
-                                    <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>OR Using
-                                            Email</span></p>
+                                    <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1">
+                                    	<span>Safari 회원가입</span>
+                                    </p>
 	                                <!-- BEGIN: 에러메세지 -->
 	                               	<p class="card-subtitle text-muted text-center font-small-3 mx-2">
 	                               		<c:if test="${errorMsg != null}"><strong class="text-center">${errorMsg}</strong></c:if>
 	                               	</p>
 	                               	<!-- END: 에러메세지 -->
-                                    <div class="card-body pt-0">
+                                    <div class="card-body pt-2">
                                         <form class="form-horizontal" action="${pageContext.request.contextPath}/account/register" method="post" id="form">
                                             <fieldset class="form-group floating-label-form-group">
-                                                <label for="memberEmail">Your Email Address</label>
-                                                <input type="email" class="form-control" placeholder="Your Email Address" name="memberEmail" id="memberEmail">
+                                                <label for="memberEmail">이메일</label>
+                                                <input type="email" class="form-control" placeholder="이메일을 입력해주세요" name="memberEmail" id="memberEmail">
                                             </fieldset>
                                             <div class="card-body pt-0">
-                                           	 	<button type="button" class="btn btn-outline-primary btn-block" id="checkBtn"><i class="feather icon-unlock"></i> Check Email</button>
+                                           	 	<button type="button" class="btn btn-outline-primary btn-block" id="checkBtn"><i class="feather icon-unlock"></i> 인증번호 발송</button>
                                             </div>
                                             <fieldset class="form-group floating-label-form-group mb-1">    
-                                                <label for="mailconfirm" id="mailconfirmTxt">Your Email Certification Number</label>
-                                                <input type="text" class="form-control" placeholder="Your Email Certification Number" id="mailconfirm">
+                                                <label for="mailconfirm" id="mailconfirmTxt">이메일 인증번호</label>
+                                                <input type="text" class="form-control" placeholder="이메일 인증번호를 입력해주세요" id="mailconfirm">
                                             </fieldset>
                                             <fieldset class="form-group floating-label-form-group mb-1">
-                                                <label for="memberPw">Enter Password</label>
-                                                <input type="password" class="form-control" placeholder="Enter Password (8자 이상, 대소문자, 숫자, 특수문자 포함)" name="memberPw" id="memberPw">
+                                                <label for="memberPw">비밀번호</label>
+                                                <input type="password" class="form-control" placeholder="비밀번호 (8자 이상, 대소문자, 숫자, 특수문자 포함)" name="memberPw" id="memberPw">
                                             </fieldset>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-12 text-center text-sm-left pr-0">
                                                 </div>
-                                                <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link">Forgot Password?</a></div>
+                                                <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link">비밀번호 찾기</a></div>
                                             </div>
-                                            <button type="button" class="btn btn-outline-primary btn-block" id="btn"><i class="feather icon-user"></i> Register</button>
+                                            <button type="button" class="btn btn-outline-primary btn-block" id="btn"><i class="feather icon-user"></i> 회원가입</button>
                                         </form>
                                     </div>
                                     <div class="card-body pt-0">
-                                        <a href="${pageContext.request.contextPath }/account/login" class="btn btn-outline-danger btn-block"><i class="feather icon-unlock"></i> Login</a>
+                                        <a href="${pageContext.request.contextPath }/account/login" class="btn btn-outline-danger btn-block"><i class="feather icon-unlock"></i> 로그인</a>
                                     </div>
                                 </div>
                             </div>
@@ -124,31 +126,44 @@
 	
 	<!-- BEGIN: 회원가입 JS -->
 	<script>
+		// 이메일 정규식
+		var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
+		// 비밀번호 정규식
+		var reg_pass = RegExp(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z])(?=.*[^\w]).{8,}/);
+	
 		// 이메일 중복확인 후 이메일 인증번호 발송
 		$('#checkBtn').click(function(){
-			$.ajax({
-				url : '/account/duplicateEmail',
-				type : 'POST',
-				data : {memberEmail : $('#memberEmail').val()},
-				success : function(json){
-					if(json != 'memberEmail ok'){
-						alert('이미 사용중이거나 탈퇴한 이메일입니다.');
-						$('#memberEmail').focus();
-						return;
-					} else {
-						$.ajax({
-							type : 'POST',
-							url : '/account/mailConfirm',
-							data : {email : $('#memberEmail').val()},
-							success : function(data){
-								alert('해당 이메일로 인증번호 발송이 완료되었습니다. 확인부탁드립니다.');
-								// console.log("data : " + data);
-								chkEmailConfirm(data, $('#mailconfirm'), $('#mailconfirmTxt'));
-							}
-						});
+			if ($('#memberEmail').val() == '') {
+				alert('이메일칸이 빈칸입니다.');
+				$('#memberEmail').focus();
+			} else if (!reg_email.test($('#memberEmail').val())) {
+				alert('이메일형식을 확인해주세요.\nexample@example.com');
+				$('#memberEmail').focus();
+			} else {
+				$.ajax({
+					url : '/account/duplicateEmail',
+					type : 'POST',
+					data : {memberEmail : $('#memberEmail').val()},
+					success : function(json){
+						if(json != 'memberEmail ok'){
+							alert('이미 사용중이거나 탈퇴한 이메일입니다.');
+							$('#memberEmail').focus();
+							return;
+						} else {
+							$.ajax({
+								type : 'POST',
+								url : '/account/mailConfirm',
+								data : {email : $('#memberEmail').val()},
+								success : function(data){
+									alert('해당 이메일로 인증번호 발송이 완료되었습니다. 확인부탁드립니다.');
+									// console.log("data : " + data);
+									chkEmailConfirm(data, $('#mailconfirm'), $('#mailconfirmTxt'));
+								}
+							});
+						}
 					}
-				}
-			});
+				});
+			}
 		});
 		
 		// 이메일 인증번호 체크 함수
@@ -178,23 +193,20 @@
 			});
 		}
 		
-		// 회원가입 정규식
-		var reg_pass = RegExp(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z])(?=.*[^\w]).{8,}/);
-		
 		$('#btn').click(function(){
 			
-			if ($('#memberPw').val() == '') {
-				alert('비밀번호칸이 빈칸입니다.');
-				$('#memberPw').focus();
-			} else if (!reg_pass.test($('#memberPw').val())) {
-				alert('비밀번호형식을 확인해주세요.\n최소한 8자 대소문자 1개이상 + 숫자 1개이상 + 특수문자 1개이상');
-				$('#memberPw').focus();
-			} else if ($('#mailconfirm').val() == ''){
+			if ($('#mailconfirm').val() == ''){
 				alert('이메일 인증번호칸이 빈칸입니다.');
 				$('#mailconfirm').focus();
 			} else if (emconfirmchk == 'N'){
 				alert('인증번호가 잘못되었습니다.');
 				$('#mailconfirm').focus();
+			} else if ($('#memberPw').val() == '') {
+				alert('비밀번호칸이 빈칸입니다.');
+				$('#memberPw').focus();
+			} else if (!reg_pass.test($('#memberPw').val())) {
+				alert('비밀번호형식을 확인해주세요.\n최소한 8자 대소문자 1개이상 + 숫자 1개이상 + 특수문자 1개이상');
+				$('#memberPw').focus();
 			} else {
 				$('#form').submit();
 			}

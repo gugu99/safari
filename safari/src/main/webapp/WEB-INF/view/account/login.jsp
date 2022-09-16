@@ -68,8 +68,8 @@
                                 		<c:if test="${errorMsg != null}"><strong class="text-center">${errorMsg}</strong></c:if>
                                 	</p>
                                 	<!-- END: 에러메세지 -->
-                                    <div class="card-body pt-0">
-                                        <form class="form-horizontal" action="${pageContext.request.contextPath }/account/login" method="post">
+                                    <div class="card-body pt-2">
+                                        <form class="form-horizontal" action="${pageContext.request.contextPath }/account/login" method="post" id="form">
                                             <fieldset class="form-group floating-label-form-group">
                                                 <label for="memberEmail">이메일</label>
                                                 <input type="text" class="form-control" placeholder="이메일을 입력해주세요" value="admin@admin.com" name="memberEmail" id="memberEmail">
@@ -87,7 +87,7 @@
                                                 </div>
                                                 <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link">비밀번호 찾기</a></div>
                                             </div>
-                                            <button type="submit" class="btn btn-outline-primary btn-block"><i class="feather icon-unlock"></i> 로그인</button>
+                                            <button type="button" class="btn btn-outline-primary btn-block" id="btn"><i class="feather icon-unlock"></i> 로그인</button>
                                         </form>
                                     </div>
                                     <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1">
@@ -123,7 +123,28 @@
     <!-- BEGIN: Page JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/form-login-register.js"></script>
     <!-- END: Page JS-->
-
+    
+	<!-- BEGIN: 로그인 JS-->
+	<script>
+		// 이메일 정규식
+		var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
+	
+		$('#btn').click(function(){
+			if ($('#memberEmail').val() == '') {
+				alert('이메일칸이 빈칸입니다.');
+				$('#memberEmail').focus();
+			} else if (!reg_email.test($('#memberEmail').val())) {
+				alert('이메일형식을 확인해주세요.\nexample@example.com');
+				$('#memberEmail').focus();
+			} else if ($('#memberPw').val() == '') {
+				alert('비밀번호칸이 빈칸입니다.');
+				$('#memberPw').focus();
+			} else {
+				$('#form').submit();
+			}
+		});
+	</script>
+	<!-- END: 로그인 JS-->
 </body>
 <!-- END: Body-->
 

@@ -55,10 +55,11 @@
                     <div class="col-12 d-flex align-items-center justify-content-center">
                         <div class="col-lg-4 col-md-8 col-10 box-shadow-2 p-0">
                             <div class="card border-grey border-lighten-3 px-2 py-2 m-0">
-                                <div class="card-header border-0 text-center">
-                                    <h5 class="card-title mt-1">계정 복구</h5>
-                                </div>
-
+                            	<div class="card-header border-0 pb-0">
+	                           		<div class="card-header border-0 text-center">
+	                                    <img src="${pageContext.request.contextPath }/resources/app-assets/images/logo/stack-logo-dark.png" alt="branding logo">
+	                                </div>
+								</div>
                                 <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2"><span>휴면계정 활성화</span></p>
                                 <!-- BEGIN: 에러메세지 -->
                                	<p class="card-subtitle text-muted text-center font-small-3 mx-2">
