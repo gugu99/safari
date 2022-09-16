@@ -18,4 +18,14 @@
 			, NOW()
 		)
 	</insert>
+	
+	<select id="selectProjectMemberListByProjectNo" resultType="com.gd.safari.vo.ProjectMember" parameterType="int">
+		SELECT
+			project_member_no projectMemberNo
+			, work_member_no workMemberNo
+			, project_member_auth projectMemberAuth
+			, active
+		FROM project_member
+		WHERE project_no = #{projectNo}
+	</select>
 </mapper>

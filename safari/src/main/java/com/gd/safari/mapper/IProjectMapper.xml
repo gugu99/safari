@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.IProjectMapper">
+	<!-- 프로젝트 리스트 띄우기 -->
 	<select id="selectProjectListByWorkspaceNo" resultType="com.gd.safari.vo.Project" parameterType="int">
 		SELECT
 			project_no projectNo
@@ -11,6 +12,24 @@
 			work_no = #{workNo}
 	</select>
 	
+	<!-- 한 프로젝트의 정보 출력 -->
+	<select id="selectProjectDetailByProjectNo" resultType="com.gd.safari.vo.Project" parameterType="int">
+		SELECT
+			project_no projectNo
+			, work_no workNo
+			, project_name projectName
+			, project_expl projectExpl
+			, project_auth projectAuth
+			, project_start projectStart
+			, project_deadline projectDeadline
+			, project_end projectEnd
+			, project_keep projectKeep
+		FROM project
+		WHERE
+			project_no = #{projectNo}
+	</select>
+	
+	<!-- 프로젝트 추가 -->
 	<insert id="insertProject" parameterType="java.util.Map">
 		<selectKey keyProperty="projectNo" resultType="int" order="AFTER">
 			<!-- 방금 생성한 키값을 받아옴 -->
@@ -30,4 +49,6 @@
 			, NOW()
 		)
 	</insert>
+	
+	
 </mapper>

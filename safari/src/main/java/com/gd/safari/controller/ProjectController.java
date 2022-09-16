@@ -39,6 +39,7 @@ public class ProjectController {
 		return "project/project";
 	}
 	
+	// 프로젝트 추가
 	@PostMapping("/safari/project")
 	public String project(HttpSession session, @RequestParam Map<String, Object> map) {
 		log.debug(TeamColor.CSK + "프로젝트 추가");
@@ -55,18 +56,37 @@ public class ProjectController {
 		return "redirect:/safari/project";
 	}
 	
+	// 프로젝트 그룹 추가
+	@PostMapping("/safari/projectGroup")
+	public String projectGroup(@RequestParam String projectGroupName) {
+		log.debug(TeamColor.CSK + "프로젝트 그룹 추가");
+		log.debug(TeamColor.CSK + projectGroupName);
+		
+		// TODO project group create
+
+		return "redirect:/safari/project";
+	}
+	
 	// 개별 프로젝트 요약 페이지
 	@GetMapping("/safari/projectSummary")
 	public String projectSummary() {
 		return "project/projectSummary";
 	}
 	
-	
-	@PostMapping("/safari/projectGroup")
-	public String projectGroup(@RequestParam String projectGroupName) {
-		log.debug(TeamColor.CSK + "프로젝트 그룹 추가");
-		log.debug(TeamColor.CSK + projectGroupName);
-
-		return "redirect:/safari/project";
+	@GetMapping("/safari/modifyProject")
+	public String modifyProject(Model model, int projectNo) {
+		log.debug(TeamColor.CSK + "프로젝트 수정");
+		log.debug(TeamColor.CSK + "projectNo: " + projectNo);
+		
+		// 프로젝트 VO, 프로젝트 멤버리스트<ProjectMember>를 반환
+		Map<String, Object> map = projectService.getProjectDetailByProjectNo(projectNo);
+		
+		// 모델에 넣기 
+		model.addAttribute("project", map.get("project"));
+		model.addAttribute("memberList", map.get("memberList"));
+		
+		return "project/modifyProject";
 	}
+	
+	
 }

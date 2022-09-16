@@ -88,6 +88,25 @@ public class ProjectService implements IProjectService {
 				projectMemberMapper.insertProjectMember(projectMember);
 			}
 		}
+	}
+	
+	// 프로젝트 수정 전 정보를 띄우기 위한 메소드
+	@Override
+	public Map<String, Object> getProjectDetailByProjectNo(int projectNo) {
+		Map<String, Object> map = new HashMap<>();
 		
+		// Project VO에 프로젝트 테이블의 정보
+		Project project = projectMapper.selectProjectDetailByProjectNo(projectNo);
+		log.debug(TeamColor.CSK + "project: " + project);
+		
+		// 프로젝트 멤버 리스트
+		List<ProjectMember> memberList = projectMemberMapper.selectProjectMemberListByProjectNo(projectNo);
+		log.debug(TeamColor.CSK + "memberList.size(): " + memberList.size());
+		
+		// map에 넣기
+		map.put("project", project);
+		map.put("memberList", memberList);
+		
+		return map;
 	}
 }

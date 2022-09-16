@@ -12,6 +12,10 @@ public interface IProjectMapper {
 	// 해당 워크스페이스에 속한 프로젝트 리스트를 반환
 	List<Project> selectProjectListByWorkspaceNo(int workNo);
 	
+	// 한 프로젝트의 정보를 반환 (수정폼에서 사용)
+	Project selectProjectDetailByProjectNo(int projectNo);
+	
 	// 프로젝트 추가 메소드
 	int insertProject(Map<String, Object> map);
+	
 }
