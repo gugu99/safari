@@ -8,6 +8,10 @@
 ==========================================================================================*/
 
 $(document).ready(function () {
+	var schedulemembereselect = $(".scheduleMemberSelect").select2({
+    dropdownAutoWidth: true,
+    width: '100%'
+  });
   // language select
   var languageselect = $("#languageselect2").select2({
     dropdownAutoWidth: true,
