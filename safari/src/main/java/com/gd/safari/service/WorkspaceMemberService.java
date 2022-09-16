@@ -27,5 +27,10 @@ public class WorkspaceMemberService implements IWorkspaceMemberService{
 	public List<WorkspaceMember> getWorkspaceMemberList(int workNo) {
 		return workspaceMemberMapper.selectWorkspaceMemberList(workNo); //workspaceMember List 
 	}
+	@Override
+	public WorkspaceMember getWorkspaceMemberOne(WorkspaceMember workspaceMember) {
+		
+		return workspaceMemberMapper.selectWorkspaceMemberOne(workspaceMember);
+	}
 
 }

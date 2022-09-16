@@ -10,4 +10,5 @@ public interface IWorkspaceMemberService {
 	
 	int addWorkspaceMember(WorkspaceMember workspaceMember);
 	List<WorkspaceMember> getWorkspaceMemberList(int workNo);
+	WorkspaceMember getWorkspaceMemberOne(WorkspaceMember workspaceMember);
 }

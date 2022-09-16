@@ -13,4 +13,5 @@ public interface IWorkspaceMemberMapper {
 	int insertWorkspaceMember(WorkspaceMember workspaceMember);
 	List<WorkspaceMember> selectWorkspaceMemberList(int workNo);
 	int deleteWorkspaceMember(int workNo);
+	WorkspaceMember selectWorkspaceMemberOne(WorkspaceMember workspaceMember);
 }

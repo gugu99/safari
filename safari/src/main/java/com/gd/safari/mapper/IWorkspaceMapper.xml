@@ -21,7 +21,7 @@
 	<delete id="deleteWorkspace" parameterType="int">
 	
 		DELETE FROM workspace
-		WHERE work_no = #{workNO}
+		WHERE work_no = #{workNo} 
 		
 	</delete>
 	
@@ -44,6 +44,9 @@
 		where  wm.work_member_email = #{workMemberEmail}
 	
 	</select>
+	
+	
+	
 	
 	
 </mapper>
