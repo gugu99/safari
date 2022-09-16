@@ -38,7 +38,6 @@
 	<select id="selectMemberByLogin" resultType="com.gd.safari.vo.Member" parameterType="com.gd.safari.vo.Member">
 		SELECT 
 			member_email memberEmail
-			, member_pw memberPw
 			, active
 			, update_date updateDate
 		FROM member
