@@ -61,6 +61,11 @@
                                     </div>
                                     <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>OR Using
                                             Email</span></p>
+	                                <!-- BEGIN: 에러메세지 -->
+	                               	<p class="card-subtitle text-muted text-center font-small-3 mx-2">
+	                               		<c:if test="${errorMsg != null}"><strong class="text-center">${errorMsg}</strong></c:if>
+	                               	</p>
+	                               	<!-- END: 에러메세지 -->
                                     <div class="card-body pt-0">
                                         <form class="form-horizontal" action="${pageContext.request.contextPath}/account/register" method="post" id="form">
                                             <fieldset class="form-group floating-label-form-group">
@@ -119,16 +124,29 @@
 	
 	<!-- BEGIN: 회원가입 JS -->
 	<script>
-		// 이메일 인증번호
+		// 이메일 중복확인 후 이메일 인증번호 발송
 		$('#checkBtn').click(function(){
 			$.ajax({
-				type : 'GET',
-				url : '/account/mailConfirm',
-				data : {email : $('#memberEmail').val()},
-				success : function(data){
-					alert('해당 이메일로 인증번호 발송이 완료되었습니다. 확인부탁드립니다.');
-					console.log("data : " + data);
-					chkEmailConfirm(data, $('#mailconfirm'), $('#mailconfirmTxt'));
+				url : '/account/duplicateEmail',
+				type : 'POST',
+				data : {memberEmail : $('#memberEmail').val()},
+				success : function(json){
+					if(json != 'memberEmail ok'){
+						alert('이미 사용중이거나 탈퇴한 이메일입니다.');
+						$('#memberEmail').focus();
+						return;
+					} else {
+						$.ajax({
+							type : 'POST',
+							url : '/account/mailConfirm',
+							data : {email : $('#memberEmail').val()},
+							success : function(data){
+								alert('해당 이메일로 인증번호 발송이 완료되었습니다. 확인부탁드립니다.');
+								// console.log("data : " + data);
+								chkEmailConfirm(data, $('#mailconfirm'), $('#mailconfirmTxt'));
+							}
+						});
+					}
 				}
 			});
 		});
@@ -138,7 +156,7 @@
 			$('#mailconfirm').on('keyup', function(){
 				// 인증번호 틀린 경우
 				if(data != $('#mailconfirm').val()){
-					emconfirmchk = false;
+					emconfirmchk = 'N';
 					$('#mailconfirmTxt').html("<span id='emconfirmchk'>인증번호가 잘못되었습니다.</span>");
 					$('#emconfirmchk').css({
 						"color" : "#FA3E3E",
@@ -147,7 +165,7 @@
 					});
 				// 인증번호 확인된 경우
 				} else {
-					emconfirmchk = true;
+					emconfirmchk = 'Y';
 					$('#mailconfirmTxt').html("<span id='emconfirmchk'>인증번호가 확인되었습니다.</span>");
 					$('#emconfirmchk').css({
 						"color" : "#0D6EFD",
@@ -155,21 +173,17 @@
 						"font-size" : "10px"
 					});
 				}
+				
+				console.log(emconfirmchk);
 			});
 		}
 		
 		// 회원가입 정규식
-		var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
 		var reg_pass = RegExp(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z])(?=.*[^\w]).{8,}/);
 		
 		$('#btn').click(function(){
-			if ($('#memberEmail').val() == '') {
-				alert('이메일칸이 빈칸입니다.');
-				$('#memberEmail').focus();
-			} else if (!reg_email.test($('#memberEmail').val())) {
-				alert('이메일형식을 확인해주세요.\nexample@example.com');
-				$('#memberEmail').focus();
-			} else if ($('#memberPw').val() == '') {
+			
+			if ($('#memberPw').val() == '') {
 				alert('비밀번호칸이 빈칸입니다.');
 				$('#memberPw').focus();
 			} else if (!reg_pass.test($('#memberPw').val())) {
@@ -178,25 +192,11 @@
 			} else if ($('#mailconfirm').val() == ''){
 				alert('이메일 인증번호칸이 빈칸입니다.');
 				$('#mailconfirm').focus();
-			} else if ($('#emconfirmchk').val() == '인증번호가 잘못되었습니다.'){
-				// 디버깅
-				console.log($('#emconfirmchk').val());
+			} else if (emconfirmchk == 'N'){
 				alert('인증번호가 잘못되었습니다.');
 				$('#mailconfirm').focus();
 			} else {
-				$.ajax({
-					url : '/account/duplicateEmail',
-					type : 'POST',
-					data : {memberEmail : $('#memberEmail').val()},
-					success : function(json){
-						if(json == 'memberEmail ok'){
-							$('#form').submit();
-						} else {
-							alert('이미 사용중이거나 탈퇴한 이메일입니다.');
-							$('#memberEmail').focus();
-						}
-					}
-				});
+				$('#form').submit();
 			}
 		});
 	</script>

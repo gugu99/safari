@@ -52,16 +52,22 @@
                                     <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2"><span>We will send
                                             you a link to reset password.</span></h6>
                                 </div>
+                                <!-- BEGIN: 에러메세지 -->
+                               	<p class="card-subtitle text-muted text-center font-small-3 mx-2">
+                               		<c:if test="${errorMsg != null}"><strong class="text-center">${errorMsg}</strong></c:if>
+                               	</p>
+                               	<!-- END: 에러메세지 -->
                                 <div class="card-content">
                                     <div class="card-body">
-                                        <form class="form-horizontal" action="#" novalidate>
+                                        <form class="form-horizontal" action="${pageContext.request.contextPath }/account/recover-password" method="post" id="form">
                                             <fieldset class="form-group position-relative has-icon-left">
-                                                <input type="email" class="form-control form-control-lg" id="user-email" placeholder="Your Email Address" required>
+                                                <input type="email" class="form-control form-control-lg" placeholder="Your Email Address" name="memberEmail" id="memberEmail" required>
                                                 <div class="form-control-position">
                                                     <i class="feather icon-mail"></i>
                                                 </div>
+                                                <input type="hidden" name="memberPw" id="memberPw">
                                             </fieldset>
-                                            <button type="submit" class="btn btn-outline-primary btn-lg btn-block"><i class="feather icon-unlock"></i> Recover Password</button>
+                                            <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="btn"><i class="feather icon-unlock"></i> Recover Password</button>
                                         </form>
                                     </div>
                                 </div>
@@ -95,7 +101,52 @@
     <!-- BEGIN: Page JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/form-login-register.js"></script>
     <!-- END: Page JS-->
-
+    
+	<!-- BEGIN: 비밀번호 찾기 JS -->
+	<script>
+		// 이메일 정규식
+		var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
+		
+		// 이메일로 비밀번호 발송
+		$('#btn').click(function(){
+			if ($('#memberEmail').val() == '') {
+				alert('이메일칸이 빈칸입니다.');
+				$('#memberEmail').focus();
+			} else if (!reg_email.test($('#memberEmail').val())) {
+				alert('이메일형식을 확인해주세요.\nexample@example.com');
+				$('#memberEmail').focus();
+			} else {
+				$.ajax({
+					type : 'POST',
+					url : '/account/checkEmail',
+					data : {memberEmail : $('#memberEmail').val()},
+					success : function(json){
+						if(json != 'memberEmail ok'){
+							alert('확인되지 않는 회원입니다.');
+							$('#memberEmail').focus();
+							return;
+						} else {
+							$.ajax({
+								type : 'POST',
+								url : '/account/mailConfirm',
+								data : {email : $('#memberEmail').val()},
+								success : function(data){
+									alert('해당 이메일로 비밀번호 발송이 완료되었습니다. 확인부탁드립니다.');
+									// console.log("data : " + data);
+									$('#memberPw').val(data);
+									// 질문 !!
+									if($('#memberPw').val() != ''){
+										$('#form').submit();
+									}
+								}
+							});
+						}
+					}
+				});
+			}
+		});
+	</script>
+	<!-- END: 비밀번호 찾기 JS -->
 </body>
 <!-- END: Body-->
 

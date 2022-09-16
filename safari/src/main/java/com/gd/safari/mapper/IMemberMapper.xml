@@ -16,12 +16,21 @@
 		)
 	</insert>
 	<!-- 중복 아이디 확인 -->
+	<select id="selectMemberEmailByDuplicate" resultType="string" parameterType="string">
+		SELECT
+			member_email memberEmail
+		FROM member
+		WHERE
+			member_email = TRIM(#{memberEmail})
+	</select>
+	<!-- 유효한 이메일 검사 (탈퇴회원 제외) -->
 	<select id="selectMemberEmailByCheck" resultType="string" parameterType="string">
 		SELECT
 			member_email memberEmail
 		FROM member
 		WHERE
 			member_email = TRIM(#{memberEmail})
+			and active IN('Y','N')
 	</select>
 	<!-- 로그인 -->
 	<select id="selectMemberByLogin" resultType="com.gd.safari.vo.Member" parameterType="com.gd.safari.vo.Member">
@@ -34,6 +43,15 @@
 			member_email = #{memberEmail} 
 			and member_pw = PASSWORD(#{memberPw})
 	</select>
+	<!-- 비밀번호 찾기 (랜덤비밀번호를 이메일로 전송해준 뒤 비밀번호 변경) -->
+	<update id="updateMemberPwByRecoverPw" parameterType="com.gd.safari.vo.Member">
+		UPDATE member
+		SET
+			member_pw = PASSWORD(#{memberPw})
+		WHERE
+			member_email = #{memberEmail}
+			and active = 'Y'
+	</update>
 	<!-- 계정 활성화 (active 값을 Y로 변경 - N일 경우만! X일 경우는 탈퇴된 계정이라 활성화되지 않음) -->
 	<update id="updateActiveByUnlockUser" parameterType="com.gd.safari.vo.Member">
 		UPDATE member
