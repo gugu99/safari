@@ -47,10 +47,22 @@
 		                                                                </div>
 		                                                            </div>
 		                                                        </div>
+		                                                        <div class="col-6">
+		                                                            <div class="form-group">
+		                                                                <label for="starttime"><span class="fa fa-clock-o mr-1"></span>Start time</label>
+		                                                                <input type="time" class="form-control" id="starttime" value="00:00:00">
+		                                                            </div>
+		                                                        </div>
+		                                                        <div class="col-6">
+		                                                            <div class="form-group">
+		                                                                <label for="endtime"><span class="fa fa-clock-o mr-1"></span>End time</label>
+		                                                                <input type="time" class="form-control" id="endtime" value="00:00:00">
+		                                                            </div>
+		                                                        </div>
 		                                                        <div class="col-12">
 		                                                            <div class="form-group">
 		                                                                <label for="languageselect2"><span class="fa fa-users mr-2"></span>참석자</label>
-		                                                                <select class="form-control" name="scheduleMemberEmail" id="languageselect2" multiple="multiple">
+		                                                                <select class="form-control scheduleMemberSelect" multiple="multiple" onChange="selectScheduleMember(this)">
 		                                                                    <option value="English" >English</option>
 		                                                                    <option value="Spanish">Spanish</option>
 		                                                                    <option value="French">French</option>
@@ -61,6 +73,7 @@
 		                                                                </select>
 		                                                            </div>
 		                                                        </div>
+		                                                        <input type="hidden" id="scheduleMemberList" name="scheduleMemberList" value="">
 		                                                        <div class="col-10">
 		                                                            <div class="form-group">
 		                                                                <label for="account-website"><span class="fa fa-map-marker mr-2"></span>장소</label>
@@ -75,26 +88,27 @@
 		                                                        <div class="col-12">
 		                                                            <div class="form-group">
 		                                                                <label for="account-website"><span class="fa fa-map-marker mr-2"></span>상세 장소</label>
-		                                                                <input type="text" class="form-control" id="account-website" placeholder="주소를 입력하세요.">
+		                                                                <input type="text" class="form-control" id="detailAddr" placeholder="주소를 입력하세요.">
 		                                                            </div>
 		                                                        </div>
 		                                                        <div class="col-12">
 		                                                            <div class="form-group">
 		                                                                <label for="accountTextarea"><span class="fa fa-pencil-square-o mr-1"></span>내용</label>
-		                                                                <textarea class="form-control" id="accountTextarea" rows="3" placeholder="내용을 입력하세요."></textarea>
+		                                                                <textarea class="form-control" id="accountTextarea" rows="5" placeholder="내용을 입력하세요."></textarea>
 		                                                            </div>
 		                                                        </div>
-		                                                         <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
-		                                                            <div class="form-group">
+		                                                        <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
+		                                                        	<div class="form-group mt-1">
 		                                                                <label for="accountSelect"><span class="fa fa-lock mr-1"></span>공개설정</label>
 		                                                                <select class="form-control" id="accountSelect">
 		                                                                    <option selected>전체공개</option>
 		                                                                    <option>관리자, 작성자만 공개</option>
 		                                                                </select>
 		                                                            </div>
-		                                                        </div>
-		                                                        <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
-		                                                            <button type="reset" class="btn btn-light">Cancel</button>
+		                                                            <div class="form-group">
+		                                                                <button type="reset" class="btn btn-light mt-3 ml-2">Cancel</button>
+		                                                            </div>
+		                                                            
 		                                                        </div>
 		                                                    </div>
 		                                                </form>
@@ -118,3 +132,5 @@
         </div>
     </div>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+ 
