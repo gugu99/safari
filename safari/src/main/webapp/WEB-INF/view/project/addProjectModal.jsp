@@ -26,18 +26,18 @@
                           </fieldset>
                           <br>
                       </div>
-                <div class="form-group col-12 mb-2">
-                <div class="card-content collapse show">
-                    <label for="projectMember">프로젝트 멤버</label>
-                    <select class="select2 form-control" multiple="multiple" id="projectMember" onChange="selectProjectMember(this)">
-                            <!-- 워크스페이스 멤버 리스트를 띄울 곳 -->
-                           <c:forEach var="wm" items="${workspaceMemberList}">
-                             	<option value="${wm.workMemberNo}">${wm.workMemberName}</option>
-                           </c:forEach>
-                      </select>
-                  </div>
+	                <div class="form-group col-12 mb-2">
+	                	 <div class="form-group">
+	                         <label>프로젝트 멤버</label>
+	                         <select class="form-control select2" multiple="multiple" onChange="selectScheduleMember(this)">
+	                             <c:forEach var="wm" items="${workspaceMemberList}">
+	                             	<option value="${wm.workMemberNo}">${wm.workMemberName}</option>
+	                           </c:forEach>
+	                         </select>
+	                     </div>
+	               </div> 
+              
                   <input type="hidden" id="projectMemberList" name="projectMemberList" value="">
-                   </div>
                   
                    <div class="modal-footer">
                        <input type="reset" class="projectForm btn btn-outline-secondary btn-lg" data-dismiss="modal" value="닫기">

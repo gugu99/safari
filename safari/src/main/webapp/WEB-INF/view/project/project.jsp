@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html class="loading" lang="ko" data-textdirection="ltr">
 <!-- BEGIN: Head-->
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -116,9 +116,9 @@
 		                    <div class="row breadcrumbs-top">
 		                        <div class="breadcrumb-wrapper col-12">
 		                            <ol class="breadcrumb">
-		                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+		                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/safari/index">Home</a>
 		                                </li>
-		                                <li class="breadcrumb-item"><a href="#">Project</a>
+		                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/safari/project">Project</a>
 		                                </li>
 		                                <li class="breadcrumb-item active">Project Summary
 		                                </li>
@@ -154,7 +154,7 @@
 	                                    <div class="heading-elements">
 	                                        <ul class="list-inline mb-0">
 	                                            <li><a href=""><i class="fa fa-star-o"></i></a></li><!-- 즐겨찾기 -->
-	                                            <li><a href=""><i class="feather icon-edit"></i></a></li><!-- 수정 -->
+	                                            <li><a href="${pageContext.request.contextPath}/safari/modifyProject?projectNo=${p.projectNo}"><i class="feather icon-edit"></i></a></li><!-- 수정 -->
 	                                            <li><a href=""><i class="feather icon-slash"></i></a></li><!-- 삭제 -->
 	                                        </ul>
 	                                    </div>
