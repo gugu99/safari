@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.safari.commons.TeamColor;
+import com.gd.safari.service.IWorkspaceMemberService;
 import com.gd.safari.service.IWorkspaceService;
 import com.gd.safari.vo.Member;
 import com.gd.safari.vo.Workspace;
@@ -21,18 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 public class WorkspaceController {
 
 	@Autowired private IWorkspaceService workspaceService;
+	@Autowired private IWorkspaceMemberService workspaceMemberService;
 	
-	
-	
-	
-	// 워크스페이스생성
+	// 워크스페이스생성폼요청
 	@GetMapping("/safari/addWorkspace")
 	public String addWorkspace () {
 		return "workspace/addWorkspace";
 	}
-	
-	
-	
+	// 워크스페이스생성
 	@PostMapping("/safari/addWorkspace")
 	public String addWorkspace (@RequestParam(value = "workName") String workName,
 								@RequestParam(value = "workMemberName") String workMemberName,
@@ -50,13 +47,14 @@ public class WorkspaceController {
 	// 워크스페이스 메인창
 	@GetMapping("/safari/workspaceMain")
 	public String workspaceIndex (HttpSession session,@RequestParam(value = "workNo") int workNo) {
-		log.debug(TeamColor.CJM+workNo +"Controller workNo"); 							// workNo 디버깅
-		String memberEmail = ((Member)session.getAttribute("login")).getMemberEmail(); // session email가져와서 workmember vo에 삽입
-		WorkspaceMember workspaceMember = new WorkspaceMember();					   // 워크스페이스 멤버 workNo, member Email 삽입
+		log.debug(TeamColor.CJM+workNo +"Controller workNo"); 								// workNo 디버깅
+		String memberEmail = ((Member)session.getAttribute("login")).getMemberEmail(); 		// session email가져와서 workmember vo에 삽입
+		WorkspaceMember workspaceMember = new WorkspaceMember();					   		// 워크스페이스 멤버 workNo, member Email 삽입
 		workspaceMember.setWorkNo(workNo);
 		workspaceMember.setWorkMemberEmail(memberEmail);
-		session.setAttribute("workNo", workNo);											// 세션 workNo 추가
-		session.setAttribute("workspaceMember", workspaceMember);						// 세션 workspaceMember 추가
+		int workMemberNo =  workspaceMemberService.getWorkspaceMemberNo(workspaceMember);	// workMemberNo 불러오는 메서드
+		session.setAttribute("workNo", workNo);												// 세션 workNo 추가
+		session.setAttribute("workMemberNo", workMemberNo);							// 세션 workspaceMember 추가
 		return "workspace/workspaceMain";
 	}
 	

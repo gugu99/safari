@@ -22,24 +22,8 @@
 
 <%@ include file="/WEB-INF/view/inc/common-css.jsp"%>
 <!-- css -->
-
-<style>
-body.vertical-layout.vertical-menu-modern .content, body.vertical-layout.vertical-menu-modern .footer
-	{
-	margin-left: 0px;
-}
-
-.fonticon-container>.fonticon-wrap {
-	float: none;
-	width: auto;
-	height: auto;
-	line-height: normal;
-	text-align: center;
-	border-radius: 0.1875rem;
-	margin-right: 1rem;
-	margin-bottom: 1.5rem;
-}
-</style>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/assets/css/index.css">
 
 
 </head>
@@ -127,10 +111,8 @@ body.vertical-layout.vertical-menu-modern .content, body.vertical-layout.vertica
 
 											<div class="col-md-12 col-sm-12 col-12 fonticon-container">
 												<div class="fonticon-wrap" style="text-align: end">
-													<button type="button" data-toggle="modal"
-														data-target="#inlineForm${i }">
-														<i class="fa fa-times"></i>
-													</button>
+														<i data-toggle="modal"
+														data-target="#inlineForm${i }" class="fa fa-times"></i>
 												</div>
 											</div>
 											<div class="modal fade text-left" id="inlineForm${i }"
@@ -225,30 +207,12 @@ body.vertical-layout.vertical-menu-modern .content, body.vertical-layout.vertica
 	<%@ include file="/WEB-INF/view/inc/footer.jsp"%>
 	<!-- footer -->
 
-
 	<%@ include file="/WEB-INF/view/inc/common-js.jsp"%>
 	<!-- js -->
-
-
-
 
 	<!-- Modal -->
 
 
-
-
-
-
-
 </body>
 <!-- END: Body-->
-<script>
-	function del() {
-		if (confirm("정말 삭제하시겠습니까?")) {
-			list_ok.submit();
-		} else {
-		}
-
-	}
-</script>
 </html>

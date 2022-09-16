@@ -95,5 +95,13 @@
 	
 	</select>
 	
+	<select id = "selectWorkspaceMemberNo" parameterType="com.gd.safari.vo.WorkspaceMember" resultType ="int">
+		SELECT  
+			  work_member_no     workMemberNo
+		FROM workspace_member 
+		where work_member_email = #{workMemberEmail} and work_no = #{workNo}
+	
+	</select>
+	
 	
 </mapper>

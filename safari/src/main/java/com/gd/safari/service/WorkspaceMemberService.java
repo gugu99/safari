@@ -25,12 +25,18 @@ public class WorkspaceMemberService implements IWorkspaceMemberService{
 	}
 	@Override
 	public List<WorkspaceMember> getWorkspaceMemberList(int workNo) {
+		log.debug(TeamColor.CJM+workNo +"Controller workNo"); // workNo 디버깅
 		return workspaceMemberMapper.selectWorkspaceMemberList(workNo); //workspaceMember List 
 	}
 	@Override
 	public WorkspaceMember getWorkspaceMemberOne(WorkspaceMember workspaceMember) {
-		
+		log.debug(TeamColor.CJM+workspaceMember +"Controller workspaceMember"); // workspaceMember 디버깅
 		return workspaceMemberMapper.selectWorkspaceMemberOne(workspaceMember);
+	}
+	@Override
+	public int getWorkspaceMemberNo(WorkspaceMember workspaceMember) {
+		log.debug(TeamColor.CJM+workspaceMember +"Controller workspaceMember"); // workspaceMember 디버깅
+		return workspaceMemberMapper.selectWorkspaceMemberNo(workspaceMember);
 	}
 
 }
