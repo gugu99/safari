@@ -26,39 +26,28 @@
 		                                                    <div class="row">
 		                                                        <div class="col-12">
 		                                                            <div class="form-group">
-		                                                                <label for="account-website"><span class="fa fa-pencil mr-1"></span>Title</label>
+		                                                                <label for="scheduleTitle"><span class="fa fa-pencil mr-1"></span>제목</label>
 		                                                                <input type="text" class="form-control" id="scheduleTitle" name="scheduleTitle" placeholder="제목을 입력하세요.">
 		                                                            </div>
 		                                                        </div>
 		                                                        <div class="col-6">
 		                                                            <div class="form-group">
 		                                                                <div class="controls">
-		                                                                    <label for="account-birth-date"><span class="fa fa-calendar mr-1"></span>Start date</label>
-		                                                                    <input type="text" class="form-control birthdate-picker" name="scheduleStart" placeholder="시작일을 설정하세요." id="account-birth-date" >
+		                                                                    <label for="startDateTime"><span class="fa fa-calendar mr-1"></span>시작일</label>
+		                                                                    <input type="datetime-local" class="form-control" name="startDateTime"  id="startDateTime" >
 		                                                                </div>
 		                                                            </div>
 		                                                        </div>
-		                                                        
+		                                                        <input type="hidden" id="scheduleStart" name="scheduleStart" value="">
 		                                                        <div class="col-6">
 		                                                            <div class="form-group">
 		                                                                <div class="controls">
-		                                                                    <label for="account-birth-date"><span class="fa fa-calendar mr-1"></span>End date</label>
-		                                                                    <input type="text" class="form-control birthdate-picker" name="scheduleEnd" placeholder="마감일을 설정하세요." id="account-birth-date" >
+		                                                                    <label for="endDateTime"><span class="fa fa-calendar mr-1"></span>마감일</label>
+		                                                                    <input type="datetime-local" class="form-control" name="endDateTime" id="endDateTime" >
 		                                                                </div>
 		                                                            </div>
 		                                                        </div>
-		                                                        <div class="col-6">
-		                                                            <div class="form-group">
-		                                                                <label for="starttime"><span class="fa fa-clock-o mr-1"></span>Start time</label>
-		                                                                <input type="time" class="form-control" id="starttime" value="00:00:00">
-		                                                            </div>
-		                                                        </div>
-		                                                        <div class="col-6">
-		                                                            <div class="form-group">
-		                                                                <label for="endtime"><span class="fa fa-clock-o mr-1"></span>End time</label>
-		                                                                <input type="time" class="form-control" id="endtime" value="00:00:00">
-		                                                            </div>
-		                                                        </div>
+		                                                        <input type="hidden" id="scheduleEnd" name="scheduleEnd" value="">
 		                                                        <div class="col-12">
 		                                                            <div class="form-group">
 		                                                                <label for="languageselect2"><span class="fa fa-users mr-2"></span>참석자</label>
@@ -106,7 +95,7 @@
 		                                                                </select>
 		                                                            </div>
 		                                                            <div class="form-group">
-		                                                                <button type="reset" class="btn btn-light mt-3 ml-2">Cancel</button>
+		                                                                <button type="reset" class="btn btn-light mt-3 ml-2">입력취소</button>
 		                                                            </div>
 		                                                            
 		                                                        </div>
@@ -117,8 +106,8 @@
 													</div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-outline-primary">올리기</button>
+                                                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">닫기</button>
+                                                    <button type="button" id="addScheduleBtn" class="btn btn-outline-primary">올리기</button>
                                                 </div>
                                             </div>
                                         </div>

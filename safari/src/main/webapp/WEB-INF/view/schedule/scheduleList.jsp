@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html class="loading" lang="ko" data-textdirection="ltr">
 <!-- BEGIN: Head-->
 
 <head>
@@ -55,11 +55,11 @@
         <div class="content-overlay"></div>
         <div class="content-wrapper">
             <div class="content-header row">
-                <div class="content-header-left col-md-2 mb-2 mt-1">
+                <div class="content-header-left col-md-8 mb-md-0 mb-2 mt-1">
                     <h2 class="content-header-title ml-5 mb-0">Schedule</h2>
                 </div>
-                <div class="content-header-left col-md-10 col-12 mb-2 mt-1">
-                    <button class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#add-schedule"><i class="feather icon-plus icon-left"></i> 일정 추가하기</button>
+                <div class="content-header-left col-md-4 col-12 mb-md-0 mb-2 mt-1">
+                    <button class="btn btn-outline-primary ml-10" type="button" data-toggle="modal" data-target="#add-schedule"><i class="feather icon-plus icon-left"></i> 일정 추가하기</button>
                 </div>
             </div>
             <div class="content-body justify-content-center row mt-2">
@@ -88,7 +88,6 @@
                                  </div>
                              </div>
                             </div>
-                            
                             
                             <!-- 댓글 -->
                             <div class="card-footer px-0 py-0">
@@ -138,8 +137,7 @@
     <div class="drag-target"></div>
 
     <%@ include file="/WEB-INF/view/inc/footer.jsp" %> <!-- footer -->
-
-
+    
    <!-- BEGIN: Vendor JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/vendors.min.js"></script>
     <!-- BEGIN Vendor JS-->
@@ -168,6 +166,7 @@
     <!-- END: Page JS-->
 
 	<script src="${pageContext.request.contextPath }/resources/assets/js/scripts.js"></script>
+	<script src="${pageContext.request.contextPath }/resources/assets/js/addSchedule.js"></script>
 	
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8ad27b76fa5ac0f047058a257a052808&libraries=services"></script>
 	<script>

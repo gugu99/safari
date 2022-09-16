@@ -15,4 +15,22 @@ function selectScheduleMember(e){
 	document.getElementById("scheduleMemberList").value = arr;
 };
 
+/* 일정 시작일과 마감일 기본값을 현재 날짜로 넣어주는 자바스크립트  */
+const date = new Date();
+date.setHours(9,0,0);
 
+document.getElementById("startDateTime").value = date.toISOString().slice(0, 16);
+document.getElementById("endDateTime").value = date.toISOString().slice(0, 16);
+
+console.log(document.getElementById("startDateTime").value);
+console.log(document.getElementById("endDateTime").value);
+
+
+$('#addScheduleBtn').click(function(){
+	
+	$('#scheduleStart').val($('#startDateTime').val().substring(0, 10) + ' ' + $('#startDateTime').val().substring(11));
+	$('#scheduleEnd').val($('#endDateTime').val().substring(0, 10) + ' ' + $('#endDateTime').val().substring(11));
+	
+	console.log($('#scheduleStart').val());
+	console.log($('#scheduleEnd').val());
+});
