@@ -32,7 +32,7 @@ public class WorkspaceController {
 		workspace.setAdminEmail(adminEmail);
 		workspace.setWorkName(workName);
 		int row = workspaceService.addWorkspace(workspace,workMemberName); // 워크스페이스 생성 메서드
-		return "redirect:/safari/workspace/workspaceMain";
+		return "redirect:/safari/index";
 	}
 	
 	@GetMapping("/safari/workspaceMain")
@@ -47,7 +47,7 @@ public class WorkspaceController {
 	public String removeWorkspace(@RequestParam(value = "workNo") int workNo) {
 		log.debug(TeamColor.CJM+workNo +"Controller workNo"); // workNo 디버깅
 		int row = workspaceService.removeWorkspace(workNo);
-		return "redirect:/safari/workspaceIndex";
+		return "redirect:/safari/index";
 	}
 	
 

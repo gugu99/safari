@@ -39,6 +39,7 @@ public class WorkspaceService implements IWorkspaceService {
 	@Override
 	public int removeWorkspace(int workNo) {
 		log.debug(TeamColor.CJM+workNo +"Service WorkNo"); // workNo 디버깅
+		workspaceMemberMapper.deleteWorkspaceMember(workNo);
 		return workspaceMapper.deleteWorkspace(workNo);
 	}
 

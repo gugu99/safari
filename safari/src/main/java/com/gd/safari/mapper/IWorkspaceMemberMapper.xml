@@ -68,5 +68,11 @@
 	
 	
 	</select>
+	
+	<delete id="deleteWorkspaceMember" parameterType="int">
+		DELETE FROM workspace_member
+		WHERE work_no = #{workNo}
+	
+	</delete>
 
 </mapper>

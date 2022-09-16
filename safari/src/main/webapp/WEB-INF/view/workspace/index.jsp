@@ -111,64 +111,62 @@ body.vertical-layout.vertical-menu-modern .content, body.vertical-layout.vertica
 					</div>
 				</div>
 
-				
+
 				<div class="container">
-				<div class="row">
-				<!-- 워크스페이스 목록-->
-				<c:forEach var="r" items="${workspaceList}">
-				<div class="col-lg-4 col-md-4">
-						<div class="card text-center">
-							<div class="card-content">
-								<div class="card-body">
-										<div class="col-md-12 col-sm-12 col-12 fonticon-container">
-                                                <div class="fonticon-wrap">
-                                                   <a><i class="feather icon-delete"></i></a>
-                                                </div>
-                                            </div>
-									<h4 class="card-title success">${r.workName }
-									
-									</h4>
-									
-									<p class="card-text">
-									
-									</p>
-									<p class="card-text">
-									${r.createDate }
-									</p>
-									<!-- Button trigger modal -->
-									
-									<a href="${pageContext.request.contextPath }/safari/workspaceMain?workNo=${r.workNo}">
-									<button type="button" class="btn btn-outline-success"
-										data-toggle="modal" data-target="#iconForm">show workspace</button></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</c:forEach>
-				
-				
-				<!--워크스페이스 추가 폼  -->
-					<div class="col-lg-4 col-md-4">
-						<div class="card text-center">
-							<div class="card-content">
-								<div class="card-body">
-									<h4 class="card-title success">workspace</h4>
-									<p class="card-text">
-									<div class="col-md-12 col-sm-12 col-12 fonticon-container">
-										<div class="fonticon-wrap">
-											<i class="fa fa-plus"></i>
+					<div class="row">
+						<!-- 워크스페이스 목록-->
+						<c:forEach var="r" items="${workspaceList}">
+							<div class="col-lg-4 col-md-4">
+								<div class="card text-center">
+									<div class="card-content">
+										<div class="card-body">
+											
+											<div class="col-md-12 col-sm-12 col-12 fonticon-container">
+												<div class="fonticon-wrap" style="text-align: end">
+											 		<a onclick="del();" href="${pageContext.request.contextPath}/safari/removeWorkspace?workNo=${r.workNo}"><i class="fa fa-times"></i></a>
+												</div>
+											</div>
+											<h4 class="card-title success">${r.workName }</h4>
+
+											<p class="card-text"></p>
+											<p class="card-text">${r.createDate }</p>
+											<!-- Button trigger modal -->
+
+											<a
+												href="${pageContext.request.contextPath }/safari/workspaceMain?workNo=${r.workNo}">
+												<button type="button" class="btn btn-outline-success"
+													data-toggle="modal" data-target="#iconForm">show
+													workspace</button>
+											</a>
 										</div>
 									</div>
-									<!-- Button trigger modal -->
-									<button type="button" class="btn btn-outline-success"
-										data-toggle="modal" data-target="#iconForm">create
-										workspace</button>
+								</div>
+							</div>
+						</c:forEach>
+
+
+						<!--워크스페이스 추가 폼  -->
+						<div class="col-lg-4 col-md-4">
+							<div class="card text-center">
+								<div class="card-content">
+									<div class="card-body">
+										<h4 class="card-title success">workspace</h4>
+										<p class="card-text">
+										<div class="col-md-12 col-sm-12 col-12 fonticon-container">
+											<div class="fonticon-wrap">
+												<i class="fa fa-plus"></i>
+											</div>
+										</div>
+										<!-- Button trigger modal -->
+										<button type="button" class="btn btn-outline-success"
+											data-toggle="modal" data-target="#iconForm">create
+											workspace</button>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="content-body"></div>
+					<div class="content-body"></div>
 				</div>
 			</div>
 		</div>
@@ -190,5 +188,11 @@ body.vertical-layout.vertical-menu-modern .content, body.vertical-layout.vertica
 
 </body>
 <!-- END: Body-->
-
+<script>
+function del() {
+  if (confirm("정말 삭제하시겠습니까?")){
+	  list_ok.submit();
+  }
+ }
+</script>
 </html>
