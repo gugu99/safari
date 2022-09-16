@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html class="loading" lang="ko" data-textdirection="ltr">
 <!-- BEGIN: Head-->
 
 <head>
@@ -52,15 +52,17 @@
                                     <div class="card-title text-center">
                                         <div class="p-1"><img src="${pageContext.request.contextPath }/resources/app-assets/images/logo/stack-logo-dark.png" alt="branding logo"></div>
                                     </div>
-                                    <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2"><span>Easily
-                                            Using</span></h6>
+                                    <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
+                                    	<span>소셜 로그인</span>
+                                    </h6>
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body pt-0 text-center">
                                         <a href="#" class="btn btn-social mb-1 mr-1 btn-outline-google"><span class="fa fa-google-plus font-medium-4"></span> <span class="px-1">google</span> </a>
                                     </div>
-                                    <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2"><span>OR Using
-                                            Account Details</span></p>
+                                    <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2">
+                                    	<span>Safari 로그인</span>
+                                    </p>
                                     <!-- BEGIN: 에러메세지 -->
                                 	<p class="card-subtitle text-muted text-center font-small-3 mx-2">
                                 		<c:if test="${errorMsg != null}"><strong class="text-center">${errorMsg}</strong></c:if>
@@ -69,29 +71,30 @@
                                     <div class="card-body pt-0">
                                         <form class="form-horizontal" action="${pageContext.request.contextPath }/account/login" method="post">
                                             <fieldset class="form-group floating-label-form-group">
-                                                <label for="user-name">Your Username</label>
-                                                <input type="text" class="form-control" id="user-name" placeholder="Your Username" value="admin@admin.com" name="memberEmail">
+                                                <label for="memberEmail">이메일</label>
+                                                <input type="text" class="form-control" placeholder="이메일을 입력해주세요" value="admin@admin.com" name="memberEmail" id="memberEmail">
                                             </fieldset>
                                             <fieldset class="form-group floating-label-form-group mb-1">
-                                                <label for="user-password">Enter Password</label>
-                                                <input type="password" class="form-control" id="user-password" placeholder="Enter Password" value="1234" name="memberPw">
+                                                <label for="memberPw">비밀번호</label>
+                                                <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요" value="1234" name="memberPw" id="memberPw">
                                             </fieldset>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-12 text-center text-sm-left">
                                                     <fieldset>
                                                         <input type="checkbox" id="remember-me" class="chk-remember">
-                                                        <label for="remember-me"> Remember Me</label>
+                                                        <label for="remember-me"> 계정 유지하기</label>
                                                     </fieldset>
                                                 </div>
-                                                <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link">Forgot Password?</a></div>
+                                                <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link">비밀번호 찾기</a></div>
                                             </div>
-                                            <button type="submit" class="btn btn-outline-primary btn-block"><i class="feather icon-unlock"></i> Login</button>
+                                            <button type="submit" class="btn btn-outline-primary btn-block"><i class="feather icon-unlock"></i> 로그인</button>
                                         </form>
                                     </div>
-                                    <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1"><span>New to
-                                            Safari ?</span></p>
+                                    <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1">
+                                    	<span>Safari에 처음 방문하셨나요?</span>
+                                    </p>
                                     <div class="card-body">
-                                        <a href="${pageContext.request.contextPath }/account/register" class="btn btn-outline-danger btn-block"><i class="feather icon-user"></i> Register</a>
+                                        <a href="${pageContext.request.contextPath }/account/register" class="btn btn-outline-danger btn-block"><i class="feather icon-user"></i> 회원가입</a>
                                     </div>
                                 </div>
                             </div>

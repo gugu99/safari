@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html class="loading" lang="ko" data-textdirection="ltr">
 <!-- BEGIN: Head-->
 
 <head>
@@ -59,7 +59,7 @@
                                     <h5 class="card-title mt-1">${login.memberEmail}</h5>
                                 </div>
 
-                                <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2"><span>Delete your account</span></p>
+                                <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2"><span>계정 삭제</span></p>
                                 <!-- BEGIN: 에러메세지 -->
                                 <c:if test="${errorMsg != null}"><strong class="text-center">${errorMsg}</strong></c:if>
                                 <!-- END: 에러메세지 -->
@@ -68,7 +68,7 @@
                                         <form class="form-horizontal" action="${pageContext.request.contextPath }/safari/delete-account" method="post">
                                             <fieldset class="form-group position-relative has-icon-left">
                                                 <input type="hidden" value="${login.memberEmail}" name="memberEmail">
-                                                <input type="password" class="form-control form-control-lg" id="password" placeholder="Enter Password" name="memberPw" required>
+                                                <input type="password" class="form-control form-control-lg" id="password" placeholder="비밀번호를 입력해주세요" name="memberPw" required>
                                                 <div class="form-control-position">
                                                     <i class="fa fa-key"></i>
                                                 </div>
@@ -76,10 +76,10 @@
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-12 text-center text-sm-left pr-0">
                                                 </div>
-                                                <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link"><i class="feather icon-unlock"></i> Forgot Password?</a></div>
+                                                <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link"><i class="feather icon-unlock"></i> 비밀번호 찾기</a></div>
                                             </div>
-                                            <button type="submit" class="btn btn-outline-primary btn-lg btn-block"><i class="icon-lock4"></i> Delete</button>
-                                            <a href="${pageContext.request.contextPath }/safari/logout" class="btn btn-outline-danger btn-lg btn-block"><i class="feather icon-power"></i> Logout</a>
+                                            <button type="submit" class="btn btn-outline-danger btn-lg btn-block"><i class="icon-lock4"></i> 계정 삭제</button>
+                                            <a href="${pageContext.request.contextPath }/safari/logout" class="btn btn-outline-primary btn-lg btn-block"><i class="feather icon-power"></i> 로그아웃</a>
                                         </form>
                                     </div>
                                 </div>

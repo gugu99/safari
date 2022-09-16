@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html class="loading" lang="ko" data-textdirection="ltr">
 <!-- BEGIN: Head-->
 
 <head>
@@ -56,10 +56,10 @@
                         <div class="col-lg-4 col-md-8 col-10 box-shadow-2 p-0">
                             <div class="card border-grey border-lighten-3 px-2 py-2 m-0">
                                 <div class="card-header border-0 text-center">
-                                    <h5 class="card-title mt-1">Unlock User</h5>
+                                    <h5 class="card-title mt-1">계정 복구</h5>
                                 </div>
 
-                                <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2"><span>Unlock your account</span></p>
+                                <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2"><span>휴면계정 활성화</span></p>
                                 <!-- BEGIN: 에러메세지 -->
                                	<p class="card-subtitle text-muted text-center font-small-3 mx-2">
                                		<c:if test="${errorMsg != null}"><strong class="text-center">${errorMsg}</strong></c:if>
@@ -69,27 +69,27 @@
                                     <div class="card-body">
                                         <form class="form-horizontal" action="${pageContext.request.contextPath }/account/unlock-user" method="post" id="form">
                                             <fieldset class="form-group floating-label-form-group">
-                                                <label for="user-email">Your Email Address</label>
-                                                <input type="email" class="form-control" placeholder="Your Email Address" name="memberEmail" id="memberEmail">
+                                                <label for="user-email">이메일</label>
+                                                <input type="email" class="form-control" placeholder="이메일을 입력해주세요" name="memberEmail" id="memberEmail">
                                             </fieldset>
                                             <div class="card-body pt-0">
-                                           	 	<button type="button" class="btn btn-outline-primary btn-block" id="checkBtn"><i class="feather icon-unlock"></i> Check Email</button>
+                                           	 	<button type="button" class="btn btn-outline-primary btn-block" id="checkBtn"><i class="feather icon-unlock"></i> 인증번호 발송</button>
                                             </div>
                                             <fieldset class="form-group floating-label-form-group mb-1">    
-                                                <label for="mailconfirm" id="mailconfirmTxt">Your Email Certification Number</label>
-                                                <input type="text" class="form-control" placeholder="Your Email Certification Number" id="mailconfirm">
+                                                <label for="mailconfirm" id="mailconfirmTxt">이메일 인증번호</label>
+                                                <input type="text" class="form-control" placeholder="이메일 인증번호를 입력해주세요" id="mailconfirm">
                                             </fieldset>
                                             <fieldset class="form-group floating-label-form-group mb-1">
-                                                <label for="user-password">Enter Password</label>
-                                                <input type="password" class="form-control" placeholder="Enter Password" name="memberPw" id="memberPw">
+                                                <label for="user-password">비밀번호</label>
+                                                <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요" name="memberPw" id="memberPw">
                                             </fieldset>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-12 text-center text-sm-left pr-0">
                                                 </div>
-                                                <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link"><i class="feather icon-unlock"></i> Forgot Password?</a></div>
+                                                <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link"><i class="feather icon-unlock"></i> 비밀번호 찾기</a></div>
                                             </div>
-                                            <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="btn"><i class="icon-lock4"></i> Unlock</button>
-                                            <a href="${pageContext.request.contextPath }/safari/logout" class="btn btn-outline-danger btn-lg btn-block"><i class="feather icon-power"></i> Logout</a>
+                                            <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="btn"><i class="icon-lock4"></i> 계정 복구</button>
+                                            <a href="${pageContext.request.contextPath }/safari/logout" class="btn btn-outline-danger btn-lg btn-block"><i class="feather icon-power"></i> 로그아웃</a>
                                         </form>
                                     </div>
                                 </div>
@@ -143,13 +143,9 @@
 							url : '/account/mailConfirm',
 							data : {email : $('#memberEmail').val()},
 							success : function(data){
-								alert('해당 이메일로 비밀번호 발송이 완료되었습니다. 확인부탁드립니다.');
+								alert('해당 이메일로 인증번호 발송이 완료되었습니다. 확인부탁드립니다.');
 								// console.log("data : " + data);
-								$('#memberPw').val(data);
-								// 질문 !!
-								if($('#memberPw').val() != ''){
-									$('#form').submit();
-								}
+								chkEmailConfirm(data, $('#mailconfirm'), $('#mailconfirmTxt'));
 							}
 						});
 					}
