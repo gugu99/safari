@@ -145,11 +145,11 @@
                     	<!-- 프로젝트 리스트 반복문! -->
                     	<c:forEach var="p" items="${projectList}">
                     	
-	                        <div class="col-md-3 col-sm-12 pl-3 pt-3">
+	                        <div class="col-md-3 col-sm-12 pl-3 pr-2 pt-3">
 	                            <div class="card">
 	                                <div class="card-header">
 	                                	<!-- TODO 프로젝트 개별 링크 추가 -->
-	                                	<h4 class="card-title">${p.projectName}</h4>
+	                                	<h4 class="card-title"><a href="${pageContext.request.contextPath}/safari/taskList?projectNo=${p.projectNo}">${p.projectName}</a></h4>
 	                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 	                                    <div class="heading-elements">
 	                                        <ul class="list-inline mb-0">
@@ -161,12 +161,12 @@
 	                                </div>
 	                                <div class="card-content collapse show">
 	                                    <div class="card-body">
-	                                        <p class="card-text text-right mb-0">72%</p>
+	                                        <p class="card-text text-right mb-0 blue-grey">72%</p>
 	                                         <div class="progress progress-sm mb-2">
                                            		<div class="progress-bar bg-info" role="progressbar" style="width: 72%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                       		</div>
-		                                        <p class="card-text text-right mb-0">프로젝트 멤버 보여주기</p>
-		                                        <p class="card-text text-right">${p.createDate}</p>
+		                                        <p class="card-text text-right mb-0 addr blue-grey">프로젝트 멤버 보여주기</p>
+		                                        <p class="card-text text-right date blue-grey">${p.createDate}</p>
 	                                    </div>
 	                                </div>
 	                            </div>

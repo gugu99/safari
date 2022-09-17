@@ -12,6 +12,6 @@ public interface IProjectService {
 	
 	// 한 프로젝트의 정보를 가져오는 메소드
 	// 수정 폼을 띄울 때 사용
-	Map<String, Object> getProjectDetailByProjectNo(int projectNo);
+	Map<String, Object> getProjectDetailByProjectNo(int workNo, int projectNo);
 
 }

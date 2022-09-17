@@ -92,20 +92,24 @@ public class ProjectService implements IProjectService {
 	
 	// 프로젝트 수정 전 정보를 띄우기 위한 메소드
 	@Override
-	public Map<String, Object> getProjectDetailByProjectNo(int projectNo) {
+	public Map<String, Object> getProjectDetailByProjectNo(int workNo, int projectNo) {
 		Map<String, Object> map = new HashMap<>();
 		
 		// Project VO에 프로젝트 테이블의 정보
 		Project project = projectMapper.selectProjectDetailByProjectNo(projectNo);
 		log.debug(TeamColor.CSK + "project: " + project);
 		
-		// 프로젝트 멤버 리스트
-		List<ProjectMember> memberList = projectMemberMapper.selectProjectMemberListByProjectNo(projectNo);
+		// 수정 전 프로젝트 멤버 리스트
+		List<Map<String, Object>> memberList = projectMemberMapper.selectProjectMemberListByProjectNo(projectNo);
 		log.debug(TeamColor.CSK + "memberList.size(): " + memberList.size());
+		
+		// 워크스페이스 멤버리스트 (수정 폼의 <select>에서 사용)
+		List<WorkspaceMember> workspaceMemberList = workspaceMemberMapper.selectWorkspaceMemberList(workNo);
 		
 		// map에 넣기
 		map.put("project", project);
 		map.put("memberList", memberList);
+		map.put("workspaceMemberList", workspaceMemberList);
 		
 		return map;
 	}

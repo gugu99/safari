@@ -74,16 +74,20 @@ public class ProjectController {
 	}
 	
 	@GetMapping("/safari/modifyProject")
-	public String modifyProject(Model model, int projectNo) {
+	public String modifyProject(Model model, HttpSession session, int projectNo) {
 		log.debug(TeamColor.CSK + "프로젝트 수정");
 		log.debug(TeamColor.CSK + "projectNo: " + projectNo);
 		
-		// 프로젝트 VO, 프로젝트 멤버리스트<ProjectMember>를 반환
-		Map<String, Object> map = projectService.getProjectDetailByProjectNo(projectNo);
+		// 워크스페이스 페이지에서 세션에 담은 workspaceNo를 받아온다
+		int workNo = (Integer)session.getAttribute("workNo");
 		
-		// 모델에 넣기 
+		// 프로젝트 VO, 프로젝트 멤버리스트<ProjectMember>를 반환
+		Map<String, Object> map = projectService.getProjectDetailByProjectNo(workNo, projectNo);
+		
+		// 모델에 넣기
 		model.addAttribute("project", map.get("project"));
-		model.addAttribute("memberList", map.get("memberList"));
+		model.addAttribute("projectMemberList", map.get("memberList"));
+		model.addAttribute("workspaceMemberList", map.get("workspaceMemberList"));
 		
 		return "project/modifyProject";
 	}

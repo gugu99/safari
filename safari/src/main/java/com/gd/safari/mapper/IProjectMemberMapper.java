@@ -1,6 +1,6 @@
 package com.gd.safari.mapper;
 
-import java.util.List;
+import java.util.*;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,6 +12,6 @@ public interface IProjectMemberMapper {
 	int insertProjectMember(ProjectMember projectMember);
 	
 	// 해당 프로젝트에 속한 멤버 리스트 반환
-	List<ProjectMember> selectProjectMemberListByProjectNo(int projectNo);
+	List<Map<String, Object>> selectProjectMemberListByProjectNo(int projectNo);
 	
 }

@@ -19,13 +19,16 @@
 		)
 	</insert>
 	
-	<select id="selectProjectMemberListByProjectNo" resultType="com.gd.safari.vo.ProjectMember" parameterType="int">
+	<select id="selectProjectMemberListByProjectNo" resultType="java.util.Map" parameterType="int">
 		SELECT
-			project_member_no projectMemberNo
-			, work_member_no workMemberNo
-			, project_member_auth projectMemberAuth
-			, active
-		FROM project_member
-		WHERE project_no = #{projectNo}
+			pm.project_member_no projectMemberNo
+			, pm.work_member_no workMemberNo
+			, pm.project_member_auth projectMemberAuth
+			, pm.active
+			, wm.work_member_name workMemberName
+		FROM project_member pm
+		INNER JOIN workspace_member wm
+		ON pm.work_member_no = wm.work_member_no
+		WHERE pm.project_no = 1 AND pm.active = 'Y'
 	</select>
 </mapper>

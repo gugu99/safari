@@ -29,8 +29,8 @@
 	                <div class="form-group col-12 mb-2">
 	                	 <div class="form-group">
 	                         <label>프로젝트 멤버</label>
-	                         <select class="form-control select2" multiple="multiple" onChange="selectScheduleMember(this)">
-	                             <c:forEach var="wm" items="${workspaceMemberList}">
+	                         <select class="form-control select2" multiple="multiple" onChange="selectProjectMember(this)">
+	                           <c:forEach var="wm" items="${workspaceMemberList}">
 	                             	<option value="${wm.workMemberNo}">${wm.workMemberName}</option>
 	                           </c:forEach>
 	                         </select>
