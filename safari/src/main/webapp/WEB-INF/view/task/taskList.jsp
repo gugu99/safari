@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html class="loading" lang="ko" data-textdirection="ltr">
 <!-- BEGIN: Head-->
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -40,20 +40,32 @@
 	 <%@ include file="/WEB-INF/view/inc/header.jsp" %> <!-- header -->
 	 <%@ include file="/WEB-INF/view/inc/sidebar.jsp" %> <!-- sidebar -->
 
-    <!-- BEGIN: Content-->
+    <!-- BEGIN: Content-->	
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="content-wrapper">
-            <div class="content-header row">
+            <div class="content-header row p-1 border bg-white">
+				<div class="col-sm-3"><a href="${pageContext.request.contextPath }/safari/project"><i class="feather icon-arrow-left"></i></a></div>
+				<div class="col-sm-8">
+					<div class="container">
+						<div class="row">
+							<div class="col-sm-2"><a href="${pageContext.request.contextPath }/safari/taskList">업무</a></div>	
+							<div class="col-sm-2"><a href="${pageContext.request.contextPath }/safari/scheduleList">일정</a></div>		
+							<div class="col-sm-2"><a href="${pageContext.request.contextPath }/safari/todoList">할일</a></div>	
+							<div class="col-sm-2"><a href="${pageContext.request.contextPath }">분석</a></div>		
+							<div class="col-sm-2"><a href="${pageContext.request.contextPath }">파일</a></div>	
+						</div>
+					</div>
+				</div>
             </div>
-            <div class="content-body">
+            <div class="content-body mt-2">
                 <!-- Basic Kanban App -->
                 <div class="kanban-overlay"></div>
                 <section id="kanban-wrapper">
                     <div class="row">
                         <div class="col-12">
                             <button type="button" class="btn btn-primary mb-1" id="add-kanban">
-                                <i class='feather icon-plus-square mr-50'></i> Add New Board
+                                <i class='feather icon-plus-square mr-50'></i> 업무리스트 추가
                             </button>
                             <div id="kanban-app"></div>
                         </div>

@@ -13,7 +13,7 @@ $(document).ready(function () {
   // Kanban Board and Item Data passed by json
   var kanban_board_data = [{
       id: "kanban-board-1",
-      title: "Marketing",
+      title: "해야할 일",
       item: [{
           id: "11",
           title: "Facebook Campaign 😎",
@@ -65,7 +65,7 @@ $(document).ready(function () {
     },
     {
       id: "kanban-board-2",
-      title: "UI Designing",
+      title: "진행중",
       item: [{
           id: "21",
           title: "Flat UI Kit Design",
@@ -101,7 +101,7 @@ $(document).ready(function () {
     },
     {
       id: "kanban-board-3",
-      title: "Developing",
+      title: "완료",
       item: [{
           id: "31",
           title: "Database Management System (DBMS) is a collection of programs",
