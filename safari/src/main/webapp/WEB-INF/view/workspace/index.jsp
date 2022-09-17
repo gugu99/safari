@@ -51,47 +51,6 @@
 				<div class="col-lg-4 col-md-6 col-sm-12">
 					<div class="form-group">
 						<!-- Add Modal -->
-						<div class="modal fade text-left" id="iconForm" tabindex="-1"
-							role="dialog" aria-labelledby="myModalLabel34" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h3 class="modal-title" id="myModalLabel34">Workspace
-											create</h3>
-										<button type="button" class="close" data-dismiss="modal"
-											aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="card-content">
-										<div class="card-body pt-0">
-											<form class="form-horizontal"
-												action="${pageContext.request.contextPath }/safari/addWorkspace"
-												method="post">
-												<fieldset class="form-group floating-label-form-group">
-													<label for="workName">Workspace name</label> <input
-														name="workName" type="text" class="form-control"
-														id="workName" placeholder="name">
-												</fieldset>
-												<fieldset class="form-group floating-label-form-group">
-													<label for="workName">Admin name</label> <input
-														name="workMemberName" type="text" class="form-control"
-														id="workMemberName" placeholder="name">
-												</fieldset>
-												<div class="form-group row">
-													<div class="col-sm-6 col-12 text-center text-sm-left">
-													</div>
-												</div>
-												<button type="submit"
-													class="btn btn-outline-primary btn-block">
-													<i class="feather icon-unlock"></i>Create
-												</button>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 
@@ -184,9 +143,11 @@
 											</div>
 										</div>
 										<!-- Button trigger modal -->
-										<button type="button" class="btn btn-outline-success"
-											data-toggle="modal" data-target="#iconForm">create
-											workspace</button>
+										<a href="${pageContext.request.contextPath }/safari/addWorkspace"><button type="button" class="btn btn-outline-success">
+											
+											create workspace</button></a>
+											
+										
 									</div>
 								</div>
 							</div>
