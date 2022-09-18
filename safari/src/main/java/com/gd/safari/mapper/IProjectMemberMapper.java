@@ -11,7 +11,10 @@ public interface IProjectMemberMapper {
 	// 프로젝트 멤버 추가 메소드(프로젝트 추가 메소드와 트랜잭션)
 	int insertProjectMember(ProjectMember projectMember);
 	
-	// 해당 프로젝트에 속한 멤버 리스트 반환
-	List<Map<String, Object>> selectProjectMemberListByProjectNo(int projectNo);
+	// 워크스페이스 멤버에 해당 프로젝트에 속한 멤버를 Left Join - 수정 폼에서 사용
+	List<Map<String, Object>> selectProjectMemberListByProjectNo(int workNo, int projectNo);
+	
+	// 실제 프로젝트에 속한 멤버 + 멤버 email을 반환 - 조원들을 위해 생성
+	List<Map<String, Object>> selectProjectMemberList(int projectNo);
 	
 }

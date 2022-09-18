@@ -21,14 +21,41 @@
 	
 	<select id="selectProjectMemberListByProjectNo" resultType="java.util.Map" parameterType="int">
 		SELECT
+			w.work_member_no workMemberNo
+			, w.work_member_name workMemberName
+			, p.project_no projectNo
+		FROM
+			workspace_member w
+		LEFT JOIN
+			(SELECT 
+				* 
+			FROM
+				project_member 
+			WHERE 
+				project_no = #{projectNo} AND active = 'Y') p
+		ON 
+			w.work_member_no = p.work_member_no
+		WHERE 
+			w.work_no = #{workNo};
+	</select>
+	
+	<select id="selectProjectMemberList" resultType="java.util.Map" parameterType="int">
+		SELECT
 			pm.project_member_no projectMemberNo
 			, pm.work_member_no workMemberNo
 			, pm.project_member_auth projectMemberAuth
 			, pm.active
 			, wm.work_member_name workMemberName
-		FROM project_member pm
-		INNER JOIN workspace_member wm
-		ON pm.work_member_no = wm.work_member_no
-		WHERE pm.project_no = 1 AND pm.active = 'Y'
+			, wm.work_member_email workMemberEmail
+		FROM 
+			project_member pm
+		INNER JOIN 
+			workspace_member wm
+		ON 
+			pm.work_member_no = wm.work_member_no
+		WHERE 
+			pm.project_no = #{projectNo} AND pm.active = 'Y'
 	</select>
+	
+	
 </mapper>
