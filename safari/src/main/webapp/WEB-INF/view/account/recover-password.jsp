@@ -61,14 +61,22 @@
                                 <div class="card-content">
                                     <div class="card-body">
                                         <form class="form-horizontal" action="${pageContext.request.contextPath }/account/recover-password" method="post" id="form">
-                                            <fieldset class="form-group position-relative has-icon-left">
-                                                <input type="email" class="form-control form-control-lg" placeholder="이메일을 입력해주세요" name="memberEmail" id="memberEmail">
-                                                <input type="hidden" name="memberPw" id="memberPw">
-                                                <div class="form-control-position">
-                                                    <i class="feather icon-mail"></i>
-                                                </div>
+                                            <fieldset class="form-group floating-label-form-group">
+                                                <label for="user-email">이메일</label>
+                                                <input type="email" class="form-control" placeholder="이메일을 입력해주세요" name="memberEmail" id="memberEmail">
                                             </fieldset>
-                                            <button type="button" class="btn btn-outline-primary btn-lg btn-block" onkeyup="insertComment()" id="btn"><i class="feather icon-unlock"></i> 비밀번호 복구</button>
+                                            <div class="card-body pt-0">
+                                           	 	<button type="button" class="btn btn-outline-primary btn-block" id="checkBtn"><i class="feather icon-unlock"></i> 인증번호 발송</button>
+                                            </div>
+                                            <fieldset class="form-group floating-label-form-group mb-1">    
+                                                <label for="mailconfirm" id="mailconfirmTxt">이메일 인증번호</label>
+                                                <input type="text" class="form-control" placeholder="이메일 인증번호를 입력해주세요" id="mailconfirm">
+                                            </fieldset>
+                                            <fieldset class="form-group floating-label-form-group mb-1">
+                                                <label for="user-password">새 비밀번호</label>
+                                                <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요" name="memberPw" id="memberPw">
+                                            </fieldset>
+                                            <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="btn"><i class="icon-lock4"></i> 계정 복구</button>
                                         </form>
                                     </div>
                                 </div>
@@ -84,7 +92,6 @@
         </div>
     </div>
     <!-- END: Content-->
-
 
     <!-- BEGIN: Vendor JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/vendors.min.js"></script>
@@ -105,52 +112,75 @@
     
 	<!-- BEGIN: 비밀번호 찾기 JS -->
 	<script>
-		// 이메일 정규식
-		var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
-		
-		// 이메일로 비밀번호 발송
-		$('#btn').click(function(){
-			if ($('#memberEmail').val() == '') {
-				alert('이메일칸이 빈칸입니다.');
-				$('#memberEmail').focus();
-			} else if (!reg_email.test($('#memberEmail').val())) {
-				alert('이메일형식을 확인해주세요.\nexample@example.com');
-				$('#memberEmail').focus();
-			} else {
-				$.ajax({
-					type : 'POST',
-					url : '/account/checkEmail',
-					data : {memberEmail : $('#memberEmail').val()},
-					success : function(json){
-						if(json != 'memberEmail ok'){
-							alert('확인되지 않는 회원입니다.');
-							$('#memberEmail').focus();
-							return;
-						} else {
-							$.ajax({
-								type : 'POST',
-								url : '/account/mailConfirm',
-								data : {email : $('#memberEmail').val()},
-								success : function(data){
-									alert('해당 이메일로 비밀번호 발송이 완료되었습니다. 확인부탁드립니다.');
-									// console.log("data : " + data);
-									$('#memberPw').val(data);
-									if($('#memberPw').val() != ''){
-										$('#form').submit();
-									}
-								}
-							});
-						}
+		// 이메일 인증번호 발송
+		$('#checkBtn').click(function(){
+			$.ajax({
+				type : 'POST',
+				url : '/account/checkEmail',
+				data : {memberEmail : $('#memberEmail').val()},
+				success : function(json){
+					if(json != 'memberEmail ok'){
+						alert('확인되지 않는 회원입니다.');
+						$('#memberEmail').focus();
+						return;
+					} else {
+						$.ajax({
+							type : 'POST',
+							url : '/account/mailConfirm',
+							data : {email : $('#memberEmail').val()},
+							success : function(data){
+								alert('해당 이메일로 인증번호 발송이 완료되었습니다. 확인부탁드립니다.');
+								// console.log("data : " + data);
+								chkEmailConfirm(data, $('#mailconfirm'), $('#mailconfirmTxt'));
+							}
+						});
 					}
-				});
+				}
+			});
+		});
+		
+		// 이메일 인증번호 체크 함수
+		function chkEmailConfirm(data, $mailconfirm, $mailconfirmTxt){
+			$('#mailconfirm').on('keyup', function(){
+				// 인증번호 틀린 경우
+				if(data != $('#mailconfirm').val()){
+					emconfirmchk = 'N';
+					$('#mailconfirmTxt').html("<span id='emconfirmchk'>인증번호가 잘못되었습니다.</span>");
+					$('#emconfirmchk').css({
+						"color" : "#FA3E3E",
+						"font-weight" : "bold",
+						"font-size" : "10px"
+					});
+				// 인증번호 확인된 경우
+				} else {
+					emconfirmchk = 'Y';
+					$('#mailconfirmTxt').html("<span id='emconfirmchk'>인증번호가 확인되었습니다.</span>");
+					$('#emconfirmchk').css({
+						"color" : "#0D6EFD",
+						"font-weight" : "bold",
+						"font-size" : "10px"
+					});
+				}
+				
+				console.log(emconfirmchk);
+			});
+		}
+	
+		
+		$('#btn').click(function(){
+			if ($('#mailconfirm').val() == ''){
+				alert('이메일 인증번호칸이 빈칸입니다.');
+				$('#mailconfirm').focus();
+			} else if (emconfirmchk == 'N'){
+				alert('인증번호가 잘못되었습니다.');
+				$('#mailconfirm').focus();
+			} else if ($('#memberPw').val() == '') {
+				alert('새비밀번호칸이 빈칸입니다.');
+				$('#memberPw').focus();
+			} else {
+				$('#form').submit();
 			}
-		});
-
-		$('#body').keydown(function(e) {
-		      if(e.keyCode == 13) { // 엔터키 클릭시 로그인버튼 클릭 트리거
-		         $('#btn').trigger('click');
-		      }
-		});
+		})
 	</script>
 	<!-- END: 비밀번호 찾기 JS -->
 </body>

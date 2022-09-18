@@ -22,15 +22,15 @@ $(document).ready(function () {
           comment: 1,
           attachment: 3,
           users: [
-            "../../../app-assets/images/portrait/small/avatar-s-11.png",
-            "../../../app-assets/images/portrait/small/avatar-s-12.png"
+            "../../../resources/app-assets/images/portrait/small/fitness-shoes.jpg",
+            "../../../resources/app-assets/images/portrait/small/avatar-s-12.png"
           ]
         },
         {
           id: "12",
           title: "Type Something",
           border: "info",
-          image: "../../../app-assets/images/banner/banner-21.jpg",
+          image: "../../../resources/app-assets/images/banner/banner-21.jpg",
           dueDate: "Feb 10"
         },
         {
@@ -41,8 +41,8 @@ $(document).ready(function () {
           comment: 23,
           attachment: 4,
           users: [
-            "../../../app-assets/images/portrait/small/avatar-s-1.png",
-            "../../../app-assets/images/portrait/small/avatar-s-18.png"
+            "../../../resources/app-assets/images/portrait/small/avatar-s-1.png",
+            "../../../resources/app-assets/images/portrait/small/avatar-s-18.png"
           ]
         },
         {
@@ -52,8 +52,8 @@ $(document).ready(function () {
           comment: 56,
           attachment: 2,
           users: [
-            "../../../app-assets/images/portrait/small/avatar-s-26.png",
-            "../../../app-assets/images/portrait/small/avatar-s-16.png"
+            "../../../resources/app-assets/images/portrait/small/avatar-s-26.png",
+            "../../../resources/app-assets/images/portrait/small/avatar-s-16.png"
           ]
         },
         {
@@ -78,8 +78,8 @@ $(document).ready(function () {
           dueDate: "Jan 1",
           comment: 8,
           users: [
-            "../../../app-assets/images/portrait/small/avatar-s-24.png",
-            "../../../app-assets/images/portrait/small/avatar-s-14.png"
+            "../../../resources/app-assets/images/portrait/small/avatar-s-24.png",
+            "../../../resources/app-assets/images/portrait/small/avatar-s-14.png"
           ]
         },
         {
@@ -109,9 +109,9 @@ $(document).ready(function () {
           dueDate: "Mar 1",
           comment: 10,
           users: [
-            "../../../app-assets/images/portrait/small/avatar-s-20.png",
-            "../../../app-assets/images/portrait/small/avatar-s-22.png",
-            "../../../app-assets/images/portrait/small/avatar-s-13.png"
+            "../../../resources/app-assets/images/portrait/small/avatar-s-20.png",
+            "../../../resources/app-assets/images/portrait/small/avatar-s-22.png",
+            "../../../resources/app-assets/images/portrait/small/avatar-s-13.png"
           ]
         },
         {
@@ -129,8 +129,8 @@ $(document).ready(function () {
           border: "primary",
           dueDate: "Mar 9",
           users: [
-            "../../../app-assets/images/portrait/small/avatar-s-1.png",
-            "../../../app-assets/images/portrait/small/avatar-s-2.png"
+            "../../../resources/app-assets/images/portrait/small/avatar-s-1.png",
+            "../../../resources/app-assets/images/portrait/small/avatar-s-2.png"
           ]
         }
       ]
