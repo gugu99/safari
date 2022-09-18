@@ -40,6 +40,7 @@
 			, w.work_name   workName
 			, w.create_date createDate
 			, w.update_date updateDate
+			, w.admin_email adminEmail
 		FROM workspace_member wm  inner join workspace w
 		where  wm.work_member_email = #{workMemberEmail}
 	

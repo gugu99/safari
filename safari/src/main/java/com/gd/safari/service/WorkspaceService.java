@@ -23,6 +23,7 @@ public class WorkspaceService implements IWorkspaceService {
 	@Autowired private IWorkspaceMapper workspaceMapper;
 	@Autowired private IWorkspaceMemberMapper workspaceMemberMapper;
 	@Autowired private IMemberMapper memberMapper;
+	
 	@Override
 	public int addWorkspace(Workspace workspace , String workMemberName) {
 		log.debug(TeamColor.CJM+workspace +"Service workspace");				 	 // workspace 디버깅
@@ -56,9 +57,15 @@ public class WorkspaceService implements IWorkspaceService {
 
 	@Override
 	public List<Workspace> getWorkspaceList(String workMemberEmail) {
-		
-		
+		log.debug(TeamColor.CJM+workMemberEmail +"Service workMemberEmail"); 				// workMemberEmail 디버깅
 		return workspaceMapper.selectWorkspaceList(workMemberEmail);
+	}
+
+
+	@Override
+	public int modifyWorkspace(Workspace workspace) {
+		log.debug(TeamColor.CJM+workspace +"Service workspace"); 				// workspace 디버깅
+		return workspaceMapper.updateWorkspace(workspace);
 	}
 
 }

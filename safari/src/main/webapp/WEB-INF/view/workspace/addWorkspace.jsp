@@ -18,45 +18,13 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i"
 	rel="stylesheet">
-<!-- BEGIN: Vendor CSS-->
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/app-assets/vendors/css/vendors.min.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/app-assets/vendors/css/pickers/daterange/daterangepicker.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/app-assets/vendors/css/pickers/pickadate/pickadate.css">
-<!-- END: Vendor CSS-->
-
-<!-- BEGIN: Theme CSS-->
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/app-assets/css/bootstrap.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/app-assets/css/bootstrap-extended.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/app-assets/css/colors.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/app-assets/css/components.css">
-<!-- END: Theme CSS-->
-
-<!-- BEGIN: Page CSS-->
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/app-assets/css/core/menu/menu-types/vertical-menu.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/app-assets/css/core/colors/palette-gradient.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/app-assets/css/plugins/forms/wizard.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/app-assets/css/plugins/pickers/daterange/daterange.css">
-<!-- END: Page CSS-->
-
-<!-- BEGIN: Custom CSS-->
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/assets/css/style.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/assets/css/addWorkspace.css">
-<!-- END: Custom CSS-->
 <%@ include file="/WEB-INF/view/inc/common-css.jsp"%>
 <!-- css -->
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/assets/css/addWorkspace.css">
+
 
 </head>
 <!-- END: Head-->
@@ -88,7 +56,7 @@
 							</ol>
 						</div>
 					</div>
-					<h3 class="content-header-title mb-0">워크스페이스생성</h3>
+					<h3 class="content-header-title mb-0">워크스페이스 멤버가입</h3>
 				</div>
 				<div class="content-header-right col-md-6 col-12">
 					<div class="btn-group float-md-right" role="group"
@@ -119,7 +87,7 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title">워크스페이스 생성폼</h4>
+									<h4 class="card-title">워크스페이스멤버 가입폼</h4>
 									<a class="heading-elements-toggle"><i
 										class="fa fa-ellipsis-h font-medium-3"></i></a>
 									<div class="heading-elements">
@@ -136,8 +104,8 @@
 								</div>
 								<div class="card-content collapse show">
 									<div class="card-body">
-										<form action="#" class="number-tab-steps wizard-circle">
-
+										<form id="addWorkspaceForm" action="${pageContext.request.contextPath }/safari/addWorkspace" class="number-tab-steps wizard-circle" method="post">
+											
 											<!-- Step 1 -->
 											<h6>Step 1</h6>
 											<fieldset>
@@ -145,14 +113,14 @@
 													<div class="col-md-6">
 														<div class="form-group">
 															<label for="firstName1">워크스페이스 제목</label> <input
-																type="text" class="form-control" id="firstName1">
+																type="text" name="workName" class="form-control" id="firstName1">
 														</div>
 													</div>
 
 													<div class="col-md-6">
 														<div class="form-group">
 															<label for="lastName1">관리자 이름</label> <input
-																type="text" class="form-control" id="lastName1">
+																name="workMemberName" type="text" class="form-control" id="lastName1">
 														</div>
 													</div>
 												</div>
@@ -201,17 +169,28 @@
 
 											<!-- Step 4 -->
 											<h6>Step 4</h6>
-											<fieldset>
+											<fieldset class="add">
+											<p>
+											</p>
 												<div class="row">
-													<div class="col-md-6">
+												
+													<div class="col-md-3">
 														<div class="form-group">
 															<label for="meetingName1">초대멤버이메일</label> <input
 																type="text" class="form-control" id="meetingName1">
 														</div>
 											        
 													</div>
+													<div class="col-md-3">
+														<div class="form-group">
+														<label for="meetingName1">이메일</label>
+														 <input
+																type="text" class="form-control" id="meetingName1">
+														</div>
+											        
+													</div>
 													
-													<div class="col-md-6">
+													<div class="col-md-3">
 														<div class="email_form">
 											            <label for="meetingName2" >메일 선택</label>
 											            <select id="meetingName2" name="email3" title="이메일 주소 선택" class="form-control">
@@ -223,12 +202,19 @@
 											                <option value="hanmail.net">hanmail.net</option>
 											            </select>
 											        </div>
-											        
+											       
+													</div>
+													<div class="col-md-3">
+														<div class="form-group">
+														<label for="meetingName1">멤버추가</label>
+														 <button type="button" class="btn btn danger form-control" id="btn_add">
+																추가</button>
+														</div>
 											        
 													</div>
-
 												</div>
 											</fieldset>
+											
 										</form>
 									</div>
 								</div>
@@ -296,6 +282,53 @@
 <script
 	src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/wizard-steps.js"></script>
 <!-- END: Page JS-->
+
+<script>            
+$(document).ready(function(){  
+	$("#btn_add").on('click',function(){ 
+		
+		var tmpHtml =
+		"<div id='remove1' name='remove' class='row addInput'>"+
+				"<div class='col-md-3'>"+
+				"<div class='form-group'>"+
+					"<input type='text' class='form-control' id='meetingName1'>"+
+				"</div>"+
+			"</div>"+
+			"<div class='col-md-3'>"+
+				"<div class='form-group'>"+
+					 "<input type='text' class='form-control' id='meetingName1'>"+
+				"</div>"+
+			"</div>"+
+			"<div class='col-md-3'>"+
+				"<div class='email_form'>"+
+		    	"<select id='meetingName2' name='email3' title='이메일 주소 선택' class='form-control'>"+
+		            "<option value=''>  이메일주소 직접입력  </option>"+
+		            "<option value='naver.com'>naver.com</option>"+
+		            "<option value='nate.com'>nate.com</option>"+
+		            "<option value='gmail.com'>gmail.com</option>"+
+		            "<option value='yahoo.com'>yahoo.com</option>"+
+		            "<option value='hanmail.net'>hanmail.net</option>"+
+		        "</select>"+
+			 	"</div>"+
+			"</div>"+
+				"<div class='col-md-3'>"+
+					"<div class='form-group'>"+
+						 "<button type='button' class='btn btn danger form-control' name='remove1' id='btn_mi'>멤버삭제</button>"+
+				"</div>"+
+			"</div>"+
+		"</div>"
+		  $(".add").append(tmpHtml);}); 
+		
+		var trHtml = $( "div[name=remove]:last" ); //last를 사용하여 trStaff라는 명을 가진 마지막 태그 호출
+		$(document).on('click','button[name=remove1]',function(){   
+			
+			$('#remove1').remove();
+			
+			 }); 
+});
+
+</script>
+
 
 
 

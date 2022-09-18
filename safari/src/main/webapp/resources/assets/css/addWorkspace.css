@@ -1,9 +1,11 @@
 @charset "UTF-8";
-
 body.vertical-layout.vertical-menu-modern .content, body.vertical-layout.vertical-menu-modern .footer {
     margin-left: 0px;
 }
-
+.danger {
+    color: white!important;
+    background-color: #00b5b8;
+}
 .fonticon-container>.fonticon-wrap {
 	float: none;
 	width: auto;

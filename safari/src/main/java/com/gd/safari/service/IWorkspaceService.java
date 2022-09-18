@@ -11,4 +11,5 @@ public interface IWorkspaceService {
 	int addWorkspace(Workspace workspace , String workMemberName);
 	int removeWorkspace(int workNo,Member member);
 	List<Workspace> getWorkspaceList(String workMemberEmail);
+	int modifyWorkspace(Workspace workspace);
 }
