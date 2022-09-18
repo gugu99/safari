@@ -1,11 +1,17 @@
 package com.gd.safari.restController;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gd.safari.ConfigUtils;
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IMailService;
 import com.gd.safari.service.IMemberService;
@@ -17,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RestAccountController {
 	@Autowired private IMemberService memberService;
 	@Autowired private IMailService mailService;
+	@Autowired private ConfigUtils configUtils;
 	
 	// 메일 확인
 	@PostMapping("/account/mailConfirm")
@@ -81,4 +88,22 @@ public class RestAccountController {
 		
 		return jsonStr;
 	}
+	
+	// 구글 소셜로그인 페이지 이동
+    @GetMapping("/account/google/login")
+    public ResponseEntity<Object> moveGoogleInitUrl() {
+		log.debug(TeamColor.CSH + this.getClass() + " 구글 소셜로그인 페이지 이동");
+        URI redirectUrl = null;
+        try {
+        	// Bean에 등록 한 google 주소를 googleInitUrl이라는 이름으로 가져온다.
+        	redirectUrl = new URI(configUtils.googleInitUrl()); 
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setLocation(redirectUrl);
+            return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
 }

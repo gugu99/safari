@@ -4,17 +4,27 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gd.safari.ConfigUtils;
 import com.gd.safari.commons.TeamColor;
-import com.gd.safari.service.IMailService;
 import com.gd.safari.service.IMemberService;
+import com.gd.safari.vo.GoogleLogin;
+import com.gd.safari.vo.GoogleLoginRequest;
+import com.gd.safari.vo.GoogleLoginResponse;
 import com.gd.safari.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class AccountController {
 	@Autowired private IMemberService memberService;
+	@Autowired private ConfigUtils configUtils;
 	
 	// 로그인 페이지 이동
 	@GetMapping("/account/login")
@@ -57,6 +68,74 @@ public class AccountController {
 		
 		return "redirect:/safari/index";
 	}
+	
+    // 구글 소셜로그인 재요청페이지 이동
+    @SuppressWarnings("deprecation")
+	@GetMapping("/account/google/login/redirect")
+    public String redirectGoogleLogin(
+    		HttpSession session,
+            @RequestParam(value = "code") String authCode) {
+		log.debug(TeamColor.CSH + this.getClass() + " 구글 소셜로그인 재요청페이지 이동");
+		
+        // HTTP 통신을 위해 RestTemplate 활용
+        RestTemplate restTemplate = new RestTemplate();
+        GoogleLoginRequest requestParams = GoogleLoginRequest.builder()
+                .clientId(configUtils.getGoogleClientId())
+                .clientSecret(configUtils.getGoogleSecret())
+                .code(authCode)
+                .redirectUri(configUtils.getGoogleRedirectUrl())
+                .grantType("authorization_code")
+                .build();
+
+        try {
+            // Http Header 설정
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<GoogleLoginRequest> httpRequestEntity = new HttpEntity<>(requestParams, headers);
+            ResponseEntity<String> apiResponseJson = restTemplate.postForEntity(configUtils.getGoogleAuthUrl() + "/token", httpRequestEntity, String.class);
+
+            // ObjectMapper를 통해 String to Object로 변환
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+            objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL); // NULL이 아닌 값만 응답받기(NULL인 경우는 생략)
+            GoogleLoginResponse googleLoginResponse = objectMapper.readValue(apiResponseJson.getBody(), new TypeReference<GoogleLoginResponse>() {});
+
+            // 사용자의 정보는 JWT Token으로 저장되어 있고, Id_Token에 값을 저장한다.
+            String jwtToken = googleLoginResponse.getIdToken();
+
+            // JWT Token을 전달해 JWT 저장된 사용자 정보 확인
+            String requestUrl = UriComponentsBuilder.fromHttpUrl(configUtils.getGoogleAuthUrl() + "/tokeninfo").queryParam("id_token", jwtToken).toUriString();
+
+            String resultJson = restTemplate.getForObject(requestUrl, String.class);
+
+            if(resultJson != null) {
+                GoogleLogin userInfo = objectMapper.readValue(resultJson, new TypeReference<GoogleLogin>() {});
+                
+                log.debug(TeamColor.CSH + userInfo);
+                
+                // 이메일 있는지 확인
+                boolean result = memberService.getMemberEmailByCheck(userInfo.getEmail());
+                Member member = new Member();
+            	member.setMemberEmail(userInfo.getEmail());
+            	member.setMemberPw(userInfo.getKid());
+            	
+                if(result) {
+                	login(session, member);
+                } else {
+                	register(member);
+                }
+
+                return "redirect:/safari/index";
+            } else {
+                throw new Exception("Google OAuth failed!");
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/account/login";
+    }
 	
 	// 로그아웃 액션
 	@GetMapping("/safari/logout")

@@ -43,7 +43,7 @@
 
 <!-- BEGIN: Body-->
 
-<body class="horizontal-layout horizontal-menu 1-column   blank-page blank-page" data-open="hover" data-menu="horizontal-menu" data-col="1-column">
+<body class="horizontal-layout horizontal-menu 1-column   blank-page blank-page" data-open="hover" data-menu="horizontal-menu" data-col="1-column" id="body">
     <!-- BEGIN: Content-->
     <div class="app-content content">
         <div class="content-overlay"></div>
@@ -56,7 +56,7 @@
                         <div class="col-lg-4 col-md-8 col-10 box-shadow-2 p-0">
                             <div class="card border-grey border-lighten-3 px-2 py-2 m-0">
                                 <div class="card-header border-0 text-center">
-                                    <h5 class="card-title mt-1">${login.memberEmail}</h5>
+                                    <h5 class="card-title mt-1">${login}</h5>
                                 </div>
 
                                 <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2"><span>계정 삭제</span></p>
@@ -67,7 +67,7 @@
                                     <div class="card-body">
                                         <form class="form-horizontal" action="${pageContext.request.contextPath }/safari/delete-account" method="post" id="form">
                                             <fieldset class="form-group position-relative has-icon-left">
-                                                <input type="hidden" value="${login.memberEmail}" name="memberEmail">
+                                                <input type="hidden" value="${login}" name="memberEmail">
                                                 <input type="password" class="form-control form-control-lg" placeholder="비밀번호를 입력해주세요" name="memberPw" id="memberPw">
                                                 <div class="form-control-position">
                                                     <i class="fa fa-key"></i>
@@ -116,6 +116,13 @@
 	
     <!-- BEGIN: 계정삭제 JS-->
     <script>
+		// 엔터키 클릭시 로그인버튼 클릭 트리거
+		$('#body').keydown(function(e) {
+		      if(e.keyCode != 13) { // 아스키코드로 13 == 엔터
+		         $('#btn').trigger('click');
+		      }
+		});
+    
 		$('#btn').click(function(){
 			if ($('#memberPw').val() == '') {
 				alert('비밀번호칸이 빈칸입니다.');

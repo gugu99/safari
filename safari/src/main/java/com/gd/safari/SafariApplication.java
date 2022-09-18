@@ -5,6 +5,7 @@ import java.util.Properties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
@@ -12,9 +13,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication
 @ServletComponentScan
 @EnableScheduling
+// 시큐리티 페이지 안나오게 하기
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 @PropertySource("classpath:my.properties")
 public class SafariApplication {
 	// 메일 구동을 위한 유저이름, 비밀번호 my.properties에서 받아오기
@@ -28,6 +30,7 @@ public class SafariApplication {
 		SpringApplication.run(SafariApplication.class, args);
 	}
 	
+	// mail 구현을 위한 세팅
 	@Bean
 	public JavaMailSender javaMailService() {
 		JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
