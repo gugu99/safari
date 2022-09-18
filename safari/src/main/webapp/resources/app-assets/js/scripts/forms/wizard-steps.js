@@ -14,10 +14,12 @@ $(".number-tab-steps").steps({
     transitionEffect: "fade",
     titleTemplate: '<span class="step">#index#</span> #title#',
     labels: {
-        finish: 'Submit'
+        finish: '제출'
     },
+    
     onFinished: function (event, currentIndex) {
-        alert("Form submitted.");
+        alert("제출완료");
+        $('#addWorkspaceForm').submit();
     }
 });
 

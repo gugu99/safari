@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IWorkspaceMemberService;
 import com.gd.safari.vo.WorkspaceMember;
@@ -25,9 +24,24 @@ public class WorkspaceMemberController {
 		int workNo = (Integer)session.getAttribute("workNo");								// 세션 워크넘버 가져오
 		List<WorkspaceMember> list = workspaceMemberService.getWorkspaceMemberList(workNo); // 워크스페이스멤버 리스트 출력
 		model.addAttribute("workspaceMemberList", list); 								    // 매핑
-		log.debug(TeamColor.CJM+list +"Controller workName"); 							    // 워크스페이스 멤버 리스트 디버깅
+		log.debug(TeamColor.CJM+list +"Controller WorkspaceMemberList"); 					// 워크스페이스 멤버 리스트 디버깅
 		
 		return "workmember/workspaceMemberList";  										    //workspaceMember List 출력 
 	}
+	
+	@GetMapping("/safari/workspaceMemberOne")
+	public String getWorkspaceMemberOne (Model model,HttpSession session) {
+		int workNo = (Integer)session.getAttribute("workNo");								  // 세션 워크넘버 가져오기
+		String workMemberEmail = ((String)session.getAttribute("login"));					  // session email가져와서 workspaceMember vo에 삽입
+		WorkspaceMember workspaceMember = new WorkspaceMember();
+		workspaceMember.setWorkNo(workNo);
+		workspaceMember.setWorkMemberEmail(workMemberEmail);
+		WorkspaceMember list = workspaceMemberService.getWorkspaceMemberOne(workspaceMember); // 워크스페이스멤버 리스트 출력
+		model.addAttribute("workspaceMemberOne", list); 								      // 매핑
+		log.debug(TeamColor.CJM+list +"Controller workspaceMemberOne"); 					  // 워크스페이스 멤버 리스트 디버깅
+		
+		return "workmember/workspaceMemberOne";  										      //workspaceMember List 출력 
+	}
+	
 	
 }

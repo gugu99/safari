@@ -19,7 +19,8 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i"
 	rel="stylesheet">
-
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/app-assets/css/plugins/forms/wizard.css">
 <%@ include file="/WEB-INF/view/inc/common-css.jsp"%>
 <!-- css -->
 <link rel="stylesheet" type="text/css"
@@ -64,16 +65,62 @@
 								<div class="card text-center">
 									<div class="card-content">
 										<div class="card-body">
-											<!-- Button trigger modal -->
-
-
-
+											<!--  modal -->
+											<!-- 아이콘 -->
+											<c:if test="${login eq r.adminEmail }">
 											<div class="col-md-12 col-sm-12 col-12 fonticon-container">
-												<div class="fonticon-wrap" style="text-align: end">
-														<i data-toggle="modal"
-														data-target="#inlineForm${i }" class="fa fa-times"></i>
+												<ul class="list-inline" class="align-end">
+												<li>
+													<a data-toggle="modal" data-target="#inlineForm${i }"
+														class="fa fa-times"></a> </li>
+                                                  <li><a data-toggle="modal" data-target="#updateForm${i }" class="feather icon-edit">
+                                                  </a></li>
+                                             
+                                                </ul>
+											</div>
+											  </c:if>
+											<!-- 아이콘 end -->
+											<!-- update폼 모달 start-->
+											<div class="modal fade text-left" id="updateForm${i }"
+												tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
+												aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<label class="modal-title text-text-bold-600"
+																id="myModalLabel33">워크스페이스 수정</label>
+															<button type="button" class="close" data-dismiss="modal"
+																aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<form
+															action="${pageContext.request.contextPath}/safari/modifyWorkspace"
+															method="post">
+															<div class="modal-body">
+
+																<label>워크스페이스제목</label>
+																<div class="form-group">
+																	<input name="workName" type="text"
+																		placeholder="Workspace Title" class="form-control">
+																</div>
+															</div>
+															<div class="modal-footer">
+																<input name="workNo" type="hidden"
+																	class="btn btn-outline-primary btn-lg"
+																	value="${r.workNo }"> <input type="reset"
+																	class="btn btn-outline-secondary btn-lg"
+																	data-dismiss="modal" value="닫기"> <input
+																	type="submit" class="btn btn-outline-primary btn-lg"
+																	value="수정">
+															</div>
+														</form>
+													</div>
 												</div>
 											</div>
+											
+											
+											<!-- 삭제폼 모달 start -->
 											<div class="modal fade text-left" id="inlineForm${i }"
 												tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
 												aria-hidden="true">
@@ -87,13 +134,13 @@
 																<span aria-hidden="true">&times;</span>
 															</button>
 														</div>
-														<form
+														<form method="post" id="workspaceDeleteForm${i}"
 															action="${pageContext.request.contextPath}/safari/removeWorkspace">
 															<div class="modal-body">
 
 																<label>비밀번호</label>
 																<div class="form-group">
-																	<input name="memberPw" type="password"
+																	<input name="memberPw" type="password" id="memberPw${i}"
 																		placeholder="Password" class="form-control">
 																</div>
 															</div>
@@ -104,13 +151,13 @@
 																	class="btn btn-outline-secondary btn-lg"
 																	data-dismiss="modal" value="닫기"> <input
 																	type="submit" class="btn btn-outline-primary btn-lg"
-																	value="삭제">
+																	value="삭제" id="deleteButton${i}">
 															</div>
 														</form>
 													</div>
 												</div>
 											</div>
-
+											<!-- 삭제폼 end -->
 											<h4 class="card-title success">${r.workName }</h4>
 
 											<p class="card-text"></p>
@@ -143,11 +190,13 @@
 											</div>
 										</div>
 										<!-- Button trigger modal -->
-										<a href="${pageContext.request.contextPath }/safari/addWorkspace"><button type="button" class="btn btn-outline-success">
-											
-											create workspace</button></a>
-											
-										
+										<a
+											href="${pageContext.request.contextPath }/safari/addWorkspace"><button
+												type="button" class="btn btn-outline-success">
+
+												create workspace</button></a>
+
+
 									</div>
 								</div>
 							</div>
@@ -176,4 +225,10 @@
 
 </body>
 <!-- END: Body-->
+
+
+	
+
+
+
 </html>
