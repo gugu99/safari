@@ -49,11 +49,14 @@
 
     <%@ include file="/WEB-INF/view/inc/header.jsp" %> <!-- header -->
 	<%@ include file="/WEB-INF/view/inc/sidebar.jsp" %> <!-- sidebar -->
+	
 
      <!-- BEGIN: Content-->
     <div class="app-content content">
+    	<%@ include file="/WEB-INF/view/task/taskHeader.jsp" %> <!-- taskHeader -->
         <div class="content-overlay"></div>
         <div class="content-wrapper">
+        	
             <div class="content-header row">
                 <div class="content-header-left col-md-8 mb-md-0 mb-2 mt-1">
                     <h2 class="content-header-title ml-5 mb-0">Schedule</h2>
@@ -100,7 +103,7 @@
                                         
                                         <div class="media-body ml-1">
                                             <p class="text-bold-600 mb-0">Jason Ansley <span class="blue-grey date">2022-09-14 00:00:00</span>
-                                            	<a href="#" class=""><span class="fa fa-thumbs-o-up"></span> Like</a>
+                                            	<a href="#" class="addr"><span class="fa fa-thumbs-o-up ml-1 addr"></span> Like</a>
                                             </p>
                                             <p class="m-0">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
                                                 sollicitudin commodo.</p>
@@ -208,7 +211,6 @@
 		});    
 	</script>
 	
-		<!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
 
 <script>
 	$('#addrBtn').click(function(){

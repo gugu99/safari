@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <section id="modal-sizes">
     <div class="row">
         <div class="col-12">
@@ -22,43 +22,46 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-		                                                <form action="#" method="post">
+		                                                <form action="${pageContext.request.contextPath }/safari/scheduleList" method="post" id="addScheduleForm">
+		                                               		<input type="hidden" name="scheduleWriter" value="${login }">
 		                                                    <div class="row">
 		                                                        <div class="col-12">
 		                                                            <div class="form-group">
-		                                                                <label for="scheduleTitle"><span class="fa fa-pencil mr-1"></span>제목</label>
+		                                                                <label for="scheduleTitle"><span class="fa fa-pencil mr-1"></span>제목(*)</label>
 		                                                                <input type="text" class="form-control" id="scheduleTitle" name="scheduleTitle" placeholder="제목을 입력하세요.">
 		                                                            </div>
 		                                                        </div>
 		                                                        <div class="col-6">
 		                                                            <div class="form-group">
 		                                                                <div class="controls">
-		                                                                    <label for="startDateTime"><span class="fa fa-calendar mr-1"></span>시작일</label>
-		                                                                    <input type="datetime-local" class="form-control" name="startDateTime"  id="startDateTime" >
+		                                                                    <label for="startDateTime"><span class="fa fa-calendar mr-1"></span>시작일(*)</label>
+		                                                                    <input type="datetime-local" class="form-control" id="startDateTime" >
 		                                                                </div>
 		                                                            </div>
 		                                                        </div>
-		                                                        <input type="hidden" id="scheduleStart" name="scheduleStart" value="">
+		                                                        <input type="hidden" id="scheduleStart" name="scheduleStart" >
 		                                                        <div class="col-6">
 		                                                            <div class="form-group">
 		                                                                <div class="controls">
-		                                                                    <label for="endDateTime"><span class="fa fa-calendar mr-1"></span>마감일</label>
-		                                                                    <input type="datetime-local" class="form-control" name="endDateTime" id="endDateTime" >
+		                                                                    <label for="endDateTime"><span class="fa fa-calendar mr-1"></span>마감일(*)</label>
+		                                                                    <input type="datetime-local" class="form-control" id="endDateTime" >
 		                                                                </div>
 		                                                            </div>
 		                                                        </div>
-		                                                        <input type="hidden" id="scheduleEnd" name="scheduleEnd" value="">
+		                                                        <input type="hidden" id="scheduleEnd" name="scheduleEnd" >
+		                                                        
 		                                                        <div class="col-12">
 		                                                            <div class="form-group">
-		                                                                <label for="languageselect2"><span class="fa fa-users mr-2"></span>참석자</label>
-		                                                                <select class="form-control scheduleMemberSelect" multiple="multiple" onChange="selectScheduleMember(this)">
-		                                                                    <option value="English" >English</option>
-		                                                                    <option value="Spanish">Spanish</option>
-		                                                                    <option value="French">French</option>
-		                                                                    <option value="Russian">Russian</option>
-		                                                                    <option value="German">German</option>
-		                                                                    <option value="Arabic" >Arabic</option>
-		                                                                    <option value="Sanskrit">Sanskrit</option>
+		                                                                <label for="languageselect2"><span class="fa fa-users mr-2"></span>참석자(*)</label>
+		                                                                <select class="form-control scheduleMemberSelect" id="scheduleMember" multiple="multiple" onChange="selectScheduleMember(this)">
+		                                                                	<%-- <c:forEach var="pm" items="${projectMemberList }">
+		                                                                		 <option value="${pm.workMemberEmail }" ${login eq pm.workMemberEmail ? 'selected' : ''}>${pm.workMemberName }</option>
+		                                                                	</c:forEach> --%>
+		                                                                	<option value="admin@admin.com"  ${login eq 'admin@admin.com' ? 'selected ' : ''}>오우</option>
+		                                                                	<option value="asdf@asdf.com" ${login eq 'asdf@asdf.com' ? 'selected' : ''}>다은</option>
+		                                                                	<option value="iloveohau@naver.com" ${login eq 'iloveohau@naver.com' ? 'selected' : ''}>서경</option>
+		                                                                	<option value="test1@test.com" ${login eq 'test1@test.com' ? 'selected' : ''}>승현</option>
+		                                                                	<option value="test@test.com" ${login eq 'test@test.com' ? 'selected' : ''}>종명</option>
 		                                                                </select>
 		                                                            </div>
 		                                                        </div>
@@ -66,7 +69,7 @@
 		                                                        <div class="col-10">
 		                                                            <div class="form-group">
 		                                                                <label for="account-website"><span class="fa fa-map-marker mr-2"></span>장소</label>
-		                                                                <input type="text" class="form-control" name="scheduleLocation" id="addr" placeholder="주소를 입력하세요.">
+		                                                                <input type="text" class="form-control" name="scheduleLocation" id="addr" placeholder="주소를 입력하세요." readonly>
 		                                                            </div>
 		                                                        </div>
 		                                                        <div class="col-2">
@@ -76,22 +79,22 @@
 		                                                        </div>
 		                                                        <div class="col-12">
 		                                                            <div class="form-group">
-		                                                                <label for="account-website"><span class="fa fa-map-marker mr-2"></span>상세 장소</label>
-		                                                                <input type="text" class="form-control" id="detailAddr" placeholder="주소를 입력하세요.">
+		                                                                <label for="detailAddr"><span class="fa fa-map-marker mr-2"></span>상세 장소</label>
+		                                                                <input type="text" class="form-control" name="scheduleDetailLocation" id="detailAddr" placeholder="주소를 입력하세요.">
 		                                                            </div>
 		                                                        </div>
 		                                                        <div class="col-12">
 		                                                            <div class="form-group">
-		                                                                <label for="accountTextarea"><span class="fa fa-pencil-square-o mr-1"></span>내용</label>
-		                                                                <textarea class="form-control" id="accountTextarea" rows="5" placeholder="내용을 입력하세요."></textarea>
+		                                                                <label for="scheduleContent"><span class="fa fa-pencil-square-o mr-1"></span>내용</label>
+		                                                                <textarea class="form-control" name="scheduleContent" id="scheduleContent" rows="5" placeholder="내용을 입력하세요."></textarea>
 		                                                            </div>
 		                                                        </div>
 		                                                        <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
 		                                                        	<div class="form-group mt-1">
-		                                                                <label for="accountSelect"><span class="fa fa-lock mr-1"></span>공개설정</label>
-		                                                                <select class="form-control" id="accountSelect">
-		                                                                    <option selected>전체공개</option>
-		                                                                    <option>관리자, 작성자만 공개</option>
+		                                                                <label for="scheduleAuth"><span class="fa fa-lock mr-1"></span>공개설정</label>
+		                                                                <select class="form-control" id="scheduleAuth" name="scheduleAuth">
+		                                                                    <option value="N" selected>전체공개</option>
+		                                                                    <option value="Y">관리자, 작성자만 공개</option>
 		                                                                </select>
 		                                                            </div>
 		                                                            <div class="form-group">
@@ -121,5 +124,3 @@
         </div>
     </div>
 </section>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
- 

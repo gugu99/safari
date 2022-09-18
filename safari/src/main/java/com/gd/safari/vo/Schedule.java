@@ -6,6 +6,7 @@ import lombok.Data;
 public class Schedule {
 	private int scheduleNo;					// 일정 번호
 	private int projectNo;					// 프로젝트 번호
+	private String scheduleWriter;			// 일정 작성자
 	private String scheduleStart;			// 일정 시작일
 	private String scheduleEnd;				// 일정 마감일
 	private String scheduleTitle;			// 일정 제목

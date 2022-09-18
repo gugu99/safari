@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IScheduleMapper">
+	<!-- 일정 생성하기 -->
+	<insert id="insertSchedule" parameterType="map">
+		<selectKey keyProperty="scheduleNo" resultType="int" order="AFTER">
+			<!-- 일정 생성 후 해당 일정 번호를 가져온다. -->
+			SELECT LAST_INSERT_ID() as scheduleNo
+		</selectKey>
+		INSERT INTO schedule (
+			project_no
+			, schedule_writer
+			, schedule_start
+			, schedule_end
+			, schedule_title
+			, schedule_location
+			, schedule_detail_location
+			, schedule_content
+			, schedule_auth
+			, create_date
+			, update_date
+		) VALUES (
+			#{projectNo}		<!-- 세션값 -->
+			, #{scheduleWriter} <!-- 세션값 -->
+			, #{scheduleStart}
+			, #{scheduleEnd}
+			, #{scheduleTitle}
+			, #{scheduleLocation}
+			, #{scheduleDetailLocation}
+			, #{scheduleContent}
+			, #{scheduleAuth}
+			, NOW()
+			, NOW()
+		) 
+	</insert>
+</mapper>
