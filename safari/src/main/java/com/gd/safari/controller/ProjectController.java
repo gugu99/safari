@@ -26,7 +26,7 @@ public class ProjectController {
 	@GetMapping("/safari/project")
 	public String project(Model model, HttpSession session) {
 		// 워크스페이스 페이지에서 세션에 담은 workspaceNo를 받아온다
-		int workNo = (Integer)session.getAttribute("workNo");
+		int workNo = (int)session.getAttribute("workNo");
 		log.debug(TeamColor.CSK + workNo);
 		
 		Map<String, Object> map = projectService.getProjectListByWorkspace(workNo);
@@ -51,6 +51,7 @@ public class ProjectController {
 		log.debug(TeamColor.CSK + map);
 		// log.debug(TeamColor.CSK + map.keySet()); // workNo, projectName, projectAuth, projectMemberList
 		
+		// TODO 리턴값 고민 필요
 		projectService.addProject(map);
 		
 		return "redirect:/safari/project";
@@ -75,22 +76,33 @@ public class ProjectController {
 	
 	@GetMapping("/safari/modifyProject")
 	public String modifyProject(Model model, HttpSession session, int projectNo) {
-		log.debug(TeamColor.CSK + "프로젝트 수정");
+		log.debug(TeamColor.CSK + "프로젝트 수정 폼");
 		log.debug(TeamColor.CSK + "projectNo: " + projectNo);
 		
 		// 워크스페이스 페이지에서 세션에 담은 workspaceNo를 받아온다
-		int workNo = (Integer)session.getAttribute("workNo");
+		int workNo = (int)session.getAttribute("workNo");
 		
 		// 프로젝트 VO, 프로젝트 멤버리스트<ProjectMember>를 반환
 		Map<String, Object> map = projectService.getProjectDetailByProjectNo(workNo, projectNo);
 		
 		// 모델에 넣기
 		model.addAttribute("project", map.get("project"));
-		model.addAttribute("projectMemberList", map.get("memberList"));
-		model.addAttribute("workspaceMemberList", map.get("workspaceMemberList"));
+		model.addAttribute("projectMemberList", map.get("projectMemberList"));
 		
 		return "project/modifyProject";
 	}
 	
+	@PostMapping("/safari/modifyProject")
+	public String modifyProject(@RequestParam Map<String, Object> map) {
+		log.debug(TeamColor.CSK + "프로젝트 수정");
+		log.debug(TeamColor.CSK + "파라미터 map: " + map);
+		// {projectName=야호, projectExpl=야호야호 신나는 파프, projectAuth=N, projectStart=2022-09-17, projectDeadline=2022-09-30, projectEnd=, projectMemberList=14,15}
+		// projectName=야호, projectExpl=, projectAuth=N, projectStart=, projectDeadline=, projectEnd=, projectMemberList=
+		
+		boolean result = projectService.modifyProject(map);
+		// TODO result 값에 따라 알림창 띄우기
+		
+		return "redirect:/safari/project";
+	}
 	
 }

@@ -18,4 +18,6 @@ public interface IProjectMapper {
 	// 프로젝트 추가 메소드
 	int insertProject(Map<String, Object> map);
 	
+	// 프로젝트 수정 메소드
+	int updateProject(Map<String, Object> map);
 }

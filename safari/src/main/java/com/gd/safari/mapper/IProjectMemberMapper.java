@@ -16,5 +16,4 @@ public interface IProjectMemberMapper {
 	
 	// 실제 프로젝트에 속한 멤버 + 멤버 email을 반환 - 조원들을 위해 생성
 	List<Map<String, Object>> selectProjectMemberList(int projectNo);
-	
 }

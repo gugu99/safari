@@ -148,7 +148,6 @@
 	                        <div class="col-md-3 col-sm-12 pl-3 pr-2 pt-3">
 	                            <div class="card">
 	                                <div class="card-header">
-	                                	<!-- TODO 프로젝트 개별 링크 추가 -->
 	                                	<h4 class="card-title"><a href="${pageContext.request.contextPath}/safari/taskList?projectNo=${p.projectNo}">${p.projectName}</a></h4>
 	                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 	                                    <div class="heading-elements">
@@ -227,9 +226,9 @@
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/select/form-select2.js"></script>
     <!-- END: Page JS-->
 
-    <!-- BEGIN: Page JS-->
+    <!-- BEGIN: 내가 만든 JS-->
     <script src="${pageContext.request.contextPath }/resources/assets/js/projectMember.js"></script>
-    <!-- END: Page JS-->
+    <!-- END: 내가 만든 JS-->
     
 </body>
 <!-- END: Body-->
