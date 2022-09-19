@@ -8,8 +8,8 @@ import com.gd.safari.vo.TaskList;
 
 @Mapper
 public interface ITaskListMapper {
-	// 업무리스트 보여주기
-	List<TaskList> selectTaskList();
+	// 업무리스트 조회
+	List<TaskList> selectTaskList(int projectNo);
 	// 업무리스트 생성
 	int insertTaskList(TaskList tasklist);
 	// 업무리스트 수정

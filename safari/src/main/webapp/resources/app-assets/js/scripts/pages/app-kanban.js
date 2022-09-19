@@ -9,134 +9,42 @@
 
 $(document).ready(function () {
   var kanban_curr_el, kanban_curr_item_id, kanban_item_title, kanban_data, kanban_item, kanban_users;
-
+  
+  var kanban_board_data = new Array();
+  
   // Kanban Board and Item Data passed by json
-  var kanban_board_data = [{
-      id: "kanban-board-1",
-      title: "해야할 일",
-      item: [{
-          id: "11",
-          title: "Facebook Campaign 😎",
-          border: "success",
-          dueDate: "Feb 6",
-          comment: 1,
-          attachment: 3,
-          users: [
-            "../../../resources/resources/app-assets/images/portrait/small/fitness-shoes.jpg",
-            "../../../resources/resources/app-assets/images/portrait/small/avatar-s-12.png"
-          ]
-        },
-        {
-          id: "12",
-          title: "Type Something",
-          border: "info",
-          image: "../../../resources/resources/app-assets/images/banner/banner-21.jpg",
-          dueDate: "Feb 10"
-        },
-        {
-          id: "13",
-          title: "Social Media Graphics",
-          border: "warning",
-          dueDate: "Jan 3",
-          comment: 23,
-          attachment: 4,
-          users: [
-            "../../../resources/resources/app-assets/images/portrait/small/avatar-s-1.png",
-            "../../../resources/resources/app-assets/images/portrait/small/avatar-s-18.png"
-          ]
-        },
-        {
-          id: "14",
-          title: "Book newspaper ads online in popular newspapers.",
-          border: "danger",
-          comment: 56,
-          attachment: 2,
-          users: [
-            "../../../resources/resources/app-assets/images/portrait/small/avatar-s-26.png",
-            "../../../resources/resources/app-assets/images/portrait/small/avatar-s-16.png"
-          ]
-        },
-        {
-          id: "15",
-          title: "Twitter Marketing",
-          border: "secondary"
-        }
-      ]
-    },
-    {
-      id: "kanban-board-2",
-      title: "진행중",
-      item: [{
-          id: "21",
-          title: "Flat UI Kit Design",
-          border: "secondary"
-        },
-        {
-          id: "22",
-          title: "Drag people onto a card to indicate that.",
-          border: "info",
-          dueDate: "Jan 1",
-          comment: 8,
-          users: [
-            "../../../resources/resources/app-assets/images/portrait/small/avatar-s-24.png",
-            "../../../resources/resources/app-assets/images/portrait/small/avatar-s-14.png"
-          ]
-        },
-        {
-          id: "23",
-          title: "Application Design",
-          border: "warning"
-        },
-        {
-          id: "24",
-          title: "BBQ Logo Design 😱",
-          border: "primary",
-          dueDate: "Jan 6",
-          comment: 10,
-          attachment: 6,
-          badgeContent: "AK",
-          badgeColor: "danger"
-        }
-      ]
-    },
-    {
-      id: "kanban-board-3",
-      title: "완료",
-      item: [{
-          id: "31",
-          title: "Database Management System (DBMS) is a collection of programs",
-          border: "warning",
-          dueDate: "Mar 1",
-          comment: 10,
-          users: [
-            "../../../resources/resources/app-assets/images/portrait/small/avatar-s-20.png",
-            "../../../resources/resources/app-assets/images/portrait/small/avatar-s-22.png",
-            "../../../resources/resources/app-assets/images/portrait/small/avatar-s-13.png"
-          ]
-        },
-        {
-          id: "32",
-          title: "Admin Dashboard 🙂",
-          border: "success",
-          dueDate: "Mar 6",
-          comment: 7,
-          badgeContent: "AD",
-          badgeColor: "primary"
-        },
-        {
-          id: "33",
-          title: "Fix bootstrap progress bar with & issue",
-          border: "primary",
-          dueDate: "Mar 9",
-          users: [
-            "../../../resources/resources/app-assets/images/portrait/small/avatar-s-1.png",
-            "../../../resources/resources/app-assets/images/portrait/small/avatar-s-2.png"
-          ]
-        }
-      ]
-    }
-  ];
-
+  $.ajax({
+		async : false,
+		type : 'POST',
+		url : '/safari/taskList',
+		success : function(json){
+			$(json).each(function(index, item){
+				  // 디버깅
+				  console.log(json);
+				  console.log(item);
+				  kanban_board_data.push({
+				      id: item.tasklistNo,
+				      title: item.tasklistTitle,
+				      item: [{
+				          id: "11",
+				          title: "Facebook Campaign 😎",
+				          border: "success",
+				          dueDate: "Feb 6",
+				          comment: 1,
+				          attachment: 3,
+				          users: [
+				          ]
+				        }
+				      ]
+				    }
+				  );
+			});
+		}
+  });
+  
+  console.log(kanban_board_data);
+  
+  // 칸반 보드
   // Kanban Board
   var KanbanExample = new jKanban({
     element: "#kanban-wrapper", // selector of the kanban container
@@ -189,9 +97,10 @@ $(document).ready(function () {
     },
     addItemButton: true, // add a button to board for easy item creation
     boards: kanban_board_data // data passed from defined variable
+    
   });
 
-  // Add html for Custom Data-attribute to Kanban item
+  // Kanban 항목에 사용자 정의 데이터 속성에 대한 html 추가
   var board_item_id, board_item_el;
   // Kanban board loop
   for (kanban_data in kanban_board_data) {
@@ -204,7 +113,7 @@ $(document).ready(function () {
       (board_item_users = board_item_dueDate = board_item_comment = board_item_attachment = board_item_image = board_item_badge =
         " ");
 
-      // check if users are defined or not and loop it for getting value from user's array
+      // 사용자가 정의되어 있는지 확인하고 사용자 배열에서 값을 가져오기 위해 반복합니다.
       if (typeof $(board_item_el).attr("data-users") !== "undefined") {
         for (kanban_users in kanban_board_data[kanban_data].item[kanban_item].users) {
           board_item_users +=
@@ -215,7 +124,7 @@ $(document).ready(function () {
             "</li>";
         }
       }
-      // check if dueDate is defined or not
+      // DueDate가 정의되어 있는지 확인
       if (typeof $(board_item_el).attr("data-dueDate") !== "undefined") {
         board_item_dueDate =
           '<div class="kanban-due-date mr-50">' +
@@ -225,7 +134,7 @@ $(document).ready(function () {
           "</span>" +
           "</div>";
       }
-      // check if comment is defined or not
+      // check if comment is defined or not 댓글이 정의되어 있는지 확인
       if (typeof $(board_item_el).attr("data-comment") !== "undefined") {
         board_item_comment =
           '<div class="kanban-comment mr-50">' +
@@ -235,7 +144,7 @@ $(document).ready(function () {
           "</span>" +
           "</div>";
       }
-      // check if attachment is defined or not
+      // check if attachment is defined or not 첨부 파일이 정의되어 있는지 확인
       if (typeof $(board_item_el).attr("data-attachment") !== "undefined") {
         board_item_attachment =
           '<div class="kanban-attachment">' +
@@ -245,7 +154,7 @@ $(document).ready(function () {
           "</span>" +
           "</div>";
       }
-      // check if Image is defined or not
+      // check if Image is defined or not 이미지가 정의되어 있는지 확인
       if (typeof $(board_item_el).attr("data-image") !== "undefined") {
         board_item_image =
           '<div class="kanban-image mb-1">' +
@@ -338,7 +247,21 @@ $(document).ready(function () {
       .attr("data-id");
     addEventListener("click", function () {
       KanbanExample.removeBoard($id);
+      console.log(".kanban-delete".val());
     });
+    $.ajax({
+		type : 'POST',
+		url : '/safari/deleteTaskList',
+		data : {tasklistNo : $('#tasklistNo').val()},
+		success : function(json){
+			if(json != 'ok'){
+				alert('업무리스트 삭제를 실패했습니다.');
+				return;
+			} else {
+				alert('업무리스트 삭제를 성공했습니다.');
+			}
+		}
+	});
   });
 
   // Kanban board dropdown

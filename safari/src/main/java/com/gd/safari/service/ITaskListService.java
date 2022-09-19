@@ -5,8 +5,8 @@ import java.util.List;
 import com.gd.safari.vo.TaskList;
 
 public interface ITaskListService {
-	// 업무리스트 보여주기
-	List<TaskList> getTaskList();
+	// 업무리스트 조회
+	List<TaskList> getTaskList(int projectNo);
 	// 업무리스트 생성
 	int addTaskList(TaskList tasklist);
 	// 업무리스트 수정

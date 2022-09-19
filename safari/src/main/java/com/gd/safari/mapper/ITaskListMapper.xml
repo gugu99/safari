@@ -2,10 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.ITaskListMapper">
 	<!-- 업무리스트 보여주기 -->
-	<select id="selectTaskList" resultType="com.gd.safari.vo.TaskList">
+	<select id="selectTaskList" parameterType="int" resultType="com.gd.safari.vo.TaskList">
 		SELECT
 			tasklist_no tasklistNo
 			, tasklist_title tasklistTitle
+			, project_no projectNo
 		FROM task_list
 		WHERE 
 			project_no = #{projectNo}

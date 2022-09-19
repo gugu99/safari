@@ -1,5 +1,10 @@
 package com.gd.safari.restController;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +22,20 @@ import lombok.extern.slf4j.Slf4j;
 public class RestTaskListController {
 	@Autowired private ITaskListService taskListService;
 	
+	// 업무리스트 조회
+	@PostMapping("/safari/taskList")
+	public @ResponseBody List<TaskList> taskList(HttpSession session) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 조회");
+		
+		// 서비스 호출
+		// 리턴값 int - 0일 경우 실행되지 않음
+		List<TaskList> taskList = taskListService.getTaskList((int)session.getAttribute("projectNo"));
+		
+		return taskList;
+	}	
+	
 	// 업무리스트 생성
-	@GetMapping("/safari/insertTaskList")
+	@PostMapping("/safari/insertTaskList")
 	public @ResponseBody String insertTaskList(TaskList tasklist) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 생성");
 		// 디버깅
@@ -41,7 +58,7 @@ public class RestTaskListController {
 	}
 	
 	// 업무리스트 수정
-	@GetMapping("/safari/updateTaskList")
+	@PostMapping("/safari/updateTaskList")
 	public @ResponseBody String updateTaskList(TaskList tasklist) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 수정");
 		// 디버깅
@@ -64,7 +81,7 @@ public class RestTaskListController {
 	}
 	
 	// 업무리스트 삭제
-	@GetMapping("/safari/deleteTaskList")
+	@PostMapping("/safari/deleteTaskList")
 	public @ResponseBody String deleteTaskList(int tasklistNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 삭제");
 		// 디버깅
