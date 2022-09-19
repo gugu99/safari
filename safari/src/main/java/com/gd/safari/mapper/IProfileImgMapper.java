@@ -11,4 +11,5 @@ import com.gd.safari.vo.ProfileImg;
 public interface IProfileImgMapper {
 	int insertProfileImg(Map<String, Object> map);
 	ProfileImg selectProfileImgOne(int workMemberNo);
+	int deleteProfileImg(int workMemberNo);
 }

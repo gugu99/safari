@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,13 +26,22 @@ public class ProfileImgController {
 		@PostMapping("/safari/addProfileImg")
 		public String addWorkspace (@RequestParam("imgFile") MultipartFile imgFile,
 									HttpSession session) {
-			int workMemberNo = (Integer)session.getAttribute("workMemberNo");				 // workMemberNo 세션 불러오기
-			log.debug(TeamColor.CJM+imgFile +"Controller imgFile");							 // imgFile 디버깅
-			String path = session.getServletContext().getRealPath("/resources/upload/");	 // path 설정
-			map.put("imgFile", imgFile);													 // map에 imgFile 설정
-			map.put("workMemberNo", workMemberNo);										     // map에 workMemberNo 설정
-			map.put("path", path);															 // map에 path 설정
+			int workMemberNo = (Integer)session.getAttribute("workMemberNo");				 		// workMemberNo 세션 불러오기
+			log.debug(TeamColor.CJM+imgFile.getOriginalFilename() +"imgFile.getOriginalFilename");  // imgFile 디버깅
+			log.debug(TeamColor.CJM+imgFile.getName() +"imgFile.getName"); 							// imgFile 디버깅
+			String path = session.getServletContext().getRealPath("/resources/upload/");			 // path 설정
+			map.put("imgFile", imgFile);															 // map에 imgFile 설정
+			map.put("workMemberNo", workMemberNo);										   			 // map에 workMemberNo 설정
+			map.put("path", path);																	 // map에 path 설정
 			profileImgService.addProfileImg(map);
+			return "redirect:/safari/workspaceMemberOne";											 // redirect 워크스페이스멤버 상세보기로 
+		}
+		@GetMapping("/safari/removeProfileImg")
+		public String removeWorkspace (	HttpSession session) {
+								
+			int workMemberNo = (Integer)session.getAttribute("workMemberNo");				 // workMemberNo 세션 불러오기
+			String path = session.getServletContext().getRealPath("/resources/upload/");	 // path 설정
+			profileImgService.removeProfileImg(workMemberNo,path);
 			return "redirect:/safari/workspaceMemberOne";									 // redirect 워크스페이스멤버 상세보기로 
 		}
 }

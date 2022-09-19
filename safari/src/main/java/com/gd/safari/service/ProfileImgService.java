@@ -23,7 +23,7 @@ public class ProfileImgService implements IProfileImgService {
 		
 	@Override
 	public int addProfileImg(Map<String, Object> map) {
-		log.debug(TeamColor.CJM+map +"Controller map"); // workMemberNo 디버깅
+		log.debug(TeamColor.CJM+((MultipartFile)map.get("imgFile")).getOriginalFilename() +"OriginName debug"); // OriginName 디버깅
 		String ext = ((MultipartFile)map.get("imgFile")).getOriginalFilename().substring(((MultipartFile)map.get("imgFile")).getOriginalFilename().lastIndexOf("."));// 파일 확장자
 		String originName = ((MultipartFile)map.get("imgFile")).getOriginalFilename();	// originName 불러오기
 		String fileType = ((MultipartFile)map.get("imgFile")).getContentType();			// fileType 불러오기
@@ -43,14 +43,26 @@ public class ProfileImgService implements IProfileImgService {
 			e.printStackTrace();
 			throw new RuntimeException(); // @트랜잭션 처리가 되도록 강제로 Runtime예외(try절을 강요하지 않는)발생
 		}
-		
 		return profileImgMapper.insertProfileImg(map);
 	}
 
 	@Override
 	public ProfileImg getProfileImgOne(int workMemberNo) {
-		log.debug(TeamColor.CJM+workMemberNo +"Controller workMemberNo"); // workMemberNo 디버깅
+		log.debug(TeamColor.CJM+workMemberNo +"Controller workMemberNo"); 				// workMemberNo 디버깅
 		return profileImgMapper.selectProfileImgOne(workMemberNo);
 	}
-	
+
+	@Override
+	public int removeProfileImg(int workMemberNo, String path) {
+		log.debug(TeamColor.CJM+workMemberNo +"Controller workMemberNo"); 				// workMemberNo 디버깅
+		ProfileImg profileImg= profileImgMapper.selectProfileImgOne(workMemberNo);		// profile이지미 정보받기
+		
+		String ext = profileImg.getOriginName().substring(profileImg.getOriginName().lastIndexOf(".")); // 확장자 검색
+		File file = new File(path + profileImg.getFilename() + ext);		// 파일 제거
+			if(file.exists()) {
+				file.delete();
+			}
+		return profileImgMapper.deleteProfileImg(workMemberNo);
+	}
+
 }

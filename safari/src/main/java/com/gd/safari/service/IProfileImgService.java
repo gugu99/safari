@@ -7,4 +7,5 @@ import com.gd.safari.vo.ProfileImg;
 public interface IProfileImgService {
 	int addProfileImg(Map<String, Object> map);
 	ProfileImg getProfileImgOne(int workMemberNo);
+	int removeProfileImg(int workMemberNo, String path);
 }

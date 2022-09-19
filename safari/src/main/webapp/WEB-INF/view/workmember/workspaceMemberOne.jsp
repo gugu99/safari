@@ -61,6 +61,7 @@
                                                 <h4 class="media-heading">${workspaceMemberOne.workMemberEmail}</h4>
                                                 <div class="col-12 px-0 d-flex">
                                                     <a href="#" class="btn btn-sm btn-primary mr-25" data-toggle="modal" data-target="#inlineForm">사진변경</a>
+                                                    <a href="${pageContext.request.contextPath}/safari/removeProfileImg" class="btn btn-sm btn-primary mr-25" >사진삭제</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -337,18 +338,18 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form  method="post" action="${pageContext.request.contextPath}/safari/addProfileImg" enctype="multipart/form-data">
+                        <form id="profileImgForm"  method="post" action="${pageContext.request.contextPath}/safari/addProfileImg" enctype="multipart/form-data">
                             <div class="modal-body">
 			                    <div class="col-12 px-0 d-flex flex-sm-row flex-column justify-content-start">
-                                    <input class="btn btn-sm btn-primary ml-50" name="imgFile" type="file" id="account-upload">
+                                    <input class="btn btn-sm btn-primary ml-50" name="imgFile" type="file" id="imgFile"  accept="image/gif, image/jpeg, image/png">
                                 </div>
                                 <p class="text-muted ml-75 mt-50"><small>Allowed JPG, GIF or PNG. Max
                                  size of
-                                 800kB</small></p>
+                                 1MB</small></p>
                             </div>
                             <div class="modal-footer">
                                 <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="닫기">
-                                <input type="submit" class="btn btn-outline-primary btn-lg" value="업로드">
+                                <input id="uploadButton" type="button" class="btn btn-outline-primary btn-lg" value="업로드">
                             </div>
                         </form>
                     </div>
@@ -368,5 +369,32 @@
 
 </body>
 <!-- END: Body-->
+<script type="text/javascript">
+
+
+$(function(){
+    $("#uploadButton").click(function(){
+    	var fileNm = $("#imgFile").val();
+    	var maxSize =  1024 * 1024;
+    	var fileSize = document.getElementById("imgFile").files[0].size;
+    		if (fileNm != "") {
+    		    var ext = fileNm.slice(fileNm.lastIndexOf(".") + 1).toLowerCase();
+    		    if (!(ext == "gif" || ext == "jpg" || ext == "png")) {
+    		        alert("이미지파일 (.jpg, .png, .gif ) 만 업로드 가능합니다.");
+    		        return false;
+    		    }else if(fileSize > maxSize){
+    		    	alert("파일 사이즈는 1MB까지 가능");
+    		        return;
+    		    }else{
+    		    	$("#profileImgForm").submit();
+    		    }
+    		}
+    });
+ });
+
+
+
+
+</script>
 
 </html>

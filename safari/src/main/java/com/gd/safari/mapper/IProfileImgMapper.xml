@@ -40,5 +40,10 @@
 	
 	
 	</select>
+	
+	<delete id ="deleteProfileImg" parameterType="int">
+			DELETE FROM profile_img
+		WHERE work_member_no = #{workMemberNo}
+	</delete>
 
 </mapper>
