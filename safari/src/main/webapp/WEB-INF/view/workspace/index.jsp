@@ -37,7 +37,6 @@
 	data-open="click" data-menu="vertical-menu-modern"
 	data-col="content-detached-right-sidebar">
 
-	<%@ include file="/WEB-INF/view/inc/header.jsp"%>
 	<!-- header -->
 
 	<!-- BEGIN: Content-->
