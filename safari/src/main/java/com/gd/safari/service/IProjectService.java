@@ -16,4 +16,7 @@ public interface IProjectService {
 	
 	// 프로젝트, 프로젝트 멤버 수정 메소드
 	boolean modifyProject(Map<String, Object> map);
+	
+	// 프로젝트 삭제
+	void removeProject(int projectNo);
 }

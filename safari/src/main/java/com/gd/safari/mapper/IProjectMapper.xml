@@ -76,4 +76,8 @@
 		WHERE
 			project_no = #{projectNo};
 	</update>
+	
+	<delete id="deleteProject" parameterType="int">
+		DELETE FROM project WHERE project_no = #{projectNo}
+	</delete>
 </mapper>

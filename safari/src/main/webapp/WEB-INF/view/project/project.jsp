@@ -97,7 +97,8 @@
                         
                         	<c:forEach var="pg" items="${projectGroupList}">
 	                            <li>
-	                                <h6 class="mb-0">${pg.projectGroupName}<button type="button" class="float-right"><i class="feather icon-chevron-down float-right cursor-pointer"></i></button></h6>
+	                                <h6 class="mb-0">${pg.projectGroupName}<a href="${pageContext.request.contextPath}/safari/addProjToProjGroup?projectGroupNo=${pg.projectGroupNo}"><i class="feather icon-plus float-right cursor-pointer"></i></a></h6>
+	                            	
 	                            </li>
                             </c:forEach>
                         </ul>

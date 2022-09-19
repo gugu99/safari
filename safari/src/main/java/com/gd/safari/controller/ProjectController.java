@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.safari.commons.TeamColor;
+import com.gd.safari.service.IProjectGroupService;
 import com.gd.safari.service.IProjectService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +22,10 @@ import lombok.extern.slf4j.Slf4j;
 public class ProjectController {
 	@Autowired
 	private IProjectService projectService;
+	@Autowired
+	private IProjectGroupService projectGroupService;
 	
-	// 전체 프로젝트 개괄, 프로젝트 추가 페이지
+	// 전체 프로젝트 개관, 프로젝트 추가 페이지
 	@GetMapping("/safari/project")
 	public String project(Model model, HttpSession session) {
 		// 워크스페이스 페이지에서 세션에 담은 workspaceNo를 받아온다
@@ -45,9 +48,11 @@ public class ProjectController {
 	public String project(HttpSession session, @RequestParam Map<String, Object> map) {
 		log.debug(TeamColor.CSK + "프로젝트 추가");
 		
-		// 워크스페이스 페이지에서 세션에 담은 workspaceNo를 받아온다
-		int workNo = (Integer)session.getAttribute("workNo");
+		// 워크스페이스 페이지에서 세션에 담은 workspaceNo와 projManagerNo를 받아온다
+		int workNo = (Integer)session.getAttribute("workNo"); // mapper 메소드의 파라미터로 사용
+		int projManagerNo = (int)session.getAttribute("workMemberNo"); // 프로젝트 생성자가 관리자로 등록되게 할 목적으로 사용
 		map.put("workNo", workNo);
+		map.put("projManagerNo", projManagerNo);
 		
 		log.debug(TeamColor.CSK + map);
 		// log.debug(TeamColor.CSK + map.keySet()); // workNo, projectName, projectAuth, projectMemberList
@@ -55,17 +60,6 @@ public class ProjectController {
 		// TODO 리턴값 고민 필요
 		projectService.addProject(map);
 		
-		return "redirect:/safari/project";
-	}
-	
-	// 프로젝트 그룹 추가
-	@PostMapping("/safari/projectGroup")
-	public String projectGroup(@RequestParam String projectGroupName) {
-		log.debug(TeamColor.CSK + "프로젝트 그룹 추가");
-		log.debug(TeamColor.CSK + projectGroupName);
-		
-		// TODO project group create
-
 		return "redirect:/safari/project";
 	}
 	
@@ -108,4 +102,34 @@ public class ProjectController {
 		return "redirect:/safari/project";
 	}
 	
+	// 삭제 메소드가 들어올 자리
+	
+	
+	// Project Group 매핑
+	// 프로젝트 그룹 추가
+	@PostMapping("/safari/projectGroup")
+	public String projectGroup(@RequestParam String projectGroupName) {
+		log.debug(TeamColor.CSK + "프로젝트 그룹 추가");
+		log.debug(TeamColor.CSK + projectGroupName);
+		
+		projectGroupService.addProjectGroup(projectGroupName);
+
+		return "redirect:/safari/project";
+	}
+	
+	@GetMapping("/safari/addProjToProjGroup")
+	public String addProjToProjGroup(HttpSession session, Model model, @RequestParam int projectGroupNo) {
+		log.debug(TeamColor.CSK + "@GetMapping addProjToProjGroup");
+		log.debug(TeamColor.CSK + "projectGroupNo" + projectGroupNo);
+		
+		int workNo = (int)session.getAttribute("workNo");
+		Map<String, Object> map = projectService.getProjectListByWorkspace(workNo); // TODO 일단 데이터 출력 검사만 하고 메소드 분리
+		
+		model.addAttribute("projectGroupNo", projectGroupNo);
+		model.addAttribute("projectList", map.get("projectList"));
+		log.debug(TeamColor.CSK + "projectList" +  map.get("projectList"));
+
+		
+		return "project/addProjToProjGroup";
+	}
 }
