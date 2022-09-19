@@ -40,6 +40,8 @@
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/assets/css/style.css">
     <!-- END: Custom CSS-->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8ad27b76fa5ac0f047058a257a052808&libraries=services"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets/js/kakaomap.js"></script>
 </head>
 <!-- END: Head-->
 
@@ -66,70 +68,79 @@
                 </div>
             </div>
             <div class="content-body justify-content-center row mt-2">
-                <section id="timeline" class="timeline-center col-md-8">
-                    <div class="timeline-card card border-grey border-lighten-2">
-                        <div class="card-content">
-                        	 <div class="px-0 py-0 ml-1 mt-1">
-	                       	 	<div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
-	                             <span class="text-bold-600 mr-1">작성자</span>
-	                             <span class="blue-grey date">2022-09-14 00:00:00</span>
-	                       	 	<p class="h2 card-text mt-2 mb-1 ml-1">일정 제목</p>
-                        	 </div>
-                        	 	
-                            <div class="card-footer px-0 py-0">
-                             <div class="card-content">
-                                 <div class="card-body">
-                                     <p class="card-text">가나다라마바사아자차카타파</p>
-                                     <span class="blue-grey addr" id="location"><span class="fa fa-map-marker mr-2"></span>서울특별시 금천구 가산로 99 (가산동, 두산위브아파트)</span>
-                                     <span class="blue-grey addr">123-123</span>
-                                     <div id="map" style="width:100%;height:300px;"></div>
-                                     
-                                     <ul class="list-inline mt-1 mb-0">
-                                         <li class="pr-1"><a href="#" class=""><span class="fa fa-thumbs-o-up"></span> Like</a></li>
-                                         <li class="pr-1"><span class="fa fa-commenting-o"></span> Comment</li>
-                                     </ul>
-                                 </div>
-                             </div>
-                            </div>
-                            
-                            <!-- 댓글 -->
-                            <div class="card-footer px-0 py-0">
-                                <div class="card-body">
-                                    <div class="media">
-                                    	<!-- 프로필 이미지 -->
-                                        <div class="media-left">
-                                            <div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
-                                        </div>
-                                        
-                                        <div class="media-body ml-1">
-                                            <p class="text-bold-600 mb-0">Jason Ansley <span class="blue-grey date">2022-09-14 00:00:00</span>
-                                            	<a href="#" class="addr"><span class="fa fa-thumbs-o-up ml-1 addr"></span> Like</a>
-                                            </p>
-                                            <p class="m-0">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
-                                                sollicitudin commodo.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- comment input -->
-                            <div class="card-footer px-0 py-0">
-                             <div class="card-body">
-                                 <fieldset class="form-group position-relative has-icon-left mb-0">
-	                                <form action="#" method="post" id="commentForm">
-	                                     <input type="text" class="form-control" name="scheduleComment" id="comment" onkeyup="insertComment()" placeholder="입력 Enter입니다.">
-	                                     <div class="form-control-position">
-	                                         <i class="fa fa-dashcube"></i>
-	                                     </div>
-	                                 </form>
-                                 </fieldset>
-                             </div>
-                            </div>
-                            <!-- comment input end -->
-                        </div>
-                    </div>
-                    
-                </section>
+            	<c:forEach var="s" items="${scheduleList }" varStatus="i">
+            		<section id="timeline" class="timeline-center col-md-8">
+	                    <div class="timeline-card card border-grey border-lighten-2">
+	                        <div class="card-content">
+	                        	 <div class="px-0 py-0 ml-1 mt-1">
+		                       	 	<div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
+		                             <span class="text-bold-600 mr-1">${s.scheduleWriter }</span>
+		                             <span class="blue-grey date">${createDate }</span>
+		                       	 	<p class="h2 card-text mt-2 mb-1 ml-1">${s.scheduleTitle }</p>
+	                        	 </div>
+	                        	 	
+	                            <div class="card-footer px-0 py-0">
+	                             <div class="card-content">
+	                                 <div class="card-body">
+	                                     <p class="card-text mb-3">${s.scheduleContent }</p>
+	                                     <c:if test="${s.scheduleLocation ne ''}">
+		                                     <span class="blue-grey addr"><span class="fa fa-map-marker mr-2"></span>${s.scheduleLocation }</span>
+		                                     <span class="blue-grey addr">${s.scheduleDetailLocation }</span>
+	                                     	<div id="map${i.index }" style="width:100%;height:300px;" ></div>
+	                                     	<script>
+	                                     		locationMap('map${i.index }', '${s.scheduleLocation }');
+	                                     	</script>
+	                                     </c:if>
+	                                     
+	                                     <ul class="list-inline mt-1 mb-0">
+	                                         <li class="pr-1"><a href="#" class=""><span class="fa fa-thumbs-o-up"></span> Like</a></li>
+	                                         <li class="pr-1"><span class="fa fa-commenting-o"></span> Comment</li>
+	                                     </ul>
+	                                 </div>
+	                             </div>
+	                            </div>
+	                            
+	                            <!-- 댓글 -->
+	                            <c:forEach var="c" items="${s.scheduleComments }">
+		                            <c:if test="${c.cmtMemberEmail ne null }">
+			                            <div class="card-footer px-0 py-0">
+			                                <div class="card-body">
+			                                    <div class="media">
+			                                    	<!-- 프로필 이미지 -->
+			                                        <div class="media-left">
+			                                            <div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
+			                                        </div>
+		                                        
+		                                        	<div class="media-body ml-1">
+		                                        		<p class="text-bold-600 mb-0">${c.cmtMemberEmail } <span class="blue-grey date ml-1">${c.cmtCreateDate }</span>
+		                                            		<a href="#" class="addr"><span class="fa fa-thumbs-o-up ml-1 addr"></span> Like</a>
+			                                            </p>
+			                                            <p class="m-0">${c.scheduleCmtContent }</p>
+			                                       </div>
+			                                    </div>
+			                                </div>
+			                            </div>
+		                            </c:if>
+	                            </c:forEach>
+	                            
+	                            <!-- comment input -->
+	                            <div class="card-footer px-0 py-0">
+	                             <div class="card-body">
+	                                 <fieldset class="form-group position-relative has-icon-left mb-0">
+		                                <form action="#" method="post" id="commentForm">
+		                                     <input type="text" class="form-control" name="scheduleComment" id="comment" onkeyup="insertComment()" placeholder="입력 Enter입니다.">
+		                                     <div class="form-control-position">
+		                                         <i class="fa fa-dashcube"></i>
+		                                     </div>
+		                                 </form>
+	                                 </fieldset>
+	                             </div>
+	                            </div>
+	                            <!-- comment input end -->
+	                        </div>
+	                    </div>
+	                </section>
+            	</c:forEach>
                 <%@ include file="/WEB-INF/view/schedule/addSchedule.jsp" %>
             </div>
         </div>
@@ -170,46 +181,6 @@
 
 	<script src="${pageContext.request.contextPath }/resources/assets/js/scripts.js"></script>
 	<script src="${pageContext.request.contextPath }/resources/assets/js/addSchedule.js"></script>
-	
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8ad27b76fa5ac0f047058a257a052808&libraries=services"></script>
-	<script>
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-		    mapOption = {
-		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-		        level: 3 // 지도의 확대 레벨
-		    };  
-		
-		// 지도를 생성합니다    
-		var map = new kakao.maps.Map(mapContainer, mapOption); 
-		
-		// 주소-좌표 변환 객체를 생성합니다
-		var geocoder = new kakao.maps.services.Geocoder();
-		
-		// 주소로 좌표를 검색합니다
-		geocoder.addressSearch($('#location').text(), function(result, status) {
-		
-		    // 정상적으로 검색이 완료됐으면 
-		     if (status === kakao.maps.services.Status.OK) {
-		
-		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-		
-		        // 결과값으로 받은 위치를 마커로 표시합니다
-		        var marker = new kakao.maps.Marker({
-		            map: map,
-		            position: coords
-		        });
-		
-		        // 인포윈도우로 장소에 대한 설명을 표시합니다
-		        /* var infowindow = new kakao.maps.InfoWindow({
-		            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-		        });
-		        infowindow.open(map, marker); */
-		
-		        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-		        map.setCenter(coords);
-		    } 
-		});    
-	</script>
 	
 
 <script>
