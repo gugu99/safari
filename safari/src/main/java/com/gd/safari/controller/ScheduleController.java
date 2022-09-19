@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +25,19 @@ public class ScheduleController {
 
 	// 일정 리스트 페이지 이동
 	@GetMapping("/safari/scheduleList")
-	public String scheduleList() {
+	public String scheduleList(HttpSession session, Model model) {
+		
+		int projectNo = (int)session.getAttribute("projectNo");
+		log.debug(TeamColor.GDE + "projectNo --- " + projectNo);
+		
+		Map<String, Object> map = scheduleService.getScheduleList(projectNo);
+		log.debug(TeamColor.GDE + "scheduleList --- " + map.get("scheduleList"));
+		log.debug(TeamColor.GDE + "projectMemberList --- " + map.get("projectMemberList"));
+		
+		model.addAttribute("scheduleList", map.get("scheduleList"));
+		model.addAttribute("projectMemberList", map.get("projectMemberList"));
+		
+		
 		return "schedule/scheduleList";
 	}
 	

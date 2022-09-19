@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.IScheduleMapper">
+	<!-- 일정 리스트(일정, 일정 멤버, 일정 댓글 -->
+	<resultMap type="com.gd.safari.vo.ScheduleList" id="resultScheduleList">
+		<result column="schedule_no" property="scheduleNo"/>
+		<result column="project_no" property="projectNo"/>
+		<result column="schedule_writer" property="scheduleWriter"/>
+		<result column="schedule_start" property="scheduleStart"/>
+		<result column="schedule_end" property="scheduleEnd"/>
+		<result column="schedule_title" property="scheduleTitle"/>
+		<result column="schedule_location" property="scheduleLocation"/>
+		<result column="schedule_detail_location" property="scheduleDetailLocation"/>
+		<result column="schedule_content" property="scheduleContent"/>
+		<result column="schedule_auth" property="scheduleAuth"/>
+		<result column="create_date" property="createDate"/>
+		<collection property="scheduleMembers" ofType="com.gd.safari.vo.ScheduleMember">
+			<id column="schedule_no" property="scheduleNo"/>
+			<id column="schedule_member_email" property="scheduleMemberEmail"/>
+			<result column="schedule_attend" property="scheduleAttend"/>
+			<result column="create_date" property="createDate"/>
+			<result column="update_date" property="updateDate"/>
+		</collection>
+		<collection property="scheduleComments" ofType="com.gd.safari.vo.ScheduleComment">
+			<id column="schedule_cmt_no" property="scheduleCmtNo"/>
+			<result column="cmt_member_email" property="cmtMemberEmail"/>
+			<result column="schedule_cmt_content" property="scheduleCmtContent"/>
+			<result column="cmt_create_date" property="cmtCreateDate"/>
+			<result column="schedule_no" property="scheduleNo"/>
+		</collection>
+	</resultMap>
+	<select id="selectScheduleList" parameterType="int" resultMap="resultScheduleList">
+		SELECT
+			s.schedule_no
+			, s.schedule_writer 
+			, s.schedule_start	
+			, s.schedule_end  
+			, s.schedule_title 
+			, s.schedule_location 
+			, s.schedule_detail_location 
+			, s.schedule_content 
+			, s.schedule_auth 
+			, s.create_date 
+			
+			, sm.schedule_member_email  
+			, sm.schedule_attend 
+			
+			, sc.schedule_cmt_no 
+			, sc.cmt_member_email 
+			, sc.schedule_cmt_content 
+			, sc.cmt_create_date 
+		FROM
+			schedule s 
+		LEFT OUTER JOIN 
+			schedule_member sm 
+		ON 
+			s.schedule_no = sm.schedule_no
+		LEFT OUTER JOIN 
+			schedule_comment sc 
+		ON 
+			s.schedule_no = sc.schedule_no
+		WHERE
+			s.project_no = #{projectNo}
+		ORDER BY
+			s.schedule_no DESC
+	</select>
+
 	<!-- 일정 생성하기 -->
 	<insert id="insertSchedule" parameterType="map">
 		<selectKey keyProperty="scheduleNo" resultType="int" order="AFTER">

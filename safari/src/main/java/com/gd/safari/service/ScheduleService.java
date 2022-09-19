@@ -1,5 +1,7 @@
 package com.gd.safari.service;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
+import com.gd.safari.mapper.IProjectMemberMapper;
 import com.gd.safari.mapper.IScheduleMapper;
 import com.gd.safari.mapper.IScheduleMemberMapper;
 import com.gd.safari.vo.ScheduleMember;
@@ -21,7 +24,27 @@ public class ScheduleService implements IScheduleService {
 	private IScheduleMapper scheduleMapper;
 	@Autowired
 	private IScheduleMemberMapper scheduleMemberMapper;
-
+	@Autowired
+	private IProjectMemberMapper projectMemberMapper;
+	
+	// 일정 리스트 (프로젝트 멤버리스트, 일정, 일정 멤버, 일정 댓글)
+	@Override
+	public Map<String, Object> getScheduleList(int projectNo) {
+		// 프로젝트 멤버리스트와 일정리스트를 담을 map 
+		 Map<String, Object> map = new HashMap<>();
+		// 프로젝트 멤버리스트
+		List<Map<String, Object>> projectMemberList = projectMemberMapper.selectProjectMemberList(projectNo);
+		
+		// 일정 리스트
+		List<Map<String, Object>> scheduleList = scheduleMapper.selectScheduleList(projectNo);
+		
+		map.put("projectMemberList", projectMemberList);
+		map.put("scheduleList", scheduleList);
+		
+		return map;
+	}
+	
+	
 	// 일정 생성
 	// 일정 생성하면서 일정 멤버 추가
 	@Override
@@ -44,7 +67,7 @@ public class ScheduleService implements IScheduleService {
 		
 		// 일정 멤버 추가하기
 		for (String memberEmail : scheduleMemberList) {
-			scheduleMember.setMemberEmail(memberEmail);
+			scheduleMember.setScheduleMemberEmail(memberEmail);
 			
 			scheduleMemberMapper.insertScheduleMember(scheduleMember);
 		}

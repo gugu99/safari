@@ -8,8 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface IScheduleMapper {
 	
-	// 일정 리스트
-	List<Map<String, Object>> selectScheduleList();
+	// 일정 리스트 (일정, 일정 멤버, 일정 댓글)
+	List<Map<String, Object>> selectScheduleList(int projectNo);
 	// 일정 생성
 	int insertSchedule(Map<String, Object> map);
 	// 일정 수정
