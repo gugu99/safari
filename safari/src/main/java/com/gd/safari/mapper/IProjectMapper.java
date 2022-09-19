@@ -20,4 +20,7 @@ public interface IProjectMapper {
 	
 	// 프로젝트 수정 메소드
 	int updateProject(Map<String, Object> map);
+	
+	// 프로젝트 삭제 메소드
+	int deleteProject(int projectNo);
 }

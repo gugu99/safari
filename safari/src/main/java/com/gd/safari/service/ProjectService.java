@@ -56,7 +56,7 @@ public class ProjectService implements IProjectService {
 		return map;
 	}
 	
-	// 프로젝트 추가 메소드
+	// 프로젝트, 프로젝트 멤버 추가 메소드
 	@Override
 	@Transactional
 	public void addProject(Map<String, Object> map) {
@@ -76,19 +76,30 @@ public class ProjectService implements IProjectService {
 		int row = projectMapper.insertProject(map);
 		log.debug(TeamColor.CSK + "insert 후 map: " + map);
 		
-		if(row == 1) {
-			log.debug(TeamColor.CSK + "insertProject 성공");
-			// VO 객체 생성 후 insertProject()에서 받아온 projectNo 세팅
-			ProjectMember projectMember = new ProjectMember();
-			projectMember.setProjectNo((int) map.get("projectNo"));
+		if(row != 1) {
+			// 롤백 유도
+			throw new RuntimeException();
+		}
+		
+		log.debug(TeamColor.CSK + "insertProject 성공");
+		// VO 객체 생성 후 insertProject()에서 받아온 projectNo 세팅
+		ProjectMember projectMember = new ProjectMember();
+		projectMember.setProjectNo((int) map.get("projectNo"));
+		
+		// 프로젝트 멤버의 수만큼 반복하여 insert
+		// TODO projManagerNo랑 같으면 관리자로 인서트
+		for(String s : projectMemberArr) {
+			int workMemberNo = Integer.parseInt(s);
+			projectMember.setWorkMemberNo(workMemberNo);
 			
-			// 프로젝트 멤버의 수만큼 반복하여 insert
-			for(String s : projectMemberArr) {
-				int workMemberNo = Integer.parseInt(s);
-				projectMember.setWorkMemberNo(workMemberNo);
-				
-				projectMemberMapper.insertProjectMember(projectMember);
+			// 세션에 저장된 워크스페이스멤버 번호와 같으면
+			// 즉, 작성자 본인이면 워크스페이스 관리자로 등록됨
+			if(workMemberNo == (int)map.get("projManagerNo")) {
+				projectMemberMapper.insertProjectManager(projectMember);
+				continue;
 			}
+			
+			projectMemberMapper.insertProjectMember(projectMember);
 		}
 	}
 	
@@ -116,6 +127,7 @@ public class ProjectService implements IProjectService {
 		return map;
 	}
 	
+	// 프로젝트, 프로젝트 멤버 수정 메소드
 	@Transactional
 	@Override
 	public boolean modifyProject(Map<String, Object> map) {
@@ -132,8 +144,6 @@ public class ProjectService implements IProjectService {
 		// 프로젝트 수정
 		int row = projectMapper.updateProject(map);
 		
-		// row == 1 검사 불가. 나중에 다시 생각해봐야 할듯
-		// 변동사항이 없으면 0이 리턴됨
 		log.debug(TeamColor.CSK + "row: " + row);
 		log.debug(TeamColor.CSK + "projectMapper.updateProject() 성공");
 		
@@ -182,17 +192,34 @@ public class ProjectService implements IProjectService {
 		// 프로젝트 멤버의 active 값을 N으로
 		for(int workMemberNo : deleteProjectMemberList) {
 			projectMember.setWorkMemberNo(workMemberNo); // 해당 멤버의 workMemberNo 세팅
-			projectMemberMapper.updateProjectMemberActive(projectMember);
+			projectMemberMapper.updateProjectMemberActiveN(projectMember);
 			// update project_member set active = 'N' where work_member_no = #{workMemberNo} and project_no = #{projectNo};
 		}
 		
 		// 프로젝트에 새롭게 추가 메소드
 		for(int workMemberNo : newProjectMemberList) {
 			projectMember.setWorkMemberNo(workMemberNo); // 해당 멤버의 workMemberNo 세팅
-			projectMemberMapper.insertProjectMember(projectMember);
+			int pmRow = projectMemberMapper.insertProjectMember(projectMember);
+			
+			if(pmRow != 1) {
+				throw new RuntimeException(); // rollback 유도
+			}
 		}
 		
 		result = true;
 		return result;
+	}
+	
+	// 프로젝트 삭제 메소드
+	@Transactional
+	@Override
+	public void removeProject(int projectNo) {
+		// 자식 테이블의 데이터를 다 지워야 프로젝트 삭제 가능
+		projectMemberMapper.deleteProjectMemberByProjectNo(projectNo);
+		
+		// TODO 조원들이 삭제메소드를 구현하는대로 추가할 것
+		// 모두 추가되면 controller에 연결
+		
+		projectMapper.deleteProject(projectNo);
 	}
 }

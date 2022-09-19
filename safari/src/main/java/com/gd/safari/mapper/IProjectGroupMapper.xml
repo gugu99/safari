@@ -3,9 +3,26 @@
 <mapper namespace="com.gd.safari.mapper.IProjectGroupMapper">
 	<select id="selectProjectGroupListByWorkspaceNo" resultType="com.gd.safari.vo.ProjectGroup" parameterType="int">
 		SELECT distinct
-			pg.projectgroup_name projectgroupName
-		FROM project_group pg
-		LEFT JOIN project_group_conn pc
-		on pg.projectgroup_no = pc.projectgroup_no
+			pg.projectgroup_no projectgroupNo
+			, pg.projectgroup_name projectgroupName
+		FROM 
+			project_group pg
+		LEFT JOIN 
+			project_group_conn pc
+		ON 
+			pg.projectgroup_no = pc.projectgroup_no
 	</select>
+	
+	<insert id="insertProjectGroup" parameterType="java.lang.String">
+		INSERT INTO project_group(
+			projectgroup_name
+			, create_date
+			, update_date
+		) VALUES (
+			#{projectGroupName}
+			, NOW()
+			, NOW()
+		)
+		
+	</insert>
 </mapper>

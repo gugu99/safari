@@ -12,6 +12,24 @@
 		) VALUES (
 			#{workMemberNo}
 			, #{projectNo}
+			, 'N'
+			, 'Y'
+			, NOW()
+			, NOW()
+		)
+	</insert>
+	
+	<insert id="insertProjectManager" parameterType="com.gd.safari.vo.ProjectMember">
+		INSERT INTO project_member(
+			work_member_no
+			, project_no
+			, project_member_auth
+			, active
+			, create_date
+			, update_date
+		) VALUES (
+			#{workMemberNo}
+			, #{projectNo}
 			, 'Y'
 			, 'Y'
 			, NOW()
@@ -57,7 +75,7 @@
 			pm.project_no = #{projectNo} AND pm.active = 'Y'
 	</select>
 	
-	<update id="updateProjectMemberActive" parameterType="com.gd.safari.vo.ProjectMember">
+	<update id="updateProjectMemberActiveN" parameterType="com.gd.safari.vo.ProjectMember">
 		 UPDATE 
 		 	project_member 
 		 SET 
@@ -67,4 +85,7 @@
 		 	work_member_no = #{workMemberNo} AND project_no = #{projectNo}
 	</update>
 	
+	<delete id="deleteProjectMemberByProjectNo" parameterType="int">
+		DELETE FROM project_member WHERE project_no = #{projectNo}
+	</delete>
 </mapper>

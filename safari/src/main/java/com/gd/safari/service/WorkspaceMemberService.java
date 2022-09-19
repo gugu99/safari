@@ -1,6 +1,7 @@
 package com.gd.safari.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +30,10 @@ public class WorkspaceMemberService implements IWorkspaceMemberService{
 		return workspaceMemberMapper.selectWorkspaceMemberList(workNo); //workspaceMember List 
 	}
 	@Override
-	public WorkspaceMember getWorkspaceMemberOne(WorkspaceMember workspaceMember) {
-		log.debug(TeamColor.CJM+workspaceMember +"Controller workspaceMember"); // workspaceMember 디버깅
-		return workspaceMemberMapper.selectWorkspaceMemberOne(workspaceMember);
+	public Map<String,Object>  getWorkspaceMemberOne(int workMemberNo) {
+		log.debug(TeamColor.CJM+workMemberNo +"Controller map"); // workMemberNo 디버깅
+		
+		return workspaceMemberMapper.selectWorkspaceMemberOne(workMemberNo);
 	}
 	@Override
 	public int getWorkspaceMemberNo(WorkspaceMember workspaceMember) {

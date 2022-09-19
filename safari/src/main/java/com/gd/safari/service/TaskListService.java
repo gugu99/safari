@@ -18,11 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 public class TaskListService implements ITaskListService {
 	@Autowired private ITaskListMapper taskListMapper;
 	
-	// 업무리스트 보여주기
+	// 업무리스트 조회
 	@Override
-	public List<TaskList> getTaskList() {
+	public List<TaskList> getTaskList(int projectNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 보여주기");
-		return taskListMapper.selectTaskList();
+		return taskListMapper.selectTaskList(projectNo);
 	}
 
 	// 업무리스트 생성

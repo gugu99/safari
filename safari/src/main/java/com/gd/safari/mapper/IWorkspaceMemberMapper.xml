@@ -75,23 +75,25 @@
 	
 	</delete>
 	
-	<select id = "selectWorkspaceMemberOne" parameterType="com.gd.safari.vo.WorkspaceMember" resultType ="com.gd.safari.vo.WorkspaceMember">
+	<select id = "selectWorkspaceMemberOne" parameterType="int" resultType ="map">
 		SELECT  
-			  work_member_no     workMemberNo
-			, work_member_name   workMemberName
-			, work_memeber_addr  workMemberAddr
-			, work_member_birth  workMemberBirth	
-			, work_member_phone  workMemberPhone
-			, work_member_dept   workMemberDept
-			, work_member_pos    workMemberPos
-			, active             
-			, work_member_level  workMemberLevel
-			, create_date        createDate
-			, update_date        updateDate
-			, work_no            workNo
-			, work_member_email  workMemberEmail
-		FROM workspace_member 
-		where work_member_email = #{workMemberEmail} and work_no = #{workNo}
+			   wm.work_member_no     workMemberNo
+			, wm.work_member_name   workMemberName
+			, wm.work_memeber_addr  workMemberAddr
+			, wm.work_member_birth  workMemberBirth	
+			, wm.work_member_phone  workMemberPhone
+			, wm.work_member_dept   workMemberDept
+			, wm.work_member_pos    workMemberPos
+			, wm.active             
+			, wm.work_member_level  workMemberLevel
+			, wm.create_date        createDate
+			, wm.update_date        updateDate
+			, wm.work_no            workNo
+			, wm.work_member_email  workMemberEmail
+			, pi.filename
+		FROM workspace_member wm inner join profile_img  pi
+		ON wm.work_member_no = pi.work_member_no
+		WHERE wm.work_member_no = #{workMemberNo}
 	
 	</select>
 	
