@@ -1,6 +1,7 @@
 package com.gd.safari.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,6 +14,6 @@ public interface IWorkspaceMemberMapper {
 	int insertWorkspaceMember(WorkspaceMember workspaceMember);
 	List<WorkspaceMember> selectWorkspaceMemberList(int workNo);
 	int deleteWorkspaceMember(int workNo);
-	WorkspaceMember selectWorkspaceMemberOne(WorkspaceMember workspaceMember);
+	Map<String,Object> selectWorkspaceMemberOne(int workMemberNo);
 	int selectWorkspaceMemberNo(WorkspaceMember workspaceMember);
 }

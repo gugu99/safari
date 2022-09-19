@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IProfileImgMapper">
+
+
+	<insert id ="insertProfileImg" parameterType="map">
+			INSERT INTO profile_img(
+				work_member_no
+				,filename
+				,file_ext
+				,origin_name
+				,file_type
+				,file_size
+				,create_date
+				,update_date
+			) VALUES(
+				#{workMemberNo}
+				,#{filename}
+				,#{fileExt}
+				,#{originName}
+				,#{fileType}
+				,#{fileSize}
+				,NOW()
+				,NOW()
+			)
+	</insert>
+	
+	<select id = "selectProfileImgOne" parameterType="int" resultType="com.gd.safari.vo.ProfileImg">
+		SELECT 
+			work_member_no workMemberNo
+			,filename 
+			,file_ext fileExt
+			,origin_name originName
+			,file_type fileType
+			,file_size fileSize
+			,create_date createDate
+			,update_date updateDate
+		FROM profile_img
+		WHERE work_member_no = #{workMemberNo}
+	
+	
+	</select>
+
+</mapper>

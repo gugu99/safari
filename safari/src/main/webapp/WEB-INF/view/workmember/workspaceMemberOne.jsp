@@ -54,13 +54,13 @@
                                         <!-- users edit media object start -->
                                         <div class="media mb-2">
                                             <a class="mr-2" href="#">
-                                                <img src="../../../app-assets/images/portrait/small/avatar-s-26.png" alt="users avatar" class="users-avatar-shadow rounded-circle" height="64" width="64">
+                                                <img src="${pageContext.request.contextPath}/resources/upload/${profileImg.filename}${profileImg.fileExt}" alt="" class="users-avatar-shadow rounded-circle" height="64" width="64">
                                             </a>
                                            
                                             <div class="media-body">
                                                 <h4 class="media-heading">${workspaceMemberOne.workMemberEmail}</h4>
                                                 <div class="col-12 px-0 d-flex">
-                                                    <a href="#" class="btn btn-sm btn-primary mr-25">사진변경</a>
+                                                    <a href="#" class="btn btn-sm btn-primary mr-25" data-toggle="modal" data-target="#inlineForm">사진변경</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -325,8 +325,38 @@
         </div>
     </div>
     <!-- END: Content-->
-	
-	
+     <!--IMG Modal -->
+	<div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="form-group">
+            <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <label class="modal-title text-text-bold-600" id="myModalLabel33">이미지파일업로드</label>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form  method="post" action="${pageContext.request.contextPath}/safari/addProfileImg" enctype="multipart/form-data">
+                            <div class="modal-body">
+			                    <div class="col-12 px-0 d-flex flex-sm-row flex-column justify-content-start">
+                                    <input class="btn btn-sm btn-primary ml-50" name="imgFile" type="file" id="account-upload">
+                                </div>
+                                <p class="text-muted ml-75 mt-50"><small>Allowed JPG, GIF or PNG. Max
+                                 size of
+                                 800kB</small></p>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="닫기">
+                                <input type="submit" class="btn btn-outline-primary btn-lg" value="업로드">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- IMG Modal END -->
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
 
