@@ -115,10 +115,14 @@ public class AccountController {
                 
                 // 이메일 있는지 확인
                 boolean result = memberService.getMemberEmailByCheck(userInfo.getEmail());
+                // 있어도 없어도 객체에 담는다
+                // 있다면(true) - 로그인
+                // 없다면(false) - 회원가입
                 Member member = new Member();
             	member.setMemberEmail(userInfo.getEmail());
             	member.setMemberPw(userInfo.getKid());
             	
+            	// true 라면 로그인처리 false 라면 회원가입처리
                 if(result) {
                 	login(session, member);
                 } else {
@@ -206,7 +210,7 @@ public class AccountController {
 	}
 	
 	// 비밀번호 변경 액션
-	@PostMapping("account/change-password")
+	@PostMapping("/account/change-password")
 	public String changePassword(Map<String, Object> map) {
 		log.debug(TeamColor.CSH + this.getClass() + " 비밀번호 변경 액션");
 		// 디버깅

@@ -10,16 +10,16 @@
             </button>
         </div>
         <!-- form start -->
-        <form class="edit-kanban-item">
+        <form class="edit-kanban-item" action="${pageContext.request.contextPath }/safari/taskDetail" method="post">
             <div class="card-content position-relative">
                 <div class="card-body">
                     <div class="form-group">
                         <label>Card Title</label>
-                        <input type="text" class="form-control edit-kanban-item-title" placeholder="kanban Title">
+                        <input type="text" class="form-control edit-kanban-item-title" placeholder="kanban Title" name="">
                     </div>
                     <div class="form-group">
                         <label>Due Date</label>
-                        <input type="text" class="form-control edit-kanban-item-date" placeholder="21 August, 2019">
+                        <input type="text" class="form-control edit-kanban-item-date" placeholder="21 August, 2022" name="">
                     </div>
                     <div class="row">
                         <div class="col-6">
@@ -39,9 +39,7 @@
                             <div class="form-group">
                                 <label>Member</label>
                                 <div class="d-flex align-items-center">
-                                    <div class="avatar m-0 mr-1">
-                                        <img src="../../../app-assets/images/portrait/small/avatar-s-20.png" height="36" width="36" alt="avtar img holder">
-                                    </div>
+                                    <div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
                                     <div class="badge-circle">
                                         <i class="feather icon-plus"></i>
                                     </div>
