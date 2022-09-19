@@ -50,16 +50,28 @@
 		)
 	</insert>
 	
+	<!-- 프로젝트 수정 -->
 	<update id="updateProject" parameterType="java.util.Map">
 		UPDATE project
-		<trim prefix="SET" suffixOverrides=","><!-- 동적으로 SET 키워드, 콤마 추가 -->
+		<trim prefix="SET"><!-- 동적으로 SET 키워드, 콤마 추가 -->
 			<!-- ORACLE에서 빈 문자열 == null, mysql에서 빈 문자열은 빈 문자열 -->
-			project_name = #{project_name}
-			<if test="projectExpl != null and !projectExpl.equals('')">project_expl = #{projectExpl}</if>
-			<if test="projectAuth != null and !projectAuth.equals('')">project_auth = #{projectAuth}</if>
-			<if test="projectStart != null and !projectStart.equals('')">project_start = #{projectStart}</if>
-			<if test="projectDeadline != null and !projectDeadline.equals('')">project_deadline = #{projectDeadline}</if>
-			<if test="projectEnd != null and !projectEnd.equals('')">project_end = #{projectEnd}</if>
+			project_name = #{projectName}
+			<if test="projectExpl != null and !projectExpl.equals('')">
+				, project_expl = #{projectExpl}
+			</if>
+			<if test="projectAuth != null and !projectAuth.equals('')">
+				, project_auth = #{projectAuth}
+			</if>
+			<if test="projectStart != null and !projectStart.equals('')">
+				, project_start = #{projectStart}
+			</if>
+			<if test="projectDeadline != null and !projectDeadline.equals('')">
+				, project_deadline = #{projectDeadline}
+			</if>
+			<if test="projectEnd != null and !projectEnd.equals('')">
+				, project_end = #{projectEnd}
+			</if>
+			, update_date = NOW()
 		</trim>
 		WHERE
 			project_no = #{projectNo};

@@ -35,6 +35,7 @@ public class ProjectController {
 		model.addAttribute("projectList", map.get("projectList"));
 		model.addAttribute("workspaceMemberList", map.get("workspaceMemberList"));
 		model.addAttribute("projectGroupList", map.get("projectGroupList"));
+		model.addAttribute("workMemberNo", (int)session.getAttribute("workMemberNo")); // 프로젝트 생성자가 프로젝트 멤버로 바로 삽입되게 하기 위함
 		
 		return "project/project";
 	}
@@ -99,7 +100,9 @@ public class ProjectController {
 		// {projectName=야호, projectExpl=야호야호 신나는 파프, projectAuth=N, projectStart=2022-09-17, projectDeadline=2022-09-30, projectEnd=, projectMemberList=14,15}
 		// projectName=야호, projectExpl=, projectAuth=N, projectStart=, projectDeadline=, projectEnd=, projectMemberList=
 		
+		// 프로젝트와 프로젝트 멤버를 수정하는 메소드
 		boolean result = projectService.modifyProject(map);
+		log.debug(TeamColor.CSK + "프로젝트 수정 결과: " + result);
 		// TODO result 값에 따라 알림창 띄우기
 		
 		return "redirect:/safari/project";

@@ -31,7 +31,12 @@
 	                         <label>프로젝트 멤버</label>
 	                         <select class="form-control select2" multiple="multiple" onChange="selectProjectMember(this)">
 	                           <c:forEach var="wm" items="${workspaceMemberList}">
-	                             	<option value="${wm.workMemberNo}">${wm.workMemberName}</option>
+	                           		<c:if test="${workMemberNo eq wm.workMemberNo}">
+	                           			<option value="${wm.workMemberNo}" selected>${wm.workMemberName}</option>
+	                           		</c:if>
+	                           		<c:if test="${workMemberNo ne wm.workMemberNo}">
+	                           			<option value="${wm.workMemberNo}">${wm.workMemberName}</option>
+	                           		</c:if>
 	                           </c:forEach>
 	                         </select>
 	                     </div>

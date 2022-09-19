@@ -119,7 +119,7 @@
 	                                                </fieldset>
 	                                                
 	                                                <div class="form-group">
-	                                                    <label for="date1">프로젝트 시작일</label><!-- createDate와 맞추기 -->
+	                                                    <label for="date1">프로젝트 시작일</label>
 	                                                    <input type="date" class="form-control" id="date1" name="projectStart">
 	                                                </div>
 	                                                

@@ -57,5 +57,14 @@
 			pm.project_no = #{projectNo} AND pm.active = 'Y'
 	</select>
 	
+	<update id="updateProjectMemberActive" parameterType="com.gd.safari.vo.ProjectMember">
+		 UPDATE 
+		 	project_member 
+		 SET 
+		 	active = 'N'
+		 	, update_date = NOW()
+		 WHERE 
+		 	work_member_no = #{workMemberNo} AND project_no = #{projectNo}
+	</update>
 	
 </mapper>

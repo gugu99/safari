@@ -1,6 +1,7 @@
 package com.gd.safari.service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -115,6 +116,7 @@ public class ProjectService implements IProjectService {
 		return map;
 	}
 	
+	@Transactional
 	@Override
 	public boolean modifyProject(Map<String, Object> map) {
 		boolean result = false;
@@ -131,24 +133,66 @@ public class ProjectService implements IProjectService {
 		int row = projectMapper.updateProject(map);
 		
 		// row == 1 검사 불가. 나중에 다시 생각해봐야 할듯
-		
+		// 변동사항이 없으면 0이 리턴됨
+		log.debug(TeamColor.CSK + "row: " + row);
 		log.debug(TeamColor.CSK + "projectMapper.updateProject() 성공");
 		
-		// projectMember 수정 시작
+		////// projectMember 수정 시작
+		log.debug(TeamColor.CSK + "projectMember 수정 시작");
 		// 프로젝트 멤버에 변동 사항이 없을 경우 프로젝트멤버 테이블 업데이트 X
 		if("".equals(tmp)) {
 			return true;
 		}
 		
-		// 문자열로 받은 프로젝트 멤버 정보를 배열로 변환
-		String[] projectMemberArr = tmp.split(",");
-		ProjectMember projectMember = new ProjectMember();
-		projectMember.setProjectNo((int)map.get("projectNo"));
+		// 문자열로 받은 프로젝트 멤버 수정 정보를 배열로 변환
+		String[] tmpArr = tmp.split(",");
+		//	tmpArr를 List로 변환			1) 리스트로 변환		2) 스트림	3) 형변환			4) 최종연산
+		List<Integer> newProjectMemberList = Arrays.asList(tmpArr).stream().map(Integer::parseInt).collect(Collectors.toList());
+		log.debug(TeamColor.CSK + "newProjectMemberList: " + newProjectMemberList);
 		
-		for(String s : projectMemberArr) {
-			projectMember.setWorkMemberNo(Integer.parseInt(s));
+		// map에서 뽑아낸 projectNo를 가공
+		int projectNo = Integer.parseInt(String.valueOf(map.get("projectNo")));
+		
+		// 수정 전 프로젝트 멤버리스트
+		List<Map<String, Object>> list = projectMemberMapper.selectProjectMemberList(projectNo);
+		
+		// 대입해서 복사하면 얕은 복사 -> 복사한 객체가 변경되면 기존 객체도 변경됨 -> 깊은 복사 필요
+		List<Integer> deleteProjectMemberList = new ArrayList<>(); // workMemberNo만 추출하여 담을 list
+		List<Integer> prevProjectMemberList = new ArrayList<>(); // 깊은 복사를 위한 list
+		
+		for(Map<String, Object> m : list) {
+			// 기존 프로젝트 멤버 리스트에서 workMemberNo만 추출, 
+			// 메소드 실행 후 데이터 유실을 막기 위해 두 개의 리스트에 저장
+			deleteProjectMemberList.add((int)m.get("workMemberNo"));
+			prevProjectMemberList.add((int)m.get("workMemberNo"));
 		}
 		
+		log.debug(TeamColor.CSK + "prevProjectMemberList: " + prevProjectMemberList);
+		
+		deleteProjectMemberList.removeAll(newProjectMemberList); // 차집합 - 프로젝트에서 삭제된 멤버
+		newProjectMemberList.removeAll(prevProjectMemberList); // 차집합 - 프로젝트에 새로 추가된 멤버
+		
+		log.debug(TeamColor.CSK + "삭제할 멤버: " + deleteProjectMemberList);
+		log.debug(TeamColor.CSK + "추가할 멤버: " + newProjectMemberList);
+		
+		// vo 세팅
+		ProjectMember projectMember = new ProjectMember();
+		projectMember.setProjectNo(projectNo);
+		
+		// 프로젝트 멤버의 active 값을 N으로
+		for(int workMemberNo : deleteProjectMemberList) {
+			projectMember.setWorkMemberNo(workMemberNo); // 해당 멤버의 workMemberNo 세팅
+			projectMemberMapper.updateProjectMemberActive(projectMember);
+			// update project_member set active = 'N' where work_member_no = #{workMemberNo} and project_no = #{projectNo};
+		}
+		
+		// 프로젝트에 새롭게 추가 메소드
+		for(int workMemberNo : newProjectMemberList) {
+			projectMember.setWorkMemberNo(workMemberNo); // 해당 멤버의 workMemberNo 세팅
+			projectMemberMapper.insertProjectMember(projectMember);
+		}
+		
+		result = true;
 		return result;
 	}
 }
