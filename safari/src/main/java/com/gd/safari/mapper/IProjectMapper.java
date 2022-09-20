@@ -23,4 +23,8 @@ public interface IProjectMapper {
 	
 	// 프로젝트 삭제 메소드
 	int deleteProject(int projectNo);
+	
+	// 프로젝트그룹에 속한 프로젝트와 해당 워크스페이스에 속한 프로젝트 left join
+	// 프로젝트그룹 수정 form에서 사용
+	List<Map<String, Object>> selectAllProjectByProjectGroupNo(int workNo, int projectGroupNo);
 }

@@ -95,9 +95,7 @@ public class ProjectController {
 		// projectName=야호, projectExpl=, projectAuth=N, projectStart=, projectDeadline=, projectEnd=, projectMemberList=
 		
 		// 프로젝트와 프로젝트 멤버를 수정하는 메소드
-		boolean result = projectService.modifyProject(map);
-		log.debug(TeamColor.CSK + "프로젝트 수정 결과: " + result);
-		// TODO result 값에 따라 알림창 띄우기
+		projectService.modifyProject(map);
 		
 		return "redirect:/safari/project";
 	}
@@ -117,19 +115,27 @@ public class ProjectController {
 		return "redirect:/safari/project";
 	}
 	
-	@GetMapping("/safari/addProjToProjGroup")
-	public String addProjToProjGroup(HttpSession session, Model model, @RequestParam int projectGroupNo) {
+	@GetMapping("/safari/modifyProjectGroup")
+	public String modifyProjectGroup(HttpSession session, Model model, @RequestParam int projectGroupNo) {
 		log.debug(TeamColor.CSK + "@GetMapping addProjToProjGroup");
 		log.debug(TeamColor.CSK + "projectGroupNo" + projectGroupNo);
 		
 		int workNo = (int)session.getAttribute("workNo");
-		Map<String, Object> map = projectService.getProjectListByWorkspace(workNo); // TODO 일단 데이터 출력 검사만 하고 메소드 분리
 		
-		model.addAttribute("projectGroupNo", projectGroupNo);
+		Map<String, Object> map = projectGroupService.getAllProjectByProjectGroupNo(workNo, projectGroupNo);
+		
 		model.addAttribute("projectList", map.get("projectList"));
-		log.debug(TeamColor.CSK + "projectList" +  map.get("projectList"));
-
+		model.addAttribute("projectGroup", map.get("projectGroup"));
 		
-		return "project/addProjToProjGroup";
+		return "project/modifyProjectGroup";
+	}
+	
+	@PostMapping("/safari/modifyProjectGroup")
+	public String modifyProjectGroup(@RequestParam Map<String, Object> map) {
+		log.debug(TeamColor.CSK + "@PostMapping addProjToProjGroup" + map);
+		
+		projectGroupService.modifyProjectGroup(map);
+		
+		return "redirect:/safari/project"; // TODO 프로젝트 그룹 선택된 페이지로 보내기 
 	}
 }

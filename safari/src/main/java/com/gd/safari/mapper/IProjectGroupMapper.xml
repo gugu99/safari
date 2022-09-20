@@ -1,18 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.IProjectGroupMapper">
+	<!-- 전체 프로젝트 그룹 리스트 -->
 	<select id="selectProjectGroupListByWorkspaceNo" resultType="com.gd.safari.vo.ProjectGroup" parameterType="int">
-		SELECT distinct
-			pg.projectgroup_no projectgroupNo
-			, pg.projectgroup_name projectgroupName
+		SELECT
+			projectgroup_no projectgroupNo
+			, projectgroup_name projectgroupName
 		FROM 
-			project_group pg
-		LEFT JOIN 
-			project_group_conn pc
-		ON 
-			pg.projectgroup_no = pc.projectgroup_no
+			project_group
+		WHERE
+			work_no = #{workNo}
 	</select>
 	
+	<!-- 한 프로젝트 그룹의 정보를 반환 -->
+	<select id="selectProjectGroupByProjectGroupNo" resultType="com.gd.safari.vo.ProjectGroup" parameterType="int">
+		SELECT
+			projectgroup_no projectGroupNo
+			, projectgroup_name projectGroupName
+		FROM 
+			project_group
+		WHERE
+			projectgroup_no = #{projectgroupNo}
+	</select>
+	
+	<select id="selectProjectListByProjectGroupNo" resultType="int" parameterType="int">
+		SELECT 
+			project_no projectNo
+		FROM 
+			project_group_conn
+		WHERE 
+			projectgroup_no = #{projectGroupNo}
+	</select>
+	
+	<!-- 프로젝트 그룹 생성 -->
 	<insert id="insertProjectGroup" parameterType="java.lang.String">
 		INSERT INTO project_group(
 			projectgroup_name
@@ -23,6 +43,36 @@
 			, NOW()
 			, NOW()
 		)
-		
 	</insert>
+	
+	<!-- 프로젝트 그룹에 프로젝트 추가 메소드 -->
+	<insert id="insertProjectGroupConn" parameterType="com.gd.safari.vo.ProjectGroupConn">
+		INSERT INTO project_group_conn (
+			project_no
+			, projectgroup_no		
+		) VALUES (
+			#{projectNo}
+			, #{projectGroupNo}
+		)
+	</insert>
+	
+	<!-- 프로젝트 그룹 수정 -->
+	<update id="updateProjectGroup" parameterType="java.lang.String">
+		UPDATE 
+			project_group 
+		SET 
+			projectgroup_name = #{projectGroupName}
+			, update_date = NOW()
+		WHERE
+			projectgroup_no = #{projectGroupNo}
+	</update>
+	
+	<delete id="deleteProjectGroupConn" parameterType="com.gd.safari.vo.ProjectGroupConn">
+		DELETE FROM 
+			project_group_conn 
+		WHERE 
+			projectgroup_no = #{projectGroupNo} 
+			AND 
+			project_no = #{projectNo}
+	</delete>
 </mapper>

@@ -29,6 +29,34 @@
 			project_no = #{projectNo}
 	</select>
 	
+	<!-- 프로젝트 그룹 수정용 -->
+	<!-- 프로젝트 리스트와 한 프로젝트 그룹에 속한 프로젝트를 left join -->
+	<select id="selectAllProjectByProjectGroupNo" resultType="java.util.Map" parameterType="int">
+		SELECT 
+			p.project_no projectNo
+			, p.project_name projectName
+			, q.projectgroup_no projectGroupNo
+		FROM 
+			project p 
+		LEFT JOIN 
+			(SELECT 
+				project_no
+				, pg.projectgroup_no
+				, projectgroup_name 
+			FROM 
+				project_group_conn pgc 
+			INNER JOIN
+				project_group pg 
+			ON
+				pgc.projectgroup_no = pg.projectgroup_no 
+			WHERE 
+				pg.projectgroup_no = #{projectGroupNo}) q 
+		ON 
+			p.project_no = q.project_no 
+		WHERE 
+			p.work_no = #{workNo}
+	</select>
+	
 	<!-- 프로젝트 추가 -->
 	<insert id="insertProject" parameterType="java.util.Map">
 		<selectKey keyProperty="projectNo" resultType="int" order="AFTER">
@@ -77,6 +105,7 @@
 			project_no = #{projectNo};
 	</update>
 	
+	<!-- 프로젝트 삭제 -->
 	<delete id="deleteProject" parameterType="int">
 		DELETE FROM project WHERE project_no = #{projectNo}
 	</delete>
