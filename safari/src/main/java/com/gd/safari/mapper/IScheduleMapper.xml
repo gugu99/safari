@@ -6,6 +6,7 @@
 		<result column="schedule_no" property="scheduleNo"/>
 		<result column="project_no" property="projectNo"/>
 		<result column="schedule_writer" property="scheduleWriter"/>
+		<result column="work_member_name" property="workMemberName"/>
 		<result column="schedule_start" property="scheduleStart"/>
 		<result column="schedule_end" property="scheduleEnd"/>
 		<result column="schedule_title" property="scheduleTitle"/>
@@ -21,9 +22,10 @@
 			<result column="create_date" property="createDate"/>
 			<result column="update_date" property="updateDate"/>
 		</collection>
-		<collection property="scheduleComments" ofType="com.gd.safari.vo.ScheduleComment">
+		<collection property="scheduleComments" ofType="com.gd.safari.vo.ScheduleCommentList">
 			<id column="schedule_cmt_no" property="scheduleCmtNo"/>
 			<result column="cmt_member_email" property="cmtMemberEmail"/>
+			<result column="cmt_writer" property="cmtWorkMemberName"/>
 			<result column="schedule_cmt_content" property="scheduleCmtContent"/>
 			<result column="cmt_create_date" property="cmtCreateDate"/>
 			<result column="schedule_no" property="scheduleNo"/>
@@ -33,6 +35,7 @@
 		SELECT
 			s.schedule_no
 			, s.schedule_writer 
+			, s.work_member_name
 			, s.schedule_start	
 			, s.schedule_end  
 			, s.schedule_title 
@@ -46,17 +49,56 @@
 			, sm.schedule_attend 
 			
 			, sc.schedule_cmt_no 
-			, sc.cmt_member_email 
+			, sc.cmt_member_email
+			, sc.cmt_writer
 			, sc.schedule_cmt_content 
 			, sc.cmt_create_date 
 		FROM
-			schedule s 
+			(
+			SELECT 
+				s1.schedule_no
+				, s1.project_no
+				, s1.schedule_writer 
+				, s1.schedule_start	
+				, s1.schedule_end  
+				, s1.schedule_title 
+				, s1.schedule_location 
+				, s1.schedule_detail_location 
+				, s1.schedule_content 
+				, s1.schedule_auth 
+				, s1.create_date
+				, wm1.work_member_name
+			FROM 
+				schedule s1 
+			INNER JOIN 
+				workspace_member wm1 
+			ON 
+				s1.schedule_writer = wm1.work_member_email 
+			WHERE 
+				wm1.work_no = #{workNo}
+			) s
 		LEFT OUTER JOIN 
 			schedule_member sm 
 		ON 
 			s.schedule_no = sm.schedule_no
 		LEFT OUTER JOIN 
-			schedule_comment sc 
+			(
+			SELECT
+				 wm2.work_member_name cmt_writer
+				, sc1.schedule_no
+				, sc1.schedule_cmt_no 
+				, sc1.cmt_member_email 
+				, sc1.schedule_cmt_content 
+				, sc1.cmt_create_date
+			FROM 
+				schedule_comment sc1  
+			INNER JOIN 
+				workspace_member wm2 
+			ON 
+				sc1.cmt_member_email = wm2.work_member_email 
+			WHERE 
+				wm2.work_no = #{workNo}
+			) sc
 		ON 
 			s.schedule_no = sc.schedule_no
 		WHERE

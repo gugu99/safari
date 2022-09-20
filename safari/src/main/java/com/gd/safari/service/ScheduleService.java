@@ -29,14 +29,14 @@ public class ScheduleService implements IScheduleService {
 	
 	// 일정 리스트 (프로젝트 멤버리스트, 일정, 일정 멤버, 일정 댓글)
 	@Override
-	public Map<String, Object> getScheduleList(int projectNo) {
+	public Map<String, Object> getScheduleList(int projectNo, int workNo) {
 		// 프로젝트 멤버리스트와 일정리스트를 담을 map 
 		 Map<String, Object> map = new HashMap<>();
 		// 프로젝트 멤버리스트
 		List<Map<String, Object>> projectMemberList = projectMemberMapper.selectProjectMemberList(projectNo);
 		
 		// 일정 리스트
-		List<Map<String, Object>> scheduleList = scheduleMapper.selectScheduleList(projectNo);
+		List<Map<String, Object>> scheduleList = scheduleMapper.selectScheduleList(projectNo, workNo);
 		
 		map.put("projectMemberList", projectMemberList);
 		map.put("scheduleList", scheduleList);

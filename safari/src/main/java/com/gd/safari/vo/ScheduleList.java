@@ -9,6 +9,7 @@ public class ScheduleList {
 	private int scheduleNo;					// 일정 번호
 	private int projectNo;					// 프로젝트 번호
 	private String scheduleWriter;			// 일정 작성자
+	private String workMemberName;
 	private String scheduleStart;			// 일정 시작일
 	private String scheduleEnd;				// 일정 마감일
 	private String scheduleTitle;			// 일정 제목
@@ -18,7 +19,8 @@ public class ScheduleList {
 	private String scheduleAuth;			// 일정 공개 범위
 	private String createDate;				// 생성일
 	private String updateDate;				// 수정일
+	private int scheduleListCnt;			// 일정 좋아요 개수
 	
 	private List<ScheduleMember> scheduleMembers;
-	private List<ScheduleComment> scheduleComments;
+	private List<ScheduleCommentList> scheduleComments;
 }

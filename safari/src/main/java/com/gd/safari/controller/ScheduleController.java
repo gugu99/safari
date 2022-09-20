@@ -30,7 +30,10 @@ public class ScheduleController {
 		int projectNo = (int)session.getAttribute("projectNo");
 		log.debug(TeamColor.GDE + "projectNo --- " + projectNo);
 		
-		Map<String, Object> map = scheduleService.getScheduleList(projectNo);
+		int workNo = (int)session.getAttribute("workNo");
+		log.debug(TeamColor.GDE + "workNo --- " + workNo);
+		
+		Map<String, Object> map = scheduleService.getScheduleList(projectNo, workNo);
 		log.debug(TeamColor.GDE + "scheduleList --- " + map.get("scheduleList"));
 		log.debug(TeamColor.GDE + "projectMemberList --- " + map.get("projectMemberList"));
 		
