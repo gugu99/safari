@@ -66,8 +66,7 @@ public class WorkspaceMemberController {
 		log.debug(TeamColor.CJM+detailWorkMemeberAddr +"Controller detailWorkMemeberAddr"); 		  // 워크스페이스 상세주소 디버깅
 		int workMemberNo = (int)session.getAttribute("workMemberNo");
 		workspaceMember.setWorkMemberNo(workMemberNo);
-		if(detailWorkMemeberAddr !=null) {
-		workspaceMember.setWorkMemberAddr(workspaceMember.getWorkMemberAddr()+" "+detailWorkMemeberAddr);}
+		workspaceMember.setWorkMemberAddr(workspaceMember.getWorkMemberAddr()+" "+detailWorkMemeberAddr);
 		workspaceMemberService.modifyWorkspaceMember(workspaceMember);
 		return "redirect:/safari/workspaceMemberOne";  										      // 워크스페이스멤버 수정페이지 forward
 		

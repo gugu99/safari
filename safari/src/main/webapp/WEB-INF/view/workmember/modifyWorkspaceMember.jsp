@@ -119,7 +119,7 @@
                                                      <div class="form-group">
                                                         <div class="controls">
                                                             <label>멤버주소</label>
-                                                            <input name="workMemeberAddr" readonly id="workMemeberAddr" type="email" class="form-control"  placeholder="클릭하여 주소를 조회하시오" value="${workspaceMemberOne.workMemberAddr}" >
+                                                            <input name="workMemberAddr" readonly id="workMemberAddr" type="text" class="form-control"  placeholder="클릭하여 주소를 조회하시오" value="${workspaceMemberOne.workMemberAddr}" >
                                                         </div>
                                                     </div>
                                                 </div>
@@ -134,7 +134,7 @@
                                                      <div class="form-group">
                                                         <div class="controls">
                                                             <label>상세주소</label>
-                                                            <input name="detailWorkMemeberAddr" id="detailWorkMemeberAddr" type="text" class="form-control"  placeholder="상세주소" value="${workspaceMemberOne.workMemberAddr}" >
+                                                            <input name="detailWorkMemeberAddr" id="detailWorkMemeberAddr" type="text" class="form-control"  placeholder="상세주소" >
                                                         </div>
                                                     </div>
                                                 </div>
@@ -405,7 +405,7 @@ $(function(){
                 // document.getElementById("sample2_address").value = addr;
                 
                 // $('#addr').val(data.zonecode + ' ' + addr);
-                document.getElementById('workMemeberAddr').value = data.zonecode + ' ' + addr;
+                document.getElementById('workMemberAddr').value = data.zonecode + ' ' + addr;
                 
                 
                 // 커서를 상세주소 필드로 이동한다.

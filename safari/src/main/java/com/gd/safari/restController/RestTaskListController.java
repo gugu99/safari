@@ -27,8 +27,10 @@ public class RestTaskListController {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 조회");
 		
 		// 서비스 호출
-		// 리턴값 int - 0일 경우 실행되지 않음
+		// 리턴값 List<TaskList>
 		List<TaskList> taskList = taskListService.getTaskList((int)session.getAttribute("projectNo"));
+
+		log.debug(TeamColor.CSH + "조회에 따른 업무리스트 개수 : " + taskList.size());
 		
 		return taskList;
 	}	

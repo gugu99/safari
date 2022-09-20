@@ -18,8 +18,16 @@ $(".number-tab-steps").steps({
     },
     
     onFinished: function (event, currentIndex) {
-        alert("제출완료");
+        if($('#workName').val()==''){
+		 alert('워크스페이스이름을 입력하세요');
+		}else if($('#workMemberName').val()==''){
+		 alert('워크스페이스멤버이름을 입력하세요');
+		}else{
+		alert("제출완료");
         $('#addWorkspaceForm').submit();
+		}
+		
+        
     }
 });
 
