@@ -1,3 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gd.safari.mapper.IScheduleCommentMapper"></mapper>
+<mapper namespace="com.gd.safari.mapper.IScheduleCommentMapper">
+	<!-- 댓글 작성하기 -->
+	<insert id="insertScheduleComment" parameterType="map">
+		INSERT INTO 
+			schedule_comment
+		(
+			cmt_member_email
+			, schedule_cmt_content
+			, cmt_create_date
+			, schedule_no
+		)
+		VALUES
+		(
+			#{cmtMemberEmail}
+			, #{scheduleCmtContent}
+			, NOW()
+			, #{scheduleNo}
+		)
+	</insert>
+	
+	<!-- 댓글 삭제하기 -->
+	<delete id="deleteScheduleComment" parameterType="int">
+		DELETE FROM
+			schedule_comment
+		WHERE
+			schedule_cmt_no = #{scheduleCmtNo}
+	</delete>
+</mapper>

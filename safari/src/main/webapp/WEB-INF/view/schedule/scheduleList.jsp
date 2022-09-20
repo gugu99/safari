@@ -74,7 +74,7 @@
 	                        <div class="card-content">
 	                        	 <div class="px-0 py-0 ml-1 mt-1">
 		                       	 	<div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
-		                             <span class="text-bold-600 mr-1">${s.scheduleWriter }</span>
+		                             <span class="text-bold-600 mr-1">${s.workMemberName }</span>
 		                             <span class="blue-grey date">${createDate }</span>
 		                       	 	<p class="h2 card-text mt-2 mb-1 ml-1">${s.scheduleTitle }</p>
 	                        	 </div>
@@ -112,8 +112,11 @@
 			                                        </div>
 		                                        
 		                                        	<div class="media-body ml-1">
-		                                        		<p class="text-bold-600 mb-0">${c.cmtMemberEmail } <span class="blue-grey date ml-1">${c.cmtCreateDate }</span>
+		                                        		<p class="text-bold-600 mb-0">${c.cmtWorkMemberName } <span class="blue-grey date ml-1">${c.cmtCreateDate }</span>
 		                                            		<a href="#" class="addr"><span class="fa fa-thumbs-o-up ml-1 addr"></span> Like</a>
+		                                            		<c:if test="${login eq  c.cmtMemberEmail}">
+		                                            			<a href="${pageContext.request.contextPath }/safari/removeScheduleComment?scheduleCmtNo=${c.scheduleCmtNo }" class="addr"><span class="fa fa-trash-o ml-2"></span></a>
+		                                            		</c:if>
 			                                            </p>
 			                                            <p class="m-0">${c.scheduleCmtContent }</p>
 			                                       </div>
@@ -127,8 +130,10 @@
 	                            <div class="card-footer px-0 py-0">
 	                             <div class="card-body">
 	                                 <fieldset class="form-group position-relative has-icon-left mb-0">
-		                                <form action="#" method="post" id="commentForm">
-		                                     <input type="text" class="form-control" name="scheduleComment" id="comment" onkeyup="insertComment()" placeholder="입력 Enter입니다.">
+		                                <form action="${pageContext.request.contextPath }/safari/addScheduleComment" method="post" id="commentForm">
+		                                	<input type="hidden" name="scheduleNo" value="${s.scheduleNo }">
+		                                	<input type="hidden" name="cmtMemberEmail" value="${login }">
+		                                     <input type="text" class="form-control" name="scheduleCmtContent" id="comment" onkeyup="insertComment()" placeholder="입력 Enter입니다.">
 		                                     <div class="form-control-position">
 		                                         <i class="fa fa-dashcube"></i>
 		                                     </div>
