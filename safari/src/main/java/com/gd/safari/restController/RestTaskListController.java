@@ -1,6 +1,5 @@
 package com.gd.safari.restController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
