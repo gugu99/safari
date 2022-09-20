@@ -1,3 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gd.safari.mapper.IScheduleLikeMapper"></mapper>
+<mapper namespace="com.gd.safari.mapper.IScheduleLikeMapper">
+	<!-- 일정 좋아요 했는지 안했는지 이메일 조회 -->
+	<select id="selectScheduleLikeByScheduleNoAndMemberEmail" resultType="String" parameterType="com.gd.safari.vo.ScheduleLike">
+		SELECT
+			member_email memberEmail
+		FROM
+			schedule_like
+		WHERE
+			schedule_no = #{scheduleNo}
+		AND
+			member_email = #{memberEmail}
+	</select>
+	
+	<!-- 일정 좋아요 insert -->
+	<insert id="insertScheduleLike" parameterType="com.gd.safari.vo.ScheduleLike">
+		INSERT INTO
+			schedule_like
+		(
+			schedule_no 
+			, member_email
+			, create_date
+		)
+		VALUES
+		(
+			#{scheduleNo}
+			, #{memberEmail}
+			, NOW()
+		)
+	</insert>
+</mapper>

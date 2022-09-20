@@ -19,7 +19,7 @@ public class ScheduleList {
 	private String scheduleAuth;			// 일정 공개 범위
 	private String createDate;				// 생성일
 	private String updateDate;				// 수정일
-	private int scheduleListCnt;			// 일정 좋아요 개수
+	private int scheduleLikeCnt;			// 일정 좋아요 개수
 	
 	private List<ScheduleMember> scheduleMembers;
 	private List<ScheduleCommentList> scheduleComments;

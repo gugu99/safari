@@ -40,7 +40,6 @@ public class ScheduleController {
 		model.addAttribute("scheduleList", map.get("scheduleList"));
 		model.addAttribute("projectMemberList", map.get("projectMemberList"));
 		
-		
 		return "schedule/scheduleList";
 	}
 	

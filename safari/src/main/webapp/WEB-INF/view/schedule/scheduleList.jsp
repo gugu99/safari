@@ -51,8 +51,7 @@
 
     <%@ include file="/WEB-INF/view/inc/header.jsp" %> <!-- header -->
 	<%@ include file="/WEB-INF/view/inc/sidebar.jsp" %> <!-- sidebar -->
-	
-
+		
      <!-- BEGIN: Content-->
     <div class="app-content content">
     	<%@ include file="/WEB-INF/view/task/taskHeader.jsp" %> <!-- taskHeader -->
@@ -93,7 +92,7 @@
 	                                     </c:if>
 	                                     
 	                                     <ul class="list-inline mt-1 mb-0">
-	                                         <li class="pr-1"><a href="#" class=""><span class="fa fa-thumbs-o-up"></span> Like</a></li>
+	                                         <li class="pr-1"><a href="${pageContext.request.contextPath }/safari/addScheduleLike?scheduleNo=${s.scheduleNo}" class=""><span class="fa fa-thumbs-o-up ml-1"></span> Like ${s.scheduleLikeCnt }</a></li>
 	                                         <li class="pr-1"><span class="fa fa-commenting-o"></span> Comment</li>
 	                                     </ul>
 	                                 </div>
@@ -113,7 +112,7 @@
 		                                        
 		                                        	<div class="media-body ml-1">
 		                                        		<p class="text-bold-600 mb-0">${c.cmtWorkMemberName } <span class="blue-grey date ml-1">${c.cmtCreateDate }</span>
-		                                            		<a href="#" class="addr"><span class="fa fa-thumbs-o-up ml-1 addr"></span> Like</a>
+		                                            		<a href="${pageContext.request.contextPath }/" class="addr"><span class="fa fa-thumbs-o-up ml-1 addr"></span> Like ${c.cmtLikeCnt }</a>
 		                                            		<c:if test="${login eq  c.cmtMemberEmail}">
 		                                            			<a href="${pageContext.request.contextPath }/safari/removeScheduleComment?scheduleCmtNo=${c.scheduleCmtNo }" class="addr"><span class="fa fa-trash-o ml-2"></span></a>
 		                                            		</c:if>
@@ -151,7 +150,7 @@
         </div>
     </div>
     <!-- END: Content-->
-
+	
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
 
@@ -285,6 +284,11 @@
         element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
     }
 </script>
+<c:if test="${scheduleLikeMsg ne null }">
+	<script>
+		alert('${scheduleLikeMsg}');
+	</script>
+</c:if>
 </body>
 <!-- END: Body-->
 

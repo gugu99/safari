@@ -1,12 +1,14 @@
 package com.gd.safari.mapper;
 
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Mapper;
+
+import com.gd.safari.vo.ScheduleLike;
 
 @Mapper
 public interface IScheduleLikeMapper {
 
-	// 일정 별 좋아요 조회
-	Map<String, Object> selectScheduleLikeByScheduleNo();
+	// 일정 좋아요 했는지 안했는지 이메일 조회
+	String selectScheduleLikeByScheduleNoAndMemberEmail(ScheduleLike scheduleLike);
+	// 일정 좋아요 추가
+	int insertScheduleLike(ScheduleLike scheduleLike);
 }

@@ -54,14 +54,9 @@
 		                                                            <div class="form-group">
 		                                                                <label for="languageselect2"><span class="fa fa-users mr-2"></span>참석자(*)</label>
 		                                                                <select class="form-control scheduleMemberSelect" id="scheduleMember" multiple="multiple" onChange="selectScheduleMember(this)">
-		                                                                	<%-- <c:forEach var="pm" items="${projectMemberList }">
+		                                                                	<c:forEach var="pm" items="${projectMemberList }">
 		                                                                		 <option value="${pm.workMemberEmail }" ${login eq pm.workMemberEmail ? 'selected' : ''}>${pm.workMemberName }</option>
-		                                                                	</c:forEach> --%>
-		                                                                	<option value="admin@admin.com"  ${login eq 'admin@admin.com' ? 'selected ' : ''}>오우</option>
-		                                                                	<option value="asdf@asdf.com" ${login eq 'asdf@asdf.com' ? 'selected' : ''}>다은</option>
-		                                                                	<option value="iloveohau@naver.com" ${login eq 'iloveohau@naver.com' ? 'selected' : ''}>서경</option>
-		                                                                	<option value="test1@test.com" ${login eq 'test1@test.com' ? 'selected' : ''}>승현</option>
-		                                                                	<option value="test@test.com" ${login eq 'test@test.com' ? 'selected' : ''}>종명</option>
+		                                                                	</c:forEach>
 		                                                                </select>
 		                                                            </div>
 		                                                        </div>

@@ -15,6 +15,7 @@
 		<result column="schedule_content" property="scheduleContent"/>
 		<result column="schedule_auth" property="scheduleAuth"/>
 		<result column="create_date" property="createDate"/>
+		<result column="schedule_like_cnt" property="scheduleLikeCnt"/>
 		<collection property="scheduleMembers" ofType="com.gd.safari.vo.ScheduleMember">
 			<id column="schedule_no" property="scheduleNo"/>
 			<id column="schedule_member_email" property="scheduleMemberEmail"/>
@@ -29,6 +30,7 @@
 			<result column="schedule_cmt_content" property="scheduleCmtContent"/>
 			<result column="cmt_create_date" property="cmtCreateDate"/>
 			<result column="schedule_no" property="scheduleNo"/>
+			<result column="cmt_like_cnt" property="cmtLikeCnt"/>
 		</collection>
 	</resultMap>
 	<select id="selectScheduleList" parameterType="int" resultMap="resultScheduleList">
@@ -43,39 +45,70 @@
 			, s.schedule_detail_location 
 			, s.schedule_content 
 			, s.schedule_auth 
-			, s.create_date 
+			, s.create_date
+			, IFNULL(s.scheduleLikeCnt,0) schedule_like_cnt 
 			
 			, sm.schedule_member_email  
 			, sm.schedule_attend 
 			
 			, sc.schedule_cmt_no 
 			, sc.cmt_member_email
-			, sc.cmt_writer
+			, sc.cmt_writer 
 			, sc.schedule_cmt_content 
-			, sc.cmt_create_date 
+			, sc.cmt_create_date
+			, IFNULL(sc.cmtLikeCnt,0) cmt_like_cnt
 		FROM
 			(
-			SELECT 
-				s1.schedule_no
-				, s1.project_no
-				, s1.schedule_writer 
-				, s1.schedule_start	
-				, s1.schedule_end  
-				, s1.schedule_title 
-				, s1.schedule_location 
-				, s1.schedule_detail_location 
-				, s1.schedule_content 
-				, s1.schedule_auth 
-				, s1.create_date
-				, wm1.work_member_name
-			FROM 
-				schedule s1 
-			INNER JOIN 
-				workspace_member wm1 
-			ON 
-				s1.schedule_writer = wm1.work_member_email 
-			WHERE 
-				wm1.work_no = #{workNo}
+			SELECT
+				s3.schedule_no
+				, s3.project_no
+				, s3.schedule_writer 
+				, s3.schedule_start	
+				, s3.schedule_end  
+				, s3.schedule_title 
+				, s3.schedule_location 
+				, s3.schedule_detail_location 
+				, s3.schedule_content 
+				, s3.schedule_auth 
+				, s3.create_date
+				, s3.work_member_name
+				, slc.scheduleLikeCnt
+			FROM
+				(
+				SELECT 
+					s1.schedule_no
+					, s1.project_no
+					, s1.schedule_writer 
+					, s1.schedule_start	
+					, s1.schedule_end  
+					, s1.schedule_title 
+					, s1.schedule_location 
+					, s1.schedule_detail_location 
+					, s1.schedule_content 
+					, s1.schedule_auth 
+					, s1.create_date
+					, wm1.work_member_name
+				FROM 
+					schedule s1 
+				INNER JOIN 
+					workspace_member wm1 
+				ON 
+					s1.schedule_writer = wm1.work_member_email 
+				WHERE 
+					wm1.work_no = #{workNo}
+				) s3
+			LEFT OUTER JOIN
+				(
+					SELECT
+						schedule_no
+						, count(*) scheduleLikeCnt
+					FROM
+						schedule_like
+					GROUP BY
+						schedule_no
+				) slc
+			ON
+				s3.schedule_no = slc.schedule_no
 			) s
 		LEFT OUTER JOIN 
 			schedule_member sm 
@@ -84,20 +117,43 @@
 		LEFT OUTER JOIN 
 			(
 			SELECT
-				 wm2.work_member_name cmt_writer
-				, sc1.schedule_no
-				, sc1.schedule_cmt_no 
-				, sc1.cmt_member_email 
-				, sc1.schedule_cmt_content 
-				, sc1.cmt_create_date
-			FROM 
-				schedule_comment sc1  
-			INNER JOIN 
-				workspace_member wm2 
-			ON 
-				sc1.cmt_member_email = wm2.work_member_email 
-			WHERE 
-				wm2.work_no = #{workNo}
+				sc2.cmt_writer
+				, sc2.schedule_no
+				, sc2.schedule_cmt_no 
+				, sc2.cmt_member_email 
+				, sc2.schedule_cmt_content 
+				, sc2.cmt_create_date
+				, clc.cmtLikeCnt
+			FROM
+				(
+				SELECT
+					 wm2.work_member_name cmt_writer
+					, sc1.schedule_no
+					, sc1.schedule_cmt_no 
+					, sc1.cmt_member_email 
+					, sc1.schedule_cmt_content 
+					, sc1.cmt_create_date
+				FROM 
+					schedule_comment sc1  
+				INNER JOIN 
+					workspace_member wm2 
+				ON 
+					sc1.cmt_member_email = wm2.work_member_email 
+				WHERE 
+					wm2.work_no = #{workNo}
+				) sc2
+				LEFT OUTER JOIN
+					(
+					SELECT
+						schedule_cmt_no
+						, count(*) cmtLikeCnt 
+					FROM
+						schedule_comment_like
+					GROUP BY
+						schedule_cmt_no
+					) clc
+				ON
+					sc2.schedule_cmt_no = clc.schedule_cmt_no
 			) sc
 		ON 
 			s.schedule_no = sc.schedule_no
