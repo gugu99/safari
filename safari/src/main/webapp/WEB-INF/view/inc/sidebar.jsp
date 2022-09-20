@@ -24,12 +24,6 @@
             </li>
             <li class=" nav-item"><a href="${pageContext.request.contextPath }/safari/chat"><i class="feather icon-message-square"></i><span class="menu-title" data-i18n="Chat Application">Chat Application</span></a>
             </li>
-            <li class=" nav-item"><a href="${pageContext.request.contextPath }/safari/todoList"><i class="feather icon-check-square"></i><span class="menu-title" data-i18n="Todo Application">Todo Application</span></a>
-            </li>
-            <li class=" nav-item"><a href="${pageContext.request.contextPath }/safari/taskList"><i class="feather icon-file-plus"></i><span class="menu-title" data-i18n="Kanban Application">Kanban Application</span></a>
-            </li>
-             <li class=" nav-item"><a href="${pageContext.request.contextPath }/safari/scheduleList"><i class="feather icon-watch"></i><span class="menu-title" data-i18n="Coming Soon">Schedule</span></a>
-             </li>
             <li class=" nav-item"><a href="${pageContext.request.contextPath }/safari/workspaceMemberList"><i class="feather icon-users"></i><span class="menu-title" data-i18n="Contacts">Member</span></a>
             </li>
         </ul>
