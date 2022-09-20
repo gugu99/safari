@@ -36,6 +36,10 @@ public class TaskListService implements ITaskListService {
 	@Override
 	public int modifyTaskList(TaskList tasklist) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 수정");
+		
+		// 저장을 위해 엔터를 누르는데, 엔터로 넘어온 <div><br></div>값은 없애고 객체에 저장하기
+		tasklist.setTasklistTitle(tasklist.getTasklistTitle().replaceAll("<div><br></div>", ""));
+		
 		return taskListMapper.updateTaskList(tasklist);
 	}
 

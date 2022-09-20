@@ -11,6 +11,8 @@ $(document).ready(function () {
   var kanban_curr_el, kanban_curr_item_id, kanban_item_title, kanban_data, kanban_item, kanban_users;
   // 프로젝트 번호 받기
   var projectNo;
+  // 아이디, 값 받을 변수
+  var $id, $value;
   // 업무리스트 내용 담을 배열
   var kanban_board_data = new Array();
   
@@ -30,6 +32,7 @@ $(document).ready(function () {
 				  kanban_board_data.push({
 				      id: item.tasklistNo,
 				      title: item.tasklistTitle,
+				      // 업무 (현재는 샘플데이터)
 				      item: [{
 				          id: "11",
 				          title: "Facebook Campaign 😎",
@@ -264,7 +267,6 @@ $(document).ready(function () {
 			projectNo : projectNo
 			},
 		success : function(json){
-			console.log("title값 여기에 들어와야함 : " + $title);
 			console.log("projectNo값 여기에 들어와야함 : " + projectNo);
 			if(json != 'ok'){
 				alert('업무리스트 입력를 실패했습니다.');
@@ -280,28 +282,28 @@ $(document).ready(function () {
   // Delete kanban board 
   //---------------------
   $(document).on("click", ".kanban-delete", function () {
-    var $id = $(this)
+    $id = $(this)
       .closest(".kanban-board")
       .attr("data-id");
-    addEventListener("click", function () {
+    //addEventListener("click", function () {
       KanbanExample.removeBoard($id);
       console.log("id값 : " + $id);
-      $.ajax({
-			async : false,
-			type : 'POST',
-			url : '/safari/deleteTaskList',
-			data : {tasklistNo : $id},
-			success : function(json){
-				console.log("id값 여기에 들어와야함 : " + $id);
-				if(json != 'ok'){
-					alert('업무리스트 삭제를 실패했습니다.');
-					return;
-				} else {
-					alert('업무리스트 삭제를 성공했습니다.');
-				}
+	//});
+	 $.ajax({
+		async : false,
+		type : 'POST',
+		url : '/safari/deleteTaskList',
+		data : {tasklistNo : $id},
+		success : function(json){
+			console.log("id값 여기에 들어와야함 : " + $id);
+			if(json != 'ok'){
+				alert('업무리스트 삭제를 실패했습니다.');
+				return;
+			} else {
+				alert('업무리스트 삭제를 성공했습니다.');
 			}
-	    });
-	 });
+		}
+    });
   });
 
   // 칸반 보드 드롭다운
@@ -315,7 +317,6 @@ $(document).ready(function () {
 
   function dropdown() {
     kanban_dropdown.innerHTML =
-      //'<button type="button" class="hiddenBtn"></button>' +
       '<div class="dropdown-toggle cursor-pointer" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-vertical"></i></div>' +
       '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"> ' +
       '<a class="dropdown-item" href="#"><i class="feather icon-link mr-50"></i>Copy Link</a>' +
@@ -366,29 +367,45 @@ $(document).ready(function () {
 
   // Making Title of Board editable 편집 가능한 보드 제목 만들기
   // ------------------------------
-  $(".kanban-title-board").on("mouseenter", function () {
+  $(".kanban-title-board").on("click", function () {
 	$(this).attr("contenteditable", "true");
     $(this).addClass("line-ellipsis");
-  });
-    // 현재 클릭한 위치한 곳 아이디 얻기
-    /*var $id = $(this)
+    // 이 곳에 id 추가하기
+    $(this).attr("id", "kanban-title-board");
+    // 선택한 id를 변수에 담기
+   	$id = $(this)
       .closest(".kanban-board")
       .attr("data-id");
-    console.log($id);
-    
-    var $title = $(this)
-  	  .closest(".kanban-board")
-  	  .attr("data-title");
-	console.log($title);
-	
-    if(e.keyup ){
+    // 디버깅
+	console.log("data-id : " + $id);
+  });
+  
+  // 업무리스트 수정
+  // ------------------------------
+  $(".kanban-title-board").on("keydown", function (event) {
+   	if(event.keyCode === 13){
+		// 업무리스트 쉬프트 + 엔터 클릭시 줄바꿈		
+		if(!event.shiftKey){
+			event.preventDefault();
+		}
+		// 디버깅
+		// alert('엔터키 이벤트');
+		
+		// 엔터를 누르는 동시에 현재 안에 값을 value로 저장한다.
+    	$(this).attr("value", document.getElementById('kanban-title-board').innerHTML);
+    	// value를 변수에 담는다.
+    	$value = $(this)
+	  	  .attr("value");
+        // 디버깅
+	  	console.log("value : " + $value);
+	  	
 		$.ajax({
 			async : false,
 			type : 'POST',
 			url : '/safari/updateTaskList',
 			data : {
 				tasklistNo : $id,
-				tasklistTitle : $title,
+				tasklistTitle : $value,
 				},
 			success : function(json){
 				console.log("id값 여기에 들어와야함 : " + $id);
@@ -401,7 +418,7 @@ $(document).ready(function () {
 			}
 		});	
 	}
-  });*/
+  });
   
   // 칸반 항목 - 날짜 선택
   // kanban Item - Pick-a-Date
