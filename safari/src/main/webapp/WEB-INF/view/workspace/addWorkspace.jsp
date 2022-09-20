@@ -112,14 +112,14 @@
 													<div class="col-md-6">
 														<div class="form-group">
 															<label for="firstName1">워크스페이스 제목</label> <input
-																type="text" name="workName" class="form-control" id="firstName1">
+																type="text" name="workName" class="form-control" id="workName">
 														</div>
 													</div>
 
 													<div class="col-md-6">
 														<div class="form-group">
 															<label for="lastName1">관리자 이름</label> <input
-																name="workMemberName" type="text" class="form-control" id="lastName1">
+																name="workMemberName" type="text" class="form-control" id="workMemberName">
 														</div>
 													</div>
 												</div>
@@ -183,8 +183,8 @@
 													<div class="col-md-3">
 														<div class="form-group">
 														<label for="meetingName1">이메일</label>
-														 <input
-																type="text" class="form-control" id="meetingName1">
+														 <input	
+																type="text" class="form-control" id="inviteMemberEmail">
 														</div>
 											        
 													</div>
@@ -192,8 +192,8 @@
 													<div class="col-md-3">
 														<div class="email_form">
 											            <label for="meetingName2" >메일 선택</label>
-											            <select id="meetingName2" name="email3" title="이메일 주소 선택" class="form-control">
-											                <option value="">  이메일주소 직접입력  </option>
+											            <select id="select" name="email3" title="이메일 주소 선택" class="form-control">
+											                <option value="">이메일주소 직접입력</option>
 											                <option value="naver.com">naver.com</option>
 											                <option value="nate.com">nate.com</option>
 											                <option value="gmail.com">gmail.com</option>
@@ -206,8 +206,7 @@
 													<div class="col-md-3">
 														<div class="form-group">
 														<label for="meetingName1">멤버추가</label>
-														 <button type="button" class="btn btn danger form-control" id="btn_add">
-																추가</button>
+														 <input value="추가" type="button" class="btn btn danger form-control" id="btn_add">
 														</div>
 											        
 													</div>
@@ -327,6 +326,25 @@ $(document).ready(function(){  
 });
 
 </script>
+
+<script>
+
+$(document).ready(function(){
+    $('#select').on('change', function() {
+    	if (this.value ==''){
+    		$('#inviteMemberEmail').attr('readonly', false);
+    		var inviteMemberEmail =  null;
+    		document.getElementById('inviteMemberEmail').value = inviteMemberEmail;
+    	}else{
+    		$('#inviteMemberEmail').attr('readonly', true);
+    		var inviteMemberEmail =  $('#select').val();
+    		document.getElementById('inviteMemberEmail').value = inviteMemberEmail;
+    	}
+    });
+
+});
+
+</script> 
 
 
 
