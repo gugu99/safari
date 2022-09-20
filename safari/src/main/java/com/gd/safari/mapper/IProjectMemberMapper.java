@@ -18,7 +18,11 @@ public interface IProjectMemberMapper {
 	// 실제 프로젝트에 속한 멤버 + 멤버 email을 반환 - 조원들을 위해 생성
 	List<Map<String, Object>> selectProjectMemberList(int projectNo);
 	
-	// 
+	
+	// 프로젝트에 속한 멤버의 no만 리턴 -> 수정 메소드에서 사용
+	List<Integer> selectProjectMemberNoList(int projectNo);
+	
+	// 프로젝트 멤버의 활성화 값을 N으로 수정 (프로젝트에서 탈퇴)
 	int updateProjectMemberActiveN(ProjectMember projectMember);
 	
 	// 프로젝트 멤버 삭제

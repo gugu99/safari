@@ -130,9 +130,7 @@ public class ProjectService implements IProjectService {
 	// 프로젝트, 프로젝트 멤버 수정 메소드
 	@Transactional
 	@Override
-	public boolean modifyProject(Map<String, Object> map) {
-		boolean result = false;
-		
+	public void modifyProject(Map<String, Object> map) {
 		// map: {projectName=야호, projectExpl=야호야호 신나는 파프, projectAuth=N, projectStart=2022-09-17, projectDeadline=2022-09-30, projectEnd=, projectMemberList=14,15}
 		// 문자열로 받은 projectMemberList를 배열로 가공
 		String tmp = (String) map.get("projectMemberList"); // 프로젝트 멤버에 변동사항이 없을 경우 빈 문자열
@@ -151,7 +149,7 @@ public class ProjectService implements IProjectService {
 		log.debug(TeamColor.CSK + "projectMember 수정 시작");
 		// 프로젝트 멤버에 변동 사항이 없을 경우 프로젝트멤버 테이블 업데이트 X
 		if("".equals(tmp)) {
-			return true;
+			return;
 		}
 		
 		// 문자열로 받은 프로젝트 멤버 수정 정보를 배열로 변환
@@ -163,19 +161,9 @@ public class ProjectService implements IProjectService {
 		// map에서 뽑아낸 projectNo를 가공
 		int projectNo = Integer.parseInt(String.valueOf(map.get("projectNo")));
 		
-		// 수정 전 프로젝트 멤버리스트
-		List<Map<String, Object>> list = projectMemberMapper.selectProjectMemberList(projectNo);
-		
-		// 대입해서 복사하면 얕은 복사 -> 복사한 객체가 변경되면 기존 객체도 변경됨 -> 깊은 복사 필요
-		List<Integer> deleteProjectMemberList = new ArrayList<>(); // workMemberNo만 추출하여 담을 list
-		List<Integer> prevProjectMemberList = new ArrayList<>(); // 깊은 복사를 위한 list
-		
-		for(Map<String, Object> m : list) {
-			// 기존 프로젝트 멤버 리스트에서 workMemberNo만 추출, 
-			// 메소드 실행 후 데이터 유실을 막기 위해 두 개의 리스트에 저장
-			deleteProjectMemberList.add((int)m.get("workMemberNo"));
-			prevProjectMemberList.add((int)m.get("workMemberNo"));
-		}
+		// 수정 전 프로젝트 멤버 no 리스트
+		List<Integer> prevProjectMemberList = projectMemberMapper.selectProjectMemberNoList(projectNo);
+		List<Integer> deleteProjectMemberList = new ArrayList<>(prevProjectMemberList); 
 		
 		log.debug(TeamColor.CSK + "prevProjectMemberList: " + prevProjectMemberList);
 		
@@ -206,8 +194,6 @@ public class ProjectService implements IProjectService {
 			}
 		}
 		
-		result = true;
-		return result;
 	}
 	
 	// 프로젝트 삭제 메소드

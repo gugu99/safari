@@ -75,6 +75,17 @@
 			pm.project_no = #{projectNo} AND pm.active = 'Y'
 	</select>
 	
+	<select id="selectProjectMemberNoList" resultType="int" parameterType="int">
+		SELECT
+			project_member_no projectMemberNo
+		FROM
+			project_member
+		WHERE
+			project_no = #{projectNo}
+		AND
+			active = 'Y'
+	</select>
+	
 	<update id="updateProjectMemberActiveN" parameterType="com.gd.safari.vo.ProjectMember">
 		 UPDATE 
 		 	project_member 
