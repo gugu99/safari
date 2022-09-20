@@ -16,4 +16,5 @@ public interface IWorkspaceMemberMapper {
 	int deleteWorkspaceMember(int workNo);
 	Map<String,Object> selectWorkspaceMemberOne(int workMemberNo);
 	int selectWorkspaceMemberNo(WorkspaceMember workspaceMember);
+	int updateWorkspaceMember (WorkspaceMember workspaceMember);
 }

@@ -40,5 +40,10 @@ public class WorkspaceMemberService implements IWorkspaceMemberService{
 		log.debug(TeamColor.CJM+workspaceMember +"Controller workspaceMember"); // workspaceMember 디버깅
 		return workspaceMemberMapper.selectWorkspaceMemberNo(workspaceMember);
 	}
+	@Override
+	public int modifyWorkspaceMember(WorkspaceMember workspaceMember) {
+		log.debug(TeamColor.CJM+workspaceMember +"Controller workspaceMember"); // workspaceMember 디버깅
+		return workspaceMemberMapper.updateWorkspaceMember(workspaceMember);
+	}
 
 }

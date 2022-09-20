@@ -24,11 +24,21 @@ public class ProfileImgService implements IProfileImgService {
 	@Override
 	public int addProfileImg(Map<String, Object> map) {
 		log.debug(TeamColor.CJM+((MultipartFile)map.get("imgFile")).getOriginalFilename() +"OriginName debug"); // OriginName 디버깅
+		int workMemberNo=((int)map.get("workMemberNo"));
+		String path = (String)map.get("path");																	// path 불러오기;
+		if(profileImgMapper.selectProfileImgOne(workMemberNo)!=null) {											// 기존이미지가 있다면삭제
+			ProfileImg lastfileImg = profileImgMapper.selectProfileImgOne(workMemberNo);	
+			String lastExt = lastfileImg.getOriginName().substring(lastfileImg.getOriginName().lastIndexOf(".")); // 확장자 검색
+			profileImgMapper.deleteProfileImg(workMemberNo);													// 이미지정보 삭제
+			File file = new File(path + lastfileImg.getFilename() + lastExt);									// 파일 제거
+				if(file.exists()) {
+					file.delete();
+				}
+		}
 		String ext = ((MultipartFile)map.get("imgFile")).getOriginalFilename().substring(((MultipartFile)map.get("imgFile")).getOriginalFilename().lastIndexOf("."));// 파일 확장자
 		String originName = ((MultipartFile)map.get("imgFile")).getOriginalFilename();	// originName 불러오기
 		String fileType = ((MultipartFile)map.get("imgFile")).getContentType();			// fileType 불러오기
 		long  fileSize = ((MultipartFile)map.get("imgFile")).getSize();					// path 불러오기
-		String path = (String)map.get("path");											// path 불러오기
 		String filename = UUID.randomUUID().toString().replace("-", "");				// 중복되지 않는 랜덤이름 새성 UUID API사용
 		//Map 에 각각의 항목 넣어주기
 		map.put("originName",originName); 												

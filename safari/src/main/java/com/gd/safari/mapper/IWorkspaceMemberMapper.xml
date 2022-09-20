@@ -52,7 +52,7 @@
 		SELECT 
 			  work_member_no    workMemberNo
 			, work_member_name  workMemberName
-			, work_memeber_addr workMemberAddr
+			, work_member_addr workMemberAddr
 			, work_member_birth workMemberBirth
 			, work_member_phone workMemberPhone
 			, work_member_dept  workMemberDept
@@ -77,9 +77,9 @@
 	
 	<select id = "selectWorkspaceMemberOne" parameterType="int" resultType ="map">
 		SELECT  
-			   wm.work_member_no     workMemberNo
+			  wm.work_member_no     workMemberNo
 			, wm.work_member_name   workMemberName
-			, wm.work_memeber_addr  workMemberAddr
+			, wm.work_member_addr  workMemberAddr
 			, wm.work_member_birth  workMemberBirth	
 			, wm.work_member_phone  workMemberPhone
 			, wm.work_member_dept   workMemberDept
@@ -104,6 +104,20 @@
 		where work_member_email = #{workMemberEmail} and work_no = #{workNo}
 	
 	</select>
+	
+	<update id="updateWorkspaceMember" parameterType="com.gd.safari.vo.WorkspaceMember">
+		UPDATE workspace_member
+		SET 
+			work_member_name = #{workMemberName}
+			,work_member_addr = #{workMemberAddr}
+			,work_member_birth = #{workMemberBirth}
+			,work_member_phone = #{workMemberPhone}
+			,work_member_dept = #{workMemberDept}
+			,work_member_pos = #{workMemberPos}
+		WHERE
+			work_member_no = #{workMemberNo}
+	
+	</update>
 	
 	
 </mapper>
