@@ -4,12 +4,12 @@
 	<!-- 업무리스트 보여주기 -->
 	<select id="selectTaskList" parameterType="int" resultType="com.gd.safari.vo.TaskList">
 		SELECT
-			tasklist_no tasklistNo
-			, tasklist_title tasklistTitle
-			, project_no projectNo
+			tasklist_no 		tasklistNo
+			, tasklist_title 	tasklistTitle
+			, project_no 		projectNo
 		FROM task_list
 		WHERE 
-			project_no = #{projectNo}
+			project_no 			= #{projectNo}
 	</select>
 	<!-- 업무리스트 생성 -->
 	<insert id="insertTaskList" parameterType="com.gd.safari.vo.TaskList">
@@ -29,15 +29,15 @@
 	<update id="updateTaskList" parameterType="com.gd.safari.vo.TaskList">
 		UPDATE task_list
 		SET
-			tasklist_title = #{tasklistTitle}
-			, update_date = NOW()
+			tasklist_title	= #{tasklistTitle}
+			, update_date 	= NOW()
 		WHERE 
-			tasklist_no = #{tasklistNo}
+			tasklist_no 	= #{tasklistNo}
 	</update>
 	<!-- 업무리스트 삭제 -->
 	<delete id="deleteTaskList" parameterType="int">
 		DELETE FROM task_list
 		WHERE 
-			tasklist_no = #{tasklistNo}
+			tasklist_no 	= #{tasklistNo}
 	</delete>
 </mapper>

@@ -16,7 +16,21 @@ $(document).ready(function () {
   // 업무리스트 내용 담을 배열
   var kanban_board_data = new Array();
   
+  // 업무리스트 조회
   // Kanban Board and Item Data passed by json
+  $.ajax({
+		async : false,
+		type : 'POST',
+		url : '/safari/task',
+		success : function(json){
+			$(json).each(function(index, item){
+				// 디버깅
+				console.log(json);
+				console.log(item);
+				
+			});
+		}
+  });
   $.ajax({
 		async : false,
 		type : 'POST',
@@ -33,6 +47,7 @@ $(document).ready(function () {
 				      id: item.tasklistNo,
 				      title: item.tasklistTitle,
 				      // 업무 (현재는 샘플데이터)
+				      
 				      item: [{
 				          id: "11",
 				          title: "Facebook Campaign 😎",
@@ -49,7 +64,7 @@ $(document).ready(function () {
 			});
 		}
   });
-  
+  // 디버깅
   console.log(kanban_board_data);
   
   // 칸반 보드
@@ -370,9 +385,9 @@ $(document).ready(function () {
   $(".kanban-title-board").on("click", function () {
 	$(this).attr("contenteditable", "true");
     $(this).addClass("line-ellipsis");
-    // 이 곳에 id 추가하기
+    // id 추가하기
     $(this).attr("id", "kanban-title-board");
-    // 선택한 id를 변수에 담기
+    // 선택한 id를 변수에 담기 (이 id는 업무리스트의 데이터베이스 PK이다)
    	$id = $(this)
       .closest(".kanban-board")
       .attr("data-id");
