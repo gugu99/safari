@@ -112,7 +112,7 @@
 		                                        
 		                                        	<div class="media-body ml-1">
 		                                        		<p class="text-bold-600 mb-0">${c.cmtWorkMemberName } <span class="blue-grey date ml-1">${c.cmtCreateDate }</span>
-		                                            		<a href="${pageContext.request.contextPath }/" class="addr"><span class="fa fa-thumbs-o-up ml-1 addr"></span> Like ${c.cmtLikeCnt }</a>
+		                                            		<a href="${pageContext.request.contextPath }/safari/addScheduleCommentLike?scheduleCmtNo=${c.scheduleCmtNo}" class="addr"><span class="fa fa-thumbs-o-up ml-1 addr"></span> Like ${c.cmtLikeCnt }</a>
 		                                            		<c:if test="${login eq  c.cmtMemberEmail}">
 		                                            			<a href="${pageContext.request.contextPath }/safari/removeScheduleComment?scheduleCmtNo=${c.scheduleCmtNo }" class="addr"><span class="fa fa-trash-o ml-2"></span></a>
 		                                            		</c:if>
@@ -287,6 +287,11 @@
 <c:if test="${scheduleLikeMsg ne null }">
 	<script>
 		alert('${scheduleLikeMsg}');
+	</script>
+</c:if>
+<c:if test="${scheduleCmtLikeMsg ne null }">
+	<script>
+		alert('${scheduleCmtLikeMsg}');
 	</script>
 </c:if>
 </body>
