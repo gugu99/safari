@@ -17,4 +17,7 @@ public interface IWorkspaceMemberMapper {
 	Map<String,Object> selectWorkspaceMemberOne(int workMemberNo);
 	int selectWorkspaceMemberNo(WorkspaceMember workspaceMember);
 	int updateWorkspaceMember (WorkspaceMember workspaceMember);
+	int inviteInsertWorkspaceMember(WorkspaceMember workspaceMember);
+	String selectWorkspaceMemberOneActive (int workMemberNo);
+	String selectWorkspaceMemberOneCode(int workMemberNo);
 }

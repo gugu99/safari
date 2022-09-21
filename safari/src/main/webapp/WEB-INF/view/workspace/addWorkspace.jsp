@@ -173,36 +173,14 @@
 											</p>
 												<div class="row">
 												
-													<div class="col-md-3">
+													<div class="col-md-9">
 														<div class="form-group">
 															<label for="meetingName1">초대멤버이메일</label> <input
-																type="text" class="form-control" id="meetingName1">
-														</div>
-											        
-													</div>
-													<div class="col-md-3">
-														<div class="form-group">
-														<label for="meetingName1">이메일</label>
-														 <input	
-																type="text" class="form-control" id="inviteMemberEmail">
+																type="text" class="form-control workMemberEmail" id="meetingName1" name="workMemberEmail">
 														</div>
 											        
 													</div>
 													
-													<div class="col-md-3">
-														<div class="email_form">
-											            <label for="meetingName2" >메일 선택</label>
-											            <select id="select" name="email3" title="이메일 주소 선택" class="form-control">
-											                <option value="">이메일주소 직접입력</option>
-											                <option value="naver.com">naver.com</option>
-											                <option value="nate.com">nate.com</option>
-											                <option value="gmail.com">gmail.com</option>
-											                <option value="yahoo.com">yahoo.com</option>
-											                <option value="hanmail.net">hanmail.net</option>
-											            </select>
-											        </div>
-											       
-													</div>
 													<div class="col-md-3">
 														<div class="form-group">
 														<label for="meetingName1">멤버추가</label>
@@ -282,32 +260,18 @@
 <!-- END: Page JS-->
 
 <script>            
-$(document).ready(function(){  
+$(document).ready(function(){ 
+		var cnt = 1; 
 	$("#btn_add").on('click',function(){ 
+		cnt=cnt+1;
+		console.log(cnt);
 		
 		var tmpHtml =
 		"<div id='remove1' name='remove' class='row addInput'>"+
-				"<div class='col-md-3'>"+
+				"<div class='col-md-9'>"+
 				"<div class='form-group'>"+
-					"<input type='text' class='form-control' id='meetingName1'>"+
+					"<input type='text' class='form-control workMemberEmail' name='workMemberEmail' id='meetingName1'>"+
 				"</div>"+
-			"</div>"+
-			"<div class='col-md-3'>"+
-				"<div class='form-group'>"+
-					 "<input type='text' class='form-control' id='meetingName1'>"+
-				"</div>"+
-			"</div>"+
-			"<div class='col-md-3'>"+
-				"<div class='email_form'>"+
-		    	"<select id='meetingName2' name='email3' title='이메일 주소 선택' class='form-control'>"+
-		            "<option value=''>  이메일주소 직접입력  </option>"+
-		            "<option value='naver.com'>naver.com</option>"+
-		            "<option value='nate.com'>nate.com</option>"+
-		            "<option value='gmail.com'>gmail.com</option>"+
-		            "<option value='yahoo.com'>yahoo.com</option>"+
-		            "<option value='hanmail.net'>hanmail.net</option>"+
-		        "</select>"+
-			 	"</div>"+
 			"</div>"+
 				"<div class='col-md-3'>"+
 					"<div class='form-group'>"+
@@ -315,37 +279,25 @@ $(document).ready(function(){  
 				"</div>"+
 			"</div>"+
 		"</div>"
-		  $(".add").append(tmpHtml);}); 
+		  $(".add").append(tmpHtml);
 		
+		}); 
 		var trHtml = $( "div[name=remove]:last" ); //last를 사용하여 trStaff라는 명을 가진 마지막 태그 호출
 		$(document).on('click','button[name=remove1]',function(){   
 			
 			$('#remove1').remove();
-			
+			cnt=cnt-1;
 			 }); 
 });
 
 </script>
 
+
+
 <script>
 
-$(document).ready(function(){
-    $('#select').on('change', function() {
-    	if (this.value ==''){
-    		$('#inviteMemberEmail').attr('readonly', false);
-    		var inviteMemberEmail =  null;
-    		document.getElementById('inviteMemberEmail').value = inviteMemberEmail;
-    	}else{
-    		$('#inviteMemberEmail').attr('readonly', true);
-    		var inviteMemberEmail =  $('#select').val();
-    		document.getElementById('inviteMemberEmail').value = inviteMemberEmail;
-    	}
-    });
-
-});
 
 </script> 
-
 
 
 

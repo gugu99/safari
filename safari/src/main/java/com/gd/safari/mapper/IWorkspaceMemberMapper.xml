@@ -84,7 +84,7 @@
 			, wm.work_member_phone  workMemberPhone
 			, wm.work_member_dept   workMemberDept
 			, wm.work_member_pos    workMemberPos
-			, wm.active             
+			, wm.active             active
 			, wm.work_member_level  workMemberLevel
 			, wm.create_date        createDate
 			, wm.update_date        updateDate
@@ -119,5 +119,48 @@
 	
 	</update>
 	
+	<insert id= "inviteInsertWorkspaceMember" parameterType="com.gd.safari.vo.WorkspaceMember">
+		<selectKey keyProperty="workNo" resultType="int" order="AFTER">
+			<!-- 방금 생성한 키값을 받아옴 -->
+			SELECT LAST_INSERT_ID() as workNo
+		</selectKey>
+	
+	
+		INSERT INTO workspace_member(
+				work_member_name
+				, active
+				, work_member_level
+				, create_date
+				, update_date
+				, work_no
+				, work_member_email
+				, work_member_code)
+		VALUES(
+				'null'
+				, 'W'
+				, 1
+				, NOW()
+				, NOW()
+				, #{workNo}
+				, #{workMemberEmail}
+				, #{workMemberCode}
+			)
+	
+	</insert>
+	<select id = "selectWorkspaceMemberOneActive" parameterType="int" resultType ="String">
+		SELECT  
+			 	active             
+		FROM workspace_member
+		WHERE work_member_no = #{workMemberNo}
+	
+	</select>
+	
+	<select id = "selectWorkspaceMemberOneCode" parameterType="int" resultType ="String">
+		SELECT  
+			 	work_member_code        
+		FROM workspace_member
+		WHERE work_member_no = #{workMemberNo}
+	
+	</select>
 	
 </mapper>

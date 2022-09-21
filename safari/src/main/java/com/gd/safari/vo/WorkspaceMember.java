@@ -20,5 +20,6 @@ public class WorkspaceMember {
 	private String updateDate;			// 워크스페이스 멤버수정일	
 	private int workNo;					// 워크스페이스 번호
 	private String workMemberEmail;		// 워크스페이스 멤버이메일
+	private String workMemberCode;      // 워크스페이스 멤버코드
 	
 }

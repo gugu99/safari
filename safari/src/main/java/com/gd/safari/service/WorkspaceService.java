@@ -25,14 +25,12 @@ public class WorkspaceService implements IWorkspaceService {
 	@Autowired private IMemberMapper memberMapper;
 	
 	@Override
-	public int addWorkspace(Workspace workspace , String workMemberName) {
+	public int addWorkspace(Workspace workspace , WorkspaceMember workspaceMember) {
 		log.debug(TeamColor.CJM+workspace +"Service workspace");				 	 // workspace 디버깅
-		workspaceMapper.insertWorkspace(workspace); 					  		     //workspace 생성
-		log.debug(TeamColor.CJM+workspace.getWorkNo() +"get WorkNo Service");		//		 	
-		WorkspaceMember workspaceMember = new WorkspaceMember();
+		workspaceMapper.insertWorkspace(workspace); 					  		     // workspace 생성
+		log.debug(TeamColor.CJM+workspace.getWorkNo() +"get WorkNo Service");	     // workspace No디버깅	
 		int workNo= workspace.getWorkNo();
 		workspaceMember.setWorkNo(workNo);
-		workspaceMember.setWorkMemberName(workMemberName); 							 // workspaceMember Name 입력
 		workspaceMember.setWorkMemberEmail(workspace.getAdminEmail());				 // workspaceMember Email입력
 		
 		return workspaceMemberMapper.insertWorkspaceCreater(workspaceMember);		 //workspaceMember 생성

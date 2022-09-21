@@ -112,8 +112,8 @@
 												<div class="row">
 													<div class="col-md-6">
 														<div class="form-group">
-															<label for="firstName1">워크스페이스 제목</label> <input
-																type="text" class="form-control" id="firstName1">
+															<label for="firstName1">인증코드입력</label> <input
+																type="text" class="form-control" id="workspaceCode">
 														</div>
 													</div>
 
@@ -269,16 +269,9 @@
 
 <!-- BEGIN: Page JS-->
 <script
-	src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/wizard-steps.js"></script>
+	src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/wizard-stepsMember.js"></script>
 <!-- END: Page JS-->
 
-<script>            
-$(document).ready(function(){  
-	$("#btn_add").on('click',function(){ 
-		  $(".depth_div").append("<label><input type='text' name='depth'>개</label><br/>");  }); 
-		 $("#btn_mi").on('click',function(){   $(".depth_div label:last").remove();  
-		 $(".depth_div br:last").remove();  }); });
-</script>    
 
 
 

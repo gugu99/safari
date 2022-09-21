@@ -266,7 +266,7 @@
                         <form id="profileImgForm"  method="post" action="${pageContext.request.contextPath}/safari/addProfileImg" enctype="multipart/form-data">
                             <div class="modal-body">
 			                    <div class="col-12 px-0 d-flex flex-sm-row flex-column justify-content-start">
-                                    <input class="btn btn-sm btn-primary ml-50" name="imgFile" type="file" id="imgFile"  accept="image/gif, image/jpeg, image/png">
+                                    <input class="btn btn-sm btn-primary ml-50" name="imgFile" type="file" id="imgFile"  accept="image/gif,image/jpg,image/jpeg, image/png">
                                 </div>
                                 <p class="text-muted ml-75 mt-50"><small>Allowed JPG, GIF or PNG. Max
                                  size of
@@ -304,8 +304,8 @@ $(function(){
     	var fileSize = document.getElementById("imgFile").files[0].size;
     		if (fileNm != "") {
     		    var ext = fileNm.slice(fileNm.lastIndexOf(".") + 1).toLowerCase();
-    		    if (!(ext == "gif" || ext == "jpg" || ext == "png")) {
-    		        alert("이미지파일 (.jpg, .png, .gif ) 만 업로드 가능합니다.");
+    		    if (!(ext == "gif" || ext == "jpg" || ext == "png"|| ext == "jpeg")) {
+    		        alert("이미지파일 (.jpg, .png, .gif .jpeg) 만 업로드 가능합니다.");
     		        return false;
     		    }else if(fileSize > maxSize){
     		    	alert("파일 사이즈는 1MB까지 가능");

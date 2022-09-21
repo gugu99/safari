@@ -14,4 +14,7 @@ public interface IWorkspaceMemberService {
 	Map<String,Object> getWorkspaceMemberOne(int workMemberNo);
 	int getWorkspaceMemberNo(WorkspaceMember workspaceMember);
 	int modifyWorkspaceMember (WorkspaceMember workspaceMember);
+	int inviteAddWorkspaceMember(WorkspaceMember workspaceMember);
+	String getWorkspaceMemberOneActive (int workMemberNo);
+	String getWorkspaceMemberOneCode(int workMemberNo);
 }
