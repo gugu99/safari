@@ -77,7 +77,7 @@
 	
 	<select id="selectProjectMemberNoList" resultType="int" parameterType="int">
 		SELECT
-			project_member_no projectMemberNo
+			work_member_no workMemberNo
 		FROM
 			project_member
 		WHERE

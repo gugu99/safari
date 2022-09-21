@@ -29,6 +29,8 @@ public interface IProjectGroupMapper {
 	// 해당 프로젝트에 속한 프로젝트 리스트를 반환
 	List<Integer> selectProjectListByProjectGroupNo(int projectGroupNo);
 
-	// 프로젝트 그룹에서 프로젝트 삭제
-	int deleteProjectGroupConn(ProjectGroupConn projectGroupConn);
+	// 프로젝트 그룹 삭제
+	int deleteProjectGroupConnByProjectNo(ProjectGroupConn projectGroupConn);
+	int deleteAllProjectGroupConnByProjectGroupNo(int projectGroupNo);
+	int deleteProjectGroup(int projectGroupNo);
 }

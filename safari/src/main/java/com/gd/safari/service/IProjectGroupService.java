@@ -12,4 +12,7 @@ public interface IProjectGroupService {
 	
 	// 프로젝트 그룹 수정 메소드 (+ 프로젝트 그룹게 프로젝트 추가)
 	void modifyProjectGroup(Map<String, Object> map);
+	
+	// 프로젝트 그룹 삭제
+	void deleteProjectGroup(int projectGroupNo);
 }

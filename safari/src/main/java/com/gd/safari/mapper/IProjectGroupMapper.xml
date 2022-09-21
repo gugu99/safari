@@ -49,10 +49,12 @@
 	<insert id="insertProjectGroupConn" parameterType="com.gd.safari.vo.ProjectGroupConn">
 		INSERT INTO project_group_conn (
 			project_no
-			, projectgroup_no		
+			, projectgroup_no
+			, create_date	
 		) VALUES (
 			#{projectNo}
 			, #{projectGroupNo}
+			, NOW()
 		)
 	</insert>
 	
@@ -67,12 +69,29 @@
 			projectgroup_no = #{projectGroupNo}
 	</update>
 	
-	<delete id="deleteProjectGroupConn" parameterType="com.gd.safari.vo.ProjectGroupConn">
+	<!-- 프로젝트 그룹 수정 메소드에서 한 개의 프로젝트를 지우는 용도 -->
+	<delete id="deleteProjectGroupConnByProjectNo" parameterType="com.gd.safari.vo.ProjectGroupConn">
 		DELETE FROM 
 			project_group_conn 
 		WHERE 
-			projectgroup_no = #{projectGroupNo} 
-			AND 
+			projectgroup_no = #{projectGroupNo}
+		AND
 			project_no = #{projectNo}
 	</delete>
+	
+	<!-- 프로젝트 그룹 삭제 -->
+	 <delete id="deleteProjectGroup" parameterType="int">
+	 	DELETE FROM
+	 		project_group
+	 	WHERE
+	 		projectgroup_no = #{projectGroupNo}
+	 </delete>
+	 
+	 <!-- 해당 프로젝트 그룹에 속한 프로젝트 정보를 모두 삭제 -->
+	 <delete id="deleteAllProjectGroupConnByProjectGroupNo" parameterType="int">
+	 	DELETE FROM
+	 		project_group_conn
+	 	WHERE
+	 		projectgroup_no = #{projectGroupNo}
+	 </delete>
 </mapper>

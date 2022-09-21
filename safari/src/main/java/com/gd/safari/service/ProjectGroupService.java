@@ -79,7 +79,7 @@ public class ProjectGroupService implements IProjectGroupService {
 		// 프로젝트 그룹에서 제외된 프로젝트
 		for(int p : deleteProjectList) {
 			projectGroupConn.setProjectNo(p);
-			projectGroupMapper.deleteProjectGroupConn(projectGroupConn);
+			projectGroupMapper.deleteProjectGroupConnByProjectNo(projectGroupConn);
 		}
 		
 		// 프로젝트 그룹에 추가된 프로젝트
@@ -90,4 +90,11 @@ public class ProjectGroupService implements IProjectGroupService {
 		}
 	}
 	
+	// 프로젝트 삭제
+	@Transactional
+	@Override
+	public void deleteProjectGroup(int projectGroupNo) {
+		projectGroupMapper.deleteAllProjectGroupConnByProjectGroupNo(projectGroupNo);
+		projectGroupMapper.deleteProjectGroup(projectGroupNo);
+	}
 }

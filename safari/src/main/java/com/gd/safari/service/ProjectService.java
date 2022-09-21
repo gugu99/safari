@@ -33,11 +33,12 @@ public class ProjectService implements IProjectService {
 
 	// project 메인 페이지 정보 제공 메소드
 	@Override
-	public Map<String, Object> getProjectListByWorkspace(int workNo) {
+	public Map<String, Object> getProjectListByWorkspace(Map<String, Object> paramMap) {
 		Map<String, Object> map = new HashMap<>();
+		int workNo = (int)paramMap.get("workNo");
 		
 		// 전체 프로젝트 리스트
-		List<Project> projectList = projectMapper.selectProjectListByWorkspaceNo(workNo);
+		List<Project> projectList = projectMapper.selectProjectListByWorkspaceNo(paramMap);
 		log.debug(TeamColor.CSK + projectList);
 		
 		// 워크스페이스 멤버 리스트

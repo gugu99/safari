@@ -2,14 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.IProjectMapper">
 	<!-- 프로젝트 리스트 띄우기 -->
-	<select id="selectProjectListByWorkspaceNo" resultType="com.gd.safari.vo.Project" parameterType="int">
+	<select id="selectProjectListByWorkspaceNo" resultType="com.gd.safari.vo.Project" parameterType="java.util.Map">
 		SELECT
-			project_no projectNo
-			, project_name projectName
-			, create_date createDate
-		FROM project
+			p.project_no projectNo
+			, p.project_name projectName
+			, p.create_date createDate
+		FROM project p
+		
+		<if test="'my'.equals(section)">
+			INNER JOIN 
+				project_member pm
+			ON 
+				pm.project_no = p.project_no 
+		</if>
+		<if test="projectGroupNo != null">
+			INNER JOIN 
+				project_group_conn pgc 
+			ON 
+				pgc.project_no = p.project_no 
+		</if>
+		
 		WHERE
-			work_no = #{workNo}
+			p.work_no = #{workNo}
+		
+		<if test="'my'.equals(section)">
+			AND 
+				pm.work_member_no = #{workMemberNo}
+		</if>
+		<if test="'keep'.equals(section)">
+			AND 
+				p.project_keep = 'Y'
+		</if>
+		<if test="projectGroupNo != null">
+			AND
+				pgc.projectgroup_no = #{projectGroupNo}
+		</if>
+		<if test="search != null">
+			AND
+				p.project_name LIKE CONCAT('%',#{search},'%');
+		</if>
 	</select>
 	
 	<!-- 한 프로젝트의 정보 출력 -->

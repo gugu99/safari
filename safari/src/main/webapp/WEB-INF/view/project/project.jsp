@@ -63,12 +63,15 @@
                     </span>
                     <div class="chat-sidebar-search">
                         <div class="d-flex align-items-center">
-                            <fieldset class="form-group position-relative has-icon-left mx-75 mb-0">
-                                <input type="text" class="form-control round" id="chat-search" placeholder="Search">
-                                <div class="form-control-position">
-                                    <i class="feather icon-search text-dark"></i>
-                                </div>
-                            </fieldset>
+                        	<!-- 검색 -->
+                        	<form method="get" action="${pageContext.request.contextPath}/safari/project">
+                           	 	<fieldset class="form-group position-relative has-icon-left mx-75 mb-0">
+	                                <input type="text" class="form-control round" id="chat-search" placeholder="Search" name="search">
+	                                <div class="form-control-position">
+	                                    <i class="feather icon-search text-dark"></i>
+	                                </div>
+	                            </fieldset>
+                            </form>
                         </div>
                     </div>
                     <div class="chat-sidebar-list-wrapper pt-2">
@@ -76,17 +79,17 @@
                         <h5 class="px-2 pb-25 mb-0">PROJECT<button type="button" data-toggle="modal" data-target="#bootstrap" class="float-right"><i class="feather icon-plus cursor-pointer"></i></button></h5>
                         <%@ include file="/WEB-INF/view/project/addProjectModal.jsp"%>
                         <ul class="chat-sidebar-list">
-                            <li>
-                                <h6 class="mb-0">내가 속한 프로젝트</h6>
-                            </li>
-                             <li>
-                                <h6 class="mb-0">중요 프로젝트</h6>
+                        	<li>
+                                <a href="${pageContext.request.contextPath}/safari/project"><h6 class="mb-0">전체 프로젝트</h6></a>
                             </li>
                             <li>
-                                <h6 class="mb-0">전체 프로젝트</h6>
+                                <a href="${pageContext.request.contextPath}/safari/project?section=my"><h6 class="mb-0">내가 속한 프로젝트</h6></a>
                             </li>
                             <li>
-                                <h6 class="mb-0">보관된 프로젝트</h6>
+                                <a href="${pageContext.request.contextPath}/safari/project?section=bookmark"><h6 class="mb-0">중요 프로젝트</h6></a>
+                            </li>
+                            <li>
+                                <a href="${pageContext.request.contextPath}/safari/project?section=keep"><h6 class="mb-0">보관된 프로젝트</h6></a>
                             </li>
                         </ul>
                         
@@ -97,8 +100,14 @@
                         
                         	<c:forEach var="pg" items="${projectGroupList}">
 	                            <li>
-	                                <h6 class="mb-0">${pg.projectGroupName}<a href="${pageContext.request.contextPath}/safari/modifyProjectGroup?projectGroupNo=${pg.projectGroupNo}"><i class="feather icon-plus float-right cursor-pointer"></i></a></h6>
-	                            	
+	                                <h6 class="mb-0">
+	                                	<a href="${pageContext.request.contextPath}/safari/project?projectGroupNo=${pg.projectGroupNo}">
+	                                		${pg.projectGroupName}
+	                                	</a>
+	                                	<a href="${pageContext.request.contextPath}/safari/modifyProjectGroup?projectGroupNo=${pg.projectGroupNo}">
+	                                		<i class="feather icon-plus float-right cursor-pointer"></i>
+	                                	</a>
+	                                </h6>
 	                            </li>
                             </c:forEach>
                         </ul>
@@ -121,7 +130,7 @@
 		                                </li>
 		                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/safari/project">Project</a>
 		                                </li>
-		                                <li class="breadcrumb-item active">Project Summary
+		                                <li class="breadcrumb-item active">${title}
 		                                </li>
 		                            </ol>
 		                        </div>
