@@ -15,29 +15,29 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label>업무 제목</label>
-                        <input type="text" class="form-control edit-kanban-item-title" placeholder="업무 제목" name="taskTitle">
+                        <input type="text" class="form-control edit-kanban-item-title" placeholder="업무 제목" id="taskTitle">
                     </div>
                     <div class="form-group">
                         <label>업무 내용</label>
-                        <textarea class="form-control edit-kanban-item-content" placeholder="업무 내용" name="taskContent"></textarea>
+                        <textarea class="form-control edit-kanban-item-content" placeholder="업무 내용" id="taskContent"></textarea>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>시작일</label>
                         <input type="text" class="form-control edit-kanban-item-date" placeholder="시작일" name="taskStart">
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label>마감일</label>
-                        <input type="text" class="form-control edit-kanban-item-date" placeholder="마감일" name="taskDeadline">
+                        <input type="text" class="form-control edit-kanban-item-date" placeholder="마감일">
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>종료일</label>
                         <input type="text" class="form-control edit-kanban-item-date" placeholder="종료일" name="taskEnd">
-                    </div>
+                    </div> -->
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
                                 <label>색상 라벨</label>
-                                <select class="form-control text-white" name="taskLabel">
+                                <select class="form-control text-white">
                                     <option class="bg-primary" selected>Primary</option>
                                     <option class="bg-danger">Danger</option>
                                     <option class="bg-success">Success</option>
@@ -50,8 +50,8 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label>중요도</label>
-                                <select class="form-control text-white" name="taskPoint">
-                                    <option value="default" selected></option>
+                                <select class="form-control text-white edit-kanban-item-point">
+                                    <option value=""></option>
                                     <option value="0">0</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -73,15 +73,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>파일</label>
                         <div class="custom-file">
                             <input type="file" class="custom-file-input" id="emailAttach">
                             <label class="custom-file-label" for="emailAttach">파일</label>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Compose mail Quill editor -->
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>댓글</label>
                         <div class="snow-container border rounded p-1">
                             <div class="compose-editor"></div>
@@ -98,7 +98,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-end">

@@ -1,10 +1,12 @@
 package com.gd.safari.restController;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +34,20 @@ public class RestTaskController {
 		log.debug(TeamColor.CSH + "조회에 따른 업무 개수 : " + tasks.size());
 		
 		return tasks;
+	}
+	
+	// 업무 상세보기
+	@GetMapping("/safari/taskDetail")
+	public @ResponseBody Map<String, Object> taskDetail(int taskNo){
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 상세보기");
+		
+		// 서비스호출
+		// 리턴값 Map<String, Object>
+		Map<String, Object> task = taskService.getTaskByTaskNo(taskNo);
+		
+		log.debug(TeamColor.CSH + "업무 상세내용 : " + task);
+		
+		return task;
 	}
 	
 	// 업무 생성

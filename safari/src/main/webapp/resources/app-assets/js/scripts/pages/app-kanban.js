@@ -112,12 +112,40 @@ $(document).ready(function () {
       // Extract  the kan ban item & id and set it to respective vars
       kanban_item_title = $(el).contents()[0].data;
       kanban_curr_item_id = $(el).attr("data-eid");
-
+      
+      // 업무 상세 보기
+      $.ajax({
+	  	async : false,
+		type : 'GET',
+		data : { taskNo : kanban_curr_item_id },
+		url : '/safari/taskDetail',
+		success : function(json){
+			$(json).each(function(index, item){
+				// 디버깅
+				console.log(item);
+				
+				// 날짜와 시간을 데이터베이스에 있는 시간에 맞게 맞추기	
+				let timeSorce = item.taskDeadline;
+				let dateObj = new Date(timeSorce);
+				let timeString_KR = dateObj.toLocaleString("ko-KR", {timeZone : "Asia/Seoul"});
+				
+				$('.edit-kanban-item-content').val(item.taskContent);
+				$('.edit-kanban-item-date').val(timeString_KR);
+				$('.edit-kanban-item-tasklistNo').val(item.tasklistTitle);
+				$('.edit-kanban-item-point').val(item.taskPoint);
+			});
+		}
+	  });
+      
+      // 디버깅
+      console.log(kanban_curr_item_id);
+      console.log(kanban_item_title);
+      
 	  // 편집 제목 설정
       // set edit title
       $(".edit-kanban-item .edit-kanban-item-title").val(kanban_item_title);
     },
-
+    
     buttonClick: function (el, boardId) {
 	  // 새 요소를 추가하기 위한 양식 만들기
       // create a form to add add new element
@@ -128,8 +156,8 @@ $(document).ready(function () {
         '<textarea class="form-control add-new-item" rows="2" autofocus required></textarea>' +
         "</div>" +
         '<div class="form-group">' +
-        '<button type="submit" class="btn btn-primary btn-sm mr-50">Submit</button>' +
-        '<button type="button" id="CancelBtn" class="btn btn-sm btn-danger">Cancel</button>' +
+        '<button type="submit" class="btn btn-primary btn-sm mr-50">확인</button>' +
+        '<button type="button" id="CancelBtn" class="btn btn-sm btn-danger">취소</button>' +
         "</div>";
         
 	  // 제출 클릭 시 새 항목 추가
@@ -176,6 +204,31 @@ $(document).ready(function () {
     addItemButton: true, // add a button to board for easy item creation 쉬운 항목 생성을 위해 게시판에 버튼 추가
     boards: kanban_board_data // data passed from defined variable 정의된 변수에서 전달된 데이터
     
+  });
+  
+  // 업무 수정
+  $(document).on("click", ".update-kanban-item", function () {
+	// 디버깅
+	console.log($('.edit-kanban-item-title').val());
+	$.ajax({
+	  	async : false,
+		type : 'POST',
+		url : '/safari/updateTask',
+		data : {
+			taskTitle : $('.edit-kanban-item-title').val(),
+			taskContent : $('.edit-kanban-item-content').val(),
+			taskDeadline : $('.edit-kanban-item-date').val(),
+			taskPoint : $('.edit-kanban-item-point')
+			},		
+		success : function(json){
+			if(json != 'ok'){
+				alert('업무 수정을 실패했습니다.');
+				return;
+			} else {
+				alert('업무 수정을 성공했습니다.');
+			}
+		}
+	});
   });
 
   // Kanban 항목에 사용자 정의 데이터 속성에 대한 html 추가
@@ -416,8 +469,8 @@ $(document).ready(function () {
   // -------------------
   $(".delete-kanban-item").on("click", function () {
     $delete_item = kanban_curr_item_id;
-        // 디버깅
-        console.log("$delete_item : " + $delete_item);
+    // 디버깅
+    console.log("$delete_item : " + $delete_item);
         
     addEventListener("click", function () {
       KanbanExample.removeElement($delete_item);

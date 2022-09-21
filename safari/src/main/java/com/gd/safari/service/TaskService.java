@@ -1,6 +1,7 @@
 package com.gd.safari.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,7 +27,13 @@ public class TaskService implements ITaskService {
 		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 번호에 맞는 업무 조회");
 		return taskMapper.selectTaskByProjectNo(projectNo);
 	}
-	
+	// 상세 보기
+	@Override
+	public Map<String, Object> getTaskByTaskNo(int taskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 상세 보기");
+		return taskMapper.selectTaskByTaskNo(taskNo);
+	}
+
 	// 업무 생성
 	@Override
 	public int addTask(Task task) {
