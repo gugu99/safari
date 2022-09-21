@@ -69,6 +69,7 @@ public class ProjectController {
 		model.addAttribute("projectGroupList", map.get("projectGroupList"));
 		model.addAttribute("workMemberNo", (int)session.getAttribute("workMemberNo")); // 프로젝트 생성자가 프로젝트 멤버로 바로 삽입되게 하기 위함
 		model.addAttribute("title", title);
+		model.addAttribute("manager", map.get("manager"));
 		
 		return "project/project";
 	}

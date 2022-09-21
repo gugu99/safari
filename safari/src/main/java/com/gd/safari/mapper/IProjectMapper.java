@@ -10,7 +10,7 @@ import com.gd.safari.vo.Project;
 public interface IProjectMapper {
 	// ProjectService.getProjectListByWorkspace에서 프로젝트 개괄 페이지를 띄우는 용도
 	// 해당 워크스페이스에 속한 프로젝트 리스트를 반환
-	List<Project> selectProjectListByWorkspaceNo(Map<String, Object> map);
+	List<Map<String, Object>> selectProjectListByWorkspaceNo(Map<String, Object> map);
 	
 	// 한 프로젝트의 정보를 반환 (수정폼에서 사용)
 	Project selectProjectDetailByProjectNo(int projectNo);

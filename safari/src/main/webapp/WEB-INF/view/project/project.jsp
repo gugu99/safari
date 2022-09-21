@@ -163,8 +163,10 @@
 	                                    <div class="heading-elements">
 	                                        <ul class="list-inline mb-0">
 	                                            <li><a href=""><i class="fa fa-star-o"></i></a></li><!-- 즐겨찾기 -->
-	                                            <li><a href="${pageContext.request.contextPath}/safari/modifyProject?projectNo=${p.projectNo}"><i class="feather icon-edit"></i></a></li><!-- 수정 -->
-	                                            <li><a href=""><i class="feather icon-slash"></i></a></li><!-- 삭제 -->
+	                                            <c:if test="${p.manager ne null}">
+	                                            	<li><a href="${pageContext.request.contextPath}/safari/modifyProject?projectNo=${p.projectNo}"><i class="feather icon-edit"></i></a></li><!-- 수정 -->
+	                                            	<li><a href=""><i class="feather icon-slash"></i></a></li><!-- 삭제 -->
+	                                            </c:if>
 	                                        </ul>
 	                                    </div>
 	                                </div>

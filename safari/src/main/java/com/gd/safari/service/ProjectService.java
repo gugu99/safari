@@ -38,7 +38,7 @@ public class ProjectService implements IProjectService {
 		int workNo = (int)paramMap.get("workNo");
 		
 		// 전체 프로젝트 리스트
-		List<Project> projectList = projectMapper.selectProjectListByWorkspaceNo(paramMap);
+		List<Map<String, Object>> projectList = projectMapper.selectProjectListByWorkspaceNo(paramMap);
 		log.debug(TeamColor.CSK + projectList);
 		
 		// 워크스페이스 멤버 리스트

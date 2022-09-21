@@ -86,6 +86,19 @@
 			active = 'Y'
 	</select>
 	
+	<select id="selectProjectManager" resultType="int" parameterType="int">
+		SELECT 
+			work_member_no workMemberNo
+		FROM 
+			project_member
+		WHERE 
+			project_member_auth = 'Y' 
+		AND 
+			project_no = #{projectNo}
+		AND 
+			work_member_no = ${workMemberNo}
+	</select>
+	
 	<update id="updateProjectMemberActiveN" parameterType="com.gd.safari.vo.ProjectMember">
 		 UPDATE 
 		 	project_member 
