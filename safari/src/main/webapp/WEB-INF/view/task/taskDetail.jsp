@@ -10,29 +10,30 @@
             </button>
         </div>
         <!-- form start -->
-        <form class="edit-kanban-item" action="${pageContext.request.contextPath }/safari/taskDetail" method="post">
+        <form class="edit-kanban-item" action="${pageContext.request.contextPath }/safari/updateTask" method="post">
             <div class="card-content position-relative">
                 <div class="card-body">
+               		<input type="hidden" class="edit-kanban-item-id" name="taskNo">
                     <div class="form-group">
                         <label>업무 제목</label>
-                        <input type="text" class="form-control edit-kanban-item-title" placeholder="업무 제목" id="taskTitle">
+                        <input type="text" class="form-control edit-kanban-item-title" placeholder="업무 제목" name="taskTitle">
                     </div>
                     <div class="form-group">
                         <label>업무 내용</label>
-                        <textarea class="form-control edit-kanban-item-content" placeholder="업무 내용" id="taskContent"></textarea>
+                        <textarea class="form-control edit-kanban-item-content" placeholder="업무 내용" name="taskContent"></textarea>
                     </div>
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <label>시작일</label>
-                        <input type="text" class="form-control edit-kanban-item-date" placeholder="시작일" name="taskStart">
-                    </div> -->
+                        <input type="text" class="form-control edit-kanban-item-start" placeholder="시작일" name="taskStart">
+                    </div>
                     <div class="form-group">
                         <label>마감일</label>
-                        <input type="text" class="form-control edit-kanban-item-date" placeholder="마감일">
+                        <input type="text" class="form-control edit-kanban-item-date" placeholder="마감일" name="taskDeadline">
                     </div>
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <label>종료일</label>
-                        <input type="text" class="form-control edit-kanban-item-date" placeholder="종료일" name="taskEnd">
-                    </div> -->
+                        <input type="text" class="form-control edit-kanban-item-end" placeholder="종료일" name="taskEnd" readonly>
+                    </div>
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
@@ -50,7 +51,7 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label>중요도</label>
-                                <select class="form-control text-white edit-kanban-item-point">
+                                <select class="form-control text-white edit-kanban-item-point" name="taskPoint">
                                     <option value=""></option>
                                     <option value="0">0</option>
                                     <option value="1">1</option>
@@ -106,7 +107,7 @@
                     <i class='feather icon-trash-2 mr-50'></i>
                     <span>삭제</span>
                 </button>
-                <button type="submit" class="btn btn-primary glow update-kanban-item">
+                <button type="button" class="btn btn-primary glow update-kanban-item">
                     <i class='feather icon-play mr-50'></i>
                     <span>수정</span>
                 </button>

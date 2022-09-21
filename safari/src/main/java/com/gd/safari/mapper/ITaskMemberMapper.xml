@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.ITaskMemberMapper">
+	<!-- 해당 프로젝트번호 따른 업무멤버 조회 -->
+	<select id="selectTaskMemberByTask" parameterType="int" resultType="map">
+		SELECT 
+			t.task_no 				taskNo
+			, t.project_member_no 	projectMemberNo
+			, w.work_member_name	workMemberName
+		FROM 
+			task_member t INNER JOIN project_member p
+		ON 
+			t.project_member_no 	= p.project_member_no INNER JOIN workspace_member w
+		ON 
+			p.work_member_no 		= w.work_member_no
+		WHERE 
+			p.project_no = #{projectNo} AND p.active = 'Y'
+	</select>
+	<!-- 업무멤버 생성 -->
+	<insert id="insertTaskMember" parameterType="com.gd.safari.vo.TaskMember">
+		INSERT INTO task_member (
+			task_no
+			, project_member_no
+		) VALUES (
+			#{taskNo}
+			, #{projectMemberNo}
+		)
+	</insert>
+	<!-- 업무멤버 삭제 -->
+	<delete id="deleteTaskMember" parameterType="com.gd.safari.vo.TaskMember">
+		DELETE FROM task_member
+		WHERE
+			task_no = #{taskNo} AND project_member_no = #{projectMemberNo}
+	</delete>
+</mapper>

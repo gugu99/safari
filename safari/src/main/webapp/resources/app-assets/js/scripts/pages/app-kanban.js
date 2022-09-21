@@ -20,12 +20,35 @@ $(document).ready(function () {
   
   
   // Kanban Board and Item Data passed by json
+  // 프로젝트번호에 맞는 업무멤버 조회
+ /* $.ajax({
+		async : false,
+		type : 'POST',
+		url : '/safari/taskMember',
+		success : function(json){
+			// 디버깅
+			console.log("업무멤버 조회");
+			console.log(json);
+			
+			$(json).each(function(index, item){
+				// 배열에 넣기
+				task_list.push({
+					user : 이미지들어가는 배열이
+				});
+			});
+		}
+  }); */
+  
   // 프로젝트번호에 맞는 업무 조회
   $.ajax({
 		async : false,
 		type : 'POST',
 		url : '/safari/task',
 		success : function(json){
+			// 디버깅
+			console.log("업무 조회");
+			console.log(task_list);
+			
 			$(json).each(function(index, item){
 				// 배열에 넣기
 				task_list.push({
@@ -34,8 +57,6 @@ $(document).ready(function () {
 					dueDate : item.taskDeadline,
 					tasklistNo : item.tasklistNo
 				});
-				// 디버깅
-				console.log(task_list);
 			});
 		}
   });
@@ -45,11 +66,13 @@ $(document).ready(function () {
 		type : 'POST',
 		url : '/safari/taskList',
 		success : function(json){
+		    // 디버깅
+		    console.log("업무리스트 조회");
+		    console.log(json);
+		    
 			$(json).each(function(index, item){
 				  // 비어있는 배열 변수를 생성
 				  var temp = new Array();
-				  // 디버깅
-				  console.log(json);
 				  // 프로젝트 번호 세팅
 				  projectNo = item.projectNo;
 				  // 반복문
@@ -88,6 +111,7 @@ $(document).ready(function () {
 		}
   });
   // 디버깅
+  console.log("전체 데이터");
   console.log(kanban_board_data);
   
   // 칸반 보드
@@ -125,14 +149,18 @@ $(document).ready(function () {
 				console.log(item);
 				
 				// 날짜와 시간을 데이터베이스에 있는 시간에 맞게 맞추기	
-				let timeSorce = item.taskDeadline;
-				let dateObj = new Date(timeSorce);
-				let timeString_KR = dateObj.toLocaleString("ko-KR", {timeZone : "Asia/Seoul"});
+				let start = dateFormat(new Date(item.taskStart));
+				let date = dateFormat(new Date(item.taskDeadline));
+				let end = dateFormat(new Date(item.taskEnd));
 				
+				// 클래스에 맞는 value 값 넣어주기
+				$('.edit-kanban-item-id').val(kanban_curr_item_id);
 				$('.edit-kanban-item-content').val(item.taskContent);
-				$('.edit-kanban-item-date').val(timeString_KR);
 				$('.edit-kanban-item-tasklistNo').val(item.tasklistTitle);
 				$('.edit-kanban-item-point').val(item.taskPoint);
+				$('.edit-kanban-item-start').val(start);
+				$('.edit-kanban-item-date').val(date);
+				$('.edit-kanban-item-end').val(end);
 			});
 		}
 	  });
@@ -207,30 +235,26 @@ $(document).ready(function () {
   });
   
   // 업무 수정
-  $(document).on("click", ".update-kanban-item", function () {
+  
+  $('.update-kanban-item').click(function(){
+	// 날짜와 시간을 데이터베이스에 있는 시간에 맞게 맞추기	
+	let start = dateFormat(new Date($('.edit-kanban-item-start').val()));
+	let date = dateFormat(new Date($('.edit-kanban-item-date').val()));
+	let end = dateFormat(new Date($('.edit-kanban-item-end').val()));
+	
+	// 해당 클래스에 value값 변경해서 넣기
+	$('.edit-kanban-item-start').val(start);
+	$('.edit-kanban-item-date').val(date);
+	$('.edit-kanban-item-end').val(end);
+	
 	// 디버깅
-	console.log($('.edit-kanban-item-title').val());
-	$.ajax({
-	  	async : false,
-		type : 'POST',
-		url : '/safari/updateTask',
-		data : {
-			taskTitle : $('.edit-kanban-item-title').val(),
-			taskContent : $('.edit-kanban-item-content').val(),
-			taskDeadline : $('.edit-kanban-item-date').val(),
-			taskPoint : $('.edit-kanban-item-point')
-			},		
-		success : function(json){
-			if(json != 'ok'){
-				alert('업무 수정을 실패했습니다.');
-				return;
-			} else {
-				alert('업무 수정을 성공했습니다.');
-			}
-		}
-	});
+	console.log($('.edit-kanban-item-date').val());
+	
+	// 버튼누를시 제출하기
+	$('.edit-kanban-item').submit();
   });
-
+  
+  
   // Kanban 항목에 사용자 정의 데이터 속성에 대한 html 추가
   var board_item_id, board_item_el;
   // Kanban board loop
@@ -561,9 +585,28 @@ $(document).ready(function () {
 	}
   });
   
+  // 날짜 포맷 메서드
+  function dateFormat(date) {
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let hour = date.getHours();
+        let minute = date.getMinutes();
+        let second = date.getSeconds();
+
+        month = month >= 10 ? month : '0' + month;
+        day = day >= 10 ? day : '0' + day;
+        hour = hour >= 10 ? hour : '0' + hour;
+        minute = minute >= 10 ? minute : '0' + minute;
+        second = second >= 10 ? second : '0' + second;
+
+        return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+  }
+  
   // 칸반 항목 - 날짜 선택
   // kanban Item - Pick-a-Date
   $(".edit-kanban-item-date").pickadate();
+  $(".edit-kanban-item-start").pickadate();
+  $(".edit-kanban-item-end").pickadate();
   
   // Perfect Scrollbar - 칸반 사이드바의 카드 콘텐츠
   // Perfect Scrollbar - card-content on kanban-sidebar
