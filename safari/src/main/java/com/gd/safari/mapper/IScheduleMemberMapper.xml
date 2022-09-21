@@ -5,12 +5,12 @@
 	<insert id="insertScheduleMember" parameterType="com.gd.safari.vo.ScheduleMember">
 		INSERT INTO schedule_member (
 			schedule_no
-			, member_email
+			, schedule_member_email
 			, create_date
 			, update_date
 		) VALUES (
 			#{scheduleNo}
-			, #{memberEmail}
+			, #{scheduleMemberEmail}
 			, NOW()
 			, NOW()
 		)

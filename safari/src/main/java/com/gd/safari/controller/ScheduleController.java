@@ -26,19 +26,26 @@ public class ScheduleController {
 	// 일정 리스트 페이지 이동
 	@GetMapping("/safari/scheduleList")
 	public String scheduleList(HttpSession session, Model model) {
-		
+		// 세션에 저장된 projectNo 가져오기
 		int projectNo = (int)session.getAttribute("projectNo");
 		log.debug(TeamColor.GDE + "projectNo --- " + projectNo);
 		
+		// 세션에 저장된 workNo 가져오기
 		int workNo = (int)session.getAttribute("workNo");
 		log.debug(TeamColor.GDE + "workNo --- " + workNo);
 		
-		Map<String, Object> map = scheduleService.getScheduleList(projectNo, workNo);
+		// 세션에 저장된 workMemberNo 가져오기
+		int workMemberNo = (int)session.getAttribute("workMemberNo");
+		log.debug(TeamColor.GDE + "workMemberNo --- " + workMemberNo);
+		
+		Map<String, Object> map = scheduleService.getScheduleList(projectNo, workNo, workMemberNo);
 		log.debug(TeamColor.GDE + "scheduleList --- " + map.get("scheduleList"));
 		log.debug(TeamColor.GDE + "projectMemberList --- " + map.get("projectMemberList"));
 		
+		// map에 담긴 각 리스트를 model에 저장
 		model.addAttribute("scheduleList", map.get("scheduleList"));
 		model.addAttribute("projectMemberList", map.get("projectMemberList"));
+		model.addAttribute("manager", map.get("manager"));
 		
 		return "schedule/scheduleList";
 	}

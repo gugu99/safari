@@ -68,6 +68,8 @@
             </div>
             <div class="content-body justify-content-center row mt-2">
             	<c:forEach var="s" items="${scheduleList }" varStatus="i">
+            		<!-- 일정이 전체공개인지, 관리자&작성자만 공개인지 확인 후 리스트 출력 -->
+            		<c:if test="${s.scheduleAuth eq 'N'|| (s.scheduleAuth eq 'Y' && (s.scheduleWriter eq login || manager)) }"></c:if>
             		<section id="timeline" class="timeline-center col-md-8">
 	                    <div class="timeline-card card border-grey border-lighten-2">
 	                        <div class="card-content">

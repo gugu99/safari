@@ -54,4 +54,6 @@ $('#addScheduleBtn').click(function(){
 	}
 	$('#scheduleStart').val($('#startDateTime').val().substring(0, 10) + ' ' + $('#startDateTime').val().substring(11));
 	$('#scheduleEnd').val($('#endDateTime').val().substring(0, 10) + ' ' + $('#endDateTime').val().substring(11));
+	
+	addScheduleForm.submit();
 });

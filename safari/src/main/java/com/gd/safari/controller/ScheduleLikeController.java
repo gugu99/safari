@@ -19,6 +19,7 @@ public class ScheduleLikeController {
 	@Autowired
 	IScheduleLikeService scheduleLikeService;
 	
+	// 일정 좋아요 추가하기
 	@GetMapping("/safari/addScheduleLike")
 	public String addScheduleLike(RedirectAttributes redirectAttributes, HttpSession session, ScheduleLike scheduleLike) {
 		log.debug(TeamColor.GDE + "scheduleLike --- " + scheduleLike);
@@ -35,7 +36,7 @@ public class ScheduleLikeController {
 		int row = scheduleLikeService.addScheduleLike(scheduleLike);
 		
 		if (row == 0) { // 좋아요를 이미했으면
-			redirectAttributes.addFlashAttribute("scheduleLikeMsg", "이미 좋아요했습니다.");
+			redirectAttributes.addFlashAttribute("scheduleLikeMsg", "이미 좋아요한 일정입니다.");
 			return "redirect:/safari/scheduleList";
 		}
 		redirectAttributes.addFlashAttribute("scheduleLikeMsg", "좋아요 성공!");
