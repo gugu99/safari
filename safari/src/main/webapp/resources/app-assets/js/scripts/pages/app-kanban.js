@@ -15,50 +15,73 @@ $(document).ready(function () {
   var $id, $value;
   // 업무리스트 내용 담을 배열
   var kanban_board_data = new Array();
+  // 업무리스트 안에 넣을 업무 맵
+  var task_list = new Array();
   
-  // 업무리스트 조회
+  
   // Kanban Board and Item Data passed by json
+  // 프로젝트번호에 맞는 업무 조회
   $.ajax({
 		async : false,
 		type : 'POST',
 		url : '/safari/task',
 		success : function(json){
 			$(json).each(function(index, item){
+				// 배열에 넣기
+				task_list.push({
+					id : item.taskNo,
+					title : item.taskTitle,
+					dueDate : item.taskDeadline,
+					tasklistNo : item.tasklistNo
+				});
 				// 디버깅
-				console.log(json);
-				console.log(item);
-				
+				console.log(task_list);
 			});
 		}
   });
+  // 프로젝트번호에 맞는 업무리스트 조회
   $.ajax({
 		async : false,
 		type : 'POST',
 		url : '/safari/taskList',
 		success : function(json){
 			$(json).each(function(index, item){
+				  // 비어있는 배열 변수를 생성
+				  var temp = new Array();
 				  // 디버깅
 				  console.log(json);
-				  console.log(item);
+				  // 프로젝트 번호 세팅
 				  projectNo = item.projectNo;
-				  console.log(projectNo);
+				  // 반복문
+				  // 업무배열 길이만큼 반복한다.
+				  for(var i = 0; i < task_list.length; i++){
+					// 업무배열 안에 업무리스트번호와 현재 업무리스트번호가 같다면
+					if(task_list[i].tasklistNo == item.tasklistNo){
+						// 비어있는 temp배열에 넣는다.
+						temp.push(task_list[i]);
+					}
+				  }
+				  // temp배열을 확인하는 디버깅코드
+				  console.log("temp");
+				  console.log(temp);
+				  
 				  // 배열에 담기
 				  kanban_board_data.push({
 				      id: item.tasklistNo,
 				      title: item.tasklistTitle,
+				      item: temp
 				      // 업무 (현재는 샘플데이터)
-				      
-				      item: [{
-				          id: "11",
-				          title: "Facebook Campaign 😎",
-				          border: "success",
-				          dueDate: "Feb 6",
-				          comment: 1,
-				          attachment: 3,
-				          users: [
-				          ]
-				        }
-				      ]
+				      //[{
+				          // id: "11",
+				          // title: "Facebook Campaign 😎",
+				          // border: "success",
+				          // dueDate: "Feb 6",
+				          // comment: 1,
+				          // attachment: 3,
+				          // users: [
+				          // ]
+				        //}
+				      //]
 				    }
 				  );
 			});
@@ -71,7 +94,7 @@ $(document).ready(function () {
   // Kanban Board
   var KanbanExample = new jKanban({
     element: "#kanban-wrapper", // selector of the kanban container 칸반 컨테이너 선택자
-    buttonContent: "+ Add New Item", // text or html content of the board button 게시판 버튼의 텍스트 또는 html 콘텐츠
+    buttonContent: "+ 업무 추가", // text or html content of the board button 게시판 버튼의 텍스트 또는 html 콘텐츠
 
 	// 현재 칸반 항목을 클릭하십시오
     // click on current kanban-item
@@ -118,7 +141,32 @@ $(document).ready(function () {
         KanbanExample.addElement(boardId, {
           title: text
         });
-
+        $id = $(this)
+	      .closest(".kanban-board")
+	      .attr("data-id");
+        // 디버깅
+        console.log("새로운 업무 : " + text);
+        console.log("id : " + $id);
+        
+        // 새로운 업무 추가
+        $.ajax({
+			async : false,
+			type : 'POST',
+			url : '/safari/insertTask',
+			data : {
+				taskTitle : text,
+				tasklistNo : $id
+				},
+			success : function(json){
+				if(json != 'ok'){
+					alert('업무 추가를 실패했습니다.');
+					return;
+				} else {
+					alert('업무 추가를 성공했습니다.');
+				}
+			}
+	     });
+		
         formItem.parentNode.removeChild(formItem);
       });
       $(document).on("click", "#CancelBtn", function () {
@@ -155,7 +203,8 @@ $(document).ready(function () {
         }
       }
       // DueDate가 정의되어 있는지 확인
-      if (typeof $(board_item_el).attr("data-dueDate") !== "undefined") {
+      // null일 경우도 보이지 않게 처리한다.
+      if (typeof $(board_item_el).attr("data-dueDate") !== "undefined" && $(board_item_el).attr("data-dueDate") !== "null") {
         board_item_dueDate =
           '<div class="kanban-due-date mr-50">' +
           '<i class="feather icon-clock font-size-small mr-25"></i>' +
@@ -250,7 +299,7 @@ $(document).ready(function () {
   addBoardDefault.addEventListener("click", function () {
     KanbanExample.addBoards([{
       id: "kanban-" + i, // generate random id for each new kanban
-      title: "Default Title"
+      title: "새 업무리스트"
     }]);
     var kanbanNewBoard = KanbanExample.findBoard("kanban-" + i)
 
@@ -263,8 +312,8 @@ $(document).ready(function () {
         '<div class="dropdown">' +
         '<div class="dropdown-toggle cursor-pointer" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-vertical"></i></div>' +
         '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"> ' +
-        '<a class="dropdown-item" href="#"><i class="feather icon-link mr-50"></i>Copy Link</a>' +
-        '<a class="dropdown-item kanban-delete" id="kanban-delete" href="#"><i class="feather icon-trash-2 mr-50"></i>Delete</a>' +
+        '<a class="dropdown-item" href="#"><i class="feather icon-link mr-50"></i>링크 복사</a>' +
+        '<a class="dropdown-item kanban-delete" id="kanban-delete" href="#"><i class="feather icon-trash-2 mr-50"></i>삭제</a>' +
         "</div>" + "</div>";
       var kanbanNewDropdown = $(kanbanNewBoard).find("header");
       $(kanbanNewDropdown).append(kanbanNewBoardData);
@@ -278,16 +327,16 @@ $(document).ready(function () {
 		type : 'POST',
 		url : '/safari/insertTaskList',
 		data : {
-			tasklistTitle : 'Default Title',
+			tasklistTitle : '새 업무리스트',
 			projectNo : projectNo
 			},
 		success : function(json){
 			console.log("projectNo값 여기에 들어와야함 : " + projectNo);
 			if(json != 'ok'){
-				alert('업무리스트 입력를 실패했습니다.');
+				alert('업무리스트 추가를 실패했습니다.');
 				return;
 			} else {
-				alert('업무리스트 입력를 성공했습니다.');
+				alert('업무리스트 추가를 성공했습니다.');
 			}
 		}
      });
@@ -334,8 +383,8 @@ $(document).ready(function () {
     kanban_dropdown.innerHTML =
       '<div class="dropdown-toggle cursor-pointer" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-more-vertical"></i></div>' +
       '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"> ' +
-      '<a class="dropdown-item" href="#"><i class="feather icon-link mr-50"></i>Copy Link</a>' +
-      '<a class="dropdown-item kanban-delete" id="kanban-delete" href="#"><i class="feather icon-trash-2 mr-50"></i>Delete</a>' +
+      '<a class="dropdown-item" href="#"><i class="feather icon-link mr-50"></i>링크 복사</a>' +
+      '<a class="dropdown-item kanban-delete" id="kanban-delete" href="#"><i class="feather icon-trash-2 mr-50"></i>삭제</a>' +
       "</div>";
     if (!$(".kanban-board-header div").hasClass("dropdown")) {
       $(".kanban-board-header").append(kanban_dropdown);
@@ -352,20 +401,42 @@ $(document).ready(function () {
     $(".kanban-sidebar").removeClass("show");
   });
   
+  // 업무 수정
   // 필드에 대한 데이터 값 업데이트
   // Updating Data Values to Fields
+  // 버튼은 save라고 되어있다
   // -------------------------------
   $(".update-kanban-item").on("click", function (e) {
     e.preventDefault();
   });
 
+  // 업무 삭제
   // 칸반 항목 삭제
   // Delete Kanban Item
   // -------------------
   $(".delete-kanban-item").on("click", function () {
     $delete_item = kanban_curr_item_id;
+        // 디버깅
+        console.log("$delete_item : " + $delete_item);
+        
     addEventListener("click", function () {
       KanbanExample.removeElement($delete_item);
+    });
+    
+    $.ajax({
+		async : false,
+		type : 'POST',
+		url : '/safari/deleteTask',
+		data : {taskNo : $delete_item},
+		success : function(json){
+			console.log("$delete_item값 여기에 들어와야함 : " + teskNo);
+			if(json != 'ok'){
+				alert('업무 삭제를 실패했습니다.');
+				return;
+			} else {
+				alert('업무 삭제를 성공했습니다.');
+			}
+		}
     });
   });
   
@@ -376,7 +447,7 @@ $(document).ready(function () {
     modules: {
       toolbar: ".compose-quill-toolbar"
     },
-    placeholder: "Write a Comment... ",
+    placeholder: "댓글을 적어주세요.",
     theme: "snow"
   });
 
@@ -385,7 +456,7 @@ $(document).ready(function () {
   $(".kanban-title-board").on("click", function () {
 	$(this).attr("contenteditable", "true");
     $(this).addClass("line-ellipsis");
-    // id 추가하기
+    // js에서 사용할 id 추가하기
     $(this).attr("id", "kanban-title-board");
     // 선택한 id를 변수에 담기 (이 id는 업무리스트의 데이터베이스 PK이다)
    	$id = $(this)
@@ -420,7 +491,7 @@ $(document).ready(function () {
 			url : '/safari/updateTaskList',
 			data : {
 				tasklistNo : $id,
-				tasklistTitle : $value,
+				tasklistTitle : $value
 				},
 			success : function(json){
 				console.log("id값 여기에 들어와야함 : " + $id);
@@ -432,6 +503,8 @@ $(document).ready(function () {
 				}
 			}
 		});	
+		
+		window.location.reload();
 	}
   });
   

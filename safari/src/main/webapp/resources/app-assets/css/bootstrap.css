@@ -221,6 +221,7 @@ input {
 
 button,
 select {
+  font-family: 'GmarketSansMedium';
   text-transform: none; }
 
 select {

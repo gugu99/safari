@@ -4,19 +4,39 @@
 	<!-- 프로젝트 번호에 맞는 업무 조회 -->
 	<select id="selectTaskByProjectNo" parameterType="int" resultType="com.gd.safari.vo.Task">
 		SELECT
-			t.task_no 			taskNo
-			, t.task_title 		taskTitle
-			, t.task_point 		taskPoint
-			, t.task_deadline 	taskDeadline
-			, t.tasklist_no 	tasklistNo
-			, t.task_upper_no 	taskUpperNo
-			, tl.project_no 	projectNo
+			t.task_no 									taskNo
+			, t.task_title 								taskTitle
+			, t.task_point 								taskPoint
+			, DATE_FORMAT(t.task_deadline, '%m/%d') 	taskDeadline
+			, t.tasklist_no 							tasklistNo
+			, t.task_upper_no 							taskUpperNo
+			, tl.project_no 							projectNo
 		FROM 	
 			task t INNER JOIN task_list tl
 		ON 		
 			t.tasklist_no 		= tl.tasklist_no
 		WHERE 	
 			tl.project_no 		= #{projectNo}
+	</select>
+	<!-- 상세 보기 -->
+	<select id="selectTaskByTaskNo" parameterType="int" resultType="map">
+		SELECT
+			t.task_title taskTitle
+			, t.task_content 	taskContent
+			, t.task_writer 	taskWriter
+			, t.task_point 		taskPoint
+			, t.task_start 		taskStart
+			, t.task_deadline 	taskDeadline
+			, t.task_end 		taskEnd
+			, t.tasklist_no 	tasklistNo
+			, t.task_upper_no 	taskUpperNo
+			, tm.project_member_no projectMemberNo
+		FROM 
+			task t INNER JOIN task_member tm
+		ON 
+			t.task_no 			= tm.task_no
+		WHERE 
+			t.task_no 			= #{taskNo}
 	</select>
 	<!-- 업무 생성 -->
 	<insert id="insertTask" parameterType="com.gd.safari.vo.Task">

@@ -33,7 +33,76 @@ public class RestTaskController {
 		
 		return tasks;
 	}
+	
 	// 업무 생성
+	@PostMapping("/safari/insertTask")
+	public @ResponseBody String insertTask(HttpSession session, Task task) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 생성");
+		// 디버깅
+		log.debug(TeamColor.CSH + task);
+		
+		// 세션값에 있는 작성자 task VO에 setter로 담기
+		task.setTaskWriter((String) session.getAttribute("login"));
+		
+		// 서비스 호출
+		// 리턴값 int - 0일 경우 실행되지 않음
+		int row = taskService.addTask(task);
+		// json으로 만들 변수 초기화
+		String jsonStr = "";
+		
+		// 메서드의 결과에 따라 json 분기
+		if(row != 0) { // 성공
+			jsonStr = "ok";
+		} else { // 실패
+			jsonStr = "not ok";
+		}
+		
+		return jsonStr;
+	}
+	
 	// 업무 수정
+	@PostMapping("/safari/updateTask")
+	public @ResponseBody String updateTask(Task task) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 수정");
+		// 디버깅
+		log.debug(TeamColor.CSH + task);
+		
+		// 서비스 호출
+		// 리턴값 int - 0일 경우 실행되지 않음
+		int row = taskService.modifyTask(task);
+		// json으로 만들 변수 초기화
+		String jsonStr = "";
+		
+		// 메서드의 결과에 따라 json 분기
+		if(row != 0) { // 성공
+			jsonStr = "ok";
+		} else { // 실패
+			jsonStr = "not ok";
+		}
+		
+		return jsonStr;
+	}
+	
 	// 업무 삭제
+	@PostMapping("/safari/deleteTask")
+	public @ResponseBody String deleteTask(int taskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 삭제");
+		// 디버깅
+		log.debug(TeamColor.CSH + taskNo);
+		
+		// 서비스 호출
+		// 리턴값 int - 0일 경우 실행되지 않음
+		int row = taskService.removeTask(taskNo);
+		// json으로 만들 변수 초기화
+		String jsonStr = "";
+		
+		// 메서드의 결과에 따라 json 분기
+		if(row != 0) { // 성공
+			jsonStr = "ok";
+		} else { // 실패
+			jsonStr = "not ok";
+		}
+		
+		return jsonStr;
+	}
 }
