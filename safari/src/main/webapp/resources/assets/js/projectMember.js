@@ -1,20 +1,34 @@
+const projectMember = new Array();
+const projectManager = new Array();
 
 function selectProjectMember(e){
-	const arr = new Array();
 	
 	for(let i = 0; i < e.options.length; i++){
 		const option = e.options[i];
 		
 		if(option.selected){
-			arr.push(option.value);
+			projectMember.push(option.value);
 		}
 	}
 	
-	console.log(arr);
+	console.log(projectMember);
 	
 	document.getElementById("projectMemberList").value = arr;
 };
 
+function selectProjectManager(e){
+	for(let i = 0; i < e.options.length; i++){
+		const option = e.options[i];
+		
+		if(option.selected){
+			projectManager.push(option.value);
+		}
+	}
+	
+	console.log(projectManager);
+	
+	document.getElementById("projectManagerList").value = arr;
+}
 		
 function addProjectGroup(){
 	const hostIndex = location.href.indexOf(location.host) + location.host.length;

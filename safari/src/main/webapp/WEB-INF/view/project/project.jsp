@@ -176,7 +176,6 @@
 	                                         <div class="progress progress-sm mb-2">
                                            		<div class="progress-bar bg-info" role="progressbar" style="width: 72%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                       		</div>
-		                                        <p class="card-text text-right mb-0 addr blue-grey">프로젝트 멤버 보여주기</p>
 		                                        <p class="card-text text-right date blue-grey">${p.createDate}</p>
 	                                    </div>
 	                                </div>

@@ -36,30 +36,6 @@ public class ProjectController {
 		paramMap.put("workNo", session.getAttribute("workNo"));
 		paramMap.put("workMemberNo", session.getAttribute("workMemberNo"));
 		
-		// jsp에서 띄울 타이틀
-		String title = "전체 프로젝트"; // section 파라미터가 null인 경우 프로젝트 리스트
-		
-		// TODO title 로직 다시 고민
-		if(paramMap.get("section") != null) {
-			// section 파라미터의 값에 따라 title 값 변경
-			String section = (String) paramMap.get("section");
-			if("my".equals(section)) {
-				title = "내가 속한 프로젝트";
-			} else if("bookmark".equals(section)) {
-				title = "중요 프로젝트";
-			} else if("keep".equals(section)) {
-				title = "보관된 프로젝트";
-			}
-		}
-		
-		if(paramMap.get("projectGroupNo") != null) {
-			title = "프로젝트 그룹 리스트";
-		}
-		
-		if(paramMap.get("search") != null) {
-			title = paramMap.get("search") + "의 검색 결과";
-		}
-		
 		// MyBatis 동적쿼리로 section
 		Map<String, Object> map = projectService.getProjectListByWorkspace(paramMap);
 
@@ -68,7 +44,7 @@ public class ProjectController {
 		model.addAttribute("workspaceMemberList", map.get("workspaceMemberList"));
 		model.addAttribute("projectGroupList", map.get("projectGroupList"));
 		model.addAttribute("workMemberNo", (int)session.getAttribute("workMemberNo")); // 프로젝트 생성자가 프로젝트 멤버로 바로 삽입되게 하기 위함
-		model.addAttribute("title", title);
+		model.addAttribute("title", map.get("title"));
 		model.addAttribute("manager", map.get("manager"));
 		
 		return "project/project";
@@ -106,15 +82,16 @@ public class ProjectController {
 		log.debug(TeamColor.CSK + "projectNo: " + projectNo);
 		
 		// 워크스페이스 페이지에서 세션에 담은 workspaceNo를 받아온다
-		int workNo = (int)session.getAttribute("workNo");
+//		int workNo = (int)session.getAttribute("workNo");
+//		
+//		// 프로젝트 VO, 프로젝트 멤버리스트<ProjectMember>를 반환
+//		Map<String, Object> map = projectService.getProjectDetailByProjectNo(workNo, projectNo);
+//		
+//		// 모델에 넣기
+//		model.addAttribute("project", map.get("project"));
+//		model.addAttribute("projectMemberList", map.get("projectMemberList"));
 		
-		// 프로젝트 VO, 프로젝트 멤버리스트<ProjectMember>를 반환
-		Map<String, Object> map = projectService.getProjectDetailByProjectNo(workNo, projectNo);
-		
-		// 모델에 넣기
-		model.addAttribute("project", map.get("project"));
-		model.addAttribute("projectMemberList", map.get("projectMemberList"));
-		
+		model.addAttribute("projectNo", projectNo);
 		return "project/modifyProject";
 	}
 	

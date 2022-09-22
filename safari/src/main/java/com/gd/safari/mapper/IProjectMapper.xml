@@ -10,12 +10,15 @@
 			,(select work_member_no from project_member where project_member_auth = 'Y' and project_no = projectNo and work_member_no = #{workMemberNo}) manager
 		FROM project p
 		
+		<!-- 내가 속한 프로젝트 -->
 		<if test="'my'.equals(section)">
 			INNER JOIN 
 				project_member pm
 			ON 
 				pm.project_no = p.project_no 
 		</if>
+		
+		<!-- 프로젝트 그룹 별 보기 -->
 		<if test="projectGroupNo != null">
 			INNER JOIN 
 				project_group_conn pgc 
@@ -26,18 +29,25 @@
 		WHERE
 			p.work_no = #{workNo}
 		
+		<!-- 내가 속한 프로젝트 -->
 		<if test="'my'.equals(section)">
 			AND 
 				pm.work_member_no = #{workMemberNo}
 		</if>
+		
+		<!-- 보관 프로젝트 -->
 		<if test="'keep'.equals(section)">
 			AND 
 				p.project_keep = 'Y'
 		</if>
+		
+		<!-- 프로젝트 그룹 별 보기 -->
 		<if test="projectGroupNo != null">
 			AND
 				pgc.projectgroup_no = #{projectGroupNo}
 		</if>
+		
+		<!-- 검색 -->
 		<if test="search != null">
 			AND
 				p.project_name LIKE CONCAT('%',#{search},'%');
