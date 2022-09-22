@@ -27,7 +27,7 @@ public class RestAccountController {
 	
 	// 메일 확인
 	@PostMapping("/account/mailConfirm")
-	public @ResponseBody String mailConfirm(@RequestParam(value = "email") String email) {
+	public String mailConfirm(@RequestParam(value = "email") String email) {
 		log.debug(TeamColor.CSH + this.getClass() + " 로그인 페이지");
 		String code;
 		// 꼭 예외처리를 하지 않아도 되는 익셉션을 발생시킨다.
@@ -45,7 +45,7 @@ public class RestAccountController {
 	
 	// 중복된 이메일 검사
 	@PostMapping("/account/duplicateEmail")
-	public @ResponseBody String duplicateEmail(@RequestParam (value = "memberEmail") String memberEmail) {
+	public String duplicateEmail(@RequestParam (value = "memberEmail") String memberEmail) {
 		log.debug(TeamColor.CSH + this.getClass() + " 중복된 이메일 검사");
 		// 디버깅
 		log.debug(TeamColor.CSH + memberEmail);
@@ -68,7 +68,7 @@ public class RestAccountController {
 	
 	// 유효한 이메일 검사 (회원이고 활성화된 이메일)
 	@PostMapping("/account/checkEmail")
-	public @ResponseBody String checkEmail(@RequestParam (value = "memberEmail") String memberEmail) {
+	public String checkEmail(@RequestParam (value = "memberEmail") String memberEmail) {
 		log.debug(TeamColor.CSH + this.getClass() + " 유효한 이메일 검사");
 		// 디버깅
 		log.debug(TeamColor.CSH + memberEmail);

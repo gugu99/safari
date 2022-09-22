@@ -24,7 +24,7 @@ public class RestTaskController {
 	
 	// 프로젝트 번호에 맞는 업무 조회
 	@PostMapping("/safari/task")
-	public @ResponseBody List<Task> task(HttpSession session) {
+	public List<Task> task(HttpSession session) {
 		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 번호에 맞는 업무 조회");
 		
 		// 서비스호출
@@ -38,7 +38,7 @@ public class RestTaskController {
 	
 	// 업무 상세보기
 	@GetMapping("/safari/taskDetail")
-	public @ResponseBody Map<String, Object> taskDetail(int taskNo){
+	public Map<String, Object> taskDetail(int taskNo){
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 상세보기");
 		
 		// 서비스호출
@@ -52,7 +52,7 @@ public class RestTaskController {
 	
 	// 업무 생성
 	@PostMapping("/safari/insertTask")
-	public @ResponseBody String insertTask(HttpSession session, Task task) {
+	public String insertTask(HttpSession session, Task task) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 생성");
 		// 디버깅
 		log.debug(TeamColor.CSH + task);
@@ -78,7 +78,7 @@ public class RestTaskController {
 	
 	// 업무 삭제
 	@PostMapping("/safari/deleteTask")
-	public @ResponseBody String deleteTask(int taskNo) {
+	public String deleteTask(int taskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 삭제");
 		// 디버깅
 		log.debug(TeamColor.CSH + taskNo);

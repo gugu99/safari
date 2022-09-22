@@ -1,5 +1,6 @@
 package com.gd.safari.restController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gd.safari.commons.TeamColor;
@@ -24,7 +24,7 @@ public class RestTaskMemberController {
 	
 	// 프로젝트 멤버 조회 (IProjectMemberMapper에서 받아오기)
 	@GetMapping("/safari/projectMemberByTask")
-	public @ResponseBody List<Map<String, Object>> projectMemberByTask(HttpSession session){
+	public List<Map<String, Object>> projectMemberByTask(HttpSession session){
 		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 멤버 조회");
 		
 		// 서비스호출
@@ -33,17 +33,38 @@ public class RestTaskMemberController {
 		
 		log.debug(TeamColor.CSH + "조회에 따른 프로젝트멤버 개수 : " + projectMember.size());
 		
+		
 		return projectMember;
 	}
 	
-	// 해당 프로젝트번호 따른 업무멤버 조회
-	@PostMapping("/safari/taskMember")
-	public @ResponseBody List<Map<String, Object>> taskMember(HttpSession session){
-		log.debug(TeamColor.CSH + this.getClass() + " 해당 프로젝트번호 따른 업무멤버 조회");
+	// 프로젝트 멤버 - 해당 업무 멤버
+	@GetMapping("/safari/resultTaskMember")
+	public List<Map<String, Object>> resultTaskMember(HttpSession session, int taskNo){
+		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 멤버 - 해당 업무 멤버");
+		
+		// 메서드 실행을 위해 필요한 프로젝트번호와 업무번호 받기
+		Map<String,Integer> m = new HashMap<String, Integer>();
+		m.put("projectNo", (int)session.getAttribute("projectNo"));
+		m.put("taskNo", taskNo);
 		
 		// 서비스호출
 		// 리턴값 List<Map<String, Object>>
-		List<Map<String, Object>> taskMember = taskMemberService.getTaskMemberByTask((int)session.getAttribute("projectNo"));
+		List<Map<String, Object>> result = taskMemberService.getTaskMemberByProjectNoAndTaskNo(m);
+		
+		log.debug(TeamColor.CSH + "조회에 따른 프로젝트멤버 : " + result);
+		log.debug(TeamColor.CSH + "조회에 따른 프로젝트멤버 : " + result.get(0).get("taskNo"));
+		
+		return result;
+	}
+	
+	// 해당 업무에 따른 업무멤버 조회
+	@PostMapping("/safari/taskMemberByTaskNo")
+	public List<Map<String, Object>> taskMemberByTaskNo(int taskNo){
+		log.debug(TeamColor.CSH + this.getClass() + " 해당 업무에 따른 업무멤버 조회");
+		
+		// 서비스호출
+		// 리턴값 List<Map<String, Object>>
+		List<Map<String, Object>> taskMember = taskMemberService.getTaskMemberByTaskNo(taskNo);
 		
 		log.debug(TeamColor.CSH + "조회에 따른 업무멤버 개수 : " + taskMember.size());
 		
@@ -52,7 +73,7 @@ public class RestTaskMemberController {
 	
 	// 업무멤버 생성
 	@PostMapping("/safari/insertTaskMember")
-	public @ResponseBody String insertTaskMember(TaskMember taskMember) {
+	public String insertTaskMember(TaskMember taskMember) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무멤버 생성");
 		// 디버깅
 		log.debug(TeamColor.CSH + taskMember);
@@ -75,7 +96,7 @@ public class RestTaskMemberController {
 	
 	// 업무멤버 삭제
 	@PostMapping("/safari/deleteTaskMember")
-	public @ResponseBody String deleteTaskMember(TaskMember taskMember) {
+	public String deleteTaskMember(TaskMember taskMember) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무멤버 삭제");
 		// 디버깅
 		log.debug(TeamColor.CSH + taskMember);

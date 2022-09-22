@@ -9,8 +9,10 @@ import com.gd.safari.vo.TaskMember;
 
 @Mapper
 public interface ITaskMemberMapper {
-	// 해당 프로젝트번호 따른 업무멤버 조회
-	List<Map<String, Object>> selectTaskMemberByTask(int projectNo);
+	// 해당 업무번호에 따른 업무멤버 조회
+	List<Map<String, Object>> selectTaskMemberByTaskNo(int taskNo);
+	// 해당 업무번호에 없는 프로젝트멤버 조회/해당 업무번호에 따른 업무멤버 조회 - 프로젝트번호, 업무번호 필요하여 map으로 사용
+	List<Map<String, Object>> selectTaskMemberByProjectNoAndTaskNo(Map<String, Integer> map);
 	// 업무멤버 생성
 	int insertTaskMember(TaskMember taskMember);
 	// 업무멤버 삭제

@@ -23,7 +23,7 @@ public class RestTaskListController {
 	
 	// 업무리스트 조회
 	@PostMapping("/safari/taskList")
-	public @ResponseBody List<TaskList> taskList(HttpSession session) {
+	public List<TaskList> taskList(HttpSession session) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 조회");
 		
 		// 서비스 호출
@@ -37,7 +37,7 @@ public class RestTaskListController {
 	
 	// 업무리스트 생성
 	@PostMapping("/safari/insertTaskList")
-	public @ResponseBody String insertTaskList(TaskList tasklist) {
+	public String insertTaskList(TaskList tasklist) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 생성");
 		// 디버깅
 		log.debug(TeamColor.CSH + tasklist);
@@ -60,7 +60,7 @@ public class RestTaskListController {
 	
 	// 업무리스트 수정
 	@PostMapping("/safari/updateTaskList")
-	public @ResponseBody String updateTaskList(TaskList tasklist) {
+	public String updateTaskList(TaskList tasklist) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 수정");
 		// 디버깅
 		log.debug(TeamColor.CSH + tasklist);
@@ -83,7 +83,7 @@ public class RestTaskListController {
 	
 	// 업무리스트 삭제
 	@PostMapping("/safari/deleteTaskList")
-	public @ResponseBody String deleteTaskList(int tasklistNo) {
+	public String deleteTaskList(int tasklistNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 삭제");
 		// 디버깅
 		log.debug(TeamColor.CSH + tasklistNo);

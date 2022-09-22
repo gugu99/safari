@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.ITaskMemberMapper">
-	<!-- 해당 프로젝트번호 따른 업무멤버 조회 -->
-	<select id="selectTaskMemberByTask" parameterType="int" resultType="map">
+	<!-- 해당 업무번호에 따른 업무멤버 조회 -->
+	<select id="selectTaskMemberByTaskNo" parameterType="int" resultType="map">
 		SELECT 
 			t.task_no 				taskNo
 			, t.project_member_no 	projectMemberNo
@@ -13,6 +13,26 @@
 			t.project_member_no 	= p.project_member_no INNER JOIN workspace_member w
 		ON 
 			p.work_member_no 		= w.work_member_no
+		WHERE 
+			t.task_no = #{taskNo} AND p.active = 'Y'
+	</select>
+	<!-- 해당 업무번호에 없는 프로젝트멤버 조회/해당 업무번호에 따른 업무멤버 조회 - 프로젝트번호, 업무번호 필요하여 map으로 사용 -->
+	<select id="selectTaskMemberByProjectNoAndTaskNo" parameterType="map" resultType="map">
+		SELECT 
+			p.project_member_no 	projectMemberNo
+			, p.project_no			projectNo
+			, t.task_no				taskNo
+			, w.work_member_name 	workMemberName
+		FROM 
+			project_member p 
+		LEFT OUTER JOIN 
+				(SELECT task_no, project_member_no FROM task_member WHERE task_no = #{taskNo}) t 
+		ON 
+			p.project_member_no	 	= t.project_member_no 
+		INNER JOIN 
+			workspace_member w 
+		ON 
+			p.work_member_no 		= w.work_member_no 
 		WHERE 
 			p.project_no = #{projectNo} AND p.active = 'Y'
 	</select>

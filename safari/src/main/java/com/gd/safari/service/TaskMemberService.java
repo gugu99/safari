@@ -1,5 +1,6 @@
 package com.gd.safari.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,19 +29,24 @@ public class TaskMemberService implements ITaskMemberService {
 		return projectMemberMapper.selectProjectMemberList(projectNo);
 	}
 	
-	// 해당 프로젝트번호 따른 업무멤버 조회
+	// 해당 업무번호에 따른 업무멤버 조회
 	@Override
-	public List<Map<String, Object>> getTaskMemberByTask(int projectNo) {
-		log.debug(TeamColor.CSH + this.getClass() + " 해당 프로젝트번호 따른 업무멤버 조회");
-		
-		return taskMemberMapper.selectTaskMemberByTask(projectNo);
+	public List<Map<String, Object>> getTaskMemberByTaskNo(int taskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 해당 업무번호에 따른 업무멤버 조회");
+		return taskMemberMapper.selectTaskMemberByTaskNo(taskNo);
+	}
+	
+	// 해당 업무번호에 없는 프로젝트멤버 조회/해당 업무번호에 따른 업무멤버 조회 - 프로젝트번호, 업무번호 필요하여 map으로 사용
+	@Override
+	public List<Map<String, Object>> getTaskMemberByProjectNoAndTaskNo(Map<String, Integer> map) {
+		log.debug(TeamColor.CSH + this.getClass() + " 해당 프로젝트번호에 따른 업무멤버 조회");
+		return taskMemberMapper.selectTaskMemberByProjectNoAndTaskNo(map);
 	}
 	
 	// 업무멤버 생성
 	@Override
 	public int addTaskMember(TaskMember taskMember) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무멤버 생성");
-		
 		return taskMemberMapper.insertTaskMember(taskMember);
 	}
 	
@@ -48,7 +54,6 @@ public class TaskMemberService implements ITaskMemberService {
 	@Override
 	public int removeTaskMember(TaskMember taskMember) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무멤버 삭제");
-		
 		return taskMemberMapper.deleteTaskMember(taskMember);
 	}
 
