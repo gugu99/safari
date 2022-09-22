@@ -10,18 +10,35 @@
 $(document).ready(function () {
   var kanban_curr_el, kanban_curr_item_id, kanban_item_title, kanban_data, kanban_item, kanban_users;
   // 프로젝트 번호 받기
-  var projectNo;
+  var projectNo, taskNo;
   // 아이디, 값 받을 변수
   var $id, $value;
   // 업무리스트 내용 담을 배열
   var kanban_board_data = new Array();
   // 업무리스트 안에 넣을 업무 맵
   var task_list = new Array();
-  
+  var member_list = new Array();
+  var projectMember = new Array();
   
   // Kanban Board and Item Data passed by json
-  // 프로젝트번호에 맞는 업무멤버 조회
- /* $.ajax({
+  // 프로젝트 멤버 보기
+  $.ajax({
+  	async : false,
+	type : 'GET',
+	url : '/safari/projectMemberByTask',
+	success : function(json){
+		// 디버깅
+		console.log("프로젝트 멤버");
+		console.log(json);
+		console.log(json.length);
+		
+		projectMember = json;
+	 }
+  });
+  
+  
+  // 프로젝트번호에 맞는 업무멤버 조회를 받아서 업무번호에 맞는 업무를 나누어준다.
+  $.ajax({
 		async : false,
 		type : 'POST',
 		url : '/safari/taskMember',
@@ -30,16 +47,13 @@ $(document).ready(function () {
 			console.log("업무멤버 조회");
 			console.log(json);
 			
-			$(json).each(function(index, item){
-				// 배열에 넣기
-				task_list.push({
-					user : 이미지들어가는 배열이
-				});
-			});
+			member_list = json;
 		}
-  }); */
+  }); 
+  // console.log("member_list");
+  // console.log(member_list);
   
-  // 프로젝트번호에 맞는 업무 조회
+  // 업무리스트번호에 맞는 업무 조회
   $.ajax({
 		async : false,
 		type : 'POST',
@@ -47,19 +61,42 @@ $(document).ready(function () {
 		success : function(json){
 			// 디버깅
 			console.log("업무 조회");
-			console.log(task_list);
-			
+			console.log(json);
 			$(json).each(function(index, item){
+				  // 비어있는 배열 변수를 생성
+				  var temp = new Array();
+				  // 업무 번호 세팅
+				  taskNo = item.taskNo;
+				  // 반복문
+				  // 멤버 길이만큼 반복한다.
+				  for(var i = 0; i < member_list.length; i++){
+					// 멤버배열 안에 업무번호와 현재 업무번호가 같다면
+					if(member_list[i].taskNo == item.taskNo){
+						// 비어있는 temp배열에 넣는다.
+						temp.push(member_list[i]);
+					}
+				  }
+				  console.log();
+				  // temp배열을 확인하는 디버깅코드
+				  console.log("member-temp");
+				  console.log(temp);
+			  
+			  //console.log("업무번호에 맞는 멤버 조회");
+			  //console.log(temp);
 				// 배열에 넣기
 				task_list.push({
 					id : item.taskNo,
 					title : item.taskTitle,
 					dueDate : item.taskDeadline,
-					tasklistNo : item.tasklistNo
+					tasklistNo : item.tasklistNo,
+					user : temp
 				});
 			});
+			
+ 			console.log(task_list);
 		}
   });
+  
   // 프로젝트번호에 맞는 업무리스트 조회
   $.ajax({
 		async : false,
@@ -110,6 +147,58 @@ $(document).ready(function () {
 			});
 		}
   });
+  
+  // member modal에 projectMember 객체 넘기기
+  $(".memberBtn-modal").on("click", function(){
+	// 멤버 select 초기화하기
+    $(".select-option").html('<option value=""></option>');
+	// 프로젝트 멤버배열 만큼 반복하기
+    for(var i = 0; i < projectMember.length; i++){
+		$(".select-option").append("<option value='"+ projectMember[i].projectMemberNo +"' class='bg-info'>"+ projectMember[i].workMemberName +"</option>");
+    }
+  });
+  
+  // 멤버 추가 버튼 누를 시 메서드 실행
+  $("#insertBtn").on("click", function(){
+	  // 선택된 멤버 받아오기
+	  var value_str = document.getElementById('insertMember');
+	  
+	  // 받아오기 확인
+	  // alert("value : " + value_str.options[value_str.selectedIndex].value + " text : " + value_str.options[value_str.selectedIndex].text);
+	  // 업무번호 확인
+	  // alert("멤버 추가 위한 업무 번호 : " + $('.edit-kanban-item-id').val());
+	  // 멤버 추가
+	  
+	  // 멤버 인지 아닌지 확인하는 반복문
+		var temp = new Array();
+		// 반복문
+		// 업무배열의 길이 만큼 반복한다.
+		for(var i = 0; i < task_list.length; i++){
+			// 만약 member_list의 업무번호와 현재 업무번호가 같다면
+			if(member_list[i].taskNo == $('.edit-kanban-item-id').val()){
+				// 배정된 멤버를 가져오기
+				temp = task_list[i].user;
+			}
+		}
+	   
+	  /*$.ajax({
+		async : false,
+		type : 'POST',
+		data : {
+			taskNo : taskNo,
+			projectMemberNo : value_str.options[value_str.selectedIndex].value
+ 		},
+		url : '/safari/insertTaskMember',
+		success : function(json){
+			// 디버깅
+			console.log("업무멤버 조회");
+			console.log(json);
+			
+			member_list = json;
+		 }
+  	   }); */
+  });
+  
   // 디버깅
   console.log("전체 데이터");
   console.log(kanban_board_data);
@@ -136,38 +225,56 @@ $(document).ready(function () {
       // Extract  the kan ban item & id and set it to respective vars
       kanban_item_title = $(el).contents()[0].data;
       kanban_curr_item_id = $(el).attr("data-eid");
-      
-      // 업무 상세 보기
+       
+      // 업무 상세보기
       $.ajax({
 	  	async : false,
 		type : 'GET',
 		data : { taskNo : kanban_curr_item_id },
 		url : '/safari/taskDetail',
 		success : function(json){
-			$(json).each(function(index, item){
-				// 디버깅
-				console.log(item);
-				
-				// 날짜와 시간을 데이터베이스에 있는 시간에 맞게 맞추기	
-				let start = dateFormat(new Date(item.taskStart));
-				let date = dateFormat(new Date(item.taskDeadline));
-				let end = dateFormat(new Date(item.taskEnd));
-				
-				// 클래스에 맞는 value 값 넣어주기
-				$('.edit-kanban-item-id').val(kanban_curr_item_id);
-				$('.edit-kanban-item-content').val(item.taskContent);
-				$('.edit-kanban-item-tasklistNo').val(item.tasklistTitle);
-				$('.edit-kanban-item-point').val(item.taskPoint);
-				$('.edit-kanban-item-start').val(start);
-				$('.edit-kanban-item-date').val(date);
-				$('.edit-kanban-item-end').val(end);
-			});
+			// 디버깅
+			console.log(json);
+			console.log(task_list);
+			
+			// 날짜와 시간을 데이터베이스에 있는 시간에 맞게 맞추기	
+			let start = dateFormat(new Date(json.taskStart));
+			let date = dateFormat(new Date(json.taskDeadline));
+			let end = dateFormat(new Date(json.taskEnd));
+			
+			// 클래스에 맞는 value 값 넣어주기
+			$('.edit-kanban-item-id').val(kanban_curr_item_id);
+			$('.edit-kanban-item-content').val(json.taskContent);
+			$('.edit-kanban-item-tasklistNo').val(json.tasklistTitle);
+			$('.edit-kanban-item-point').val(json.taskPoint);
+			$('.edit-kanban-item-start').val(start);
+			$('.edit-kanban-item-date').val(date);
+			$('.edit-kanban-item-end').val(end);
+			
+			var temp = new Array();
+			// 반복문
+			// 업무배열의 길이 만큼 반복한다.
+			for(var i = 0; i < task_list.length; i++){
+				// 만약 task_list의 id (업무번호)와 현재 업무번호가 같다면
+				if(task_list[i].id == kanban_curr_item_id){
+					// 배정된 멤버를 가져오기
+					temp = task_list[i].user;
+				}
+			}
+			console.log("배정된 멤버");
+			console.log(temp);
+			var str = "";
+			for(var i = 0; i < temp.length; i++){
+				str += temp[i].workMemberName + " ";
+			}
+			console.log(str);
+			// 배정된 멤버를 넣어주기
+			$('.edit-kanban-item-member').val(str);
 		}
 	  });
       
       // 디버깅
-      console.log(kanban_curr_item_id);
-      console.log(kanban_item_title);
+      console.log($('.edit-kanban-item-member').val());
       
 	  // 편집 제목 설정
       // set edit title

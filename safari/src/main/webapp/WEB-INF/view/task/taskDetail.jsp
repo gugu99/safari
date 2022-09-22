@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- User new mail right area -->
 <div class="kanban-sidebar">
     <div class="card shadow-none quill-wrapper">
@@ -35,7 +35,7 @@
                         <input type="text" class="form-control edit-kanban-item-end" placeholder="종료일" name="taskEnd" readonly>
                     </div>
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-6">
                             <div class="form-group">
                                 <label>색상 라벨</label>
                                 <select class="form-control text-white">
@@ -48,60 +48,26 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-6">
                             <div class="form-group">
                                 <label>중요도</label>
                                 <select class="form-control text-white edit-kanban-item-point" name="taskPoint">
-                                    <option value=""></option>
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    <option value="" class="bg-primary" selected></option>
+                                    <option value="1" class="bg-danger">1</option>
+                                    <option value="2" class="bg-success">2</option>
+                                    <option value="3" class="bg-info">3</option>
+                                    <option value="4" class="bg-warning">4</option>
+                                    <option value="5" class="bg-secondary">5</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label>배정된 멤버</label>
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
-                                    <div class="badge-circle">
-                                        <i class="feather icon-plus"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                    <!-- <div class="form-group">
-                        <label>파일</label>
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="emailAttach">
-                            <label class="custom-file-label" for="emailAttach">파일</label>
-                        </div>
-                    </div> -->
-                    <!-- Compose mail Quill editor -->
-                    <!-- <div class="form-group">
-                        <label>댓글</label>
-                        <div class="snow-container border rounded p-1">
-                            <div class="compose-editor"></div>
-                            <div class="d-flex justify-content-end">
-                                <div class="compose-quill-toolbar">
-                                    <span class="ql-formats mr-0">
-                                        <button class="ql-bold"></button>
-                                        <button class="ql-italic"></button>
-                                        <button class="ql-underline"></button>
-                                        <button class="ql-link"></button>
-                                        <button class="ql-image"></button>
-                                        <button class="btn btn-sm btn-primary btn-comment ml-25">댓글</button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-                </div>
-            </div>
+                    <div class="form-group">
+                    	<label>배정된 멤버</label>
+                         <a data-toggle="modal" href="#taskMemberModal"><input type="button" class="form-control edit-kanban-item-member memberBtn-modal text-left"></a>
+	                </div>
+                 </div>
+           	</div>
             <div class="card-footer d-flex justify-content-end">
                 <button type="reset" class="btn btn-danger delete-kanban-item mr-1">
                     <i class='feather icon-trash-2 mr-50'></i>
@@ -114,6 +80,45 @@
             </div>
         </form>
         <!-- form start end-->
+        <!-- 업무멤버 수정 modal 시작 -->
+        <div class="modal fade text-left" id="taskMemberModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<label class="modal-title text-text-bold-600" id="myModalLabel33">업무멤버 수정</label>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form method="post" action="#">
+						<div class="modal-body">
+							<div class="form-group">
+		                    	<label>배정된 멤버</label>
+		                        <input type="text" class="form-control edit-kanban-item-member text-left" readonly>
+			                </div>
+							<div class="form-group">
+								<label>멤버 추가</label>
+								<select class="form-control text-dark edit-kanban-item-point select-option" name="insertMember" id="insertMember">
+									<!--  -->
+								</select>
+							</div>
+							<div class="form-group">
+								<label>멤버 삭제</label>
+								<select class="form-control text-dark edit-kanban-item-point select-option" name="deleteMember" id="deleteMember">
+									
+								</select>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<a href="" class="btn btn-outline-primary btn" id="insertBtn">추가</a>
+							<a href="" class="btn btn-outline-danger btn" id="deleteBtn">삭제</a>
+							<input type="reset" class="btn btn-outline-secondary btn" data-dismiss="modal" value="닫기"> 
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+        <!-- 업무멤버 수정 modal 끝 -->
     </div>
 </div>
 <!--/ User Chat profile right area -->
