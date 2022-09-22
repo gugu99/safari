@@ -3,7 +3,10 @@
 <mapper namespace="com.gd.safari.mapper.IWorkspaceMapper">
 
 	<insert id="insertWorkspace" parameterType ="com.gd.safari.vo.Workspace">
-		
+		<selectKey keyProperty="workNo" order="AFTER" resultType="int"> 
+			<!--  mariadb : SELECT LAST_INSERT_ID() -->
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 		INSERT INTO workspace(
 			  work_name
 			, create_date

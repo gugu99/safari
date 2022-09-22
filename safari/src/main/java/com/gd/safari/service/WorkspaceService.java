@@ -3,6 +3,7 @@ package com.gd.safari.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,47 +24,79 @@ public class WorkspaceService implements IWorkspaceService {
 	@Autowired private IWorkspaceMapper workspaceMapper;
 	@Autowired private IWorkspaceMemberMapper workspaceMemberMapper;
 	@Autowired private IMemberMapper memberMapper;
-	
+
 	@Override
-	public int addWorkspace(Workspace workspace , WorkspaceMember workspaceMember) {
-		log.debug(TeamColor.CJM+workspace +"Service workspace");				 	 // workspace 디버깅
-		workspaceMapper.insertWorkspace(workspace); 					  		     // workspace 생성
-		log.debug(TeamColor.CJM+workspace.getWorkNo() +"get WorkNo Service");	     // workspace No디버깅	
-		int workNo= workspace.getWorkNo();
+	public int addWorkspace(Workspace workspace, WorkspaceMember workspaceMember) {
+		
+		// workspace 디버깅
+		log.debug(TeamColor.CJM + workspace + "Service workspace"); 			 
+		
+		// workspace 생성
+		workspaceMapper.insertWorkspace(workspace); 							 
+		
+		 // workspace No디버깅
+		log.debug(TeamColor.CJM + workspace.getWorkNo() + "get WorkNo Service");
+		
+		// 워크스페이스에 삽입된 wokNo 가져오기
+		int workNo = workspace.getWorkNo();
+		
+		// 워크스페이스멤버에 wokNo 삽입
 		workspaceMember.setWorkNo(workNo);
-		workspaceMember.setWorkMemberEmail(workspace.getAdminEmail());				 // workspaceMember Email입력
 		
-		return workspaceMemberMapper.insertWorkspaceCreater(workspaceMember);		 //workspaceMember 생성
+		// 워크스페이스멤버에 WorkMemberEmail 삽입
+		workspaceMember.setWorkMemberEmail(workspace.getAdminEmail()); 			
+		
+		// workspaceMember 생성
+		workspaceMemberMapper.insertWorkspaceCreater(workspaceMember);			
+		
+		// workNo 리턴
+		return workNo;
 	}
-
 
 	@Override
-	public int removeWorkspace(int workNo,Member member) {
-		log.debug(TeamColor.CJM+workNo +"Service WorkNo"); 						// workNo 디버깅
-		log.debug(TeamColor.CJM+member +"Service member"); 						// member 디버깅
+	public int removeWorkspace(int workNo, Member member) {
 		
-		Member resultMember = memberMapper.selectMemberByLogin(member);			// member 조회
-		log.debug(TeamColor.CJM+resultMember +"Service resultMember"); 
-		if(resultMember!=null) {
-		workspaceMemberMapper.deleteWorkspaceMember(workNo);					// member 삭제
-		return workspaceMapper.deleteWorkspace(workNo);	}						// 워크스페이스 삭제
+		// workNo 디버깅
+		log.debug(TeamColor.CJM + workNo + "Service WorkNo"); 					
 		
-		return 0;
-					
-	}
+		// member 디버깅
+		log.debug(TeamColor.CJM + member + "Service member"); 					
 
+		// member 조회
+		Member resultMember = memberMapper.selectMemberByLogin(member); 		
+		
+		// Service resultMember 디버깅
+		log.debug(TeamColor.CJM + resultMember + "Service resultMember");
+		
+		// member 삭제
+		if (resultMember != null) {
+			workspaceMemberMapper.deleteWorkspaceMember(workNo); 				
+			return workspaceMapper.deleteWorkspace(workNo);
+		} // 워크스페이스 삭제
+
+		return 0;
+
+	}
 
 	@Override
 	public List<Workspace> getWorkspaceList(String workMemberEmail) {
-		log.debug(TeamColor.CJM+workMemberEmail +"Service workMemberEmail"); 				// workMemberEmail 디버깅
+		// workMemberEmail 디버깅
+		log.debug(TeamColor.CJM + workMemberEmail + "Service workMemberEmail"); 
+		
+		// 워크스페이스 리스트 조회 메서드
 		return workspaceMapper.selectWorkspaceList(workMemberEmail);
 	}
 
-
 	@Override
 	public int modifyWorkspace(Workspace workspace) {
-		log.debug(TeamColor.CJM+workspace +"Service workspace"); 				// workspace 디버깅
+		
+		// workspace 디버깅
+		log.debug(TeamColor.CJM + workspace + "Service workspace"); 
+		
+		// 워크스페이스 수정 메서드
 		return workspaceMapper.updateWorkspace(workspace);
 	}
 
+	
+	
 }

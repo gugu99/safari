@@ -26,22 +26,48 @@ public class ProfileImgController {
 		@PostMapping("/safari/addProfileImg")
 		public String addWorkspace (@RequestParam("imgFile") MultipartFile imgFile,
 									HttpSession session) {
-			int workMemberNo = (Integer)session.getAttribute("workMemberNo");				 		// workMemberNo 세션 불러오기
-			log.debug(TeamColor.CJM+imgFile.getOriginalFilename() +"imgFile.getOriginalFilename");  // imgFile 디버깅
-			log.debug(TeamColor.CJM+imgFile.getName() +"imgFile.getName"); 							// imgFile 디버깅
-			String path = session.getServletContext().getRealPath("/resources/upload/");			 // path 설정
-			map.put("imgFile", imgFile);															 // map에 imgFile 설정
-			map.put("workMemberNo", workMemberNo);										   			 // map에 workMemberNo 설정
-			map.put("path", path);																	 // map에 path 설정
+			
+			// workMemberNo 세션 불러오기
+			int workMemberNo = (Integer)session.getAttribute("workMemberNo");				 		
+			
+			// imgFile 디버깅
+			log.debug(TeamColor.CJM+imgFile.getOriginalFilename() +"imgFile.getOriginalFilename");  
+			
+			// imgFile 디버깅
+			log.debug(TeamColor.CJM+imgFile.getName() +"imgFile.getName"); 							
+			
+			// path 설정
+			String path = session.getServletContext().getRealPath("/resources/upload/");			
+			
+			// map에 imgFile 설정
+			map.put("imgFile", imgFile);															 
+			
+			// map에 workMemberNo 설정
+			map.put("workMemberNo", workMemberNo);										   			 
+			
+			// map에 path 설정
+			map.put("path", path);							
+			
+			// 프로필 이미지 추가
 			profileImgService.addProfileImg(map);
-			return "redirect:/safari/workspaceMemberOne";											 // redirect 워크스페이스멤버 상세보기로 
+			
+			// redirect 워크스페이스멤버 상세보기로
+			return "redirect:/safari/workspaceMemberOne";											  
 		}
 		@GetMapping("/safari/removeProfileImg")
 		public String removeWorkspace (	HttpSession session) {
 								
-			int workMemberNo = (Integer)session.getAttribute("workMemberNo");				 // workMemberNo 세션 불러오기
-			String path = session.getServletContext().getRealPath("/resources/upload/");	 // path 설정
+			
+			// workMemberNo 세션 불러오기
+			int workMemberNo = (Integer)session.getAttribute("workMemberNo");				
+			
+			// path 설정
+			String path = session.getServletContext().getRealPath("/resources/upload/");	 
+			
+			// 이미지삭제
 			profileImgService.removeProfileImg(workMemberNo,path);
-			return "redirect:/safari/workspaceMemberOne";									 // redirect 워크스페이스멤버 상세보기로 
+			
+			 // redirect 워크스페이스멤버 상세보기로
+			return "redirect:/safari/workspaceMemberOne";									 
 		}
 }
