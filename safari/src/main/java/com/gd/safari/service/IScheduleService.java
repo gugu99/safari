@@ -11,4 +11,5 @@ public interface IScheduleService {
 	// 일정 수정
 	
 	// 일정 삭제
+	void removeSchedule(int scheduleNo);
 }

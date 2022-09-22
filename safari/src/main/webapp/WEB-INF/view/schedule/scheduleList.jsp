@@ -74,16 +74,45 @@
 	                    <div class="timeline-card card border-grey border-lighten-2">
 	                        <div class="card-content">
 	                        	 <div class="px-0 py-0 ml-1 mt-1">
-		                       	 	<div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
+	                        	 	<c:choose>
+	                        	 		<c:when test="${s.writerFilename eq null }">
+	                        	 			<div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
+	                        	 		</c:when>
+	                        	 		<c:otherwise>
+	                        	 			<div class="avatar avatar-sm rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/${s.writerFilename}${s.writerFileExt}" alt="avatar"><i></i></div>
+	                        	 		</c:otherwise>
+	                        	 	</c:choose>
+		                       	 	
 		                             <span class="text-bold-600 mr-1">${s.workMemberName }</span>
-		                             <span class="blue-grey date">${createDate }</span>
+		                             <span class="blue-grey date">${s.createDate }</span>
+		                             
+		                             <c:if test="${s.scheduleWriter eq login}">
+	                          			<a href="${pageContext.request.contextPath }/safari/removeSchedule?scheduleNo=${s.scheduleNo }" class="addr"><span class="fa fa-trash-o ml-2"></span></a>
+	                          		</c:if>	
+		                             
 		                       	 	<p class="h2 card-text mt-2 mb-1 ml-1">${s.scheduleTitle }</p>
+		                       	 	<span class="blue-grey addr ml-1 mr-1">${s.scheduleStart } 부터</span>
+		                       	 	<span class="blue-grey addr">${s.scheduleEnd } 까지</span>
 	                        	 </div>
 	                        	 	
 	                            <div class="card-footer px-0 py-0">
 	                             <div class="card-content">
 	                                 <div class="card-body">
-	                                     <p class="card-text mb-3">${s.scheduleContent }</p>
+	                                     <p class="card-text ml-2 mt-2">${s.scheduleContent }</p>
+	                                     <p class="card-text mb-2">
+	                                     <c:forEach var="sm" items="${s.scheduleMembers}">
+		                                     <c:choose>
+			                        	 		<c:when test="${sm.filename eq null }">
+			                        	 			<div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
+			                        	 			<span class="text-bold-600 mr-1">${sm.workMemberName }</span>
+			                        	 		</c:when>
+			                        	 		<c:otherwise>
+			                        	 			<div class="avatar avatar-sm rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/${sm.filename}${sm.fileExt}" alt="avatar"><i></i></div>
+			                        	 			<span class="text-bold-600 mr-1">${sm.workMemberName }</span>
+			                        	 		</c:otherwise>
+			                        	 	</c:choose>
+	                                     </c:forEach>
+	                                     </p>
 	                                     <c:if test="${s.scheduleLocation ne ''}">
 		                                     <span class="blue-grey addr"><span class="fa fa-map-marker mr-2"></span>${s.scheduleLocation }</span>
 		                                     <span class="blue-grey addr">${s.scheduleDetailLocation }</span>
@@ -92,14 +121,37 @@
 	                                     		locationMap('map${i.index }', '${s.scheduleLocation }');
 	                                     	</script>
 	                                     </c:if>
-	                                     
-	                                     <ul class="list-inline mt-1 mb-0">
-	                                         <li class="pr-1"><a href="${pageContext.request.contextPath }/safari/addScheduleLike?scheduleNo=${s.scheduleNo}" class=""><span class="fa fa-thumbs-o-up ml-1"></span> Like ${s.scheduleLikeCnt }</a></li>
-	                                         <li class="pr-1"><span class="fa fa-commenting-o"></span> Comment</li>
-	                                     </ul>
 	                                 </div>
 	                             </div>
 	                            </div>
+	                            
+	                            <c:forEach var="sm" items="${s.scheduleMembers}">
+                                  	<c:if test="${sm.scheduleMemberEmail eq login}">
+	                           		 <div class="card-footer px-0 py-0">
+			                             <div class="card-content">
+			                                 <div class="card-body text-center">
+			                                 	<div class="form-group mt-1">
+			                                 	<c:forEach var="a" items="${s.scheduleAttendances }">
+			                                 		<c:if test="${a.scheduleAttendance eq 'Y' }">
+		                                 				<button type="button" class="btn btn-primary round btn-min-width ml-1 mr-1">참석 ${a.attendCnt}</button>
+		                                 			</c:if>
+		                                 			<c:if test="${a.scheduleAttendance eq 'U' }">
+		                                 				<button type="button" class="btn btn-light round btn-min-width ml-1 mr-1" disabled>미정 ${a.attendCnt}</button>
+		                                 			</c:if>
+		                                 			<c:if test="${a.scheduleAttendance eq 'N' }">
+		                                 				<button type="button" class="btn btn-danger round btn-min-width ml-1 mr-1">불참 ${a.attendCnt}</button>
+		                                 			</c:if>
+			                                     </c:forEach>
+			                                     </div>
+			                                 </div>
+			                             </div>
+	                           		 </div>
+	                          	 	</c:if>
+	                             </c:forEach>
+	                            <ul class="list-inline mb-0">
+                                    <li class="pr-1"><a href="${pageContext.request.contextPath }/safari/addScheduleLike?scheduleNo=${s.scheduleNo}" class=""><span class="fa fa-thumbs-o-up ml-1"></span> Like ${s.scheduleLikeCnt }</a></li>
+                                    <li class="pr-1"><span class="fa fa-commenting-o"></span> Comment</li>
+                                </ul>
 	                            
 	                            <!-- 댓글 -->
 	                            <c:forEach var="c" items="${s.scheduleComments }">
@@ -108,9 +160,14 @@
 			                                <div class="card-body">
 			                                    <div class="media">
 			                                    	<!-- 프로필 이미지 -->
-			                                        <div class="media-left">
-			                                            <div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
-			                                        </div>
+			                                        <c:choose>
+					                        	 		<c:when test="${c.cmtFilename eq null }">
+					                        	 			<div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
+					                        	 		</c:when>
+					                        	 		<c:otherwise>
+					                        	 			<div class="avatar avatar-sm rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/${c.cmtFilename}${c.cmtFileExt}" alt="avatar"><i></i></div>
+					                        	 		</c:otherwise>
+					                        	 	</c:choose>
 		                                        
 		                                        	<div class="media-body ml-1">
 		                                        		<p class="text-bold-600 mb-0">${c.cmtWorkMemberName } <span class="blue-grey date ml-1">${c.cmtCreateDate }</span>

@@ -15,4 +15,12 @@
 			, NOW()
 		)
 	</insert>
+	
+	<!-- 일정 멤버 삭제 -->
+	<delete id="deleteScheduleMember" parameterType="int">
+		DELETE FROM
+			schedule_member
+		WHERE
+			schedule_no = #{scheduleNo}
+	</delete>
 </mapper>

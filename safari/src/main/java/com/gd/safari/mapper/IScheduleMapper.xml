@@ -4,9 +4,8 @@
 	<!-- 일정 리스트(일정, 일정 멤버, 일정 댓글 -->
 	<resultMap type="com.gd.safari.vo.ScheduleList" id="resultScheduleList">
 		<result column="schedule_no" property="scheduleNo"/>
-		<result column="project_no" property="projectNo"/>
 		<result column="schedule_writer" property="scheduleWriter"/>
-		<result column="work_member_name" property="workMemberName"/>
+		<result column="writer_name" property="workMemberName"/>
 		<result column="schedule_start" property="scheduleStart"/>
 		<result column="schedule_end" property="scheduleEnd"/>
 		<result column="schedule_title" property="scheduleTitle"/>
@@ -15,13 +14,16 @@
 		<result column="schedule_content" property="scheduleContent"/>
 		<result column="schedule_auth" property="scheduleAuth"/>
 		<result column="create_date" property="createDate"/>
+		<result column="writer_filename" property="writerFilename"/>
+		<result column="writer_file_ext" property="writerFileExt"/>
 		<result column="schedule_like_cnt" property="scheduleLikeCnt"/>
-		<collection property="scheduleMembers" ofType="com.gd.safari.vo.ScheduleMember">
+		<collection property="scheduleMembers" ofType="com.gd.safari.vo.ScheduleMemberList">
 			<id column="schedule_no" property="scheduleNo"/>
 			<id column="schedule_member_email" property="scheduleMemberEmail"/>
 			<result column="schedule_attend" property="scheduleAttend"/>
-			<result column="create_date" property="createDate"/>
-			<result column="update_date" property="updateDate"/>
+			<result column="work_member_name" property="workMemberName"/>
+			<result column="filename" property="filename"/>
+			<result column="file_ext" property="fileExt"/>
 		</collection>
 		<collection property="scheduleComments" ofType="com.gd.safari.vo.ScheduleCommentList">
 			<id column="schedule_cmt_no" property="scheduleCmtNo"/>
@@ -29,15 +31,23 @@
 			<result column="cmt_writer" property="cmtWorkMemberName"/>
 			<result column="schedule_cmt_content" property="scheduleCmtContent"/>
 			<result column="cmt_create_date" property="cmtCreateDate"/>
+			<result column="cmt_filename" property="cmtFilename"/>
+			<result column="cmt_file_ext" property="cmtFileExt"/>
 			<result column="schedule_no" property="scheduleNo"/>
 			<result column="cmt_like_cnt" property="cmtLikeCnt"/>
+		</collection>
+		<collection property="scheduleAttendances" ofType="com.gd.safari.vo.ScheduleAttendList">
+			<result column="schedule_no" property="scheduleNo"/>
+			<result column="schedule_attendance" property="scheduleAttendance"/>
+			<result column="attend_cnt" property="attendCnt"/>
 		</collection>
 	</resultMap>
 	<select id="selectScheduleList" parameterType="int" resultMap="resultScheduleList">
 		SELECT
+			<!-- 일정 리스트 -->
 			s.schedule_no
 			, s.schedule_writer 
-			, s.work_member_name
+			, s.work_member_name writer_name
 			, s.schedule_start	
 			, s.schedule_end  
 			, s.schedule_title 
@@ -46,17 +56,27 @@
 			, s.schedule_content 
 			, s.schedule_auth 
 			, s.create_date
+			, s.writer_filename
+			, s.writer_file_ext
 			, IFNULL(s.scheduleLikeCnt,0) schedule_like_cnt 
-			
+			<!-- 일정 멤버 리스트 -->
 			, sm.schedule_member_email  
-			, sm.schedule_attend 
-			
+			, sm.schedule_attend
+			, sm.work_member_name
+			, sm.filename
+			, sm.file_ext
+			<!-- 일정 댓글 리스트 -->
 			, sc.schedule_cmt_no 
 			, sc.cmt_member_email
 			, sc.cmt_writer 
 			, sc.schedule_cmt_content 
 			, sc.cmt_create_date
+			, sc.cmt_filename
+			, sc.cmt_file_ext
 			, IFNULL(sc.cmtLikeCnt,0) cmt_like_cnt
+			<!-- 참석 여부 cnt -->
+			, ac.schedule_attendance
+			, ac.attend_cnt
 		FROM
 			(
 			SELECT
@@ -72,6 +92,8 @@
 				, s3.schedule_auth 
 				, s3.create_date
 				, s3.work_member_name
+				, s3.writer_filename
+				, s3.writer_file_ext
 				, slc.scheduleLikeCnt
 			FROM
 				(
@@ -87,31 +109,49 @@
 					, s1.schedule_content 
 					, s1.schedule_auth 
 					, s1.create_date
-					, wm1.work_member_name
+					, vwm1.work_member_name
+					, vwm1.filename writer_filename
+					, vwm1.file_ext writer_file_ext
 				FROM 
-					schedule s1 
+					schedule s1
 				INNER JOIN 
-					workspace_member wm1 
+					v_workspace_member vwm1 
 				ON 
-					s1.schedule_writer = wm1.work_member_email 
+					s1.schedule_writer = vwm1.work_member_email
 				WHERE 
-					wm1.work_no = #{workNo}
+					vwm1.work_no = #{workNo} <!-- 세션값 -->
 				) s3
 			LEFT OUTER JOIN
 				(
-					SELECT
-						schedule_no
-						, count(*) scheduleLikeCnt
-					FROM
-						schedule_like
-					GROUP BY
-						schedule_no
+				SELECT
+					schedule_no
+					, count(*) scheduleLikeCnt
+				FROM
+					schedule_like
+				GROUP BY
+					schedule_no
 				) slc
 			ON
 				s3.schedule_no = slc.schedule_no
 			) s
 		LEFT OUTER JOIN 
-			schedule_member sm 
+			(
+			SELECT
+				sm1.schedule_no
+				, sm1.schedule_member_email  
+				, sm1.schedule_attend
+			 	, vwm.work_member_name
+				, vwm.filename
+				, vwm.file_ext
+			FROM
+				schedule_member sm1
+			INNER JOIN 
+				v_workspace_member vwm 
+			ON 
+				sm1.schedule_member_email = vwm.work_member_email
+			where
+				vwm.work_no = #{workNo} <!-- 세션값 -->
+			) sm 
 		ON 
 			s.schedule_no = sm.schedule_no
 		LEFT OUTER JOIN 
@@ -123,24 +163,29 @@
 				, sc2.cmt_member_email 
 				, sc2.schedule_cmt_content 
 				, sc2.cmt_create_date
+				, sc2.cmt_filename
+				, sc2.cmt_file_ext
 				, clc.cmtLikeCnt
 			FROM
 				(
 				SELECT
-					 wm2.work_member_name cmt_writer
-					, sc1.schedule_no
+					
+					sc1.schedule_no
+					, vwm2.work_member_name cmt_writer
 					, sc1.schedule_cmt_no 
 					, sc1.cmt_member_email 
 					, sc1.schedule_cmt_content 
 					, sc1.cmt_create_date
+					, vwm2.filename cmt_filename
+					, vwm2.file_ext cmt_file_ext
 				FROM 
 					schedule_comment sc1  
 				INNER JOIN 
-					workspace_member wm2 
+					v_workspace_member vwm2 
 				ON 
-					sc1.cmt_member_email = wm2.work_member_email 
+					sc1.cmt_member_email = vwm2.work_member_email 
 				WHERE 
-					wm2.work_no = #{workNo}
+					vwm2.work_no = #{workNo} <!-- 세션값 -->
 				) sc2
 				LEFT OUTER JOIN
 					(
@@ -157,10 +202,27 @@
 			) sc
 		ON 
 			s.schedule_no = sc.schedule_no
+		INNER JOIN
+			(
+			SELECT 
+				s4.schedule_no
+				, sm2.schedule_attend schedule_attendance
+				, COUNT(sm2.schedule_attend) attend_cnt
+			FROM 
+				schedule s4 
+			INNER JOIN 
+				schedule_member sm2
+			ON
+				s4.schedule_no = sm2.schedule_no
+			GROUP BY
+				s4.schedule_no, sm2.schedule_attend
+			) ac
+		ON 
+			s.schedule_no = ac.schedule_no
 		WHERE
-			s.project_no = #{projectNo}
+			s.project_no = #{projectNo} <!-- 세션값 -->
 		ORDER BY
-			s.schedule_no DESC
+			s.schedule_no DESC, sc.cmt_create_date ASC
 	</select>
 
 	<!-- 일정 생성하기 -->
@@ -195,4 +257,12 @@
 			, NOW()
 		) 
 	</insert>
+	
+	<!-- 일정 삭제하기 -->
+	<delete id="deleteSchedule" parameterType="int">
+		DELETE FROM
+			schedule
+		WHERE
+			schedule_no = #{scheduleNo}
+	</delete>
 </mapper>

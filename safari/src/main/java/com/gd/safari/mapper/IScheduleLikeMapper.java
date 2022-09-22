@@ -11,4 +11,6 @@ public interface IScheduleLikeMapper {
 	String selectScheduleLikeByScheduleNoAndMemberEmail(ScheduleLike scheduleLike);
 	// 일정 좋아요 추가
 	int insertScheduleLike(ScheduleLike scheduleLike);
+	// 일정 좋아요 삭제
+	int deleteScheduleLike(int scheduleNo);
 }

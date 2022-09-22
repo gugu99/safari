@@ -64,4 +64,15 @@ public class ScheduleController {
 		
 		return "redirect:/safari/scheduleList";
 	}
+	
+	// 일정 삭제
+	@GetMapping("/safari/removeSchedule")
+	public String removeSchedule(@RequestParam int scheduleNo) {
+		log.debug(TeamColor.GDE + "scheduleNo --- " + scheduleNo);
+		
+		// 일정 삭제하기
+		scheduleService.removeSchedule(scheduleNo);
+		
+		return "redirect:/safari/scheduleList";
+	}
 }

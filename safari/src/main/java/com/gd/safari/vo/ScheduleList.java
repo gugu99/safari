@@ -19,8 +19,11 @@ public class ScheduleList {
 	private String scheduleAuth;			// 일정 공개 범위
 	private String createDate;				// 생성일
 	private String updateDate;				// 수정일
+	private String writerFilename;				// 프로필 이미지 파일이름
+	private String writerFileExt;					// 프로필 이미지 확장자
 	private int scheduleLikeCnt;			// 일정 좋아요 개수
 	
-	private List<ScheduleMember> scheduleMembers;
+	private List<ScheduleMemberList> scheduleMembers;
 	private List<ScheduleCommentList> scheduleComments;
+	private List<ScheduleAttendList> scheduleAttendances;
 }
