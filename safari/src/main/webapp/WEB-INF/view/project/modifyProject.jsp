@@ -39,12 +39,11 @@
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/style.css">
     <!-- END: Custom CSS-->
-
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <!-- END: Head-->
 
 <!-- BEGIN: Body-->
-
 <body class="vertical-layout vertical-menu-modern content-detached-right-sidebar   fixed-navbar" data-open="click" data-menu="vertical-menu-modern" data-col="content-detached-right-sidebar">
 
     <%@ include file="/WEB-INF/view/inc/header.jsp" %> <!-- header -->
@@ -96,25 +95,19 @@
 	                                            <form method="post" action="${pageContext.request.contextPath}/safari/modifyProject">
 	                                                <fieldset class="form-group">
 	                                                    <label for="basicInput">프로젝트 이름</label>
-	                                                    <input type="text" class="form-control" id="basicInput" value="${project.projectName}" name="projectName">
+	                                                    <input type="text" class="form-control" id="projectName" value="${project.projectName}" name="projectName">
 	                                                </fieldset>
 	                                                
 	                                                <fieldset class="form-group">
 	                                                    <label for="basicTextarea">프로젝트 설명</label>
-	                                                    <textarea class="form-control" id="basicTextarea" rows="3" name="projectExpl">${project.projectExpl}</textarea>
+	                                                    <textarea class="form-control" id="projectExpl" rows="3" name="projectExpl">${project.projectExpl}</textarea>
 	                                                </fieldset>
 	                                                
 							                        <fieldset class="form-group">
 	                                                    <label for="customSelect">공개 범위</label>
-	                                                    <select class="custom-select block" id="customSelect" name="projectAuth">
-	                                                    	<c:if test="${project.projectAuth eq 'Y'}">
-	                                                        	<option value="N">공개</option>
-									                     	    <option value="Y" selected>비공개</option>
-									                        </c:if>
-									                        <c:if test="${project.projectAuth eq 'N'}">
-	                                                        	<option value="N" selected>공개</option>
-									                     	    <option value="Y">비공개</option>
-									                        </c:if>
+	                                                    <select class="custom-select block projectAuth" id="customSelect" name="projectAuth">
+	                                                       <option value="N">공개</option>
+									                     	<option value="Y">비공개</option>
 	                                                    </select>
 	                                                </fieldset>
 	                                                
@@ -133,27 +126,26 @@
 	                                                    <input type="date" class="form-control" id="date3" name="projectEnd">
 	                                                </div>
 	                                                
-	                                                <!-- 멤버 -->
+	                                                 <!-- 관리자 -->
 								                	 <div class="form-group">
-								                         <label>프로젝트 멤버</label>
-								                         <select class="form-control select2" multiple="multiple" onChange="selectProjectMember(this)">
-								                         	<c:forEach var="pm" items="${projectMemberList}">
-								                         		<!-- left join의 결과물이므로 projectNo == null이면
-								                         			 workspace 멤버이지만 project 멤버는 아닌 회원,
-								                         			 <option>으로 함께 띄워 언제든 참여할 수 있도록 한다 -->
-								                         		<c:if test="${empty pm.projectNo}">
-								                         			<option value="${pm.workMemberNo}">${pm.workMemberName}</option>
-								                         		</c:if>
-								                         		<c:if test="${not empty pm.projectNo}">
-								                         			<option value="${pm.workMemberNo}" selected>${pm.workMemberName}</option>
-								                         		</c:if>
-								                         	</c:forEach>
+								                         <label>프로젝트 관리자</label>
+								                         <select class="form-control select2" multiple="multiple" id="projectManagerList" name="projectManagerList">
+								                         	<!-- 관리자 리스트 -->
 								                         </select>
 								                     </div>
 	                                                
-	                                                <!-- 수정된 projectMemberList -->
-	                                                <input type="hidden" id="projectMemberList" name="projectMemberList" value="">
-	                                                <input type="hidden" name="projectNo" value="${project.projectNo}">
+	                                                <!-- 멤버 -->
+								                	 <div class="form-group">
+								                         <label>프로젝트 멤버</label>
+								                         <select class="form-control select2" multiple="multiple" id="projectMemberList" name="projectMemberList">
+								                         	
+								                         </select>
+								                     </div>
+	                                                
+	                                                <!-- 수정된 projectMemberList 
+	                                                <input type="hidden" id="projectManagerList" name="projectManagerList" value="">
+	                                                <input type="hidden" id="projectMemberList" name="projectMemberList" value=""> -->
+	                                                <input type="hidden" id="projectNo" name="projectNo" value="${projectNo}">
 	                                                
 	                                                <div class="modal-footer">
 								                       <input type="reset" class="projectForm btn btn-outline-secondary btn-lg" data-dismiss="modal" value="취소">
@@ -183,6 +175,24 @@
     <%@ include file="/WEB-INF/view/inc/footer.jsp" %> <!-- footer -->
     <%@ include file="/WEB-INF/view/inc/common-js.jsp" %> <!-- js -->
     
+    <script>
+    $(document).ready(function () {
+
+		$('#niceBtn').click(function(){
+			$.ajax({
+				url : '/safari/modifyProject',
+				type : 'get',
+				data : {boardNo : $('#boardNo').val()},
+				success: function(json){
+					alert('좋아요 성공!');
+					$('#niceBtn').val('좋아요 ' + json);
+					console.log('좋아요 ' + json);
+				}
+			})
+		})
+    })
+
+	</script>
     
     <!-- BEGIN: Page Vendor JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
@@ -191,12 +201,11 @@
     <!-- BEGIN: Page JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/select/form-select2.js"></script>
     <!-- END: Page JS-->
-
-    <!-- BEGIN: 내가 만든 JS-->
-    <script src="${pageContext.request.contextPath }/resources/assets/js/projectMember.js"></script>
-    <!-- END: 내가 만든 JS-->
-
-
+    
+    <!-- BEGIN: AJAX JS-->
+    <script src="${pageContext.request.contextPath }/resources/assets/js/modifyProject.js"></script>
+    <!-- END: AJAX JS-->
+     
 </body>
 <!-- END: Body-->
 

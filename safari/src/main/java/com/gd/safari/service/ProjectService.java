@@ -34,25 +34,44 @@ public class ProjectService implements IProjectService {
 	// project 메인 페이지 정보 제공 메소드
 	@Override
 	public Map<String, Object> getProjectListByWorkspace(Map<String, Object> paramMap) {
-		Map<String, Object> map = new HashMap<>();
 		int workNo = (int)paramMap.get("workNo");
 		
 		// 전체 프로젝트 리스트
 		List<Map<String, Object>> projectList = projectMapper.selectProjectListByWorkspaceNo(paramMap);
-		log.debug(TeamColor.CSK + projectList);
 		
 		// 워크스페이스 멤버 리스트
 		List<WorkspaceMember> workspaceMemberList = workspaceMemberMapper.selectWorkspaceMemberList(workNo);
-		log.debug(TeamColor.CSK + workspaceMemberList);
 
 		// 프로젝트 그룹리스트
 		List<ProjectGroup> projectGroupList = projectGroupMapper.selectProjectGroupListByWorkspaceNo(workNo);
-		log.debug(TeamColor.CSK + projectGroupList);
+		
+		// jsp에서 띄울 타이틀 구하기
+		String title = "전체 프로젝트";
+		
+		if(paramMap.get("projectGroupNo") != null) {
+			title = "프로젝트 그룹 리스트";
+		} else if(paramMap.get("search") != null) {
+			title = paramMap.get("search") + "의 검색 결과";
+		} else if(paramMap.get("section") != null) {
+			// section 파라미터의 값에 따라 title 값 변경
+			String section = (String) paramMap.get("section");
+			if("my".equals(section)) {
+				title = "내가 속한 프로젝트";
+			} else if("bookmark".equals(section)) {
+				title = "중요 프로젝트";
+			} else {
+				// if("keep".equals(section))
+				title = "보관된 프로젝트";
+			}
+		}
 
 		// map에 묶기
+		Map<String, Object> map = new HashMap<>();
+		
 		map.put("projectList", projectList);
 		map.put("workspaceMemberList", workspaceMemberList);
 		map.put("projectGroupList", projectGroupList);
+		map.put("title", title);
 		
 		return map;
 	}
@@ -107,23 +126,31 @@ public class ProjectService implements IProjectService {
 	// 프로젝트 수정 전 정보를 띄우기 위한 메소드
 	@Override
 	public Map<String, Object> getProjectDetailByProjectNo(int workNo, int projectNo) {
-		Map<String, Object> map = new HashMap<>();
 		
 		// 프로젝트 테이블의 정보를 담은 Project VO
 		Project project = projectMapper.selectProjectDetailByProjectNo(projectNo);
 		log.debug(TeamColor.CSK + "project: " + project);
 		
-		// 워크스페이스 멤버에 해당 프로젝트에 속한 멤버를 Left Join
-		// 키셋이 projectNo, workMemberNo, workMemberName인 Map으로 이루어진 List를 리턴
-		// left join의 결과물이므로 프로젝트에 속해있지 않으면 projectNo == null
-		// 위 조건을 사용하여 modifyProject.jsp(수정폼)에서 언제든 프로젝트에 참여할 수 있도록 한다
-		List<Map<String, Object>> projectMemberList = projectMemberMapper.selectProjectMemberListByProjectNo(workNo, projectNo);
-		// log.debug(TeamColor.CSK + "projectMemberList: " + projectMemberList);
-		log.debug(TeamColor.CSK + "projectMemberList.size(): " + projectMemberList.size());
-				
+		// auth 값에 따른(멤버, 관리자) 프로젝트 멤버 리스트를 반환
+		// projectNo, projectMemberAuth 필요
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("projectNo", projectNo);
+		paramMap.put("workNo", workNo);
+		paramMap.put("projectMemberAuth", "Y");
+		
+		List<Map<String, Object>> projectManagerList = projectMemberMapper.selecProjectMemberListByMemberAuth(paramMap);
+		
+		paramMap.put("projectMemberAuth", "N");
+		List<Map<String, Object>> projectMemberList = projectMemberMapper.selecProjectMemberListByMemberAuth(paramMap);
+		
+		List<WorkspaceMember> workspaceMemberList = workspaceMemberMapper.selectWorkspaceMemberList(workNo);
+		
 		// map에 넣기
+		Map<String, Object> map = new HashMap<>();
 		map.put("project", project);
+		map.put("projectManagerList", projectManagerList);
 		map.put("projectMemberList", projectMemberList);
+		map.put("workspaceMemberList", workspaceMemberList);
 
 		return map;
 	}
@@ -132,7 +159,7 @@ public class ProjectService implements IProjectService {
 	@Transactional
 	@Override
 	public void modifyProject(Map<String, Object> map) {
-		// map: {projectName=야호, projectExpl=야호야호 신나는 파프, projectAuth=N, projectStart=2022-09-17, projectDeadline=2022-09-30, projectEnd=, projectMemberList=14,15}
+		// keySet: 
 		// 문자열로 받은 projectMemberList를 배열로 가공
 		String tmp = (String) map.get("projectMemberList"); // 프로젝트 멤버에 변동사항이 없을 경우 빈 문자열
 		// log.debug(TeamColor.CSK + "tmp: " + tmp);

@@ -37,6 +37,29 @@
 		)
 	</insert>
 	
+	<select id="selecProjectMemberListByMemberAuth" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT
+			w.work_member_no workMemberNo
+			, w.work_member_name workMemberName
+			, m.project_no projectNo
+			, m.project_member_auth
+		FROM
+			workspace_member w
+		LEFT JOIN
+			(SELECT 
+				work_member_no
+				, project_no
+				, project_member_auth 
+			FROM
+				project_member 
+			WHERE 
+				project_no = #{projectNo} AND active = 'Y' AND project_member_auth = #{projectMemberAuth}) m
+		ON 
+			w.work_member_no = m.work_member_no
+		WHERE 
+			w.work_no = #{workNo}; 
+	</select>
+	
 	<select id="selectProjectMemberListByProjectNo" resultType="java.util.Map" parameterType="int">
 		SELECT
 			w.work_member_no workMemberNo
