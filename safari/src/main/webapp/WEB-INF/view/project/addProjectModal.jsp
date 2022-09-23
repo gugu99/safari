@@ -15,21 +15,21 @@
                       <div class="modal-body">
                           <fieldset class="form-group floating-label-form-group">
                               <label for="projectName">프로젝트 이름(*)</label>
-                              <input type="text" class="form-control" id="projectName" name="projectName">
+                              <input type="text" class="form-control" id="projectName" name="projectName" value="새로운 프로젝트">
                           </fieldset>
                           <fieldset class="form-group floating-label-form-group">
                              <label for="projectAuth">공개범위</label>
                              <select name="projectAuth" class="form-control" id="projectAuth">
-                         <option value="N">public</option>
-                         <option value="Y">private</option>
-                     </select>
+		                         <option value="N">public</option>
+		                         <option value="Y">private</option>
+		                     </select>
                           </fieldset>
                           <br>
                       </div>
 	                <div class="form-group col-12 mb-2">
 	                	 <div class="form-group">
 	                         <label>프로젝트 멤버</label>
-	                         <select class="form-control select2" multiple="multiple" onChange="selectProjectMember(this)">
+	                         <select class="form-control select2" multiple="multiple" name="projectMemberList">
 	                           <c:forEach var="wm" items="${workspaceMemberList}">
 	                           		<c:if test="${workMemberNo eq wm.workMemberNo}">
 	                           			<option value="${wm.workMemberNo}" selected>${wm.workMemberName}</option>
@@ -40,10 +40,12 @@
 	                           </c:forEach>
 	                         </select>
 	                     </div>
-	               </div> 
-              
-                  <input type="hidden" id="projectMemberList" name="projectMemberList" value="">
-                  
+	               </div>
+	               
+	               <input type="hidden" value="${sessionScope.workNo}" name="workNo">
+	               <input type="hidden" value="${sessionScope.workMemberNo}" name="projManagerNo">
+	               
+	               
                    <div class="modal-footer">
                        <input type="reset" class="projectForm btn btn-outline-secondary btn-lg" data-dismiss="modal" value="닫기">
                        <input type="submit" class="projectForm btn btn-outline-primary btn-lg" value="프로젝트 생성">

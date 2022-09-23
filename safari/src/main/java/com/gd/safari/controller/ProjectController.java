@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IProjectGroupService;
 import com.gd.safari.service.IProjectService;
+import com.gd.safari.vo.ProjectForm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,20 +53,18 @@ public class ProjectController {
 	
 	// 프로젝트 추가
 	@PostMapping("/safari/project")
-	public String project(HttpSession session, @RequestParam Map<String, Object> map) {
+	public String project(HttpSession session, ProjectForm projectForm) {
 		log.debug(TeamColor.CSK + "프로젝트 추가");
+		log.debug(TeamColor.CSK + "projectForm" + projectForm);
 		
 		// 워크스페이스 페이지에서 세션에 담은 workspaceNo와 projManagerNo를 받아온다
-		int workNo = (Integer)session.getAttribute("workNo"); // mapper 메소드의 파라미터로 사용
-		int projManagerNo = (int)session.getAttribute("workMemberNo"); // 프로젝트 생성자가 관리자로 등록되게 할 목적으로 사용
-		map.put("workNo", workNo);
-		map.put("projManagerNo", projManagerNo);
+		// int workNo = (Integer)session.getAttribute("workNo"); // mapper 메소드의 파라미터로 사용
+		// int projManagerNo = (int)session.getAttribute("workMemberNo"); // 프로젝트 생성자가 관리자로 등록되게 할 목적으로 사용
 		
-		log.debug(TeamColor.CSK + map);
 		// log.debug(TeamColor.CSK + map.keySet()); // workNo, projectName, projectAuth, projectMemberList
 		
 		// TODO 리턴값 고민 필요
-		projectService.addProject(map);
+		projectService.addProject(projectForm);
 		
 		return "redirect:/safari/project";
 	}
