@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.ITaskService;
@@ -24,7 +25,6 @@ public class TaskController {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 수정 액션");
 		// 디버깅
 		log.debug(TeamColor.CSH + task);
-		
 		
 		// 프로젝트에 맞는 taskList로 넘기기
 		int projectNo = (int) session.getAttribute("projectNo");

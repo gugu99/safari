@@ -22,21 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 public class RestTaskMemberController {
 	@Autowired private ITaskMemberService taskMemberService;
 	
-	// 프로젝트 멤버 조회 (IProjectMemberMapper에서 받아오기)
-	@GetMapping("/safari/projectMemberByTask")
-	public List<Map<String, Object>> projectMemberByTask(HttpSession session){
-		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 멤버 조회");
-		
-		// 서비스호출
-		// 리턴값 List<Map<String, Object>>
-		List<Map<String, Object>> projectMember = taskMemberService.getProjectMemberList((int)session.getAttribute("projectNo"));
-		
-		log.debug(TeamColor.CSH + "조회에 따른 프로젝트멤버 개수 : " + projectMember.size());
-		
-		
-		return projectMember;
-	}
-	
 	// 프로젝트 멤버 - 해당 업무 멤버
 	@GetMapping("/safari/resultTaskMember")
 	public List<Map<String, Object>> resultTaskMember(HttpSession session, int taskNo){
@@ -51,20 +36,24 @@ public class RestTaskMemberController {
 		// 리턴값 List<Map<String, Object>>
 		List<Map<String, Object>> result = taskMemberService.getTaskMemberByProjectNoAndTaskNo(m);
 		
-		log.debug(TeamColor.CSH + "조회에 따른 프로젝트멤버 : " + result);
-		log.debug(TeamColor.CSH + "조회에 따른 프로젝트멤버 : " + result.get(0).get("taskNo"));
+		log.debug(TeamColor.CSH + "조회에 따른 프로젝트멤버 : " + result.size());
 		
 		return result;
 	}
 	
 	// 해당 업무에 따른 업무멤버 조회
 	@PostMapping("/safari/taskMemberByTaskNo")
-	public List<Map<String, Object>> taskMemberByTaskNo(int taskNo){
+	public List<Map<String, Object>> taskMemberByTaskNo(HttpSession session, int taskNo){
 		log.debug(TeamColor.CSH + this.getClass() + " 해당 업무에 따른 업무멤버 조회");
 		
+		// 메서드 실행을 위해 필요한 프로젝트번호와 업무번호 받기
+		Map<String,Integer> m = new HashMap<String, Integer>();
+		m.put("projectNo", (int)session.getAttribute("projectNo"));
+		m.put("taskNo", taskNo);
+
 		// 서비스호출
 		// 리턴값 List<Map<String, Object>>
-		List<Map<String, Object>> taskMember = taskMemberService.getTaskMemberByTaskNo(taskNo);
+		List<Map<String, Object>> taskMember = taskMemberService.getTaskMemberByTaskNo(m);
 		
 		log.debug(TeamColor.CSH + "조회에 따른 업무멤버 개수 : " + taskMember.size());
 		

@@ -23,26 +23,6 @@ $(document).ready(function () {
   var projectMember = new Array();
   
   // Kanban Board and Item Data passed by json
-  // 프로젝트 멤버 보기
-  $.ajax({
-  	async : false,
-	type : 'GET',
-	data : {
-		taskNo : $('.edit-kanban-item-id').val()	
-	},
-	url : '/safari/resultTaskMember',
-	success : function(json){
-		// 디버깅
-		// console.log("프로젝트 멤버");
-		// console.log(json);
-		// console.log(json.length);
-		
-		projectMember = json;
-	 }
-  });
-  
-  // console.log("member_list");
-  // console.log(member_list);
   
   // 업무리스트번호에 맞는 업무 조회
   $.ajax({
@@ -116,9 +96,8 @@ $(document).ready(function () {
 			});
 		}
   });
-  
   // member modal에 projectMember 객체 넘기기
-  $(".memberBtn-modal").on("click", function(){
+ $(".memberBtn-modal").on("click", function(){
 	// 멤버 select 초기화하기
     $("#insertMember").html('<option value=""></option>');
     $("#deleteMember").html('<option value=""></option>');
@@ -126,12 +105,33 @@ $(document).ready(function () {
    // for(var i = 0; i < projectMember.length; i++){
 		//$("#insertMember").append("<option value='"+ projectMember[i].projectMemberNo +"' class='bg-info'>"+ projectMember[i].workMemberName +"</option>");
     //}
+    // 프로젝트 멤버 보기
+	  $.ajax({
+	  	async : false,
+		type : 'GET',
+		data : {
+			taskNo : $('.edit-kanban-item-id').val()	
+		},
+		url : '/safari/resultTaskMember',
+		success : function(json){
+			
+			projectMember = json;
+		 }
+	  });
+  
+	// console.log("projectMember");
+	// console.log(projectMember);
+    for(var i = 0; i < projectMember.length; i++){
+		$("#insertMember").append("<option value='"+ projectMember[i].projectMemberNo +"' class='bg-info'>"+ projectMember[i].workMemberName +"</option>");
+    }
     for(var i = 0; i < member_list.length; i++){
 		$("#deleteMember").append("<option value='"+ member_list[i].projectMemberNo +"' class='bg-info'>"+ member_list[i].workMemberName +"</option>");
     }
 	// console.log(member_list[0].taskNo);
-	console.log($("#deleteMember").val());
+	// console.log($("#deleteMember").val());
+	  
   });
+  
   
   // 멤버 추가 버튼 누를 시 메서드 실행
   $("#insertBtn").on("click", function(){
@@ -143,27 +143,91 @@ $(document).ready(function () {
 	  // 업무번호 확인
 	  // alert("멤버 추가 위한 업무 번호 : " + $('.edit-kanban-item-id').val());
 	  // 멤버 추가
-	  
 	 
-	   
-	  /*$.ajax({
+	  $.ajax({
 		async : false,
 		type : 'POST',
 		data : {
-			taskNo : taskNo,
+			taskNo : $('.edit-kanban-item-id').val(),
 			projectMemberNo : value_str.options[value_str.selectedIndex].value
  		},
 		url : '/safari/insertTaskMember',
+		success : function(json){
+			
+			if(json != 'ok'){
+				alert('멤버 추가를 실패했습니다.');
+				return;
+			} else {
+				// 배열에 추가
+				member_list.push({workMemberName : value_str.options[value_str.selectedIndex].text});
+				
+				// 다시 배열을 value에 담기
+				var str = "";
+				for(var i = 0; i < member_list.length; i++){
+					
+					if(member_list[i].workMemberName != "undefined"){
+						str += member_list[i].workMemberName + " ";
+					}
+				}
+				// console.log(str);
+				// 배정된 멤버를 넣어주기
+				$('.edit-kanban-item-member').val(str.replace("undefined ", ""));
+
+				alert('멤버 추가를 성공했습니다.');
+			}
+		 }
+  	   }); 
+  	   
+
+  });
+  // 멤버 삭제 버튼 누를 시 메서드 실행
+  $("#deleteBtn").on("click", function(){
+	  // 선택된 멤버 받아오기
+	  var value_str = document.getElementById('deleteMember');
+	 
+	  $.ajax({
+		async : false,
+		type : 'POST',
+		data : {
+			taskNo : $('.edit-kanban-item-id').val(),
+			projectMemberNo : value_str.options[value_str.selectedIndex].value
+ 		},
+		url : '/safari/deleteTaskMember',
 		success : function(json){
 			// 디버깅
 			// console.log("업무멤버 조회");
 			// console.log(json);
 			
-			member_list = json;
+			if(json != 'ok'){
+				alert('멤버 삭제를 실패했습니다.');
+				return;
+			} else {
+				// 멤버 배열의 길이만큼 반복한다.
+				for(var i = 0; i < member_list.length; i++){
+					// 원하는 값을 찾아서 (삭제한 멤버)
+					if(member_list[i].projectMemberNo == value_str.options[value_str.selectedIndex].value){
+						// 원하는 값만 제거한다.
+						member_list.splice(i, 1);
+						// 배열의 index를 참조하는 i의 값을 하나 감소시킨다. (길이가 변하기 때문에)
+    					i--;
+					}
+				}
+				// 다시 배열을 value에 담기
+				var str = "";
+				for(var i = 0; i < member_list.length; i++){
+					if(member_list[i].workMemberName != "undefined"){
+						str += member_list[i].workMemberName + " ";
+					} 
+				}
+				// console.log(str);
+				// 배정된 멤버를 넣어주기
+				$('.edit-kanban-item-member').val(str.replace("undefined ", ""));
+				
+				alert('멤버 삭제를 성공했습니다.');
+			}
 		 }
-  	   }); */
+  	   });
   });
-  
   // 디버깅
   // console.log("전체 데이터");
   // console.log(kanban_board_data);
@@ -173,7 +237,6 @@ $(document).ready(function () {
   var KanbanExample = new jKanban({
     element: "#kanban-wrapper", // selector of the kanban container 칸반 컨테이너 선택자
     buttonContent: "+ 업무 추가", // text or html content of the board button 게시판 버튼의 텍스트 또는 html 콘텐츠
-
 	// 현재 칸반 항목을 클릭하십시오
     // click on current kanban-item
     click: function (el) {
@@ -204,7 +267,7 @@ $(document).ready(function () {
 			
 			// 날짜와 시간을 데이터베이스에 있는 시간에 맞게 맞추기	
 			let start = dateFormat(new Date(json.taskStart));
-			let date = dateFormat(new Date(json.taskDeadline));
+			let date = dateFormat_show(new Date(json.taskDeadline));
 			let end = dateFormat(new Date(json.taskEnd));
 			
 			// 클래스에 맞는 value 값 넣어주기
@@ -212,9 +275,9 @@ $(document).ready(function () {
 			$('.edit-kanban-item-content').val(json.taskContent);
 			$('.edit-kanban-item-tasklistNo').val(json.tasklistTitle);
 			$('.edit-kanban-item-point').val(json.taskPoint);
-			$('.edit-kanban-item-start').val(start);
-			$('.edit-kanban-item-date').val(date);
-			$('.edit-kanban-item-end').val(end);
+			$('.edit-kanban-item-start').val(start.replace("NaN-0NaN-0NaN", ""));
+			$('.edit-kanban-item-date').val(date.replace("NaN-0NaN-0NaN 0NaN:0NaN:0NaN", ""));
+			$('.edit-kanban-item-end').val(end.replace("NaN-0NaN-0NaN", ""));
 			
 			// 업무멤버 조회
 			  $.ajax({
@@ -236,11 +299,13 @@ $(document).ready(function () {
 			// // console.log(member_list);
 			var str = "";
 			for(var i = 0; i < member_list.length; i++){
-				str += member_list[i].workMemberName + " ";
+				if(member_list[i].workMemberName != "undefined"){
+					str += member_list[i].workMemberName + " ";
+				}
 			}
 			// console.log(str);
 			// 배정된 멤버를 넣어주기
-			$('.edit-kanban-item-member').val(str);
+			$('.edit-kanban-item-member').val(str.replace("undefined ", ""));
 		}
 	  });
       
@@ -300,7 +365,7 @@ $(document).ready(function () {
 				}
 			}
 	     });
-		
+		 window.location.reload();
         formItem.parentNode.removeChild(formItem);
       });
       $(document).on("click", "#CancelBtn", function () {
@@ -309,24 +374,29 @@ $(document).ready(function () {
     },
     addItemButton: true, // add a button to board for easy item creation 쉬운 항목 생성을 위해 게시판에 버튼 추가
     boards: kanban_board_data // data passed from defined variable 정의된 변수에서 전달된 데이터
-    
+   
   });
   
   // 업무 수정
-  
   $('.update-kanban-item').click(function(){
 	// 날짜와 시간을 데이터베이스에 있는 시간에 맞게 맞추기	
 	let start = dateFormat(new Date($('.edit-kanban-item-start').val()));
 	let date = dateFormat(new Date($('.edit-kanban-item-date').val()));
 	let end = dateFormat(new Date($('.edit-kanban-item-end').val()));
+	let datetime = date + timeFormat($('.edit-kanban-item-time').val());
 	
-	// 해당 클래스에 value값 변경해서 넣기
-	$('.edit-kanban-item-start').val(start);
-	$('.edit-kanban-item-date').val(date);
-	$('.edit-kanban-item-end').val(end);
+	
 	
 	// 디버깅
 	// console.log($('.edit-kanban-item-date').val());
+	console.log("////////");
+	console.log(start);
+	alert($('.edit-kanban-item-start').val());
+	
+	// 해당 클래스에 value값 변경해서 넣기
+	$('.edit-kanban-item-start').val(start);
+	$('.edit-kanban-item-date').val(datetime);
+	$('.edit-kanban-item-end').val(end);
 	
 	// 버튼누를시 제출하기
 	$('.edit-kanban-item').submit();
@@ -482,8 +552,7 @@ $(document).ready(function () {
 		type : 'POST',
 		url : '/safari/insertTaskList',
 		data : {
-			tasklistTitle : '새 업무리스트',
-			projectNo : projectNo
+			tasklistTitle : '새 업무리스트'
 		},
 		success : function(json){
 			// console.log("projectNo값 여기에 들어와야함 : " + projectNo);
@@ -495,6 +564,7 @@ $(document).ready(function () {
 			}
 		}
      });
+     window.location.reload();
   });
 
   // 업무리스트 삭제
@@ -663,8 +733,25 @@ $(document).ready(function () {
 	}
   });
   
-  // 날짜 포맷 메서드
+  // date 날짜 포맷 메서드
   function dateFormat(date) {
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        //let hour = date.getHours();
+        //let minute = date.getMinutes();
+        //let second = date.getSeconds();
+
+        month = month >= 10 ? month : '0' + month;
+        day = day >= 10 ? day : '0' + day;
+        //hour = hour >= 10 ? hour : '0' + hour;
+        //minute = minute >= 10 ? minute : '0' + minute;
+        //second = second >= 10 ? second : '0' + second;
+
+        return date.getFullYear() + '-' + month + '-' + day + ' ';// + hour + ':' + minute + ':' + second;
+  }
+  
+  // datetime 날짜 포맷 메서드
+  function dateFormat_show(date) {
         let month = date.getMonth() + 1;
         let day = date.getDate();
         let hour = date.getHours();
@@ -678,13 +765,29 @@ $(document).ready(function () {
         second = second >= 10 ? second : '0' + second;
 
         return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
-  }
+  } 
+  // 시간 포맷 메서드
+  function timeFormat(s) {
+      let splitTime = s.split(':');
+	  let ampm = s.slice(-3);
+	
+	  if (splitTime[0] !== '12') {
+	    splitTime[0] = ampm === ' PM' ? parseInt(splitTime[0]) + 12 : splitTime[0];
+	  } else {
+	    splitTime[0] = ampm === ' AM' ? '00' : splitTime[0];
+	  }
+	  
+	  return splitTime.join(':').replace(ampm, ":00");
+  } 
   
   // 칸반 항목 - 날짜 선택
   // kanban Item - Pick-a-Date
   $(".edit-kanban-item-date").pickadate();
   $(".edit-kanban-item-start").pickadate();
   $(".edit-kanban-item-end").pickadate();
+  $(".edit-kanban-item-time").pickatime();
+  $(".edit-kanban-item-deadline-time").pickatime();
+  
   
   // Perfect Scrollbar - 칸반 사이드바의 카드 콘텐츠
   // Perfect Scrollbar - card-content on kanban-sidebar

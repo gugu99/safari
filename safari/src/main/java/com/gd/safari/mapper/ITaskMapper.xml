@@ -61,9 +61,9 @@
 			task_title 		= #{taskTitle}
 			, task_content 	= #{taskContent}
 			, task_point 	= #{taskPoint}
-			, task_start	= #{taskStart}
-			, task_deadline = #{taskDeadline}
-			, task_end 		= #{taskEnd}
+			, task_start	= if(#{taskStart}='NaN-0NaN-0NaN 0NaN:0NaN:0NaN', null, #{taskStart})  
+			, task_deadline = if(#{taskDeadline}='NaN-0NaN-0NaN 0NaN:0NaN:0NaN', null, #{taskDeadline})
+			, task_end 		= if(#{taskEnd}='NaN-0NaN-0NaN 0NaN:0NaN:0NaN', null, #{taskEnd})
 			, update_date 	= NOW()
 		WHERE 
 			task_no 		= #{taskNo}

@@ -72,9 +72,7 @@ public class AccountController {
     // 구글 소셜로그인 재요청페이지 이동
     @SuppressWarnings("deprecation")
 	@GetMapping("/account/google/login/redirect")
-    public String redirectGoogleLogin(
-    		HttpSession session,
-            @RequestParam(value = "code") String authCode) {
+    public String redirectGoogleLogin(HttpSession session, @RequestParam(value = "code") String authCode) {
 		log.debug(TeamColor.CSH + this.getClass() + " 구글 소셜로그인 재요청페이지 이동");
 		
         // HTTP 통신을 위해 RestTemplate 활용

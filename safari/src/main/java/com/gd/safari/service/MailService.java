@@ -103,13 +103,7 @@ public class MailService implements IMailService {
 		log.debug(TeamColor.CSH + this.getClass() + " sendSimpleMessage (메일 발송)");
 		MimeMessage message = createMessage(to);
 		
-		try {
-			// 메일 발송
-			emailsender.send(message);
-		} catch (MailException e) {
-			e.printStackTrace();
-			throw new IllegalArgumentException();
-		}
+		emailsender.send(message);
 		
 		// 메일로 보냈던 인증 코드를 서버로 반환
 		return ePw;

@@ -37,10 +37,14 @@ public class RestTaskListController {
 	
 	// 업무리스트 생성
 	@PostMapping("/safari/insertTaskList")
-	public String insertTaskList(TaskList tasklist) {
+	public String insertTaskList(HttpSession session, TaskList tasklist) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 생성");
+		
 		// 디버깅
 		log.debug(TeamColor.CSH + tasklist);
+		
+		// 프로젝트 번호 넣기
+		tasklist.setProjectNo((int)session.getAttribute("projectNo"));
 		
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
