@@ -12,25 +12,7 @@
 		) VALUES (
 			#{workMemberNo}
 			, #{projectNo}
-			, 'N'
-			, 'Y'
-			, NOW()
-			, NOW()
-		)
-	</insert>
-	
-	<insert id="insertProjectManager" parameterType="com.gd.safari.vo.ProjectMember">
-		INSERT INTO project_member(
-			work_member_no
-			, project_no
-			, project_member_auth
-			, active
-			, create_date
-			, update_date
-		) VALUES (
-			#{workMemberNo}
-			, #{projectNo}
-			, 'Y'
+			, #{projectMemberAuth}
 			, 'Y'
 			, NOW()
 			, NOW()
@@ -57,7 +39,7 @@
 		ON 
 			w.work_member_no = m.work_member_no
 		WHERE 
-			w.work_no = #{workNo}; 
+			w.work_no = #{workNo}
 	</select>
 	
 	<select id="selectProjectMemberListByProjectNo" resultType="java.util.Map" parameterType="int">
@@ -69,7 +51,8 @@
 			workspace_member w
 		LEFT JOIN
 			(SELECT 
-				* 
+				project_no
+				, project_member_auth
 			FROM
 				project_member 
 			WHERE 
@@ -77,7 +60,7 @@
 		ON 
 			w.work_member_no = p.work_member_no
 		WHERE 
-			w.work_no = #{workNo};
+			w.work_no = #{workNo}
 	</select>
 	
 	<select id="selectProjectMemberList" resultType="java.util.Map" parameterType="int">
@@ -121,6 +104,20 @@
 		AND 
 			work_member_no = ${workMemberNo}
 	</select>
+	
+	<update id="updateProjectMember" parameterType="com.gd.safari.vo.ProjectMember">
+		UPDATE
+			project_member
+		SET
+			project_member_auth = #{projectMemberAuth}
+			, active = #{active}
+			, update_date = NOW()
+		WHERE
+			work_member_no = #{workMemberNo}
+		AND
+			project_no = #{projectNo}
+	
+	</update>
 	
 	<update id="updateProjectMemberActiveN" parameterType="com.gd.safari.vo.ProjectMember">
 		 UPDATE 

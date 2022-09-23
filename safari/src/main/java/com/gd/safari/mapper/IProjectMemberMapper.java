@@ -33,4 +33,6 @@ public interface IProjectMemberMapper {
 	
 	// 관리자 여부 확인
 	Integer selectProjectManager(int projectNo, int workMemberNo);
+	
+	int updateProjectMember(ProjectMember projectMember);
 }

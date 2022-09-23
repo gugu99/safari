@@ -100,7 +100,7 @@
 	</select>
 	
 	<!-- 프로젝트 추가 -->
-	<insert id="insertProject" parameterType="java.util.Map">
+	<insert id="insertProject" parameterType="com.gd.safari.vo.ProjectForm">
 		<selectKey keyProperty="projectNo" resultType="int" order="AFTER">
 			<!-- 방금 생성한 키값을 받아옴 -->
 			SELECT LAST_INSERT_ID() as projectNo
@@ -123,23 +123,25 @@
 	<!-- 프로젝트 수정 -->
 	<update id="updateProject" parameterType="java.util.Map">
 		UPDATE project
-		<trim prefix="SET"><!-- 동적으로 SET 키워드, 콤마 추가 -->
+		<trim prefix="SET" suffixOverrides=","><!-- 동적으로 SET 키워드, 콤마 추가 -->
 			<!-- ORACLE에서 빈 문자열 == null, mysql에서 빈 문자열은 빈 문자열 -->
-			project_name = #{projectName}
+			<if test="projectName != null and !projectName.equals('')">
+				project_name = #{projectName}
+			</if>
 			<if test="projectExpl != null and !projectExpl.equals('')">
-				, project_expl = #{projectExpl}
+				project_expl = #{projectExpl}
 			</if>
 			<if test="projectAuth != null and !projectAuth.equals('')">
-				, project_auth = #{projectAuth}
+				project_auth = #{projectAuth}
 			</if>
 			<if test="projectStart != null and !projectStart.equals('')">
-				, project_start = #{projectStart}
+				project_start = #{projectStart}
 			</if>
 			<if test="projectDeadline != null and !projectDeadline.equals('')">
-				, project_deadline = #{projectDeadline}
+				project_deadline = #{projectDeadline}
 			</if>
 			<if test="projectEnd != null and !projectEnd.equals('')">
-				, project_end = #{projectEnd}
+				project_end = #{projectEnd}
 			</if>
 			, update_date = NOW()
 		</trim>

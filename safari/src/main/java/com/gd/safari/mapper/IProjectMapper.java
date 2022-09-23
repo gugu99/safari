@@ -5,6 +5,7 @@ import java.util.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.gd.safari.vo.Project;
+import com.gd.safari.vo.ProjectForm;
 
 @Mapper
 public interface IProjectMapper {
@@ -16,7 +17,7 @@ public interface IProjectMapper {
 	Project selectProjectDetailByProjectNo(int projectNo);
 	
 	// 프로젝트 추가 메소드
-	int insertProject(Map<String, Object> map);
+	int insertProject(ProjectForm projectForm);
 	
 	// 프로젝트 수정 메소드
 	int updateProject(Map<String, Object> map);

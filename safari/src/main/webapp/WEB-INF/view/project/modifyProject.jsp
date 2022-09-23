@@ -92,7 +92,6 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-xl-8 col-lg-12 col-md-24 mb-1">
-	                                            <form method="post" action="${pageContext.request.contextPath}/safari/modifyProject">
 	                                                <fieldset class="form-group">
 	                                                    <label for="basicInput">프로젝트 이름</label>
 	                                                    <input type="text" class="form-control" id="projectName" value="${project.projectName}" name="projectName">
@@ -106,7 +105,7 @@
 							                        <fieldset class="form-group">
 	                                                    <label for="customSelect">공개 범위</label>
 	                                                    <select class="custom-select block projectAuth" id="customSelect" name="projectAuth">
-	                                                       <option value="N">공개</option>
+	                                                       	<option value="N">공개</option>
 									                     	<option value="Y">비공개</option>
 	                                                    </select>
 	                                                </fieldset>
@@ -142,16 +141,11 @@
 								                         </select>
 								                     </div>
 	                                                
-	                                                <!-- 수정된 projectMemberList 
-	                                                <input type="hidden" id="projectManagerList" name="projectManagerList" value="">
-	                                                <input type="hidden" id="projectMemberList" name="projectMemberList" value=""> -->
 	                                                <input type="hidden" id="projectNo" name="projectNo" value="${projectNo}">
 	                                                
 	                                                <div class="modal-footer">
-								                       <input type="reset" class="projectForm btn btn-outline-secondary btn-lg" data-dismiss="modal" value="취소">
-								                       <input type="submit" class="projectForm btn btn-outline-primary btn-lg" value="프로젝트 수정">
+								                       <a href="${pageContext.request.contextPath}/safari/project"><button type="button" class="projectForm btn btn-outline-primary btn-lg">프로젝트 수정</button></a>
 								                   </div>
-								                </form>
 	                                        </div>
                                         </div>
                                     </div>
@@ -174,25 +168,6 @@
 
     <%@ include file="/WEB-INF/view/inc/footer.jsp" %> <!-- footer -->
     <%@ include file="/WEB-INF/view/inc/common-js.jsp" %> <!-- js -->
-    
-    <script>
-    $(document).ready(function () {
-
-		$('#niceBtn').click(function(){
-			$.ajax({
-				url : '/safari/modifyProject',
-				type : 'get',
-				data : {boardNo : $('#boardNo').val()},
-				success: function(json){
-					alert('좋아요 성공!');
-					$('#niceBtn').val('좋아요 ' + json);
-					console.log('좋아요 ' + json);
-				}
-			})
-		})
-    })
-
-	</script>
     
     <!-- BEGIN: Page Vendor JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
