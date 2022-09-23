@@ -37,7 +37,7 @@ public interface IWorkspaceMemberMapper {
 	// 워크스페이스멤버 활동여부 조회
 	String selectWorkspaceMemberOneActive (int workMemberNo);
 	
-	// 초대된 워크스페이스멤버 조회 
+	// 초대된 워크스페이스멤버코드 조회 
 	String selectWorkspaceMemberOneCode(int workMemberNo);
 	
 	// 가입된 이메일 확인 메서드
@@ -45,4 +45,16 @@ public interface IWorkspaceMemberMapper {
 	
 	// 초대된 워크스페이스멤버 정보입력 하는메서드 insert같은 update
 	int updateWorkspaceMemberByInvite(WorkspaceMember workspaceMember);
+	
+	// 멤버 권한레벨 조정하는 메서드
+	int updateWorkspaceMemberByLevel(WorkspaceMember workspaceMember);
+	
+	// 과거 관리자 권한 1로 바꾸는 하는메서드
+	int updateWorkspaceMemberByAdminLevel (int workMemberNo);
+	
+	// 새로운 관리자 권한 4로 바꾸는 메서드
+	int updateWorkspaceMemberByNewAdminLevel(int workMemberNo);
+	
+	// 멤버 추방 하는 메서드 (active N으로) 바꾸는 메서드
+	int updateWorkspaceMemberByActive (int workMemberNo);
 }

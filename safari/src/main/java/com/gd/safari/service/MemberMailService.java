@@ -1,7 +1,6 @@
 package com.gd.safari.service;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -102,9 +101,16 @@ public class MemberMailService implements IMemberMailService{
 		// MimeMessage 객체 안에 내가 전송할 메일의 내용을 담는다.
 		// 그리고 bean으로 등록해둔 javaMail 객체를 사용해서 보낸다.
 		@Override
-		public String sendSimpleMessage(String[] to) throws Exception {
+		public String sendSimpleMessage(String[] to) {
 			log.debug(TeamColor.CJM + this.getClass() + " sendSimpleMessage (메일 발송)");
-			MimeMessage message = createMessage(to);
+			MimeMessage message = null;
+			try {
+				message = createMessage(to);
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			} catch (MessagingException e1) {
+				e1.printStackTrace();
+			}
 			
 			try {
 				// 메일 발송

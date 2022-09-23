@@ -145,5 +145,33 @@ public class WorkspaceMemberController {
 		
 	}
 	
+	@PostMapping("/safari/modifyWorkspaceMemberByLevel")
+	public String modifyWorkspaceMemberByLevel (WorkspaceMember workspaceMember) {
+		
+		// 워크스페이스 멤버 디버깅
+		log.debug(TeamColor.CJM+workspaceMember +"Controller workspaceMember"); 					  
+		
+		// 워크멤버 레벨 수정메서드
+		workspaceMemberService.modifyWorkspaceMemberByLevel(workspaceMember);
+		
+		// 워크스페이스멤버 수정페이지 forward
+		return "redirect:/safari/workspaceMemberList";  										    
+		
+	}
+	
+	@PostMapping("/safari/modifyWorkspaceMemberByActive")
+	public String modifyWorkspaceMemberByActive (@RequestParam(value = "workMemberNo") int workMemberNo) {
+		
+		// 워크스페이스 넘버 디버깅
+		log.debug(TeamColor.CJM+workMemberNo +"Controller workMemberNo"); 					  
+		
+		// 워크멤버 레벨 수정메서드
+		workspaceMemberService.modifyWorkspaceMemberByActive(workMemberNo);
+		
+		// 워크스페이스멤버 수정페이지 forward
+		return "redirect:/safari/workspaceMemberList";  										    
+		
+	}
+	
 	
 }

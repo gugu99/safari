@@ -2,47 +2,47 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.IProfileImgMapper">
 
-
+	<!-- 프로필 이미지 삽입 메서드 -->
 	<insert id ="insertProfileImg" parameterType="map">
 			INSERT INTO profile_img(
 				work_member_no
-				,filename
-				,file_ext
-				,origin_name
-				,file_type
-				,file_size
-				,create_date
-				,update_date
+				, filename
+				, file_ext
+				, origin_name
+				, file_type
+				, file_size
+				, create_date
+				, update_date
 			) VALUES(
 				#{workMemberNo}
-				,#{filename}
-				,#{fileExt}
-				,#{originName}
-				,#{fileType}
-				,#{fileSize}
-				,NOW()
-				,NOW()
+				, #{filename}
+				, #{fileExt}
+				, #{originName}
+				, #{fileType}
+				, #{fileSize}
+				, NOW()
+				, NOW()
 			)
 	</insert>
 	
+	<!-- 프로필 이미지 보여주는 메서드 -->
 	<select id = "selectProfileImgOne" parameterType="int" resultType="com.gd.safari.vo.ProfileImg">
 		SELECT 
 			work_member_no workMemberNo
-			,filename 
-			,file_ext fileExt
-			,origin_name originName
-			,file_type fileType
-			,file_size fileSize
-			,create_date createDate
-			,update_date updateDate
+			, filename 
+			, file_ext fileExt
+			, origin_name originName
+			, file_type fileType
+			, file_size fileSize
+			, create_date createDate
+			, update_date updateDate
 		FROM profile_img
 		WHERE work_member_no = #{workMemberNo}
-	
-	
 	</select>
 	
+	<!-- 프로필 이미지 삭제 -->
 	<delete id ="deleteProfileImg" parameterType="int">
-			DELETE FROM profile_img
+		DELETE FROM profile_img
 		WHERE work_member_no = #{workMemberNo}
 	</delete>
 

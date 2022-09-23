@@ -144,4 +144,24 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		return workspaceMemberMapper.updateWorkspaceMemberByInvite(workspaceMember);
 	}
 
+	@Override
+	public int modifyWorkspaceMemberByLevel(WorkspaceMember workspaceMember) {
+		
+		// workspaceMember  디버깅
+		log.debug(TeamColor.CJM + workspaceMember + " Service workspaceMember");
+		
+		// 워크스페이스멤버 권한등급 조정하는 메서드
+		return workspaceMemberMapper.updateWorkspaceMemberByLevel(workspaceMember);
+	}
+
+	@Override
+	public int modifyWorkspaceMemberByActive(int workMemberNo) {
+		
+		// workMemberNo  디버깅
+		log.debug(TeamColor.CJM + workMemberNo + " Service workMemberNo");
+		
+		// 워크스페이스 활동정지 하는메서드
+		return workspaceMemberMapper.updateWorkspaceMemberByActive(workMemberNo);
+	}
+
 }

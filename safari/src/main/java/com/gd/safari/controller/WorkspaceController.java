@@ -72,12 +72,7 @@ public class WorkspaceController {
 			log.debug(TeamColor.CJM + this.getClass() + " 로그인 페이지");
 			String code;
 			// 꼭 예외처리를 하지 않아도 되는 익셉션을 발생시킨다.
-			try {
-				code = memberMailService.sendSimpleMessage(workMemberEmail);
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new RuntimeException();
-			}
+			code = memberMailService.sendSimpleMessage(workMemberEmail);
 			log.debug(TeamColor.CJM + "인증코드 : " + code);
 			workspaceMember.setWorkMemberNo(workNo);
 			workspaceMember.setWorkMemberCode(code);
@@ -163,6 +158,34 @@ public class WorkspaceController {
 		
 		// 인덱스 forward
 		return "redirect:/safari/index"; 
+
+	}
+	
+	@PostMapping("/safari/modifyWorkspaceAdmin")
+	public String modifyWorkspaceAdmin(Workspace workspace,WorkspaceMember workspaceMember,
+										HttpSession session) {
+		
+		// workspace 디버깅
+		log.debug(TeamColor.CJM + workspace + "Controller workspace");
+		
+		// workspaceMember 디버깅
+		log.debug(TeamColor.CJM + workspaceMember + "Controller workspaceMember");
+		
+		// session에서 현재워크스페이스 넘버 가져오기
+		int workNo = (Integer)session.getAttribute("workNo");
+		
+		// workspace vo 에 바뀔 workspace 넘버 넣기
+		
+		workspace.setWorkNo(workNo);
+		
+		// session에서 현재관리자 워크스페이스넘버 가져오기
+		int workMemberNo = (int)session.getAttribute("workMemberNo");
+		
+		// 워크스페이스 수정 서비스
+		int row = workspaceService.modifyWorkspaceAdminEmail(workspace,workspaceMember,workMemberNo); 
+		
+		// 인덱스 forward
+		return "redirect:/safari/workspaceMemberList"; 
 
 	}
 

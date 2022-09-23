@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.IWorkspaceMemberMapper">
-
+	
+	<!-- 관리자 워크스페이스 멤버추가  -->
 	<insert id="insertWorkspaceCreater" parameterType="com.gd.safari.vo.WorkspaceMember">
 		INSERT INTO workspace_member(
 			work_member_name
@@ -32,6 +33,7 @@
 		)
 	</insert>
 	
+	<!-- 워크스페이스멤버 추가  -->
 	<insert id= "insertWorkspaceMember" parameterType="com.gd.safari.vo.WorkspaceMember">
 		INSERT INTO workspace_member(
 				work_member_name
@@ -53,6 +55,7 @@
 	
 	</insert>
 	
+	<!-- 워크스페이스멤버 리스트  -->
 	<select id = "selectWorkspaceMemberList" parameterType="int" resultType="com.gd.safari.vo.WorkspaceMember">
 		SELECT 
 			  work_member_no    workMemberNo
@@ -73,12 +76,14 @@
 	
 	</select>
 	
+	<!-- 워크스페이스 멤버 삭제  -->
 	<delete id="deleteWorkspaceMember" parameterType="int">
 		DELETE FROM workspace_member
 		WHERE work_no = #{workNo}
 	
 	</delete>
 	
+	<!-- 워크스페이스 멤버 상세정보  -->
 	<select id = "selectWorkspaceMemberOne" parameterType="int" resultType ="map">
 		SELECT  
 			  wm.work_member_no     workMemberNo
@@ -101,6 +106,7 @@
 	
 	</select>
 	
+	<!-- 워크스페이스 멤버 번호가져오기  -->
 	<select id = "selectWorkspaceMemberNo" parameterType="com.gd.safari.vo.WorkspaceMember" resultType ="int">
 		SELECT  
 			  work_member_no     workMemberNo
@@ -109,6 +115,7 @@
 	
 	</select>
 	
+	<!-- 워크스페이스 멤버 수정  -->
 	<update id="updateWorkspaceMember" parameterType="com.gd.safari.vo.WorkspaceMember">
 		UPDATE workspace_member
 		SET 
@@ -123,6 +130,7 @@
 	
 	</update>
 	
+	<!-- 초대된 워크스페이스멤버 추가  -->
 	<insert id= "inviteInsertWorkspaceMember" parameterType="com.gd.safari.vo.WorkspaceMember">
 	
 		INSERT INTO workspace_member(
@@ -146,6 +154,8 @@
 			)
 	
 	</insert>
+	
+	<!-- 워크스페이스멤버 활동여부 조회  -->
 	<select id = "selectWorkspaceMemberOneActive" parameterType="int" resultType ="String">
 		SELECT  
 			 	active             
@@ -154,6 +164,7 @@
 	
 	</select>
 	
+	<!-- 초대된 워크스페이스멤버코드 조회   -->
 	<select id = "selectWorkspaceMemberOneCode" parameterType="int" resultType ="String">
 		SELECT  
 			 work_member_code        
@@ -162,6 +173,7 @@
 	
 	</select>
 	
+	<!-- 가입된 이메일 확인 메서드   -->
 	<select id="selectMemberEmailByConfirm" resultType="string" parameterType="string">
 		SELECT
 			member_email memberEmail
@@ -170,6 +182,7 @@
 			member_email = #{memberEmail}
 	</select>
 	
+	<!-- 초대된 워크스페이스멤버 정보입력 하는메서드 insert같은 update -->
 	<update id ="updateWorkspaceMemberByInvite" parameterType="com.gd.safari.vo.WorkspaceMember">
 		UPDATE workspace_member
 		SET 
@@ -186,8 +199,45 @@
 		WHERE
 			work_member_no = #{workMemberNo}
 			
+	</update>
+	
+	<!-- 멤버 권한레벨 조정하는 메서드 -->
+	<update id="updateWorkspaceMemberByLevel" parameterType="com.gd.safari.vo.WorkspaceMember">
+		UPDATE workspace_member
+		SET
+			work_member_level = #{workMemberLevel}
+		WHERE
+			work_member_no = #{workMemberNo}
 	
 	
 	</update>
+	
+	<!-- 과거 관리자 권한 1로 바꾸는 하는메서드 -->
+	<update id="updateWorkspaceMemberByAdminLevel" parameterType="int">
+		UPDATE workspace_member
+		SET
+			work_member_level = '1'
+		WHERE
+			work_member_no = #{workMemberNo}
+	</update>
+	
+	<!-- 새로운 관리자 권한 4로 바꾸는 메서드 -->
+	<update id="updateWorkspaceMemberByNewAdminLevel" parameterType="int">
+		UPDATE workspace_member
+		SET
+			work_member_level = '4'
+		WHERE
+			work_member_no = #{workMemberNo}
+	</update>
+	
+	<!-- 멤버 추방 하는 메서드 (active N으로) 바꾸는 메서드 -->
+	<update id="updateWorkspaceMemberByActive" parameterType="int">
+		UPDATE workspace_member
+		SET
+			active = 'N'
+		WHERE
+			work_member_no = #{workMemberNo}
+	</update>
+	
 	
 </mapper>

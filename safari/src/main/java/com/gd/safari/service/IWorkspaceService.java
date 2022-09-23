@@ -19,4 +19,7 @@ public interface IWorkspaceService {
 	// 워크스페이스 수정
 	int modifyWorkspace(Workspace workspace);
 	// 존재하는 아이디인지 확인
+	
+	// 관리자 이메일 변경메서드
+	int modifyWorkspaceAdminEmail(Workspace workspace,WorkspaceMember workspaceMember,int workMemberNo);
 }

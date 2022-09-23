@@ -39,4 +39,10 @@ public interface IWorkspaceMemberService {
 	
 	// 초대된 멤버 처음 입장시 정보 변경하는메서드
 	int modifyWorkspaceMemberByInvite(WorkspaceMember workspaceMember);
+	
+	// 워크스페이스 멤버 권한등급 조정 메서드
+	int modifyWorkspaceMemberByLevel(WorkspaceMember workspaceMember);
+	
+	// 워크스페이스 멤버 활동정지 하는메서드
+	int modifyWorkspaceMemberByActive (int workMemberNo);
 }

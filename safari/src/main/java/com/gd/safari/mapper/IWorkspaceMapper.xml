@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.IWorkspaceMapper">
-
+	
+	<!-- 워크스페이스 생성 -->
 	<insert id="insertWorkspace" parameterType ="com.gd.safari.vo.Workspace">
 		<selectKey keyProperty="workNo" order="AFTER" resultType="int"> 
 			<!--  mariadb : SELECT LAST_INSERT_ID() -->
@@ -21,6 +22,7 @@
 		
 	</insert>
 
+	<!-- 워크스페이스 삭제 -->
 	<delete id="deleteWorkspace" parameterType="int">
 	
 		DELETE FROM workspace
@@ -28,15 +30,18 @@
 		
 	</delete>
 	
-	<update id="updateWorkspace" parameterType ="com.gd.safari.vo.Workspace">  <!--미완성 -->
+	<!-- 워크스페이스 수정 -->
+	<update id="updateWorkspace" parameterType ="com.gd.safari.vo.Workspace"> 
 	
-		  UPDATE workspace SET
-		  work_name = #{workName}
-		, update_date = #{updateDate}
+		  UPDATE workspace 
+		  SET
+		 	  work_name = #{workName}
+			, update_date = now()
 		  WHERE work_no = #{workNo}
 		
 	</update>
 	
+	<!-- 워크스페이스 리스트 -->
 	<select id = "selectWorkspaceList" parameterType="String" resultType ="com.gd.safari.vo.Workspace">
 		SELECT distinct 
 			  w.work_no     workNo
@@ -50,7 +55,16 @@
 	
 	</select>
 	
+	<!-- 워크스페이스 관리자변경 -->
+	<update id="updateWorkspaceAdminEmail" parameterType ="com.gd.safari.vo.Workspace">  
 	
+		  UPDATE workspace
+		  SET
+		 	  admin_email = #{adminEmail}
+			, update_date = now()
+		  WHERE work_no = #{workNo}
+		
+	</update>
 	
 	
 	

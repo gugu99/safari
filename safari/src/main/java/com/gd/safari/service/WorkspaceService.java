@@ -3,7 +3,6 @@ package com.gd.safari.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,6 +79,7 @@ public class WorkspaceService implements IWorkspaceService {
 
 	@Override
 	public List<Workspace> getWorkspaceList(String workMemberEmail) {
+		
 		// workMemberEmail 디버깅
 		log.debug(TeamColor.CJM + workMemberEmail + "Service workMemberEmail"); 
 		
@@ -95,6 +95,19 @@ public class WorkspaceService implements IWorkspaceService {
 		
 		// 워크스페이스 수정 메서드
 		return workspaceMapper.updateWorkspace(workspace);
+	}
+
+	@Override
+	public int modifyWorkspaceAdminEmail(Workspace workspace,WorkspaceMember workspaceMember,int workMemberNo) {
+		
+		// workspace 디버깅
+		log.debug(TeamColor.CJM + workspace + "Service workspace");
+		
+		workspaceMapper.updateWorkspaceAdminEmail(workspace);
+		workspaceMemberMapper.updateWorkspaceMemberByAdminLevel(workMemberNo);
+		workspaceMemberMapper.updateWorkspaceMemberByNewAdminLevel(workspaceMember.getWorkMemberNo());
+		// 워크스페이스 관리자 이메일 변경 메서드
+		return workspaceMapper.updateWorkspaceAdminEmail(workspace);
 	}
 
 	
