@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <label>시작일</label>
                         <input type="text" class="form-control edit-kanban-item-start" placeholder="시작일" name="taskStart">
-                    <div class="form-group">
+                    <div class="form-group mt-1">
                         <label>마감일</label>
                         <input type="text" class="form-control edit-kanban-item-date" placeholder="마감일" name="taskDeadline">
                         <input type="text" class="form-control edit-kanban-item-time" placeholder="시간">
@@ -35,20 +35,13 @@
                         <input type="text" class="form-control" placeholder="종료일" name="taskEnd" readonly>
                     </div>
                     <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label>색상 라벨</label>
-                                <select class="form-control text-white">
-                                    <option class="bg-primary" selected>Primary</option>
-                                    <option class="bg-danger">Danger</option>
-                                    <option class="bg-success">Success</option>
-                                    <option class="bg-info">Info</option>
-                                    <option class="bg-warning">Warning</option>
-                                    <option class="bg-secondary">Secondary</option>
-                                </select>
-                            </div>
+                        <div class="col-8">
+                             <div class="form-group">
+		                    	<label>배정된 멤버</label>
+		                         	<a data-toggle="modal" href="#taskMemberModal"><input type="button" class="form-control edit-kanban-item-member memberBtn-modal text-left"></a>
+			                </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <div class="form-group">
                                 <label>중요도</label>
                                 <select class="form-control text-white edit-kanban-item-point" name="taskPoint">
@@ -60,63 +53,34 @@
                                     <option value="5" class="bg-secondary">5</option>
                                 </select>
                             </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                    	<label>배정된 멤버</label>
-                         <a data-toggle="modal" href="#taskMemberModal"><input type="button" class="form-control edit-kanban-item-member memberBtn-modal text-left"></a>
-	                </div>
-                 </div>
-           	</div>
-            <div class="card-footer d-flex justify-content-end">
-                <button type="reset" class="btn btn-danger delete-kanban-item mr-1">
-                    <i class='feather icon-trash-2 mr-50'></i>
-                    <span>삭제</span>
-                </button>
-                <button type="button" class="btn btn-primary glow update-kanban-item">
-                    <i class='feather icon-play mr-50'></i>
-                    <span>수정</span>
-                </button>
+                         </div>
+                      </div>
+                   </div>
+                   <div class="form-group">
+                   		<label>하위 업무</label>
+                   		<ul class="edit-kanban-item-task">
+                   			
+                   		</ul>	
+                   		<div class="text-right">
+                   			<a data-toggle="modal" href="#taskModal"><input type="button" class="taskBtn-modal btn btn-outline-primary" value="하위업무 수정"></a>
+                   		</div>
+                   </div>
+           		</div>
+	            <div class="card-footer d-flex justify-content-end">
+	                <button type="reset" class="btn btn-danger delete-kanban-item mr-1">
+	                    <i class='feather icon-trash-2 mr-50'></i>
+	                    <span>삭제</span>
+	                </button>
+	                <button type="button" class="btn btn-primary glow update-kanban-item">
+	                    <i class='feather icon-play mr-50'></i>
+	                    <span>수정</span>
+	                </button>
+                </div>
             </div>
         </form>
         <!-- form start end-->
     </div>
 </div>
-<!-- 업무멤버 수정 modal 시작 -->
-<div class="modal fade text-left" id="taskMemberModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<label class="modal-title text-text-bold-600" id="myModalLabel33">업무멤버 수정</label>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="form-group">
-                   	<label>배정된 멤버</label>
-                       <input type="text" class="form-control edit-kanban-item-member text-left" readonly>
-                </div>
-				<div class="form-group">
-					<label>멤버 추가</label>
-					<select class="form-control text-dark" name="insertMember" id="insertMember">
-						<!-- 멤버가 추가 된다. -->
-					</select>
-				</div>
-				<div class="form-group">
-					<label>멤버 삭제</label>
-					<select class="form-control text-dark" name="deleteMember" id="deleteMember">
-						<!-- 멤버가 추가 된다. -->
-					</select>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-outline-primary btn" id="insertBtn">추가</button>
-				<button class="btn btn-outline-danger btn" id="deleteBtn">삭제</button>
-				<input type="reset" class="btn btn-outline-secondary btn" data-dismiss="modal" value="닫기"> 
-			</div>
-		</div>
-	</div>
-</div>
-<!-- 업무멤버 수정 modal 끝 -->
+<%@include file="/WEB-INF/view/task/taskMemberModal.jsp"%>
+<%@include file="/WEB-INF/view/task/taskModal.jsp"%>
 <!--/ User Chat profile right area -->

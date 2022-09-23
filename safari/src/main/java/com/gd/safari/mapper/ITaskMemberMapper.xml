@@ -37,4 +37,10 @@
 		WHERE
 			task_no = #{taskNo} AND project_member_no = #{projectMemberNo}
 	</delete>
+	<!-- 업무를 삭제할 시 같이 삭제될 업무번호에 따른 삭제 (부모 삭제 시 자식 삭제) -->
+	<delete id="deleteTaskMemberByTaskNo" parameterType="int">
+		DELETE FROM task_member
+		WHERE
+			task_no = #{taskNo}
+	</delete>
 </mapper>

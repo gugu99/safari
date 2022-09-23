@@ -17,6 +17,8 @@ $(document).ready(function () {
   var kanban_board_data = new Array();
   // 업무리스트 안에 넣을 업무 맵
   var task_list = new Array();
+  // 하위업무리스트 넣을 리스트 맵
+  var lowerTask_list = new Array();
   // 업무 멤버 리스트
   var member_list = new Array();
   // 프로젝트 멤버 담을 배열
@@ -253,7 +255,7 @@ $(document).ready(function () {
       // Extract  the kan ban item & id and set it to respective vars
       kanban_item_title = $(el).contents()[0].data;
       kanban_curr_item_id = $(el).attr("data-eid");
-       
+      
       // 업무 상세보기
       $.ajax({
 	  	async : false,
@@ -262,8 +264,8 @@ $(document).ready(function () {
 		url : '/safari/taskDetail',
 		success : function(json){
 			// 디버깅
-			// // console.log(json);
-			// // console.log(task_list);
+			// console.log(json);
+			// console.log(task_list);
 			
 			// 날짜와 시간을 데이터베이스에 있는 시간에 맞게 맞추기	
 			let start = dateFormat(new Date(json.taskStart));
@@ -288,15 +290,11 @@ $(document).ready(function () {
 						taskNo : $('.edit-kanban-item-id').val()
 					},
 					success : function(json){
-						// 디버깅
-						// // console.log("업무멤버 조회");
-						// // console.log(json);
-						
 						member_list = json;
 					}
 			  }); 
-			// // console.log("배정된 멤버");
-			// // console.log(member_list);
+			// console.log("배정된 멤버");
+			// console.log(member_list);
 			var str = "";
 			for(var i = 0; i < member_list.length; i++){
 				if(member_list[i].workMemberName != "undefined"){
@@ -306,6 +304,28 @@ $(document).ready(function () {
 			// console.log(str);
 			// 배정된 멤버를 넣어주기
 			$('.edit-kanban-item-member').val(str.replace("undefined ", ""));
+			
+			// 업무번호에 이어져있는 하위 업무 조회
+			  $.ajax({
+					async : false,
+					type : 'POST',
+					data : { 
+						taskNo : $('.edit-kanban-item-id').val()
+					},
+					url : '/safari/lowerTask',
+					success : function(json){
+						lowerTask_list = json;
+			 			// console.log(lowerTask_list);
+				    }
+		 	  }); 
+		 	  
+		 	  // 하위업무 리스트 보여주기
+		 	  var str = "";
+		 	  for(var i = 0; i < lowerTask_list.length; i++) {
+					str += '<li><a href="/safari/taskList?projectNo=' + lowerTask_list[i].projectNo + '">' + lowerTask_list[i].taskTitle + ' </a></li>';
+			  }
+			  
+			  $('.edit-kanban-item-task').html(str);
 		}
 	  });
       
@@ -385,13 +405,11 @@ $(document).ready(function () {
 	let end = dateFormat(new Date($('.edit-kanban-item-end').val()));
 	let datetime = date + timeFormat($('.edit-kanban-item-time').val());
 	
-	
-	
 	// 디버깅
 	// console.log($('.edit-kanban-item-date').val());
-	console.log("////////");
-	console.log(start);
-	alert($('.edit-kanban-item-start').val());
+	// console.log("////////");
+	// console.log(start);
+	// alert($('.edit-kanban-item-start').val());
 	
 	// 해당 클래스에 value값 변경해서 넣기
 	$('.edit-kanban-item-start').val(start);
@@ -416,17 +434,6 @@ $(document).ready(function () {
       (board_item_users = board_item_dueDate = board_item_comment = board_item_attachment = board_item_image = board_item_badge =
         " ");
 
-      // 사용자가 정의되어 있는지 확인하고 사용자 배열에서 값을 가져오기 위해 반복합니다.
-      if (typeof $(board_item_el).attr("data-users") !== "undefined") {
-        for (kanban_users in kanban_board_data[kanban_data].item[kanban_item].users) {
-          board_item_users +=
-            '<li class="avatar pull-up my-0">' +
-            '<img class="media-object" src=" ' +
-            kanban_board_data[kanban_data].item[kanban_item].users[kanban_users] +
-            '" alt="Avatar" height="18" width="18">' +
-            "</li>";
-        }
-      }
       // DueDate가 정의되어 있는지 확인
       // null일 경우도 보이지 않게 처리한다.
       if (typeof $(board_item_el).attr("data-dueDate") !== "undefined" && $(board_item_el).attr("data-dueDate") !== "null") {
@@ -458,15 +465,7 @@ $(document).ready(function () {
           "</span>" +
           "</div>";
       }
-      // check if Image is defined or not 이미지가 정의되어 있는지 확인
-      if (typeof $(board_item_el).attr("data-image") !== "undefined") {
-        board_item_image =
-          '<div class="kanban-image mb-1">' +
-          '<img class="img-fluid" src=" ' +
-          kanban_board_data[kanban_data].item[kanban_item].image +
-          '" alt="kanban-image">';
-        ("</div>");
-      }
+      
       // check if Badge is defined or not
       if (typeof $(board_item_el).attr("data-badgeContent") !== "undefined") {
         board_item_badge =
@@ -737,17 +736,11 @@ $(document).ready(function () {
   function dateFormat(date) {
         let month = date.getMonth() + 1;
         let day = date.getDate();
-        //let hour = date.getHours();
-        //let minute = date.getMinutes();
-        //let second = date.getSeconds();
 
         month = month >= 10 ? month : '0' + month;
         day = day >= 10 ? day : '0' + day;
-        //hour = hour >= 10 ? hour : '0' + hour;
-        //minute = minute >= 10 ? minute : '0' + minute;
-        //second = second >= 10 ? second : '0' + second;
 
-        return date.getFullYear() + '-' + month + '-' + day + ' ';// + hour + ':' + minute + ':' + second;
+        return date.getFullYear() + '-' + month + '-' + day + ' ';
   }
   
   // datetime 날짜 포맷 메서드

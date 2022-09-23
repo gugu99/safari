@@ -38,6 +38,19 @@
 		WHERE 
 			t.task_no 			= #{taskNo}
 	</select>
+	<!-- 하위 업무 가져오기 -->
+	<select id="selectTaskByLowerTask" parameterType="int" resultType="map">
+		SELECT 
+			t.task_no 			taskNo
+			, t.task_title 		taskTitle
+			, tl.project_no 	projectNo
+		FROM 
+			task t INNER JOIN task_list tl 
+		ON 
+			t.tasklist_no 		= tl.tasklist_no 
+		WHERE 
+			t.task_upper_no 	= #{taskNo}
+	</select>
 	<!-- 업무 생성 -->
 	<insert id="insertTask" parameterType="com.gd.safari.vo.Task">
 		INSERT INTO task (

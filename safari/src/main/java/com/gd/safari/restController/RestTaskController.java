@@ -50,6 +50,20 @@ public class RestTaskController {
 		return task;
 	}
 	
+	// 하위업무 리스트
+	@PostMapping("/safari/lowerTask")
+	public List<Map<String, Object>> lowerTask(int taskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 하위업무 리스트");
+		
+		// 서비스호출
+		// 리턴값 List<Map<String, Object>>
+		List<Map<String, Object>> lowerTask = taskService.getTaskByLowerTask(taskNo);
+		
+		log.debug(TeamColor.CSH + "조회에 따른 업무 개수 : " + lowerTask.size());
+		
+		return lowerTask;
+	}
+	
 	// 업무 생성
 	@PostMapping("/safari/insertTask")
 	public String insertTask(HttpSession session, Task task) {
