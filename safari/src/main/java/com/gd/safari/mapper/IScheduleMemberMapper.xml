@@ -16,6 +16,30 @@
 		)
 	</insert>
 	
+	<!-- 일정 참석 여부 조회 -->
+	<select id="selectScheduleAttend" resultType="String" parameterType="com.gd.safari.vo.ScheduleMember">
+		SELECT
+			schedule_attend schedulAttend
+		FROM
+			schedule_member
+		WHERE
+			schedule_no = #{scheduleNo}
+		AND
+			schedule_member_email = #{scheduleMemberEmail}
+	</select>
+	
+	<!-- 일정 참석 여부 변경 -->
+	<update id="updateScheduleAttend" parameterType="com.gd.safari.vo.ScheduleMember">
+		UPDATE
+			schedule_member
+		SET
+			schedule_attend = #{scheduleAttend}
+		WHERE
+			schedule_no = #{scheduleNo}
+		AND
+			schedule_member_email = #{scheduleMemberEmail}
+	</update>
+	
 	<!-- 일정 멤버 삭제 -->
 	<delete id="deleteScheduleMember" parameterType="int">
 		DELETE FROM
