@@ -1,5 +1,6 @@
 package com.gd.safari.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import com.gd.safari.mapper.IScheduleCommentMapper;
 import com.gd.safari.mapper.IScheduleLikeMapper;
 import com.gd.safari.mapper.IScheduleMapper;
 import com.gd.safari.mapper.IScheduleMemberMapper;
+import com.gd.safari.vo.Schedule;
 import com.gd.safari.vo.ScheduleAttendList;
 import com.gd.safari.vo.ScheduleList;
 import com.gd.safari.vo.ScheduleMember;
@@ -115,6 +117,89 @@ public class ScheduleService implements IScheduleService {
 			scheduleMemberMapper.insertScheduleMember(scheduleMember);
 		}
 	}
+	
+	// 일정 한개 데이터 조회
+	// 일정 멤버 조회
+	// 프로젝트 멤버 조회
+	@Override
+	public Map<String, Object> getScheduleOneByScheduleNo(int scheduleNo, int projectNo, int workNo) {
+		log.debug(TeamColor.GDE + "scheduleNo --- " + scheduleNo);
+		
+		// 일정과 일정 멤버를 담을 Map
+		Map<String, Object> map = new HashMap<>();
+		
+		// 일정 한개 데이터
+		Schedule scheduleOne = scheduleMapper.selectScheduleOneByScheduleNo(scheduleNo);
+		log.debug(TeamColor.GDE + "scheduleOne --- " + scheduleOne);
+		
+		// 일정 멤버
+		List<Map<String, Object>> scheduleMembers = scheduleMemberMapper.selectScheduleMemberEmailByScheduleNo(scheduleNo, projectNo, workNo);
+		log.debug(TeamColor.GDE + "scheduleMembers --- " + scheduleMembers);
+		
+		// Map에 담아준다.
+		map.put("scheduleOne", scheduleOne);
+		map.put("scheduleMembers", scheduleMembers);
+		
+		return map;
+	}
+	
+	// 일정 수정
+	// 일정 수정 성공하면 멤버 수정
+	// scheduleMemberList=asdf@asdf.com,admin@admin.com,
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int modifySchedule(Map<String, Object> map) {
+		log.debug(TeamColor.GDE + "map --- " + map);
+		
+		// 자바스크립트 일정 멤버 배열 가공
+		String tmp = (String)map.get("scheduleMemberList");
+		String[] arr = tmp.split(",");
+		// 수정 멤버 이메일 배열을 담을 새로운 리스트
+		List<String> scheduleMemberList = new ArrayList<>();
+		// 리스트에 수정멤버 이메일을 담는다.
+		for (String s : arr) {
+			scheduleMemberList.add(s);
+		}
+		log.debug(TeamColor.GDE + "scheduleMemberList --- " + scheduleMemberList);
+		
+		// scheduleMemberList map에서 삭제
+		map.remove("scheduleMemberList");
+		
+		// 일정 멤버 수정시 필요한 파라미터 vo 생성 후 세팅
+		ScheduleMember scheduleMember = new ScheduleMember();
+		scheduleMember.setScheduleNo(Integer.parseInt((String) map.get("scheduleNo")));
+		
+		// 기존 일정 멤버 리스트
+		List<String> preMember = scheduleMemberMapper.selectScheduleMember(scheduleMember);
+		log.debug(TeamColor.GDE + "preMember --- " + preMember);
+		
+		// 추가할 일정 멤버 (수정멤버 - 기존멤버)
+		List<String> insertMember = new ArrayList<>(scheduleMemberList);
+		insertMember.removeAll(preMember);
+		log.debug(TeamColor.GDE + "insertMember --- " + insertMember);
+		
+		// 삭제할 일정 멤버 (기존 멤버 - 수정멤버)
+		List<String> deleteMember = preMember;
+		deleteMember.removeAll(scheduleMemberList);
+		log.debug(TeamColor.GDE + "deleteMember --- " + deleteMember);
+		
+		// 멤버 수만큼 추가
+		for(String insertMemberEmail : insertMember) {
+			scheduleMember.setScheduleMemberEmail(insertMemberEmail);
+			scheduleMemberMapper.insertScheduleMember(scheduleMember);
+		}
+		
+		// 멤버 수만큼 삭제
+		for (String deleteMemberEmail : deleteMember) {
+			scheduleMember.setScheduleMemberEmail(deleteMemberEmail);
+			scheduleMemberMapper.deleteScheduleMemberByScheduleNoAndScheduleMemberEmail(scheduleMember);
+		}
+		
+		// 일정 수정
+		int row = scheduleMapper.updateSchedule(map);
+		
+		return row;
+	}
 
 	// 트랜잭션 처리하기
 		// 일정 삭제하기
@@ -144,6 +229,4 @@ public class ScheduleService implements IScheduleService {
 		int row = scheduleMapper.deleteSchedule(scheduleNo);
 		log.debug(TeamColor.GDE + "row --- " + row);
 	}
-	
-
 }

@@ -24,7 +24,7 @@ public class HomeController {
 	public String home() {
 		return "home";
 	}
-	
+
 	// 인덱스 페이지 이동(로그인 후)
 	// 워크스페이스 리스트
 	@GetMapping("/safari/index")

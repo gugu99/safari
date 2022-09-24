@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IScheduleService;
@@ -61,6 +62,46 @@ public class ScheduleController {
 		
 		// 일정 추가
 		scheduleService.addSchedule(map);
+		
+		return "redirect:/safari/scheduleList";
+	}
+	
+	// 일정 수정 폼으로 이동
+	@GetMapping("/safari/modifySchedule")
+	public String modifySchedule(HttpSession session ,Model model, int scheduleNo) {
+		log.debug(TeamColor.GDE + "scheduleNo --- " + scheduleNo);
+		
+		// 세션에 저장된 workNo 가져오기
+		int workNo = (int)session.getAttribute("workNo");
+		log.debug(TeamColor.GDE + "workNo --- " + workNo);
+		
+		// 세션에 저장된 projectNo 가져오기
+		int projectNo = (int)session.getAttribute("projectNo");
+		log.debug(TeamColor.GDE + "projectNo --- " + projectNo);
+		
+		// 일정 한개 데이터와 일정 멤버리스트를 Map에 담아준다.
+		Map<String, Object> map = scheduleService.getScheduleOneByScheduleNo(scheduleNo, projectNo, workNo);
+		log.debug(TeamColor.GDE + "scheduleMembers --- " + map.get("scheduleMembers"));
+		// 페이지에 나타내주기위해 모델에 저장
+		model.addAttribute("scheduleOne", map.get("scheduleOne"));
+		model.addAttribute("scheduleMembers", map.get("scheduleMembers"));
+		
+		return "schedule/modifySchedule";
+	}
+	
+	// 일정 수정
+	@PostMapping("/safari/modifySchedule")
+	public String modifySchedule(RedirectAttributes redirectAttributes, @RequestParam Map<String, Object> map) {
+		log.debug(TeamColor.GDE + "map --- " + map);
+		
+		int row = scheduleService.modifySchedule(map);
+		
+		if (row == 0) { // 일정 수정에 실패했을 때
+			redirectAttributes.addFlashAttribute("scheduleModifyMsg", "일정 수정 실패!");
+			return "redirect:/safari/scheduleList";
+		}
+		
+		redirectAttributes.addFlashAttribute("scheduleModifyMsg", "일정 수정 성공!");
 		
 		return "redirect:/safari/scheduleList";
 	}

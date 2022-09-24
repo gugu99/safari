@@ -47,7 +47,7 @@
 
 <!-- BEGIN: Body-->
 
-<body class="vertical-layout vertical-menu-modern content-detached-right-sidebar   fixed-navbar" data-open="click" data-menu="vertical-menu-modern" data-col="content-detached-right-sidebar">
+<body class="vertical-layout vertical-menu-modern content-detached-right-sidebar  fixed-navbar" data-open="click" data-menu="vertical-menu-modern" data-col="content-detached-right-sidebar">
 
     <%@ include file="/WEB-INF/view/inc/header.jsp" %> <!-- header -->
 	<%@ include file="/WEB-INF/view/inc/sidebar.jsp" %> <!-- sidebar -->
@@ -86,8 +86,9 @@
 		                             <span class="text-bold-600 mr-1">${s.workMemberName }</span>
 		                             <span class="blue-grey date">${s.createDate }</span>
 		                             
-		                             <c:if test="${s.scheduleWriter eq login}">
-	                          			<a href="${pageContext.request.contextPath }/safari/removeSchedule?scheduleNo=${s.scheduleNo }" class="addr"><span class="fa fa-trash-o ml-2"></span></a>
+		                             <c:if test="${s.scheduleWriter eq login || manager}">
+		                                <a href="${pageContext.request.contextPath }/safari/modifySchedule?scheduleNo=${s.scheduleNo }" class="addr"><span class="fa fa-pencil-square-o ml-2"></span>수정</a>
+	                          			<a href="${pageContext.request.contextPath }/safari/removeSchedule?scheduleNo=${s.scheduleNo }" class="addr"><span class="fa fa-trash-o ml-2"></span>삭제</a>
 	                          		</c:if>	
 		                             
 		                       	 	<p class="h2 card-text mt-2 mb-1 ml-1">${s.scheduleTitle }</p>
@@ -133,13 +134,13 @@
 			                                 	<div class="form-group mt-1">
 			                                 	<c:forEach var="a" items="${s.scheduleAttendances }">
 			                                 		<c:if test="${a.scheduleAttendance eq 'Y' }">
-		                                 				<button type="button" class="btn btn-primary round btn-min-width ml-1 mr-1">참석 ${a.attendCnt}</button>
+		                                 				<button type="button" onclick="location.href='${pageContext.request.contextPath }/safari/modifyScheduleAttend?scheduleNo=${s.scheduleNo }&scheduleAttend=Y'" class="btn btn-primary round btn-min-width ml-1 mr-1">참석 ${a.attendCnt}</button>
 		                                 			</c:if>
 		                                 			<c:if test="${a.scheduleAttendance eq 'U' }">
 		                                 				<button type="button" class="btn btn-light round btn-min-width ml-1 mr-1" disabled>미정 ${a.attendCnt}</button>
 		                                 			</c:if>
 		                                 			<c:if test="${a.scheduleAttendance eq 'N' }">
-		                                 				<button type="button" class="btn btn-danger round btn-min-width ml-1 mr-1">불참 ${a.attendCnt}</button>
+		                                 				<button type="button" onclick="location.href='${pageContext.request.contextPath }/safari/modifyScheduleAttend?scheduleNo=${s.scheduleNo }&scheduleAttend=N'" class="btn btn-danger round btn-min-width ml-1 mr-1">불참 ${a.attendCnt}</button>
 		                                 			</c:if>
 			                                     </c:forEach>
 			                                     </div>
@@ -173,7 +174,7 @@
 		                                        		<p class="text-bold-600 mb-0">${c.cmtWorkMemberName } <span class="blue-grey date ml-1">${c.cmtCreateDate }</span>
 		                                            		<a href="${pageContext.request.contextPath }/safari/addScheduleCommentLike?scheduleCmtNo=${c.scheduleCmtNo}" class="addr"><span class="fa fa-thumbs-o-up ml-1 addr"></span> Like ${c.cmtLikeCnt }</a>
 		                                            		<c:if test="${login eq  c.cmtMemberEmail}">
-		                                            			<a href="${pageContext.request.contextPath }/safari/removeScheduleComment?scheduleCmtNo=${c.scheduleCmtNo }" class="addr"><span class="fa fa-trash-o ml-2"></span></a>
+		                                            			<a href="${pageContext.request.contextPath }/safari/removeScheduleComment?scheduleCmtNo=${c.scheduleCmtNo }" class="addr"><span class="fa fa-trash-o ml-2"></span>삭제</a>
 		                                            		</c:if>
 			                                            </p>
 			                                            <p class="m-0">${c.scheduleCmtContent }</p>
@@ -343,6 +344,11 @@
         element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
     }
 </script>
+<c:if test="${scheduleModifyMsg ne null }">
+	<script>
+		alert('${scheduleModifyMsg}');
+	</script>
+</c:if>
 <c:if test="${scheduleLikeMsg ne null }">
 	<script>
 		alert('${scheduleLikeMsg}');
@@ -351,6 +357,11 @@
 <c:if test="${scheduleCmtLikeMsg ne null }">
 	<script>
 		alert('${scheduleCmtLikeMsg}');
+	</script>
+</c:if>
+<c:if test="${scheduleAttendMsg ne null }">
+	<script>
+		alert('${scheduleAttendMsg}');
 	</script>
 </c:if>
 </body>
