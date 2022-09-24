@@ -40,11 +40,67 @@
 			schedule_member_email = #{scheduleMemberEmail}
 	</update>
 	
-	<!-- 일정 멤버 삭제 -->
+	<!-- 일정 멤버 조회 -->
+	<select id="selectScheduleMemberEmailByScheduleNo" resultType="map" parameterType="int">
+		SELECT
+			pm.work_member_email workMemberEmail
+			, pm.work_member_name workMemberName
+			, sm.schedule_no scheduleNo
+		FROM
+			(
+			SELECT
+				vwm.work_member_email
+				, vwm.work_member_name
+			FROM
+				v_workspace_member vwm
+			INNER JOIN
+				project_member pm1
+			ON
+				vwm.work_member_no = pm1.work_member_no
+			WHERE
+				vwm.work_no = #{workNo}
+			AND
+				pm1.project_no = #{projectNo}
+			) pm
+		LEFT OUTER JOIN
+			(
+			SELECT 
+				schedule_no
+				, schedule_member_email 
+			FROM 
+				schedule_member 
+			WHERE 
+				schedule_no = #{scheduleNo}
+			) sm
+		ON 
+			pm.work_member_email = sm.schedule_member_email;
+	</select>
+	
+	<!-- 일정 멤버 조회 -->
+	<select id="selectScheduleMember" resultType="String" parameterType="com.gd.safari.vo.ScheduleMember">
+		SELECT
+			schedule_member_email scheduleMemberEmail
+		FROM
+			schedule_member
+		WHERE
+			schedule_no = #{scheduleNo}
+	</select>
+	
+	<!-- 일정 멤버 전체 삭제 -->
 	<delete id="deleteScheduleMember" parameterType="int">
 		DELETE FROM
 			schedule_member
 		WHERE
 			schedule_no = #{scheduleNo}
+	</delete>
+	
+	<!-- 일정 멤버 한명 삭제 -->
+	<delete id="deleteScheduleMemberByScheduleNoAndScheduleMemberEmail" parameterType="com.gd.safari.vo.ScheduleMember">
+		DELETE FROM
+			schedule_member
+		WHERE
+			schedule_no = #{scheduleNo}
+		AND
+			schedule_member_email = #{scheduleMemberEmail}
 	</delete>
 </mapper>

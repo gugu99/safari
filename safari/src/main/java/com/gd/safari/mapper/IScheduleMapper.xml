@@ -258,6 +258,40 @@
 		) 
 	</insert>
 	
+	<!-- 일정 한개 데이터 조회 -->
+	<select id="selectScheduleOneByScheduleNo" resultType="com.gd.safari.vo.Schedule" parameterType="int">
+		SELECT
+			schedule_no 	 			scheduleNo
+			, schedule_title 			scheduleTitle
+			, schedule_start 			scheduleStart
+			, schedule_end				scheduleEnd
+			, schedule_location			scheduleLocation
+			, schedule_detail_location 	scheduleDetailLocation
+			, schedule_content 			scheduleContent
+			, schedule_auth 			scheduleAuth
+		FROM
+			schedule
+		WHERE
+			schedule_no = #{scheduleNo}
+	</select>
+	
+	<!-- 일정 수정하기 -->
+	<update id="updateSchedule" parameterType="map">
+		UPDATE
+			schedule
+		SET
+			schedule_title = #{scheduleTitle}
+			, schedule_start = #{scheduleStart} 	
+			, schedule_end = #{scheduleEnd}
+			, schedule_location	= #{scheduleLocation}
+			, schedule_detail_location = #{scheduleDetailLocation}
+			, schedule_content = #{scheduleContent}
+			, schedule_auth = #{scheduleAuth}
+			, update_date = NOW()
+		WHERE
+			schedule_no = #{scheduleNo}
+	</update>
+	
 	<!-- 일정 삭제하기 -->
 	<delete id="deleteSchedule" parameterType="int">
 		DELETE FROM
