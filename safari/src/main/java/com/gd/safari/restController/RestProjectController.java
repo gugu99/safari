@@ -45,6 +45,7 @@ public class RestProjectController {
 	
 	@PutMapping("/safari/modifyMember")
 	public List<Map<String, Object>> restModifyMember(HttpSession session, ProjectMember projectMember){
+		// 앞단에서 차집합을 구현하여 변동이 일어난 멤버만 받아온다
 		log.debug(TeamColor.CSK + "projectMember: " + projectMember);
 		int workNo = (int)session.getAttribute("workNo");
 		

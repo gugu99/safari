@@ -88,7 +88,6 @@ public class ProjectService implements IProjectService {
 		ProjectMember projectMember = new ProjectMember();
 		projectMember.setProjectNo(projectForm.getProjectNo());
 		
-		
 		// 프로젝트 멤버의 수만큼 반복하여 insert
 		for(int i : projectForm.getProjectMemberList()) {
 			projectMember.setProjectMemberAuth("N"); // 기본 값 그냥 멤버

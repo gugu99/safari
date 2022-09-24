@@ -13,6 +13,10 @@ public interface IProjectMapper {
 	// 해당 워크스페이스에 속한 프로젝트 리스트를 반환
 	List<Map<String, Object>> selectProjectListByWorkspaceNo(Map<String, Object> map);
 	
+	// 프로젝트 타이틀과 프로젝트 번호를 반환
+	// 조원들이 Task 기능 구현에 쓸 메소드
+	List<Project> selectProjectTitleAndNoByWorkspaceNo(int workNo);
+	
 	// 한 프로젝트의 정보를 반환 (수정폼에서 사용)
 	Project selectProjectDetailByProjectNo(int projectNo);
 	

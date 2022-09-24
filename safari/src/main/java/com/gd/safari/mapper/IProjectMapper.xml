@@ -54,6 +54,17 @@
 		</if>
 	</select>
 	
+	<!-- 워크스페이스에 속한 프로젝트의 번호와 제목만 출력 -->
+	<select id="selectProjectTitleAndNoByWorkspaceNo" parameterType="int" resultType="com.gd.safari.vo.Project">
+		SELECT
+			project_no projectNo
+			, project_name projectName
+		FROM
+			project
+		WHERE
+			work_no = #{workNo}
+	</select>
+	
 	<!-- 한 프로젝트의 정보 출력 -->
 	<select id="selectProjectDetailByProjectNo" resultType="com.gd.safari.vo.Project" parameterType="int">
 		SELECT
@@ -66,7 +77,8 @@
 			, project_deadline projectDeadline
 			, project_end projectEnd
 			, project_keep projectKeep
-		FROM project
+		FROM 
+			project
 		WHERE
 			project_no = #{projectNo}
 	</select>
