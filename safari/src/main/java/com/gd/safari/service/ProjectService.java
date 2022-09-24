@@ -1,7 +1,6 @@
 package com.gd.safari.service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -119,89 +118,21 @@ public class ProjectService implements IProjectService {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("projectNo", projectNo);
 		paramMap.put("workNo", workNo);
-		paramMap.put("projectMemberAuth", "Y");
-		
-		List<Map<String, Object>> projectManagerList = projectMemberMapper.selecProjectMemberListByMemberAuth(paramMap);
-		
-		paramMap.put("projectMemberAuth", "N");
+//		paramMap.put("projectMemberAuth", "Y");
+//		
+//		List<Map<String, Object>> projectManagerList = projectMemberMapper.selecProjectMemberListByMemberAuth(paramMap);
+//		
+//		paramMap.put("projectMemberAuth", "N");
 		List<Map<String, Object>> projectMemberList = projectMemberMapper.selecProjectMemberListByMemberAuth(paramMap);
 		
 		// map에 넣기
 		Map<String, Object> map = new HashMap<>();
 		map.put("project", project);
-		map.put("projectManagerList", projectManagerList);
+//		map.put("projectManagerList", projectManagerList);
 		map.put("projectMemberList", projectMemberList);
 
 		return map;
 	}
-	
-//	// 프로젝트, 프로젝트 멤버 수정 메소드
-//	@Transactional
-//	@Override
-//	public void modifyProject(Map<String, Object> map) {
-//		// keySet: 
-//		// 문자열로 받은 projectMemberList를 배열로 가공
-//		String tmp = (String) map.get("projectMemberList"); // 프로젝트 멤버에 변동사항이 없을 경우 빈 문자열
-//		// log.debug(TeamColor.CSK + "tmp: " + tmp);
-//		
-//		// map에서 삭제
-//		map.remove("projectMemberList");
-//		
-//		// 프로젝트 수정
-//		int row = projectMapper.updateProject(map);
-//		
-//		log.debug(TeamColor.CSK + "row: " + row);
-//		log.debug(TeamColor.CSK + "projectMapper.updateProject() 성공");
-//		
-//		////// projectMember 수정 시작
-//		log.debug(TeamColor.CSK + "projectMember 수정 시작");
-//		// 프로젝트 멤버에 변동 사항이 없을 경우 프로젝트멤버 테이블 업데이트 X
-//		if("".equals(tmp)) {
-//			return;
-//		}
-//		
-//		// 문자열로 받은 프로젝트 멤버 수정 정보를 배열로 변환
-//		String[] tmpArr = tmp.split(",");
-//		//	tmpArr를 List로 변환			1) 리스트로 변환		2) 스트림	3) 형변환			4) 최종연산
-//		List<Integer> newProjectMemberList = Arrays.asList(tmpArr).stream().map(Integer::parseInt).collect(Collectors.toList());
-//		log.debug(TeamColor.CSK + "newProjectMemberList: " + newProjectMemberList);
-//		
-//		// map에서 뽑아낸 projectNo를 가공
-//		int projectNo = Integer.parseInt(String.valueOf(map.get("projectNo")));
-//		
-//		// 수정 전 프로젝트 멤버 no 리스트
-//		List<Integer> prevProjectMemberList = projectMemberMapper.selectProjectMemberNoList(projectNo);
-//		List<Integer> deleteProjectMemberList = new ArrayList<>(prevProjectMemberList); 
-//		
-//		log.debug(TeamColor.CSK + "prevProjectMemberList: " + prevProjectMemberList);
-//		
-//		deleteProjectMemberList.removeAll(newProjectMemberList); // 차집합 - 프로젝트에서 삭제된 멤버
-//		newProjectMemberList.removeAll(prevProjectMemberList); // 차집합 - 프로젝트에 새로 추가된 멤버
-//		
-//		log.debug(TeamColor.CSK + "삭제할 멤버: " + deleteProjectMemberList);
-//		log.debug(TeamColor.CSK + "추가할 멤버: " + newProjectMemberList);
-//		
-//		// vo 세팅
-//		ProjectMember projectMember = new ProjectMember();
-//		projectMember.setProjectNo(projectNo);
-//		
-//		// 프로젝트 멤버의 active 값을 N으로
-//		for(int workMemberNo : deleteProjectMemberList) {
-//			projectMember.setWorkMemberNo(workMemberNo); // 해당 멤버의 workMemberNo 세팅
-//			projectMemberMapper.updateProjectMemberActiveN(projectMember);
-//			// update project_member set active = 'N' where work_member_no = #{workMemberNo} and project_no = #{projectNo};
-//		}
-//		
-//		// 프로젝트에 새롭게 추가 메소드
-//		for(int workMemberNo : newProjectMemberList) {
-//			projectMember.setWorkMemberNo(workMemberNo); // 해당 멤버의 workMemberNo 세팅
-//			int pmRow = projectMemberMapper.insertProjectMember(projectMember);
-//			
-//			if(pmRow != 1) {
-//				throw new RuntimeException(); // rollback 유도
-//			}
-//		}
-//	}
 	
 	@Override
 	public Project modifyProject(Map<String, Object> map) {

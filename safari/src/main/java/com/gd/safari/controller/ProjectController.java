@@ -80,16 +80,6 @@ public class ProjectController {
 		log.debug(TeamColor.CSK + "프로젝트 수정 폼");
 		log.debug(TeamColor.CSK + "projectNo: " + projectNo);
 		
-		// 워크스페이스 페이지에서 세션에 담은 workspaceNo를 받아온다
-//		int workNo = (int)session.getAttribute("workNo");
-//		
-//		// 프로젝트 VO, 프로젝트 멤버리스트<ProjectMember>를 반환
-//		Map<String, Object> map = projectService.getProjectDetailByProjectNo(workNo, projectNo);
-//		
-//		// 모델에 넣기
-//		model.addAttribute("project", map.get("project"));
-//		model.addAttribute("projectMemberList", map.get("projectMemberList"));
-		
 		model.addAttribute("projectNo", projectNo);
 		return "project/modifyProject";
 	}

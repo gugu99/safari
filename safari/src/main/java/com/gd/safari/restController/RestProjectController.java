@@ -1,6 +1,6 @@
 package com.gd.safari.restController;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -16,7 +16,6 @@ import com.gd.safari.service.IProjectMemberService;
 import com.gd.safari.service.IProjectService;
 import com.gd.safari.vo.Project;
 import com.gd.safari.vo.ProjectMember;
-import com.gd.safari.vo.ProjectForm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,14 +44,11 @@ public class RestProjectController {
 	}
 	
 	@PutMapping("/safari/modifyMember")
-	public Map<String, Object> restModifyMember(HttpSession session, ProjectMember projectMember){
+	public List<Map<String, Object>> restModifyMember(HttpSession session, ProjectMember projectMember){
 		log.debug(TeamColor.CSK + "projectMember: " + projectMember);
 		int workNo = (int)session.getAttribute("workNo");
 		
-		Map<String, Object> map = projectMemberService.modifyProjectMember(workNo, projectMember);
-		log.debug(TeamColor.CSK + "map: " + map);
-
-		return map;
+		return projectMemberService.modifyProjectMember(workNo, projectMember);
 	}
 
 }

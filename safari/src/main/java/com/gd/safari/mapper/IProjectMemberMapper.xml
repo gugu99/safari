@@ -24,7 +24,7 @@
 			w.work_member_no workMemberNo
 			, w.work_member_name workMemberName
 			, m.project_no projectNo
-			, m.project_member_auth
+			, m.project_member_auth projectMemberAuth
 		FROM
 			workspace_member w
 		LEFT JOIN
@@ -35,7 +35,7 @@
 			FROM
 				project_member 
 			WHERE 
-				project_no = #{projectNo} AND active = 'Y' AND project_member_auth = #{projectMemberAuth}) m
+				project_no = #{projectNo} AND active = 'Y') m
 		ON 
 			w.work_member_no = m.work_member_no
 		WHERE 

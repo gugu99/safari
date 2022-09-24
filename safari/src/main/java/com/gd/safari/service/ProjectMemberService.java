@@ -1,6 +1,5 @@
 package com.gd.safari.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,21 +7,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gd.safari.commons.TeamColor;
 import com.gd.safari.mapper.IProjectMemberMapper;
 import com.gd.safari.vo.ProjectMember;
-import com.gd.safari.vo.ProjectForm;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 public class ProjectMemberService implements IProjectMemberService {
 	@Autowired
 	IProjectMemberMapper projectMemberMapper;
 	
 	@Override
-	public Map<String, Object> modifyProjectMember(int workNo, ProjectMember projectMember) {
+	public List<Map<String, Object>> modifyProjectMember(int workNo, ProjectMember projectMember) {
 		// update
 		int row = projectMemberMapper.updateProjectMember(projectMember);
 		
@@ -37,17 +31,7 @@ public class ProjectMemberService implements IProjectMemberService {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("projectNo", (int)projectMember.getProjectNo());
 		paramMap.put("workNo", workNo);
-		paramMap.put("projectMemberAuth", "N");
 		
-		List<Map<String, Object>> projectMemberList = projectMemberMapper.selecProjectMemberListByMemberAuth(paramMap);
-		
-		paramMap.put("projectMemberAuth", "Y");
-		List<Map<String, Object>> projectManagerList = projectMemberMapper.selecProjectMemberListByMemberAuth(paramMap);
-		
-		Map<String, Object> map = new HashMap<>();
-		map.put("projectMemberList", projectMemberList);
-		map.put("projecManagerList", projectManagerList);
-		
-		return map; 
+		return projectMemberMapper.selecProjectMemberListByMemberAuth(paramMap);
 	}
 }
