@@ -8,9 +8,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="Stack admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
-    <meta name="keywords" content="admin template, stack admin template, dashboard template, flat admin template, responsive admin template, web app">
-    <meta name="author" content="PIXINVENT">
     <title>프로젝트 수정</title>
     <link rel="apple-touch-icon" href="${pageContext.request.contextPath}/resources/app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/app-assets/images/ico/favicon.ico">
@@ -23,22 +20,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/vendors/css/extensions/dragula.min.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/vendors/css/forms/selects/select2.min.css">
     <!-- END: Vendor CSS-->
-
-    <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/bootstrap-extended.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/colors.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/components.css">
-    <!-- END: Theme CSS-->
-
-    <!-- BEGIN: Page CSS-->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/core/menu/menu-types/vertical-menu-modern.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/css/core/colors/palette-gradient.css">
-    <!-- END: Page CSS-->
-
-    <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/style.css">
-    <!-- END: Custom CSS-->
+	
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <!-- END: Head-->
@@ -104,7 +86,7 @@
 	                                                
 							                        <fieldset class="form-group">
 	                                                    <label for="customSelect">공개 범위</label>
-	                                                    <select class="custom-select block projectAuth" id="customSelect" name="projectAuth">
+	                                                    <select class="custom-select block projectAuth" id="projectAuth" name="projectAuth">
 	                                                       	<option value="N">공개</option>
 									                     	<option value="Y">비공개</option>
 	                                                    </select>
@@ -137,14 +119,15 @@
 								                	 <div class="form-group">
 								                         <label>프로젝트 멤버</label>
 								                         <select class="form-control select2" multiple="multiple" id="projectMemberList" name="projectMemberList">
-								                         	
+								                         	<!-- 멤버 리스트 -->
 								                         </select>
 								                     </div>
 	                                                
 	                                                <input type="hidden" id="projectNo" name="projectNo" value="${projectNo}">
-	                                                
+
 	                                                <div class="modal-footer">
-								                       <a href="${pageContext.request.contextPath}/safari/project"><button type="button" class="projectForm btn btn-outline-primary btn-lg">프로젝트 수정</button></a>
+	                                                	<div id="projectKeep"></div>
+								                    	<a href="${pageContext.request.contextPath}/safari/project"><button type="button" class="projectForm btn btn-outline-primary btn-lg">프로젝트 목록으로</button></a>
 								                   </div>
 	                                        </div>
                                         </div>
@@ -155,9 +138,6 @@
                     </div>
                 </section>
                 <!-- Basic Inputs end -->
-            
-            
-            
             </div>
         </div>
     </div>

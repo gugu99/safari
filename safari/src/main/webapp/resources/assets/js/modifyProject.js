@@ -3,9 +3,9 @@
  */
  
  $(document).ready(function(){
-    	const prevProjectManagerArr = new Array(); 
-		const prevProjectMemberArr = new Array();			
-
+    	let prevProjectManagerArr = new Array(); // 기존 관리자들의 번호를 저장해놓을 배열
+		let prevProjectMemberArr = new Array(); // 기존 멤버들의 번호를 저장해놓을 배열
+		let projectKeep = null;
 
     	$.ajax({
     		type : 'get',
@@ -16,26 +16,11 @@
     			$(json).each(function(index, item){
     				$('#projectName').val(item.project.projectName);
     				$('#projectExpl').val(item.project.projectExpl);
-    				$('#customSelect').val(item.project.projectAuth);
+    				$('#projectAuth').val(item.project.projectAuth);
     				$('#date1').val(item.project.projectStart);
     				$('#date2').val(item.project.projectDeadline);
     				$('#date3').val(item.project.projectEnd);
-    				
-    				/*
-					// 받아온 프로젝트 관리자 리스트 반복문
-    				for(let i = 0; i < item.projectManagerList.length; i++){
-						// workspace member와 프로젝트 매니저들의 left join의 결과물
-						// projectNo가 있으면 현재 프로젝트 매니저 -> selected
-						if(item.projectManagerList[i].projectNo != null){
-							$("#projectManagerList").append("<option value='" + item.projectManagerList[i].workMemberNo + "' name='workMemberNo' selected>" + item.projectManagerList[i].workMemberName + "</option>");
-							prevProjectManagerArr.push(String(item.projectManagerList[i].workMemberNo));
-
-						} else {
-							// 프로젝트넘버가 없으면, 워크스페이스에는 속해있지만 프로젝트엔 속하지 않은 멤버 (== 프로젝트에 참여할 권한이 있음)
-							$("#projectManagerList").append("<option value='" + item.projectManagerList[i].workMemberNo + "' name='workMemberNo' >" + item.projectManagerList[i].workMemberName + "</option>");
-						}
-					}
-					*/
+    				projectKeep = item.project.projectKeep;
 					
     				// 프로젝트 멤버 리스트 반복문
     				console.log("item.projectMemberList");
@@ -53,6 +38,37 @@
 							prevProjectMemberArr.push(String(item.projectMemberList[i].workMemberNo));
 						}
 					}
+					
+					if(item.project.projectKeep == 'Y'){
+						// 프로젝트 보관 시 모든 수정 사항 disabled 
+						$("#projectName").attr("disabled", true);
+						$("#projectExpl").attr("disabled", true);
+						$("#projectAuth").attr("disabled", true);
+						$("#date1").attr("disabled", true);
+						$("#date2").attr("disabled", true);
+						$("#date3").attr("disabled", true);
+						$("#projectManagerList").attr("disabled", true);
+						$("#projectMemberList").attr("disabled", true);
+						
+						// 버튼에 띄울 제목
+						title = "프로젝트 보관 해제";
+					} else { // null이거나 n인 경우
+						// 프로젝트 보관하지 않았을 시 수정 가능 
+						$("#projectName").attr("disabled", false);
+						$("#projectExpl").attr("disabled", false);
+						$("#projectAuth").attr("disabled", false);
+						$("#date1").attr("disabled", false);
+						$("#date2").attr("disabled", false);
+						$("#date3").attr("disabled", false);
+						$("#projectManagerList").attr("disabled", false);
+						$("#projectMemberList").attr("disabled", false);
+						
+						// 버튼에 띄울 제목
+						title = "프로젝트 보관하기";
+					}
+					
+					$("#projectKeep").append("<button type='button' class='btn btn-outline-primary btn-lg' id='projectKeepBtn'>" + title + "</button>");
+
     			});
     		},
     		
@@ -70,7 +86,8 @@
 						projectName: $("#projectName").val()},
 				success : function(json){
 					$(json).each(function(index, item){
-						$('#projectName').val(item.project.projectName);
+						$('#projectName').val(item.projectName);
+						i++;
 					})
 				}, // end for success call back function
 				error : function(error){
@@ -88,7 +105,7 @@
 						projectExpl: $("#projectExpl").val()},
 				success : function(json){
 					$(json).each(function(index, item){
-						$('#projectExpl').val(item.project.projectExpl);
+						$('#projectExpl').val(item.projectExpl);
 					})
 				}, // end for success call back function
 				error : function(error){
@@ -98,15 +115,15 @@
 		}); // end for projectExpl change
 		
 		// 프로젝트 공개여부
-		$("#customSelect").change(function(){
+		$("#projectAuth").change(function(){
 			$.ajax({
 				type : 'put',
 				url : '/safari/modifyProject',
 				data : {projectNo : $("#projectNo").val(),
-						projectAuth: $("#customSelect").val()},
+						projectAuth: $("#projectAuth").val()},
 				success : function(json){
 					$(json).each(function(index, item){
-						$('#customSelect').val(item.project.projectAuth);
+						$('#projectAuth').val(item.projectAuth);
 					})
 				}, // end for success call back function
 				error : function(error){
@@ -126,7 +143,7 @@
 						projectStart: $("#date1").val()},
 				success : function(json){
 					$(json).each(function(index, item){
-						$('#date1').val(item.project.projectStart);
+						$('#date1').val(item.projectStart);
 					})
 				}, // end for success call back function
 				error : function(error){
@@ -146,7 +163,7 @@
 						projectDeadline: $("#date2").val()},
 				success : function(json){
 					$(json).each(function(index, item){
-						$('#date2').val(item.project.projectDeadline);
+						$('#date2').val(item.projectDeadline);
 					})
 				}, // end for success call back function
 				error : function(error){
@@ -166,7 +183,7 @@
 						projectEnd: $("#date3").val()},
 				success : function(json){
 					$(json).each(function(index, item){
-						$('#date3').val(item.project.projectEnd);
+						$('#date3').val(item.projectEnd);
 					})
 				}, // end for success call back function
 				error : function(error){
@@ -177,9 +194,10 @@
 		
 		// 프로젝트 관리자
 		$("#projectManagerList").change(function(){
+			console.log("prevProjectManagerArr: " + prevProjectManagerArr);
 			
 			const select = $("#projectManagerList").val();
-			console.log("typeof select: projectManagerList.val()" + typeof select);
+			// console.log("typeof select: projectManagerList.val()" + typeof select);
 			// console.log("---" + typeof select[0]); // string 
 			// console.log("---" + typeof prevProjectManagerArr[0]); // number
 			
@@ -203,21 +221,24 @@
 						projectMemberAuth: "Y",
 						active : (inOrOut) ? "N" : "Y"},
 				success : function(json){
-					$(json).each(function(index, item){
-						console.log("projectManagerList");
-						console.log(json);
-						console.log("---------------------");
-						console.log(item);
+					console.log("projectManagerList");
+					console.log(json);
+					console.log("---------------------");
+					
+					prevProjectManagerArr = new Array(); // 관리자 배열 초기화
 						
-						for(let i = 0; i < item[0].length; i++){
-							if(item[i].projectMemberAuth == null){
-								$("#projectMemberList").append("<option value='" + item.projectMemberList[i].workMemberNo + "'>" + item.projectMemberList[i].workMemberName + "</option>");
-								$("#projectManagerList").append("<option value='" + item.projectMemberList[i].workMemberNo + "'>" + item.projectMemberList[i].workMemberName + "</option>");
-							} else if(item[i].projectMemberAuth == 'Y'){
-								$("#projectManagerList").append("<option value='" + item.projectMemberList[i].workMemberNo + "' selected>" + item.projectMemberList[i].workMemberName + "</option>");
-							} else {
-								$("#projectMemberList").append("<option value='" + item.projectMemberList[i].workMemberNo + "'selected>" + item.projectMemberList[i].workMemberName + "</option>");
-							}
+					$("#projectMemberList").empty();
+					$("#projectManagerList").empty();
+					
+					$(json).each(function(index, item){
+						if(item.projectMemberAuth == null){
+							$("#projectMemberList").append("<option value='" + item.workMemberNo + "'>" + item.workMemberName + "</option>");
+							$("#projectManagerList").append("<option value='" + item.workMemberNo + "'>" + item.workMemberName + "</option>");
+						} else if(item.projectMemberAuth == 'Y'){
+							$("#projectManagerList").append("<option value='" + item.workMemberNo + "' selected>" + item.workMemberName + "</option>");
+							prevProjectManagerArr.push(String(item.workMemberNo));
+						} else {
+							$("#projectMemberList").append("<option value='" + item.workMemberNo + "'selected>" + item.workMemberName + "</option>");
 						}
 					})
 				}, // end for success call back function
@@ -229,9 +250,10 @@
 		
 		// 프로젝트 멤버
 		$("#projectMemberList").change(function(){
+			console.log("prevProjectMemberArr: " + prevProjectMemberArr);
+
 			const select = $("#projectMemberList").val();
 			// console.log("---" + typeof select[0]); // string 
-			
 			// console.log(select);
 			
 			const newMember = $(select).not(prevProjectMemberArr).get();
@@ -242,7 +264,7 @@
 			
 			// boolean -> true면 매니저 delete, false면 매니저 update
 			const inOrOut = newMember.length == 0;
-			// console.log(inOrOut ? "delete" : "update");
+			console.log(inOrOut ? "delete" : "update");
 			
 			$.ajax({
 				type : 'put',
@@ -252,25 +274,24 @@
 						projectMemberAuth: "N", // 관리자가 아님
 						active : (inOrOut) ? "N" : "Y"},
 				success : function(json){
+					$("#projectMemberList").empty();
+					$("#projectManagerList").empty();
+					console.log("projectMemberList success");
+					console.log(json);
+					console.log(typeof projectMemberList);
+					
+					prevProjectMemberArr = new Array(); // 기존 프로젝트 멤버 배열 초기화
+					
 					$(json).each(function(index, item){
-						// 반복문 돌릴 자리
-						console.log("projectMemberList success");
-						console.log(json);
-						console.log(typeof projectMemberList);
-						
-						// $('#date3').val(item.project.projectEnd);
-						
-						for(let i = 0; i < item.length; i++){
-							if(item[i].projectMemberAuth == null){
-								$("#projectMemberList").append("<option value='" + item.projectMemberList[i].workMemberNo + "'>" + item.projectMemberList[i].workMemberName + "</option>");
-								$("#projectManagerList").append("<option value='" + item.projectMemberList[i].workMemberNo + "'>" + item.projectMemberList[i].workMemberName + "</option>");
-							} else if(item[i].projectMemberAuth == 'Y'){
-								$("#projectManagerList").append("<option value='" + item.projectMemberList[i].workMemberNo + "' selected>" + item.projectMemberList[i].workMemberName + "</option>");
-							} else {
-								$("#projectMemberList").append("<option value='" + item.projectMemberList[i].workMemberNo + "'selected>" + item.projectMemberList[i].workMemberName + "</option>");
-							}
+						if(item.projectMemberAuth == null){
+							$("#projectMemberList").append("<option value='" + item.workMemberNo + "'>" + item.workMemberName + "</option>");
+							$("#projectManagerList").append("<option value='" + item.workMemberNo + "'>" + item.workMemberName + "</option>");
+						} else if(item.projectMemberAuth == 'Y'){
+							$("#projectManagerList").append("<option value='" + item.workMemberNo + "' selected>" + item.workMemberName + "</option>");
+						} else {
+							$("#projectMemberList").append("<option value='" + item.workMemberNo + "'selected>" + item.workMemberName + "</option>");
+							prevProjectMemberArr.push(String(item.workMemberNo));
 						}
-						
 					})
 				}, // end for success call back function
 				error : function(error){
@@ -279,4 +300,58 @@
 			}); // end 
 		}); // end for projectMember change
     	
+    	// 프로젝트 보관여부
+    	$("#projectKeep").on("click", "button", function(){
+			console.log("projectKeepBtn click");
+			
+			$.ajax({
+				type : 'put',
+				url : '/safari/modifyProject',
+				data : {projectNo : $("#projectNo").val(),
+						projectKeep : (projectKeep == 'Y') ? "N" : "Y"},
+				success : function(json){
+					$(json).each(function(index, item){
+						projectKeep = item.projectKeep; // 변수에 재대입
+						$("#projectKeep").empty();
+						title = "";
+						
+						if(item.projectKeep == 'Y'){
+							// 프로젝트 보관 시 모든 수정 사항 disabled 
+							$("#projectName").attr("disabled", true);
+							$("#projectExpl").attr("disabled", true);
+							$("#projectAuth").attr("disabled", true);
+							$("#date1").attr("disabled", true);
+							$("#date2").attr("disabled", true);
+							$("#date3").attr("disabled", true);
+							$("#projectManagerList").attr("disabled", true);
+							$("#projectMemberList").attr("disabled", true);
+							
+							// 버튼에 띄울 제목
+							title = "프로젝트 보관 해제";
+						} else {
+							// 프로젝트 보관하지 않았을 시 수정 가능 
+							$("#projectName").attr("disabled", false);
+							$("#projectExpl").attr("disabled", false);
+							$("#projectAuth").attr("disabled", false);
+							$("#date1").attr("disabled", false);
+							$("#date2").attr("disabled", false);
+							$("#date3").attr("disabled", false);
+							$("#projectManagerList").attr("disabled", false);
+							$("#projectMemberList").attr("disabled", false);
+						
+							// 버튼에 띄울 제목
+							title = "프로젝트 보관하기";
+						}
+						
+						$("#projectKeep").append("<button type='button' class='btn btn-outline-primary btn-lg' id='projectKeepBtn'>" + title + "</button>");
+					})
+				}, // end for success call back function
+				
+				error : function(error){
+					console.log("error!");
+				}
+			}); // end 
+			
+		}); // end for projectKeepBtn change
+		
     })
