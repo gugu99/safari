@@ -81,7 +81,7 @@ public class ProjectService implements IProjectService {
 	@Transactional
 	public void addProject(ProjectForm projectForm) {
 		// 프로젝트 추가
-		int row = projectMapper.insertProject(projectForm);
+		projectMapper.insertProject(projectForm);
 		log.debug(TeamColor.CSK + "insert 후 projectForm: " + projectForm);
 
 		// VO 객체 생성 후 프로젝트 정보 세팅
@@ -107,27 +107,16 @@ public class ProjectService implements IProjectService {
 	// 프로젝트 수정 전 정보를 띄우기 위한 메소드
 	@Override
 	public Map<String, Object> getProjectDetailByProjectNo(int workNo, int projectNo) {
-		
 		// 프로젝트 테이블의 정보를 담은 Project VO
 		Project project = projectMapper.selectProjectDetailByProjectNo(projectNo);
-		log.debug(TeamColor.CSK + "project: " + project);
-		
-		// auth 값에 따른(멤버, 관리자) 프로젝트 멤버 리스트를 반환
-		// projectNo, projectMemberAuth 필요
-		Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("projectNo", projectNo);
-		paramMap.put("workNo", workNo);
-//		paramMap.put("projectMemberAuth", "Y");
-//		
-//		List<Map<String, Object>> projectManagerList = projectMemberMapper.selecProjectMemberListByMemberAuth(paramMap);
-//		
-//		paramMap.put("projectMemberAuth", "N");
-		List<Map<String, Object>> projectMemberList = projectMemberMapper.selecProjectMemberListByMemberAuth(paramMap);
+		// log.debug(TeamColor.CSK + "project: " + project);
+
+		List<Map<String, Object>> projectMemberList = projectMemberMapper.selectPossibleProjectMemberListByWorkNoAndProjectNo(workNo, projectNo);
+		// log.debug(TeamColor.CSK + "projectMemberList: " + projectMemberList);
 		
 		// map에 넣기
 		Map<String, Object> map = new HashMap<>();
-		map.put("project", project);
-//		map.put("projectManagerList", projectManagerList);
+		map.put("project", project); // 프로젝트 정보
 		map.put("projectMemberList", projectMemberList);
 
 		return map;
@@ -135,8 +124,13 @@ public class ProjectService implements IProjectService {
 	
 	@Override
 	public Project modifyProject(Map<String, Object> map) {
+		// 파라미터로 받은 정보를 사용하여 Project를 수정
 		projectMapper.updateProject(map);
+		
+		// map안의 projectNo를 추출
 		int projectNo = Integer.parseInt(String.valueOf(map.get("projectNo")));
+		
+		// 수정 후 project 정보를 반환
 		return projectMapper.selectProjectDetailByProjectNo(projectNo);
 	}
 	

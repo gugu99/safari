@@ -7,7 +7,18 @@
 			p.project_no projectNo
 			, p.project_name projectName
 			, p.create_date createDate
-			,(select work_member_no from project_member where project_member_auth = 'Y' and project_no = projectNo and work_member_no = #{workMemberNo}) manager
+			, (SELECT 
+					work_member_no 
+				FROM 
+					project_member 
+				WHERE 
+					active = 'Y'
+				AND
+					project_member_auth = 'Y' 
+				AND 
+					project_no = projectNo
+				AND 
+					work_member_no = #{workMemberNo}) manager
 		FROM project p
 		
 		<!-- 내가 속한 프로젝트 -->
@@ -65,24 +76,6 @@
 			work_no = #{workNo}
 	</select>
 	
-	<!-- 한 프로젝트의 정보 출력 -->
-	<select id="selectProjectDetailByProjectNo" resultType="com.gd.safari.vo.Project" parameterType="int">
-		SELECT
-			project_no projectNo
-			, work_no workNo
-			, project_name projectName
-			, project_expl projectExpl
-			, project_auth projectAuth
-			, project_start projectStart
-			, project_deadline projectDeadline
-			, project_end projectEnd
-			, project_keep projectKeep
-		FROM 
-			project
-		WHERE
-			project_no = #{projectNo}
-	</select>
-	
 	<!-- 프로젝트 그룹 수정용 -->
 	<!-- 프로젝트 리스트와 한 프로젝트 그룹에 속한 프로젝트를 left join -->
 	<select id="selectAllProjectByProjectGroupNo" resultType="java.util.Map" parameterType="int">
@@ -109,6 +102,24 @@
 			p.project_no = q.project_no 
 		WHERE 
 			p.work_no = #{workNo}
+	</select>
+	
+	<!-- 한 프로젝트의 정보 출력 -->
+	<select id="selectProjectDetailByProjectNo" resultType="com.gd.safari.vo.Project" parameterType="int">
+		SELECT
+			project_no projectNo
+			, work_no workNo
+			, project_name projectName
+			, project_expl projectExpl
+			, project_auth projectAuth
+			, project_start projectStart
+			, project_deadline projectDeadline
+			, project_end projectEnd
+			, project_keep projectKeep
+		FROM 
+			project
+		WHERE
+			project_no = #{projectNo}
 	</select>
 	
 	<!-- 프로젝트 추가 -->
@@ -154,6 +165,9 @@
 			</if>
 			<if test="projectEnd != null and !projectEnd.equals('')">
 				project_end = #{projectEnd}
+			</if>
+			<if test="projectKeep != null and !projectKeep.equals('')">
+				project_keep = #{projectKeep}
 			</if>
 			, update_date = NOW()
 		</trim>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.IProjectMemberMapper">
+	<!-- 프로젝트 멤버 추가 -->
 	<insert id="insertProjectMember" parameterType="com.gd.safari.vo.ProjectMember">
 		INSERT INTO project_member(
 			work_member_no
@@ -19,7 +20,8 @@
 		)
 	</insert>
 	
-	<select id="selecProjectMemberListByMemberAuth" resultType="java.util.Map" parameterType="java.util.Map">
+	<!-- 워크스페이스 멤버에 해당 프로젝트에 속한 멤버를 Left Join - 수정 폼에서 사용 -->
+	<select id="selectPossibleProjectMemberListByWorkNoAndProjectNo" resultType="java.util.Map" parameterType="int">
 		SELECT
 			w.work_member_no workMemberNo
 			, w.work_member_name workMemberName
@@ -42,27 +44,7 @@
 			w.work_no = #{workNo}
 	</select>
 	
-	<select id="selectProjectMemberListByProjectNo" resultType="java.util.Map" parameterType="int">
-		SELECT
-			w.work_member_no workMemberNo
-			, w.work_member_name workMemberName
-			, p.project_no projectNo
-		FROM
-			workspace_member w
-		LEFT JOIN
-			(SELECT 
-				project_no
-				, project_member_auth
-			FROM
-				project_member 
-			WHERE 
-				project_no = #{projectNo} AND active = 'Y') p
-		ON 
-			w.work_member_no = p.work_member_no
-		WHERE 
-			w.work_no = #{workNo}
-	</select>
-	
+	<!-- 해당 프로젝트에 속한 멤버와 관리자, email을 반환 / 조원들의 기능구현에 사용 -->
 	<select id="selectProjectMemberList" resultType="java.util.Map" parameterType="int">
 		SELECT
 			pm.project_member_no projectMemberNo
@@ -81,17 +63,7 @@
 			pm.project_no = #{projectNo} AND pm.active = 'Y'
 	</select>
 	
-	<select id="selectProjectMemberNoList" resultType="int" parameterType="int">
-		SELECT
-			work_member_no workMemberNo
-		FROM
-			project_member
-		WHERE
-			project_no = #{projectNo}
-		AND
-			active = 'Y'
-	</select>
-	
+	<!-- 관리자인지 아닌지를 리턴 / null이면 관리자가 아님 -->
 	<select id="selectProjectManager" resultType="int" parameterType="int">
 		SELECT 
 			work_member_no workMemberNo
@@ -105,6 +77,7 @@
 			work_member_no = ${workMemberNo}
 	</select>
 	
+	<!-- 수정 메소드 -->
 	<update id="updateProjectMember" parameterType="com.gd.safari.vo.ProjectMember">
 		UPDATE
 			project_member
@@ -119,16 +92,7 @@
 	
 	</update>
 	
-	<update id="updateProjectMemberActiveN" parameterType="com.gd.safari.vo.ProjectMember">
-		 UPDATE 
-		 	project_member 
-		 SET 
-		 	active = 'N'
-		 	, update_date = NOW()
-		 WHERE 
-		 	work_member_no = #{workMemberNo} AND project_no = #{projectNo}
-	</update>
-	
+	<!-- 해당 프로젝트에 속한 멤버를 모두 삭제 -->	
 	<delete id="deleteProjectMemberByProjectNo" parameterType="int">
 		DELETE FROM project_member WHERE project_no = #{projectNo}
 	</delete>

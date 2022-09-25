@@ -51,5 +51,4 @@ public class RestProjectController {
 		
 		return projectMemberService.modifyProjectMember(workNo, projectMember);
 	}
-
 }

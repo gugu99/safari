@@ -9,13 +9,19 @@ import com.gd.safari.vo.ProjectForm;
 
 @Mapper
 public interface IProjectMapper {
-	// ProjectService.getProjectListByWorkspace에서 프로젝트 개괄 페이지를 띄우는 용도
+	// 프로젝트 개관 페이지 띄우기
 	// 해당 워크스페이스에 속한 프로젝트 리스트를 반환
+	// 세션에 저장된 workMemberNo를 사용해 
+	// 해당 유저가 각 프로젝트의 수정/삭제 권한이 있는지를 검사하는 서브쿼리가 추가되어 있음 (manager)
 	List<Map<String, Object>> selectProjectListByWorkspaceNo(Map<String, Object> map);
 	
 	// 프로젝트 타이틀과 프로젝트 번호를 반환
 	// 조원들이 Task 기능 구현에 쓸 메소드
 	List<Project> selectProjectTitleAndNoByWorkspaceNo(int workNo);
+	
+	// 프로젝트그룹에 속한 프로젝트와 해당 워크스페이스에 속한 프로젝트 left join
+	// 프로젝트그룹 수정 form에서 사용
+	List<Map<String, Object>> selectAllProjectByProjectGroupNo(int workNo, int projectGroupNo);
 	
 	// 한 프로젝트의 정보를 반환 (수정폼에서 사용)
 	Project selectProjectDetailByProjectNo(int projectNo);
@@ -28,8 +34,4 @@ public interface IProjectMapper {
 	
 	// 프로젝트 삭제 메소드
 	int deleteProject(int projectNo);
-	
-	// 프로젝트그룹에 속한 프로젝트와 해당 워크스페이스에 속한 프로젝트 left join
-	// 프로젝트그룹 수정 form에서 사용
-	List<Map<String, Object>> selectAllProjectByProjectGroupNo(int workNo, int projectGroupNo);
 }

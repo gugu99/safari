@@ -1,6 +1,5 @@
 package com.gd.safari.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,21 +16,16 @@ public class ProjectMemberService implements IProjectMemberService {
 	
 	@Override
 	public List<Map<String, Object>> modifyProjectMember(int workNo, ProjectMember projectMember) {
-		// update
+		// 일단 UPDATE
 		int row = projectMemberMapper.updateProjectMember(projectMember);
 		
 		if(row == 0) {
-			// projectNo와 workMemberNo 조건으로 업데이트한 항목이 없을 때,
-			// 즉 미리 속해있지 않은 멤버일 때
-			// insert
+			// projectNo와 workMemberNo 조건으로 업데이트할 항목이 없을 때,
+			// 즉 미리 속해있지 않은 멤버라서 INSERT의 대상일 때
 			// TODO 멤버 insert 메소드 동적쿼리로 바꿔야 함
 			projectMemberMapper.insertProjectMember(projectMember);
 		}
 		
-		Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("projectNo", (int)projectMember.getProjectNo());
-		paramMap.put("workNo", workNo);
-		
-		return projectMemberMapper.selecProjectMemberListByMemberAuth(paramMap);
+		return projectMemberMapper.selectPossibleProjectMemberListByWorkNoAndProjectNo(workNo, (int)projectMember.getProjectNo());
 	}
 }
