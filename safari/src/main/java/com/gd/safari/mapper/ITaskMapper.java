@@ -13,12 +13,18 @@ public interface ITaskMapper {
 	List<Task> selectTaskByProjectNo(int projectNo);
 	// 상세 보기
 	Map<String, Object> selectTaskByTaskNo(int taskNo);
-	// 하위 업무 가져오기
-	List<Map<String, Object>> selectTaskByLowerTask(int taskNo);
 	// 업무 생성
 	int insertTask(Task task);
 	// 업무 수정
 	int updateTask(Task task);
+	// 업무 위치변경
+	int updateTaskLocation(Map<String, Integer> m);
+	// 업무 완료
+	int updateCompleteTask(int taskNo);
+	// 업무 완료취소
+	int updateCancelEndTask(int taskNo);
+	// 업무 복사
+	
 	// 업무 삭제
 	int deleteTask(int taskNo);
 }

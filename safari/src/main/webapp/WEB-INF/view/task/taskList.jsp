@@ -90,6 +90,9 @@
 
     <!-- BEGIN: Page JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/pages/app-kanban.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets/js/taskLocation.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets/js/taskListLocation.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets/js/copyTaskList.js"></script>
     <!-- END: Page JS-->
 
 </body>

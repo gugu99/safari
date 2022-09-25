@@ -11,6 +11,77 @@
 		WHERE 
 			project_no 			= #{projectNo}
 	</select>
+	<!-- 현재위치 제외 업무리스트 조회 (업무 위치 변경을 위해) -->
+	<select id="selectTaskListByUpdateLocation" parameterType="map" resultType="com.gd.safari.vo.TaskList">
+		SELECT
+			tasklist_no 		tasklistNo
+			, tasklist_title 	tasklistTitle
+			, project_no 		projectNo
+		FROM task_list
+		WHERE 
+			project_no 			= #{projectNo}
+		AND
+			tasklist_no 		!= #{tasklistNo}
+	</select>
+	<!-- 현재 프로젝트 이름 조회 (업무리스트 위치변경을 위해) -->
+	<select id="selectProjectNameByTasklistNo" parameterType="int" resultType="string">
+		SELECT 
+			p.project_name projectName 
+		FROM 
+			task_list t INNER JOIN project p 
+		ON 
+			t.project_no = p.project_no 
+		WHERE 
+			t.tasklist_no = #{tasklistNo}
+	</select>
+	<!-- 업무리스트 복사 - 같이 복사할 업무가 있을 경우 -->
+	<!-- resultMap -->
+	<resultMap id="copyTaskListMap" type="com.gd.safari.vo.CopyTaskList">
+		<id column="tasklistNo" property="tasklistNo" javaType="int" />
+		<result column="tasklistTitle" property="tasklistTitle" javaType="string" />
+		<result column="projectNo" property="projectNo" javaType="int" />
+		<collection property="task" ofType="com.gd.safari.vo.Task" autoMapping="true">
+			<id column="taskNo" property="taskNo" javaType="int" />
+			<result column="taskTitle" property="taskTitle" javaType="string" />
+			<result column="taskContent" property="taskContent" javaType="string" />
+			<result column="taskPoint" property="taskPoint" javaType="string" />
+			<result column="taskStart" property="taskStart" javaType="string" />
+			<result column="taskDeadline" property="taskDeadline" javaType="string" />
+			<result column="taskEnd" property="taskEnd" javaType="string" />
+			<result column="taskUpperNo" property="taskUpperNo" javaType="int" />
+		</collection>
+	</resultMap>
+	<select id="selectTaskListAndTaskForCopy" parameterType="int" resultMap="copyTaskListMap">
+		SELECT
+			tl.tasklist_no 		tasklistNo 
+			, tl.tasklist_title tasklistTitle
+			, tl.project_no 	projectNo
+			, t.task_no 		taskNo
+			, t.task_title 		taskTitle
+			, t.task_content 	taskContent
+			, t.task_point 		taskPoint
+			, t.task_start 		taskStart
+			, t.task_deadline 	taskDeadline
+			, t.task_end 		taskEnd
+			, t.task_upper_no   taskUpperNo
+		FROM 
+			task_list tl INNER JOIN task t 
+		ON 
+			tl.tasklist_no = t.tasklist_no 
+		WHERE 
+			tl.tasklist_no = #{tasklistNo}
+	</select>
+	<!-- 업무리스트 복사 - 같이 복사할 업무가 없는 경우 -->
+	<select id="selectTaskListForCopy" parameterType="int" resultType="com.gd.safari.vo.CopyTaskList">
+		SELECT
+			tasklist_no 		tasklistNo 
+			, tasklist_title 	tasklistTitle
+			, project_no 		projectNo
+		FROM 
+			task_list 
+		WHERE 
+			tasklist_no = #{tasklistNo}
+	</select>
 	<!-- 업무리스트 생성 -->
 	<insert id="insertTaskList" parameterType="com.gd.safari.vo.TaskList">
 		INSERT INTO task_list (
@@ -30,6 +101,15 @@
 		UPDATE task_list
 		SET
 			tasklist_title	= #{tasklistTitle}
+			, update_date 	= NOW()
+		WHERE 
+			tasklist_no 	= #{tasklistNo}
+	</update>
+	<!-- 업무리스트 위치변경 - tasklistNo, projectNo가 필요하다 -->
+	<update id="updateTaskListLocation" parameterType="map">
+		UPDATE task_list
+		SET
+			project_no		= #{projectNo}
 			, update_date 	= NOW()
 		WHERE 
 			tasklist_no 	= #{tasklistNo}

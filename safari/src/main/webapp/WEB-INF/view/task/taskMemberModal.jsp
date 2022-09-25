@@ -16,13 +16,13 @@
                 </div>
 				<div class="form-group">
 					<label>멤버 추가</label>
-					<select class="form-control text-dark" name="insertMember" id="insertMember">
+					<select class="form-control text-dark" id="insertMember">
 						<!-- 멤버가 추가 된다. -->
 					</select>
 				</div>
 				<div class="form-group">
 					<label>멤버 삭제</label>
-					<select class="form-control text-dark" name="deleteMember" id="deleteMember">
+					<select class="form-control text-dark" id="deleteMember">
 						<!-- 멤버가 추가 된다. -->
 					</select>
 				</div>

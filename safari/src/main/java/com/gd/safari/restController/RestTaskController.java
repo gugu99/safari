@@ -1,5 +1,6 @@
 package com.gd.safari.restController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,12 +9,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.ITaskService;
+import com.gd.safari.vo.Project;
 import com.gd.safari.vo.Task;
+import com.gd.safari.vo.TaskList;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,18 +52,39 @@ public class RestTaskController {
 		return task;
 	}
 	
-	// 하위업무 리스트
-	@PostMapping("/safari/lowerTask")
-	public List<Map<String, Object>> lowerTask(int taskNo) {
-		log.debug(TeamColor.CSH + this.getClass() + " 하위업무 리스트");
+	// 프로젝트 리스트
+	@PostMapping("/safari/projectListByTask")
+	public List<Project> projectListByTask(HttpSession session) {
+		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 리스트");
 		
 		// 서비스호출
-		// 리턴값 List<Map<String, Object>>
-		List<Map<String, Object>> lowerTask = taskService.getTaskByLowerTask(taskNo);
+		// 리턴값 List<Project>
+		List<Project> projectList = taskService.getProjectTitleAndNoByWorkspaceNo((int)session.getAttribute("workNo"));
 		
-		log.debug(TeamColor.CSH + "조회에 따른 업무 개수 : " + lowerTask.size());
+		log.debug(TeamColor.CSH + "조회에 따른 프로젝트 개수 : " + projectList.size());
 		
-		return lowerTask;
+		return projectList;
+	}
+	
+	// 현재위치 제외 업무리스트 조회
+	@PostMapping("/safari/taskListByTask")
+	public List<TaskList> taskListByTask(int projectNo, int tasklistNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 리스트");
+		// 디버깅
+		log.debug(TeamColor.CSH + "tasklistNo : " + tasklistNo + "projectNo : " + projectNo);
+		
+		// param 값 가공
+		Map<String, Integer> m = new HashMap<>();
+		m.put("projectNo", projectNo);
+		m.put("tasklistNo", tasklistNo);
+		
+		// 서비스호출
+		// 리턴값 List<Project>
+		List<TaskList> taskList = taskService.getTaskListByUpdateLocation(m);
+		
+		log.debug(TeamColor.CSH + "조회에 따른 업무리스트 개수 : " + taskList.size());
+		
+		return taskList;
 	}
 	
 	// 업무 생성
@@ -77,6 +100,80 @@ public class RestTaskController {
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
 		int row = taskService.addTask(task);
+		// json으로 만들 변수 초기화
+		String jsonStr = "";
+		
+		// 메서드의 결과에 따라 json 분기
+		if(row != 0) { // 성공
+			jsonStr = "ok";
+		} else { // 실패
+			jsonStr = "not ok";
+		}
+		
+		return jsonStr;
+	}
+	
+	// 업무 위치 변경
+	@PostMapping("/safari/updateTaskLocation")
+	public String updateTaskLocation(int tasklistNo, int taskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 위치 변경");
+		// 디버깅
+		log.debug(TeamColor.CSH + "tasklistNo : " + tasklistNo + "taskNo : " + taskNo);
+		
+		// param 값 가공
+		Map<String, Integer> m = new HashMap<>();
+		m.put("tasklistNo", tasklistNo);
+		m.put("taskNo", taskNo);
+		
+		// 서비스 호출
+		// 리턴값 int - 0일 경우 실행되지 않음
+		int row = taskService.modifyTaskLocation(m);
+		// json으로 만들 변수 초기화
+		String jsonStr = "";
+		
+		// 메서드의 결과에 따라 json 분기
+		if(row != 0) { // 성공
+			jsonStr = "ok";
+		} else { // 실패
+			jsonStr = "not ok";
+		}
+		
+		return jsonStr;
+	}
+	
+	// 업무 완료
+	@PostMapping("/safari/completeTask")
+	public String completeTask(int taskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 완료");
+		// 디버깅
+		log.debug(TeamColor.CSH + taskNo);
+		
+		// 서비스 호출
+		// 리턴값 int - 0일 경우 실행되지 않음
+		int row = taskService.modifyCompleteTask(taskNo);
+		// json으로 만들 변수 초기화
+		String jsonStr = "";
+		
+		// 메서드의 결과에 따라 json 분기
+		if(row != 0) { // 성공
+			jsonStr = "ok";
+		} else { // 실패
+			jsonStr = "not ok";
+		}
+		
+		return jsonStr;
+	}
+	
+	// 업무 완료취소
+	@PostMapping("/safari/cancelEndTask")
+	public String cancelEndTask(int taskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 취소");
+		// 디버깅
+		log.debug(TeamColor.CSH + taskNo);
+		
+		// 서비스 호출
+		// 리턴값 int - 0일 경우 실행되지 않음
+		int row = taskService.modifyCancelEndTask(taskNo);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		

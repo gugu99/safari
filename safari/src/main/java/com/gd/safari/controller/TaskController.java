@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 public class TaskController {
 	@Autowired private ITaskService taskService;
 	
-	
 	// 업무 수정 액션
 	@PostMapping("/safari/updateTask")
 	public String updateTask(HttpSession session, Task task) {
@@ -42,4 +41,5 @@ public class TaskController {
 		
 		return "redirect:/safari/taskList?projectNo=" + projectNo;
 	}
+	
 }

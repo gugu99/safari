@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
-import com.gd.safari.mapper.IProjectMemberMapper;
 import com.gd.safari.mapper.ITaskMemberMapper;
 import com.gd.safari.vo.TaskMember;
 

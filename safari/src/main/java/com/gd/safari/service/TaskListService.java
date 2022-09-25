@@ -1,6 +1,7 @@
 package com.gd.safari.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.mapper.ITaskListMapper;
+import com.gd.safari.vo.CopyTaskList;
 import com.gd.safari.vo.TaskList;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,26 @@ public class TaskListService implements ITaskListService {
 		return taskListMapper.selectTaskList(projectNo);
 	}
 
+	// 현재 프로젝트 이름 조회 (업무리스트 위치변경을 위해)
+	@Override
+	public String getProjectNameByTasklistNo(int tasklistNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 현재 프로젝트 이름 조회");
+		return taskListMapper.selectProjectNameByTasklistNo(tasklistNo);
+	}
+
+	// 업무리스트 복사
+	@Override
+	public CopyTaskList getTaskListAndTaskForCopy(int tasklistNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 복사");
+		
+		CopyTaskList result = taskListMapper.selectTaskListAndTaskForCopy(tasklistNo);
+		
+		if(result == null) {
+			result = taskListMapper.selectTaskListForCopy(tasklistNo);
+		}
+		return result;
+	}
+	
 	// 업무리스트 생성
 	@Override
 	public int addTaskList(TaskList tasklist) {
@@ -43,11 +65,17 @@ public class TaskListService implements ITaskListService {
 		return taskListMapper.updateTaskList(tasklist);
 	}
 
+	// 업무리스트 위치변경 - tasklistNo, projectNo가 필요하다
+	@Override
+	public int modifyTaskListLocation(Map<String, Integer> m) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 위치변경");
+		return taskListMapper.updateTaskListLocation(m);
+	}
+
 	// 업무리스트 삭제
 	@Override
 	public int removeTaskList(int tasklistNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 삭제");
 		return taskListMapper.deleteTaskList(tasklistNo);
 	}
-
 }

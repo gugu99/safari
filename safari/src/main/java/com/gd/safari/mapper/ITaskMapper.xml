@@ -38,19 +38,6 @@
 		WHERE 
 			t.task_no 			= #{taskNo}
 	</select>
-	<!-- 하위 업무 가져오기 -->
-	<select id="selectTaskByLowerTask" parameterType="int" resultType="map">
-		SELECT 
-			t.task_no 			taskNo
-			, t.task_title 		taskTitle
-			, tl.project_no 	projectNo
-		FROM 
-			task t INNER JOIN task_list tl 
-		ON 
-			t.tasklist_no 		= tl.tasklist_no 
-		WHERE 
-			t.task_upper_no 	= #{taskNo}
-	</select>
 	<!-- 업무 생성 -->
 	<insert id="insertTask" parameterType="com.gd.safari.vo.Task">
 		INSERT INTO task (
@@ -74,11 +61,37 @@
 			task_title 		= #{taskTitle}
 			, task_content 	= #{taskContent}
 			, task_point 	= #{taskPoint}
-			, task_start	= if(#{taskStart}='NaN-0NaN-0NaN 0NaN:0NaN:0NaN', null, #{taskStart})  
-			, task_deadline = if(#{taskDeadline}='NaN-0NaN-0NaN 0NaN:0NaN:0NaN', null, #{taskDeadline})
-			, task_end 		= if(#{taskEnd}='NaN-0NaN-0NaN 0NaN:0NaN:0NaN', null, #{taskEnd})
+			, task_start	= if(#{taskStart}='NaN-0NaN-0NaN', null, #{taskStart})  
+			, task_deadline = if(#{taskDeadline}='NaN-0NaN-0NaN :00', null, #{taskDeadline})
 			, update_date 	= NOW()
 		WHERE 
+			task_no 		= #{taskNo}
+	</update>
+	<!-- 업무 위치변경 -->
+	<update id="updateTaskLocation" parameterType="map">
+		UPDATE task 
+		SET 
+			tasklist_no = #{tasklistNo} 
+			, update_date 	= NOW()
+		WHERE 
+			task_no = #{taskNo}
+	</update>
+	<!-- 업무 완료 -->
+	<update id="updateCompleteTask" parameterType="int">
+		UPDATE task
+		SET
+			task_end = NOW()
+			, update_date 	= NOW()
+		WHERE
+			task_no 		= #{taskNo}
+	</update>
+	<!-- 업무 완료취소 -->
+	<update id="updateCancelEndTask" parameterType="int">
+		UPDATE task
+		SET
+			task_end = NULL
+			, update_date 	= NOW()
+		WHERE
 			task_no 		= #{taskNo}
 	</update>
 	<!-- 업무 삭제 -->
