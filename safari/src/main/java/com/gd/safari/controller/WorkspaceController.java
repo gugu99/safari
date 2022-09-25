@@ -64,6 +64,7 @@ public class WorkspaceController {
 		
 		// workspace workMemberEmail배열 디버깅
 		log.debug(TeamColor.CJM + Arrays.toString(workMemberEmail) + "workMemberEmail workspace");
+		
 		// workMemberEmail null 배열 확인
 		int emailLength =workMemberEmail.length;
 		
@@ -99,6 +100,9 @@ public class WorkspaceController {
 		// workMemberNo 불러오는 메서드
 		int workMemberNo = workspaceMemberService.getWorkspaceMemberNo(workspaceMember); 
 		
+		// workMemberLevel 불러오는 메서드
+		int workMemberLevel = workspaceMemberService.getWorkspaceMemberLevel(workspaceMember);
+		
 		// 세션 workNo 추가
 		session.setAttribute("workNo", workspaceMember.getWorkNo()); 
 		
@@ -106,13 +110,16 @@ public class WorkspaceController {
 		session.setAttribute("workMemberNo", workMemberNo); 
 		String Active = workspaceMemberService.getWorkspaceMemberOneActive(workMemberNo);
 		
+		// 세션 workspaceMemberLevel 추가
+		session.setAttribute("workMemberLevel", workMemberLevel);
+		
 		// 활동중인지확인
 		// Active 디버깅
 		log.debug(TeamColor.CJM + Active + "Controller active"); 
 		if (Active.equals("N")) {
 			model.addAttribute("active", "탈퇴한 멤버입니다.");
 		// Active가 N 면 addWorkspaceMember폼으로
-			return "workspace/index"; 
+			return "redirect:/safari/index"; 
 			
 		} else if (Active.equals("W")) {
 			
@@ -161,6 +168,7 @@ public class WorkspaceController {
 
 	}
 	
+	//워크스페이스 관리자 변경
 	@PostMapping("/safari/modifyWorkspaceAdmin")
 	public String modifyWorkspaceAdmin(Workspace workspace,WorkspaceMember workspaceMember,
 										HttpSession session) {
@@ -184,7 +192,7 @@ public class WorkspaceController {
 		// 워크스페이스 수정 서비스
 		int row = workspaceService.modifyWorkspaceAdminEmail(workspace,workspaceMember,workMemberNo); 
 		
-		// 인덱스 forward
+		// 워크스페이스리스트로 리다이렉트
 		return "redirect:/safari/workspaceMemberList"; 
 
 	}

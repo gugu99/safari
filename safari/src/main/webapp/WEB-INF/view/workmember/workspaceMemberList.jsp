@@ -83,17 +83,21 @@
 										<h4 class="card-title">워크스페이스 사원목록</h4>
 										<div class="heading-elements mt-0">
 											<button class="btn btn-primary btn-md" data-toggle="modal"
-												data-target="#AddContactModal">
+												data-target="#addInviteMember">
 												<i class="d-md-none d-block feather icon-plus white"></i> <span
 													class="d-md-block d-none">사원초대</span>
 											</button>
-											<div class="modal fade" id="AddContactModal" tabindex="-1"
+
+											<!-- 사원초대 모달 -->
+											<div class="modal fade" id="addInviteMember" tabindex="-1"
 												role="dialog" aria-labelledby="exampleModalLabel1"
 												aria-hidden="true">
 												<div class="modal-dialog" role="document">
 													<div class="modal-content">
 														<section class="contact-form">
-															<form id="form-add-contact" class="contact-input">
+															<form id="inviteForm" class="contact-input"
+																action="${pageContext.request.contextPath }/safari/addWorkspaceMemberByInvite"
+																method="post">
 																<div class="modal-header">
 																	<h5 class="modal-title" id="exampleModalLabel1">사원초대</h5>
 																	<button type="button" class="close"
@@ -101,38 +105,30 @@
 																		<span aria-hidden="true">&times;</span>
 																	</button>
 																</div>
-																<div class="modal-body">
+																<div class="modal-body add">
 																	<fieldset class="form-group col-12">
-																		<input type="text" id="contact-name"
-																			class="contact-name form-control" placeholder="Name">
+																		<div class="row">
+																			<div class="col-9">
+																				<input type="text" id="workMemberEmail"
+																					class="contact-email form-control workMemberEmail"
+																					name="workMemberEmail" placeholder="Email">
+																			</div>
+																			<div class="col-3">
+																				<input value="추가" type="button"
+																					class="btn btn danger form-control" id="btn_add">
+																				<input value="${workNo}" type="hidden"
+																					class="btn btn danger form-control" name="workNo">
+																			</div>
+																		</div>
 																	</fieldset>
-																	<fieldset class="form-group col-12">
-																		<input type="text" id="contact-email"
-																			class="contact-email form-control"
-																			placeholder="Email">
-																	</fieldset>
-																	<fieldset class="form-group col-12">
-																		<input type="text" id="contact-phone"
-																			class="contact-phone form-control"
-																			placeholder="Phone Number">
-																	</fieldset>
-																	<fieldset class="form-group col-12">
-																		<input type="checkbox" id="favorite"
-																			class="contact-fav input-chk"> Favorite
-																	</fieldset>
-																	<fieldset class="form-group col-12">
-																		<input type="file" class="form-control-file"
-																			id="user-image">
-																	</fieldset>
+
 																</div>
 																<div class="modal-footer">
 																	<fieldset
 																		class="form-group position-relative has-icon-left mb-0">
-																		<button type="button" id="add-contact-item"
-																			class="btn btn-info add-contact-item"
-																			data-dismiss="modal">
-																			<i class="fa fa-paper-plane-o d-block d-lg-none"></i>
-																			<span class="d-none d-lg-block">Add New</span>
+																		<button type="button" id="inviteButton"
+																			class="btn btn-info add-contact-item">
+																			<span class="d-none d-lg-block">초대하기</span>
 																		</button>
 																	</fieldset>
 																</div>
@@ -141,21 +137,62 @@
 													</div>
 												</div>
 											</div>
+											<!-- 사원초대 모달 끝 -->
+											<!-- 게스트초대 모달 -->
+											<div class="modal fade" id="addInviteGuest" tabindex="-1"
+												role="dialog" aria-labelledby="exampleModalLabel1"
+												aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<section class="contact-form">
+															<form id="inviteForm" class="contact-input"
+																action="${pageContext.request.contextPath }/safari/addWorkspaceMemberByInvite"
+																method="post">
+																<div class="modal-header">
+																	<h5 class="modal-title" id="exampleModalLabel1">사원초대</h5>
+																	<button type="button" class="close"
+																		data-dismiss="modal" aria-label="Close">
+																		<span aria-hidden="true">&times;</span>
+																	</button>
+																</div>
+																<div class="modal-body add">
+																	<fieldset class="form-group col-12">
+																		<div class="row">
+																			<div class="col-9">
+																				<input type="text" id="workMemberEmail"
+																					class="contact-email form-control workMemberEmail"
+																					name="workMemberEmail" placeholder="Email">
+																			</div>
+																			<div class="col-3">
+																				<input value="추가" type="button"
+																					class="btn btn danger form-control" id="btn_add">
+																				<input value="${workNo}" type="hidden"
+																					class="btn btn danger form-control" name="workNo">
+																			</div>
+																		</div>
+																	</fieldset>
 
-											<span class="dropdown">
+																</div>
+																<div class="modal-footer">
+																	<fieldset
+																		class="form-group position-relative has-icon-left mb-0">
+																		<button type="button" id="inviteButton"
+																			class="btn btn-info add-contact-item">
+																			<span class="d-none d-lg-block">초대하기</span>
+																		</button>
+																	</fieldset>
+																</div>
+															</form>
+														</section>
+													</div>
+												</div>
+											</div>
+											<span>
 												<button id="btnSearchDrop1" type="button"
-													data-toggle="dropdown" aria-haspopup="true"
-													aria-expanded="true"
-													class="btn btn-warning dropdown-menu-right dropdown-toggle btn-md">
-													<i class="feather icon-download-cloud white"></i>
-												</button> <span aria-labelledby="btnSearchDrop1"
-												class="dropdown-menu dropdown-menu-right mt-1"> <a
-													href="#" class="dropdown-item"><i
-														class="feather icon-upload"></i> Import</a> <a href="#"
-													class="dropdown-item"><i class="feather icon-download"></i>
-														Export</a> <a href="#" class="dropdown-item"><i
-														class="feather icon-shuffle"></i> Find Duplicate</a>
-											</span>
+													class="btn btn-warning"  data-toggle="modal"
+												data-target="#addInviteGuest">
+													게스트초대
+												</button> 
 											</span>
 											<button class="btn btn-default btn-sm">
 												<i class="feather icon-settings white"></i>
@@ -178,8 +215,10 @@
 														<th>이름</th>
 														<th>이메일</th>
 														<th>전화번호</th>
-														<th>Favorite</th>
-														<th>부가기능</th>
+														<th>활동여부</th>
+														<c:if test="${workMemberLevel eq 4 }">
+															<th>부가기능</th>
+														</c:if>
 													</tr>
 												</thead>
 												<tbody>
@@ -357,7 +396,7 @@
 															<td>
 																<div class="media">
 																	<div class="media-body media-middle">
-																		<a class="media-heading name">${r.workMemberName }</a>
+																		${r.workMemberName }
 																	</div>
 																</div>
 															</td>
@@ -366,40 +405,42 @@
 															</td>
 															<td class="phone">${r.workMemberPhone }</td>
 															<td class="text-center">
-																<div class="favorite active">
-																	<i class="feather icon-star"></i>
+																<div class="media-body media-middle">
+																		${r.active }
 																</div>
 															</td>
-															<td><a data-toggle="modal"
-																data-target="#workMemberLevelModal${i}"
-																class="primary edit mr-1"><i class="fa fa-pencil"></i></a>
-																<a class="danger delete mr-1"> <i
-																	data-toggle="modal"
-																	data-target="#updateWorkMemberActive${i}"
-																	class="fa fa-trash-o"></i></a> <a
-																class="danger delete mr-1"> <i data-toggle="modal"
-																	data-target="#updateWorkMemberAdmin${i }"
-																	class="fa fa-refresh"></i></a> <span class="dropdown">
-																	<a id="btnSearchDrop2" data-toggle="dropdown"
-																	aria-haspopup="true" aria-expanded="true"
-																	class="dropdown-toggle dropdown-menu-right"><i
-																		class="fa fa-ellipsis-v"></i></a> <span
-																	aria-labelledby="btnSearchDrop2"
-																	class="dropdown-menu mt-1 dropdown-menu-right">
-																		<a data-toggle="modal"
-																		data-target="#workMemberLevelModal${i}"
-																		class="dropdown-item edit"><i
-																			class="feather icon-edit-2"></i> 권한변경</a> <a
+															<c:if test="${workMemberLevel eq 4 }">
+																<td><a data-toggle="modal"
+																	data-target="#workMemberLevelModal${i}"
+																	class="primary edit mr-1"><i class="fa fa-pencil"></i></a>
+																	<a class="danger delete mr-1"> <i
 																		data-toggle="modal"
 																		data-target="#updateWorkMemberActive${i}"
-																		class="dropdown-item delete"><i
-																			class="feather icon-trash-2" id="deleteMember${i}"></i>
-																			멤버추방</a> <a data-toggle="modal"
+																		class="fa fa-trash-o"></i></a> <a
+																	class="danger delete mr-1"> <i data-toggle="modal"
 																		data-target="#updateWorkMemberAdmin${i }"
-																		class="dropdown-item"><i
-																			class="feather icon-refresh-ccw"></i>관리자양도</a>
-																</span>
-															</span></td>
+																		class="fa fa-refresh"></i></a> <span class="dropdown">
+																		<a id="btnSearchDrop2" data-toggle="dropdown"
+																		aria-haspopup="true" aria-expanded="true"
+																		class="dropdown-toggle dropdown-menu-right"><i
+																			class="fa fa-ellipsis-v"></i></a> <span
+																		aria-labelledby="btnSearchDrop2"
+																		class="dropdown-menu mt-1 dropdown-menu-right">
+																			<a data-toggle="modal"
+																			data-target="#workMemberLevelModal${i}"
+																			class="dropdown-item edit"><i
+																				class="feather icon-edit-2"></i> 권한변경</a> <a
+																			data-toggle="modal"
+																			data-target="#updateWorkMemberActive${i}"
+																			class="dropdown-item delete"><i
+																				class="feather icon-trash-2" id="deleteMember${i}"></i>
+																				멤버추방</a> <a data-toggle="modal"
+																			data-target="#updateWorkMemberAdmin${i }"
+																			class="dropdown-item"><i
+																				class="feather icon-refresh-ccw"></i>관리자양도</a>
+																	</span>
+																</span></td>
+															</c:if>
 														</tr>
 													</c:forEach>
 												</tbody>
@@ -409,8 +450,10 @@
 														<th>이름</th>
 														<th>이메일</th>
 														<th>전화번호</th>
-														<th>Favorite</th>
-														<th>부가기능</th>
+														<th>활동여부</th>
+														<c:if test="${workMemberLevel eq 4 }">
+															<th>부가기능</th>
+														</c:if>
 													</tr>
 												</tfoot>
 											</table>
@@ -517,5 +560,84 @@
 
 </body>
 <!-- END: Body-->
+
+<script>            
+$(document).ready(function(){ 
+		var cnt = 1; 
+	$("#btn_add").on('click',function(){ 
+		cnt=cnt+1;
+		console.log(cnt);
+		
+		var tmpHtml =
+	"<fieldset id='remove1' class='form-group col-12' name='remove'>"+
+		"<div class='row'>"+
+			"<div class='col-9'>"+
+				"<input type='text' name='workMemberEmail' id='contact-email' class='contact-email form-control workMemberEmail' placeholder='Email'>"+
+			"</div>"+
+			"<div class='col-3'>"+
+				"<input value='삭제' name='remove1' type='button' class='btn btn danger form-control' id='btn_add'>"+
+			"</div>"+
+		"</div>"+
+	"</fieldset>"
+		  $(".add").append(tmpHtml);
+		
+		}); 
+		var trHtml = $("fieldset[name=remove]:last" ); //last를 사용하여 trStaff라는 명을 가진 마지막 태그 호출
+		$(document).on('click','input[name=remove1]',function(){   
+			
+			$('#remove1').remove();
+			cnt=cnt-1;
+			 }); 
+});
+
+</script>
+
+<script>
+$(document).ready(function(){ 
+	$('#inviteButton').click(function(){
+		var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
+
+		var grpl = $('input[name=workMemberEmail]').length;
+		//배열 생성
+		var grparr = new Array(grpl);
+		//배열에 값 주입
+		
+		
+			for (var i = 0; i < grpl; i++) {
+				console.log(i);
+				console.log(grpl);
+				if ($("input[name='workMemberEmail']").eq(i).val() == '') {
+					alert('이메일이 빈칸입니다.');
+					return;
+				}
+				if (!reg_email.test($("input[name='workMemberEmail']").eq(i).val())) {
+					alert('이메일형식을 확인해주세요.\nexample@example.com');
+					console.log($("input[name='workMemberEmail']").eq(i).val());
+					return;
+				} else if ($('#workMemberEmail').val() != '') {
+					$.ajax({
+						async: false,
+						url: '/safari/existEmail',
+						type: 'POST',
+						data: { workMemberEmail: $("input[name='workMemberEmail']").eq(i).val() },
+						success: function(json) {
+							if (json != '존재하는이메일') {
+								alert(i + 1 + '번쨰칸은 가입하지 않는 아이디입니다');
+								return;
+							} else if (json == '존재하는이메일' && i == grpl - 1) {
+								alert('제출완료');
+								$('#inviteForm').submit();
+							}
+						}
+					});
+				}
+			}
+		
+	});
+});
+
+
+
+</script>
 
 </html>

@@ -57,4 +57,8 @@ public interface IWorkspaceMemberMapper {
 	
 	// 멤버 추방 하는 메서드 (active N으로) 바꾸는 메서드
 	int updateWorkspaceMemberByActive (int workMemberNo);
+	
+	// 멤버 레벨 알아오는 메서드
+	int selectWorkspaceMemberLevel (WorkspaceMember workspaceMember);
+	
 }

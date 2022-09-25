@@ -45,4 +45,7 @@ public interface IWorkspaceMemberService {
 	
 	// 워크스페이스 멤버 활동정지 하는메서드
 	int modifyWorkspaceMemberByActive (int workMemberNo);
+	
+	// 워크스페이스 레벨 알아오는 메서드
+	int getWorkspaceMemberLevel (WorkspaceMember workspaceMember);
 }
