@@ -164,4 +164,13 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		return workspaceMemberMapper.updateWorkspaceMemberByActive(workMemberNo);
 	}
 
+	@Override
+	public int getWorkspaceMemberLevel(WorkspaceMember workspaceMember) {
+		
+		// workspaceMember  디버깅
+		log.debug(TeamColor.CJM + workspaceMember + " Service workspaceMember");
+		
+		return workspaceMemberMapper.selectWorkspaceMemberLevel(workspaceMember);
+	}
+
 }

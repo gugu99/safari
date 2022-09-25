@@ -239,5 +239,13 @@
 			work_member_no = #{workMemberNo}
 	</update>
 	
+	<!-- 워크스페이스 멤버 레벨가져오기  -->
+	<select id = "selectWorkspaceMemberLevel" parameterType="com.gd.safari.vo.WorkspaceMember" resultType ="int">
+		SELECT  
+			  work_member_level     workMemberLevel
+		FROM workspace_member 
+		where work_member_email = #{workMemberEmail} and work_no = #{workNo}
+	
+	</select>
 	
 </mapper>
