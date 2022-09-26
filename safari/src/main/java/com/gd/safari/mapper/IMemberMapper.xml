@@ -34,6 +34,15 @@
 			member_email 	= TRIM(#{memberEmail})
 			AND active IN('Y','N')
 	</select>
+	<!-- 유효한 이메일 검사 (탈퇴회원 포함) -->
+	<select id="selectMemberEmailByCheckAll" resultType="string" parameterType="string">
+		SELECT
+			member_email 	memberEmail
+		FROM member
+		WHERE
+			member_email 	= TRIM(#{memberEmail})
+			AND active IN('Y','N','X')
+	</select>
 	<!-- 로그인 -->
 	<select id="selectMemberByLogin" resultType="com.gd.safari.vo.Member" parameterType="com.gd.safari.vo.Member">
 		SELECT 
@@ -66,14 +75,13 @@
 			AND active IN('Y','N')
 	</update>
 	<!-- 비밀번호 변경 (원래 계정과 새로운 비밀번호 받기) -->
-	<update id="updateMemberPw" parameterType="map">
+	<update id="updateMemberPwWithGoogle" parameterType="com.gd.safari.vo.Member">
 		UPDATE member
 		SET
-			member_pw 		= PASSWORD(#{newPw})
+			member_pw 		= PASSWORD(#{memberPw})
 			, update_date 	= NOW()
 		WHERE
 			member_email 	= #{memberEmail} 
-			AND member_pw 	= PASSWORD(#{memberPw})
 	</update>
 	<!-- 계정 활성화 (active 값을 Y로 변경 - N일 경우만! X일 경우는 탈퇴된 계정이라 활성화되지 않음) -->
 	<update id="updateMemberActiveYByUnlockUser" parameterType="com.gd.safari.vo.Member">

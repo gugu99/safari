@@ -1,7 +1,5 @@
 package com.gd.safari.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -112,7 +110,7 @@ public class AccountController {
                 log.debug(TeamColor.CSH + userInfo);
                 
                 // 이메일 있는지 확인
-                boolean result = memberService.getMemberEmailByCheck(userInfo.getEmail());
+                boolean result = memberService.getMemberEmailByCheckAll(userInfo.getEmail());
                 // 있어도 없어도 객체에 담는다
                 // 있다면(true) - 로그인
                 // 없다면(false) - 회원가입
@@ -122,6 +120,7 @@ public class AccountController {
             	
             	// true 라면 로그인처리 false 라면 회원가입처리
                 if(result) {
+                	changePasswordWithGoogle(member);
                 	login(session, member);
                 } else {
                 	register(member);
@@ -207,24 +206,21 @@ public class AccountController {
 		return "redirect:/account/login";
 	}
 	
-	// 비밀번호 변경 액션
-	@PostMapping("/account/change-password")
-	public String changePassword(Map<String, Object> map) {
-		log.debug(TeamColor.CSH + this.getClass() + " 비밀번호 변경 액션");
+	// 구글 로그인 비밀번호 변경 액션
+	@PostMapping("/account/change-passwordWithGoogle")
+	public void changePasswordWithGoogle(Member member) {
+		log.debug(TeamColor.CSH + this.getClass() + " 구글 로그인 비밀번호 변경 액션");
 		// 디버깅
-		log.debug(TeamColor.CSH + map);
+		log.debug(TeamColor.CSH + member);
 		// 서비스 호출
-		int row = memberService.modifyMemberPw(map);
+		int row = memberService.modifyMemberPwWithGoogle(member);
 		
 		// 서비스메서드의 리턴값이 1이라면 성공
 		if(row == 1) {
 			log.debug(TeamColor.CSH + "비밀번호 변경 성공");
 		} else {
 			log.debug(TeamColor.CSH + "비밀번호 변경 실패");
-			return "redirect:/account/change-password?errorMsg=Change Password Fail";
 		}
-		
-		return "redirect:/account/login";
 	}
 	
 	// 계정잠금해제 페이지 이동
