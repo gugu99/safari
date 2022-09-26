@@ -8,7 +8,7 @@
 ==========================================================================================*/
 
 $(document).ready(function () {
-	var schedulemembereselect = $(".scheduleMemberSelect").select2({
+	var schedulemembereselect = $(".memberSelect").select2({
     dropdownAutoWidth: true,
     width: '100%'
   });

@@ -1,3 +1,6 @@
+var selected = $('#scheduleMember').val(); 
+console.log(selected);
+document.getElementById("scheduleMemberList").value = selected;
 
 function selectScheduleMember(e){
 	const arr = new Array();

@@ -3,8 +3,9 @@
 
 })(window);
 
-function insertComment() {
+function insertComment(e) {
   if (window.event.keyCode == 13) {
+		e.preventDefault();
       commentForm.submit();
   }
 }
