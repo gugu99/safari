@@ -50,12 +50,24 @@
                 <div class="kanban-overlay"></div>
                 <section id="kanban-wrapper">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-2">
                             <button type="button" class="btn btn-primary mb-1" id="add-kanban">
                                 <i class='feather icon-plus-square mr-50'></i> 업무리스트 추가
                             </button>
-                            <div id="kanban-app"></div>
                         </div>
+                        <div class="col-2">
+                            <select class="form-control text-dark" id="">
+								<option value="default" selected>정렬</option> 
+								<option value="1" class="bg-info">나에게 배정된 업무</option>   
+								<option value="2" class="bg-info">내가 작성한 업무</option>   
+								<option value="3" class="bg-info">포인트가 있는 업무</option>   
+								<option value="4" class="bg-info">포인트가 없는 업무</option>   
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <input type="text" class="form-control" placeholder="검색">
+                        </div>
+                        <div id="kanban-app"></div>
                     </div>
 
                     <%@ include file="/WEB-INF/view/task/taskDetail.jsp" %> <!-- taskDatail -->
@@ -93,6 +105,8 @@
     <script src="${pageContext.request.contextPath }/resources/assets/js/taskLocation.js"></script>
     <script src="${pageContext.request.contextPath }/resources/assets/js/taskListLocation.js"></script>
     <script src="${pageContext.request.contextPath }/resources/assets/js/copyTaskList.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets/js/copyTask.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/assets/js/lowerTask.js"></script>
     <!-- END: Page JS-->
 
 </body>

@@ -63,7 +63,6 @@
 			, t.task_start 		taskStart
 			, t.task_deadline 	taskDeadline
 			, t.task_end 		taskEnd
-			, t.task_upper_no   taskUpperNo
 		FROM 
 			task_list tl INNER JOIN task t 
 		ON 
@@ -84,6 +83,10 @@
 	</select>
 	<!-- 업무리스트 생성 -->
 	<insert id="insertTaskList" parameterType="com.gd.safari.vo.TaskList">
+		<selectKey keyProperty="tasklistNo" resultType="int" order="AFTER">
+			<!-- 생성과 동시에 키값 받아오기 -->
+			SELECT LAST_INSERT_ID() as tasklistNo
+		</selectKey>
 		INSERT INTO task_list (
 			tasklist_title
 			, project_no

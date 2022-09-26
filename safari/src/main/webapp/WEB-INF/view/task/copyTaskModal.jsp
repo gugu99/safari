@@ -10,6 +10,10 @@
 				</button>
 			</div>
 			<div class="modal-body">
+				<div class="form-group">
+					<label>업무 제목</label>
+					<input type="text" class="form-control text-dark" id="taskTitleByCopyTask">
+				</div>
                 <div class="form-group">
 					<label>프로젝트 선택</label>
 					<select class="form-control text-dark" id="selectProjectByCopyTask">
@@ -21,13 +25,6 @@
 					<select class="form-control text-dark" id="selectTaskListByCopyTask">
 						<!-- 업무리스트가 추가 된다. -->
 					</select>
-				</div>
-				<div class="form-group">
-					<label>유지하기</label>
-					<div>
-						<label>하위 업무</label>
-						<input type="checkbox" value="lowerTask" class="text-dark" id="checkBoxCopyTask">
-					</div>
 				</div>
 			</div>
 			<div class="modal-footer">

@@ -53,13 +53,16 @@ $(document).on("click", ".taskListBtn-Modal", function () {
 $('#updateTaskListLocation').click(function(){
 	// 현재 위치한 업무리스트 번호 받아오기
 	var value_str = document.getElementById('selectProjectByTaskList');
-	
+	var projectNo = value_str.options[value_str.selectedIndex].value;
+	if(projectNo == ''){
+		return;
+	}
 	// select 값을 받아와서 메서드 실행하기 (위치 변경 메서드)
 	$.ajax({
 		async : false,
 		type : 'POST',
 		data : {
-			projectNo : value_str.options[value_str.selectedIndex].value,
+			projectNo : projectNo,
 			tasklistNo : tasklistNo
 		},
 		url : '/safari/updateTaskListLocation',
@@ -73,5 +76,5 @@ $('#updateTaskListLocation').click(function(){
 	});	
 	
 	// 프로젝트 번호에 알맞게 페이지 이동
-    window.location.replace('/safari/taskList?projectNo=' + value_str.options[value_str.selectedIndex].value);
+    window.location.replace('/safari/taskList?projectNo=' + projectNo);
 });

@@ -6,9 +6,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gd.safari.commons.TeamColor;
@@ -36,6 +39,89 @@ public class RestTaskController {
 		log.debug(TeamColor.CSH + "조회에 따른 업무 개수 : " + tasks.size());
 		
 		return tasks;
+	}
+	
+	// 프로젝트번호 + 나에게 배정된 업무
+	@PostMapping("/safari/myTask")
+	public List<Task> myTask(HttpSession session) {
+		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 번호 + 나에게 배정된 업무 조회");
+		
+		// param가공
+		Map<String, Object> m = new HashMap<>();
+		m.put("workMemberNo", (int)session.getAttribute("workMemberNo"));
+		
+		// 서비스호출
+		// 리턴값 List<Task>
+		List<Task> tasks = taskService.getTask(m);
+		
+		log.debug(TeamColor.CSH + "조회에 따른 업무 개수 : " + tasks.size());
+		
+		return tasks;
+	}
+	
+	// 업무 복사를 위한 객체 받기
+	@GetMapping("/safari/getTask")
+	public Task getTask(int taskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 복사를 위한 객체 받기");
+		
+		Task task = taskService.getTaskForCopy(taskNo);
+		
+		log.debug(TeamColor.CSH + "복사할 객체 : " + task);
+		
+		return task;
+	}
+	
+	// 복사업무 생성
+	@PostMapping("/safari/copyTask")
+	public String copyTask(HttpSession session, @RequestParam(value = "task", required = false) String task) {
+		log.debug(TeamColor.CSH + this.getClass() + " 복사업무 생성");
+		
+		// 디버깅
+		log.debug(TeamColor.CSH + "파싱 전 : " + task);
+
+		// 파라미터 가공 (파싱)
+		Task copyTask = new Task();
+        try {
+            // reader를 Object로 parse
+            JSONParser parser = new JSONParser();
+			Object obj = parser.parse(task);
+			// obj를 우선 JSONObject에 담음
+			JSONObject jsonObj = (JSONObject) obj;
+			
+			// task에 담기
+			copyTask.setTaskTitle(jsonObj.get("taskTitle") == null ? "" : jsonObj.get("taskTitle").toString());
+			copyTask.setTaskContent(jsonObj.get("taskContent") == null ? "" : jsonObj.get("taskContent").toString());
+			copyTask.setTaskStart(jsonObj.get("taskStart") == null ? "" : jsonObj.get("taskStart").toString());
+			copyTask.setTaskDeadline(jsonObj.get("taskDeadline") == null ? "" : jsonObj.get("taskDeadline").toString());
+			copyTask.setTaskEnd(jsonObj.get("taskEnd") == null ? "" : jsonObj.get("taskEnd").toString());
+			copyTask.setTaskPoint(jsonObj.get("taskPoint") == null ? "" : jsonObj.get("taskPoint").toString());
+			copyTask.setTaskWriter((String)session.getAttribute("login"));
+			copyTask.setTasklistNo(Integer.parseInt(jsonObj.get("tasklistNo").toString()));
+			
+	
+		} catch (Exception e) {
+			e.printStackTrace();	
+			throw new RuntimeException();
+		}
+		
+
+		// 디버깅
+		log.debug(TeamColor.CSH + "파싱 후 : " + copyTask);
+        
+		// 서비스 호출
+		// 리턴값 int - 0일 경우 실행되지 않음
+		int row = taskService.addTaskForCopy(copyTask);
+		// json으로 만들 변수 초기화
+		String jsonStr = "";
+		
+		// 메서드의 결과에 따라 json 분기
+		if(row != 0) { // 성공
+			jsonStr = "ok";
+		} else { // 실패
+			jsonStr = "not ok";
+		}
+		
+		return jsonStr;
 	}
 	
 	// 업무 상세보기

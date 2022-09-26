@@ -13,6 +13,8 @@ public interface ITaskListService {
 	String getProjectNameByTasklistNo(int tasklistNo);
 	// 업무리스트 복사
 	CopyTaskList getTaskListAndTaskForCopy(int tasklistNo);
+	// 업무리스트 복사생성
+	int addCopyTaskList(CopyTaskList copyTaskList);
 	// 업무리스트 생성
 	int addTaskList(TaskList tasklist);
 	// 업무리스트 수정

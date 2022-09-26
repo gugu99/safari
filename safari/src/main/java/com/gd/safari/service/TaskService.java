@@ -35,6 +35,12 @@ public class TaskService implements ITaskService {
 		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 번호에 맞는 업무 조회");
 		return taskMapper.selectTaskByProjectNo(projectNo);
 	}
+
+	// 정렬을 위한 조회
+	@Override
+	public List<Task> getTask(Map<String, Object> m) {
+		return taskMapper.selectTask(m);
+	}
 	
 	// 상세 보기
 	@Override
@@ -56,7 +62,21 @@ public class TaskService implements ITaskService {
 		log.debug(TeamColor.CSH + this.getClass() + " 현재위치 제외 업무리스트 조회");
 		return taskListMapper.selectTaskListByUpdateLocation(m);
 	}
+
+	// 업무 복사를 위한 객체 받기
+	@Override
+	public Task getTaskForCopy(int taskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 복사를 위한 객체 받기");
+		return taskMapper.selectTaskForCopy(taskNo);
+	}
 	
+	// 업무 복사
+	@Override
+	public int addTaskForCopy(Task task) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 복사");
+		return taskMapper.insertTaskForCopy(task);
+	}
+
 	// 업무 생성
 	@Override
 	public int addTask(Task task) {
@@ -125,5 +145,4 @@ public class TaskService implements ITaskService {
 		
 		return taskMapper.deleteTask(taskNo);
 	}
-
 }

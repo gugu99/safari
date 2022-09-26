@@ -10,13 +10,34 @@
 			, DATE_FORMAT(t.task_deadline, '%m/%d') 	taskDeadline
 			, t.tasklist_no 							tasklistNo
 			, t.task_upper_no 							taskUpperNo
-			, tl.project_no 							projectNo
 		FROM 	
 			task t INNER JOIN task_list tl
 		ON 		
 			t.tasklist_no 		= tl.tasklist_no
 		WHERE 	
 			tl.project_no 		= #{projectNo}
+		
+	</select>
+	<!-- 정렬을 위한 조회 -->
+	<select id="selectTask" parameterType="map" resultType="com.gd.safari.vo.Task">
+		<!-- 나에게 배정된 업무 <if test=""></if> -->
+		SELECT 
+			t.task_no 									taskNo
+			, t.task_title 								taskTitle
+			, t.task_point 								taskPoint
+			, DATE_FORMAT(t.task_deadline, '%m/%d') 	taskDeadline
+			, t.tasklist_no 							tasklistNo
+			, t.task_upper_no 							taskUpperNo
+		FROM 
+			task t 							INNER JOIN task_list tl 
+		ON 
+			t.tasklist_no = tl.tasklist_no 	INNER JOIN task_member tm 
+		ON 
+			t.task_no = tm.task_no 			INNER JOIN project_member pm 
+		ON 
+			tm.project_member_no = pm.project_member_no 
+		WHERE 
+			work_member_no = #{workMemberNo}
 	</select>
 	<!-- 상세 보기 -->
 	<select id="selectTaskByTaskNo" parameterType="int" resultType="map">
@@ -38,6 +59,47 @@
 		WHERE 
 			t.task_no 			= #{taskNo}
 	</select>
+	<!-- 업무 복사를 위한 객체 받기 -->
+	<select id="selectTaskForCopy" parameterType="int" resultType="com.gd.safari.vo.Task">
+		SELECT
+			task_title 			taskTitle
+			, task_content 		taskContent
+			, task_point 		taskPoint
+			, task_start 		taskStart
+			, task_deadline 	taskDeadline
+			, task_end 			taskEnd
+			, tasklist_no 		tasklistNo
+		FROM 
+			task 
+		WHERE 
+			task_no 			= #{taskNo}
+	</select>
+	<!-- 업무 복사 -->
+	<insert id="insertTaskForCopy" parameterType="com.gd.safari.vo.Task">
+		INSERT INTO task (
+			task_title
+			, task_content
+			, task_start
+			, task_deadline
+			, task_end
+			, task_point
+			, task_writer
+			, create_date
+			, update_date
+			, tasklist_no
+		) VALUES (
+			#{taskTitle}
+			, #{taskContent}
+			, #{taskStart}
+			, if(#{taskDeadline} = '', null, #{taskDeadline})
+			, #{taskEnd}
+			, #{taskPoint}
+			, #{taskWriter}
+			, NOW()
+			, NOW()
+			, #{tasklistNo}
+		)
+	</insert>
 	<!-- 업무 생성 -->
 	<insert id="insertTask" parameterType="com.gd.safari.vo.Task">
 		INSERT INTO task (
