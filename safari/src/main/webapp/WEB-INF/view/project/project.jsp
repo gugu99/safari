@@ -75,25 +75,26 @@
                         </div>
                     </div>
                     <div class="chat-sidebar-list-wrapper pt-2">
+                    	<h5 class="px-2 pb-25 mb-2"><a href="${pageContext.request.contextPath}/safari/projectSummary">프로젝트 요약</a></h5>
                     	<!-- Button trigger modal -->
-                        <h5 class="px-2 pb-25 mb-0">PROJECT<button type="button" data-toggle="modal" data-target="#bootstrap" class="float-right" id="popUpModal"><i class="feather icon-plus cursor-pointer"></i></button></h5>
+                        <h5 class="px-2 pb-25 mb-0">프로젝트<button type="button" data-toggle="modal" data-target="#bootstrap" class="float-right btn btn-icon btn-secondary" ><i class="feather icon-plus cursor-pointer"></i></button></h5>
                         <%@ include file="/WEB-INF/view/project/addProjectModal.jsp"%>
                         <ul class="chat-sidebar-list">
                         	<li>
-                                <a href="${pageContext.request.contextPath}/safari/project"><h6 class="mb-0">전체 프로젝트</h6></a>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project">전체 프로젝트</a></h6>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/safari/project?section=my"><h6 class="mb-0">내가 속한 프로젝트</h6></a>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project?section=my">내가 속한 프로젝트</a></h6>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/safari/project?section=bookmark"><h6 class="mb-0">중요 프로젝트</h6></a>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project?section=bookmark">중요 프로젝트</a></h6>
                             </li>
                             <li>
-                                <a href="${pageContext.request.contextPath}/safari/project?section=keep"><h6 class="mb-0">보관된 프로젝트</h6></a>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project?section=keep">보관된 프로젝트</a></h6>
                             </li>
                         </ul>
                         
-                        <h5 class="px-2 pt-2 pb-25 mb-0">PROJECT GROUP<button type="button" class="float-right" onclick="addProjectGroup()"><i class="feather icon-plus float-right cursor-pointer"></i></button></h5>                        
+                        <h5 class="px-2 pt-2 pb-25 mb-0 float-center">PROJECT GROUP<button type="button" class="float-right btn btn-icon btn-secondary" onclick="addProjectGroup()"><i class="feather icon-plus float-right cursor-pointer"></i></button></h5>                        
                         <!-- 프로젝트 그룹 생성 버튼을 눌렀을 시 입력창이 나타날 곳-->
                         <div id="addProjectGroup" class="px-2 pt-2 pb-25 mb-0"></div>
                         <ul class="chat-sidebar-list">
@@ -105,7 +106,7 @@
 	                                		${pg.projectGroupName}
 	                                	</a>
 	                                	<a href="${pageContext.request.contextPath}/safari/modifyProjectGroup?projectGroupNo=${pg.projectGroupNo}">
-	                                		<i class="feather icon-plus float-right cursor-pointer"></i>
+	                                		<i class="feather icon-edit float-right cursor-pointer"></i>
 	                                	</a>
 	                                </h6>
 	                            </li>
@@ -162,20 +163,37 @@
 	                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 	                                    <div class="heading-elements">
 	                                        <ul class="list-inline mb-0">
-	                                            <li><a href=""><i class="fa fa-star-o"></i></a></li><!-- 즐겨찾기 -->
+	                                            <li>
+	                                            	<a href="${pageContext.request.contextPath}/safari/projectBookmark?projectNo=${p.projectNo}&projectBookmark=${p.projectBookmark}">
+	                                            		<c:if test="${p.projectBookmark ne null}">
+	                                            			<i class="fa fa-star"></i>
+	                                            		</c:if>
+	                                            		<c:if test="${p.projectBookmark eq null}">
+	                                            			<i class="fa fa-star-o"></i>
+	                                            		</c:if>
+	                                            	</a>
+	                                            </li><!-- 즐겨찾기 -->
 	                                            <c:if test="${p.manager ne null}">
 	                                            	<li><a href="${pageContext.request.contextPath}/safari/modifyProject?projectNo=${p.projectNo}"><i class="feather icon-edit"></i></a></li><!-- 수정 -->
-	                                            	<li><a href=""><i class="feather icon-slash"></i></a></li><!-- 삭제 -->
+	                                            	<li><a href=""><i class="feather icon-trash-2"></i></a></li><!-- 삭제 -->
 	                                            </c:if>
 	                                        </ul>
 	                                    </div>
 	                                </div>
 	                                <div class="card-content collapse show">
 	                                    <div class="card-body">
-	                                        <p class="card-text text-right mb-0 blue-grey">72%</p>
+	                                    	<c:if test="${p.complete ne null}">
+	                                        <p class="card-text text-right mb-0 blue-grey">${p.complete}%</p>
 	                                         <div class="progress progress-sm mb-2">
-                                           		<div class="progress-bar bg-info" role="progressbar" style="width: 72%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                           		<div class="progress-bar bg-info" role="progressbar" style="width: ${p.complete}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                       		</div>
+                                      		</c:if>
+                                      			<c:if test='${p.projectEnd eq null}'>
+                                      				 <p class="card-text text-right date blue-grey">진행중</p>
+                                      			</c:if>
+                                      			<c:if test='${p.projectEnd ne null}'>
+                                      				 <p class="card-text text-right date blue-grey">완료</p>
+                                      			</c:if>
 		                                        <p class="card-text text-right date blue-grey">${p.createDate}</p>
 	                                    </div>
 	                                </div>

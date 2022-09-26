@@ -79,6 +79,13 @@
     	
     	// 각각의 #id 값에 변동이 일어나면 ajax로 update 실행
     	$("#projectName").change(function(){
+			
+			if($("#projectName").val() == ""){
+				alert("프로젝트 이름을 입력해 주세요.");
+				$("#projectName").focus();
+				return;
+			}
+			
 			$.ajax({
 				type : 'put',
 				url : '/safari/modifyProject',
@@ -194,6 +201,12 @@
 		
 		// 프로젝트 관리자
 		$("#projectManagerList").change(function(){
+			
+			if($("#projectManagerList").val() == ""){
+				alert("최소 한 명의 프로젝트 관리자가 필요합니다.");
+				return;
+			}
+			
 			console.log("prevProjectManagerArr: " + prevProjectManagerArr);
 			
 			const select = $("#projectManagerList").val();
