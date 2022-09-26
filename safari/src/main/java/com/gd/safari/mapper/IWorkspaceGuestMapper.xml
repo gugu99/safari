@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IWorkspaceGuestMapper">
+	
+	<!-- 워크스페이스 게스트 추가하는 메서드 -->
+	<insert id = "insertWorkspaceGuest" parameterType="com.gd.safari.vo.WorkspaceGuest">
+		INSERT INTO workspace_guest (
+			member_email
+			, work_no
+			, create_date
+			, work_guest_code
+			, active
+		)VALUES (
+			#{memberEmail}
+			, #{workNo}
+			, NOW()
+			, #{workGuestCode}
+			, 'W'
+		)
+	</insert>
+
+	<select id= "selectWorkspaceGuestList" parameterType="com.gd.safari.vo.WorkspaceGuest" resultType="com.gd.safari.vo.WorkspaceGuest">
+		SELECT 
+				member_email		    memberEmail
+				, work_no				workNo
+				, create_date			createDate
+				, work_guest_code		workGuestCode
+				, active				
+		FROM	workspace_guest
+		
+		<where>
+			<if test="active == null">
+				 work_no = #{workNo}
+			</if>
+			<if test="active != null">
+				 work_no = #{workNo} AND active = #{active}
+			</if>
+		</where>
+	</select>
+
+
+
+</mapper>
