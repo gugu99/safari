@@ -18,7 +18,8 @@
 			, 'W'
 		)
 	</insert>
-
+	
+	<!-- 워크스페이스게스트 리스트 정렬 -->
 	<select id= "selectWorkspaceGuestList" parameterType="com.gd.safari.vo.WorkspaceGuest" resultType="com.gd.safari.vo.WorkspaceGuest">
 		SELECT 
 				member_email		    memberEmail
@@ -37,7 +38,32 @@
 			</if>
 		</where>
 	</select>
-
-
+	
+	<!-- 워크스페이스게스트 추방 -->
+	<update id="updateWorkspaceGuestByActive" parameterType="com.gd.safari.vo.WorkspaceGuest">
+		UPDATE workspace_guest
+		SET
+			active = 'N'
+		WHERE
+			member_email = #{memberEmail} AND work_no = #{workNo}
+	</update>
+	
+	<!-- 게스트 승인 하는 메서드 (active Y으로) 바꾸는 메서드 -->
+	<update id="updateWorkspaceGuestActiveApprove" parameterType="com.gd.safari.vo.WorkspaceGuest">
+		UPDATE workspace_guest
+		SET
+			active = 'Y'
+		WHERE
+			member_email = #{memberEmail} AND work_no = #{workNo}
+	</update>
+	
+	<!-- 가입된 게스트인지 확인하는 메서드   -->
+	<select id="selectWorkspaceGuestEmailByConfirm" resultType="string" parameterType="com.gd.safari.vo.WorkspaceGuest">
+		SELECT
+			    member_email memberEmail
+		FROM	workspace_guest
+		WHERE
+			   member_email = #{memberEmail} AND work_no = #{workNo}
+	</select>
 
 </mapper>

@@ -13,4 +13,13 @@ public interface IWorkspaceGuestService {
 	// 워크스페이스 게스트
 	List<WorkspaceMember> getWorkspaceGuestList(WorkspaceGuest workspaceGuest);
 	
+	// 워크스페이스게스트 추방
+	int modifyWorkspaceGuestByActive (WorkspaceGuest workspaceGuest);
+	
+	// 워크스페이스 게스트 승인
+	int modifyWorkspaceGuestActiveApprove(WorkspaceGuest workspaceGuest);
+	
+	// 이미 생성된 게스트아이디인지 확인
+	String getWorkspaceGuestEmailByConfirm(WorkspaceGuest workspaceGuest);
+	
 }

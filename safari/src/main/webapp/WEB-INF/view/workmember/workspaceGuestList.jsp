@@ -215,9 +215,8 @@
 														<th>이메일</th>
 														<th>활동여부</th>
 														<th>초대날짜</th>
-														
-														<c:if test="${workMemberLevel eq 4 }">
-															<th>부가기능</th>
+														<c:if test="${workMemberLevel > 2 }">
+														<th>부가기능</th>
 														</c:if>
 													</tr>
 												</thead>
@@ -225,21 +224,20 @@
 													<c:forEach var="r" items="${workspaceGuestList}">
 														<c:set var="i" value="${i+1 }" />
 
-
-														<!-- 멤버추방 변경 모달 시작 -->
-														<div class="modal fade" id="updateWorkMemberActive${i}"
+														<!-- 게스트 추방 변경 모달 시작 -->
+														<div class="modal fade" id="updateWorkGuestActive${i}"
 															tabindex="-1" role="dialog"
 															aria-labelledby="exampleModalLabel" aria-hidden="true">
 															<div class="modal-dialog" role="document">
 																<div class="modal-content">
 																	<section class="contact-form">
-																		<form id="updateWorkMemberAdminForm${i }"
-																			name="updateWorkMemberAdminForm${i}"
+																		<form id="updateWorkGuestActiveForm${i}"
+																			name="updateWorkGuestActiveForm${i}"
 																			class="contact-input"
-																			action="${pageContext.request.contextPath }/safari/modifyWorkspaceMemberByActive"
+																			action="${pageContext.request.contextPath }/safari/modifyWorkspaceGuestByActive"
 																			method="post">
 																			<div class="modal-header">
-																				<h5 class="modal-title" id="exampleModalLabel">멤버추방</h5>
+																				<h5 class="modal-title" id="exampleModalLabel">게스트추방</h5>
 																				<button type="button" class="close"
 																					data-dismiss="modal" aria-label="Close">
 																					<span aria-hidden="true">&times;</span>
@@ -258,10 +256,12 @@
 																					<button type="submit" id="edit-contact-item"
 																						class="btn btn-info edit-contact-item">
 																						<i class="fa fa-paper-plane-o d-lg-none"></i> <span
-																							class="d-none d-lg-block">멤버추방</span>
+																							class="d-none d-lg-block">게스트추방</span>
 																					</button>
-																					<input type="hidden" name="workMemberNo"
-																						value="">
+																					<input type="hidden" name="memberEmail"
+																						value="${r.memberEmail }">
+																					<input type="hidden" name="workNo"
+																						value="${r.workNo }">
 																				</fieldset>
 																			</div>
 																		</form>
@@ -270,6 +270,53 @@
 															</div>
 														</div>
 														<!-- 멤버추방 모달 끝 -->
+														
+														<!-- 게스트 승인 모달 -->
+														<div class="modal fade" id="updateWorkGuestApprove${i}"
+															tabindex="-1" role="dialog"
+															aria-labelledby="exampleModalLabel" aria-hidden="true">
+															<div class="modal-dialog" role="document">
+																<div class="modal-content">
+																	<section class="contact-form">
+																		<form id="updateWorkGuestApprove${i}"
+																			name="updateWorkGuestApprove${i}"
+																			class="contact-input"
+																			action="${pageContext.request.contextPath }/safari/modifyWorkspaceGuestActiveApprove"
+																			method="post">
+																			<div class="modal-header">
+																				<h5 class="modal-title" id="exampleModalLabel">게스트승인</h5>
+																				<button type="button" class="close"
+																					data-dismiss="modal" aria-label="Close">
+																					<span aria-hidden="true">&times;</span>
+																				</button>
+																			</div>
+																			<div class="modal-body">
+
+																				<fieldset class="form-group col-12">
+																					<label>게스트를 승인하시겠습니까?</label>
+																				</fieldset>
+
+																			</div>
+																			<div class="modal-footer">
+																				<fieldset
+																					class="form-group position-relative has-icon-left mb-0">
+																					<button type="submit" id="edit-contact-item"
+																						class="btn btn-info edit-contact-item">
+																						<i class="fa fa-paper-plane-o d-lg-none"></i> <span
+																							class="d-none d-lg-block">게스트승인</span>
+																					</button>
+																					<input type="hidden" name="memberEmail"
+																						value="${r.memberEmail }">
+																					<input type="hidden" name="workNo"
+																						value="${r.workNo }">
+																				</fieldset>
+																			</div>
+																		</form>
+																	</section>
+																</div>
+															</div>
+														</div>
+														<!-- 게스트승인 모달 끝 -->
 
 														<tr>
 															<td>
@@ -283,38 +330,43 @@
 																href="mailto:email@example.com">${r.active }</a>
 															</td>
 															<td class="phone">${r.createDate }</td>
-															<c:if test="${workMemberLevel eq 4 }">
-																<td><a data-toggle="modal"
-																	data-target="#workMemberLevelModal${i}"
-																	class="primary edit mr-1"><i class="fa fa-pencil"></i></a>
+															<c:if test="${workMemberLevel > 2 }">
+																<td>
+																<c:if test="${workMemberLevel eq 4 }">
 																	<a class="danger delete mr-1"> <i
 																		data-toggle="modal"
-																		data-target="#updateWorkMemberActive${i}"
-																		class="fa fa-trash-o"></i></a> <a
-																	class="danger delete mr-1"> <i data-toggle="modal"
-																		data-target="#updateWorkMemberAdmin${i }"
-																		class="fa fa-refresh"></i></a> <span class="dropdown">
+																		data-target="#updateWorkGuestActive${i}"
+																		class="fa fa-trash-o"></i></a>
+																		</c:if>
+																	<c:if test="${workMemberLevel > 1 && r.active eq 'W'}">	 
+																	<a class="danger delete mr-1"> <i data-toggle="modal"
+																		data-target="#updateWorkGuestApprove${i}"
+																		class="fa fa-check-square-o"></i></a>
+																		</c:if> 
+																		<span class="dropdown">
 																		<a id="btnSearchDrop2" data-toggle="dropdown"
 																		aria-haspopup="true" aria-expanded="true"
-																		class="dropdown-toggle dropdown-menu-right"><i
-																			class="fa fa-ellipsis-v"></i></a> <span
+																		class="dropdown-toggle dropdown-menu-right"></a> <span
 																		aria-labelledby="btnSearchDrop2"
 																		class="dropdown-menu mt-1 dropdown-menu-right">
-																			<a data-toggle="modal"
-																			data-target="#workMemberLevelModal${i}"
-																			class="dropdown-item edit"><i
-																				class="feather icon-edit-2"></i> 권한변경</a> <a
+																			<c:if test="${workMemberLevel eq 4 }">
+																			<a
 																			data-toggle="modal"
-																			data-target="#updateWorkMemberActive${i}"
+																			data-target="#updateWorkGuestActive${i}"
 																			class="dropdown-item delete"><i
 																				class="feather icon-trash-2" id="deleteMember${i}"></i>
-																				멤버추방</a> <a data-toggle="modal"
-																			data-target="#updateWorkMemberAdmin${i }"
+																				게스트추방</a> 
+																				</c:if>
+																				
+																				<c:if test="${workMemberLevel > 1 && r.active eq 'W'}">
+																				<a data-toggle="modal"
+																			data-target="#updateWorkGuestApprove${i}"
 																			class="dropdown-item"><i
-																				class="feather icon-refresh-ccw"></i>관리자양도</a>
+																				class="fa fa-check-square-o"></i>게스트승인</a>
+																				</c:if>
 																	</span>
 																</span></td>
-															</c:if>
+																</c:if>
 														</tr>
 													</c:forEach>
 												</tbody>
@@ -323,8 +375,8 @@
 														<th>이메일</th>
 														<th>활동여부</th>
 														<th>초대날짜</th>
-														<c:if test="${workMemberLevel eq 4 }">
-															<th>부가기능</th>
+														<c:if test="${workMemberLevel > 2 }">
+														<th>부가기능</th>
 														</c:if>
 													</tr>
 												</tfoot>

@@ -21,6 +21,7 @@ public class WorkspaceGuestService implements IWorkspaceGuestService{
 	@Autowired
 	private IWorkspaceGuestMapper workspaceGuestMapper;
 	
+	// 워크스페이스 게스트 초대하는 메서드
 	@Override
 	public int addWorkspaceGuestByInvite(WorkspaceGuest workspaceGuest, String[] memberEmail) {
 			// workspaceGuest 디버거
@@ -42,7 +43,8 @@ public class WorkspaceGuestService implements IWorkspaceGuestService{
 			//result return
 			return result;
 	}
-
+	
+	// 워크스페이스 게스트리스트
 	@Override
 	public List<WorkspaceMember> getWorkspaceGuestList(WorkspaceGuest workspaceGuest) {
 		
@@ -51,6 +53,36 @@ public class WorkspaceGuestService implements IWorkspaceGuestService{
 		
 		// 게스트 리스트
 		return workspaceGuestMapper.selectWorkspaceGuestList(workspaceGuest);
+	}
+	
+	// 워크스페이스 게스트 추방
+	@Override
+	public int modifyWorkspaceGuestByActive(WorkspaceGuest workspaceGuest) {
+		
+		// workspaceGuest 디버거
+		log.debug(TeamColor.CJM + workspaceGuest + "Service workspaceGuest");
+		
+		// 게스트 추방
+		return workspaceGuestMapper.updateWorkspaceGuestByActive(workspaceGuest);
+	}
+	
+	// 워크스페이스 게스트 승인
+	@Override
+	public int modifyWorkspaceGuestActiveApprove(WorkspaceGuest workspaceGuest) {
+		
+		// workspaceGuest 디버거
+		log.debug(TeamColor.CJM + workspaceGuest + "Service workspaceGuest");
+		
+		// 워크스페이스 게스트 승인
+		return workspaceGuestMapper.updateWorkspaceGuestActiveApprove(workspaceGuest);
+	}
+
+	@Override
+	public String getWorkspaceGuestEmailByConfirm(WorkspaceGuest workspaceGuest) {
+		// workspaceGuest 디버거
+		log.debug(TeamColor.CJM + workspaceGuest + "Service workspaceGuest");
+		
+		return workspaceGuestMapper.selectWorkspaceGuestEmailByConfirm(workspaceGuest);
 	}
 
 }

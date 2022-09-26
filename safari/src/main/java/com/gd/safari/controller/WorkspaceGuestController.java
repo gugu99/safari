@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class WorkspaceGuestController {
 	@Autowired private IWorkspaceGuestService workspaceGuestService;
 	@Autowired private IMemberMailService memberMailService;
+	
 	// 워크스페이스게스트 초대
 	@PostMapping("/safari/addWorkspaceGuestByInvite")
 	public String addWorkspaceGuestByInvite(WorkspaceGuest workspaceGuest,
@@ -54,6 +55,8 @@ public class WorkspaceGuestController {
 		return "redirect:/safari/workspaceMemberList";
 
 	}
+	
+	// 워크스페이스게스트 정렬 리스트
 	@GetMapping("/safari/workspaceGuestList")
 	public String workspaceMemberList (Model model,HttpSession session,
 										WorkspaceGuest workspaceGuest) {
@@ -85,4 +88,35 @@ public class WorkspaceGuestController {
 		 // 워크스페이스멤버리스트 페이지 forward
 		return "workmember/workspaceGuestList";  										   
 	}
+	
+	// 워크스페이스 게스트 추방
+	@PostMapping("/safari/modifyWorkspaceGuestByActive")
+	public String modifyWorkspaceGuestByActive(WorkspaceGuest workspaceGuest) {
+			
+		// workspaceMember 디버깅
+		log.debug(TeamColor.CJM + workspaceGuest + "Controller workspaceGuest");
+		
+		// 워크스페이스 게스트 추방
+		workspaceGuestService.modifyWorkspaceGuestByActive(workspaceGuest);
+		
+		// 게스트리스트로 리다이렉트
+		return "redirect:/safari/workspaceGuestList";
+
+	}
+	
+	// 워크스페이스 게스트 승인
+		@PostMapping("/safari/modifyWorkspaceGuestActiveApprove")
+		public String modifyWorkspaceGuestActiveApprove(WorkspaceGuest workspaceGuest) {
+				
+			// workspaceMember 디버깅
+			log.debug(TeamColor.CJM + workspaceGuest + "Controller workspaceGuest");
+			
+			// 워크스페이스 게스트 승인
+			workspaceGuestService.modifyWorkspaceGuestActiveApprove(workspaceGuest);
+			
+			// 게스트리스트로 리다이렉트
+			return "redirect:/safari/workspaceGuestList";
+
+		}
+	
 }
