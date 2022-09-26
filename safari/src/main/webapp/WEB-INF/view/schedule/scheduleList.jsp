@@ -69,11 +69,12 @@
             <div class="content-body justify-content-center row mt-2">
             	<c:forEach var="s" items="${scheduleList }" varStatus="i">
             		<!-- 일정이 전체공개인지, 관리자&작성자만 공개인지 확인 후 리스트 출력 -->
-            		<c:if test="${s.scheduleAuth eq 'N'|| (s.scheduleAuth eq 'Y' && (s.scheduleWriter eq login || manager)) }"></c:if>
+            		<c:if test="${s.scheduleAuth eq 'N'|| (s.scheduleAuth eq 'Y' && (s.scheduleWriter eq login || manager)) }">
             		<section id="timeline" class="timeline-center col-md-8">
 	                    <div class="timeline-card card border-grey border-lighten-2">
 	                        <div class="card-content">
 	                        	 <div class="px-0 py-0 ml-1 mt-1">
+	                        	 <!-- 프로필 이미지 -->
 	                        	 	<c:choose>
 	                        	 		<c:when test="${s.writerFilename eq null }">
 	                        	 			<div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
@@ -85,7 +86,7 @@
 		                       	 	
 		                             <span class="text-bold-600 mr-1">${s.workMemberName }</span>
 		                             <span class="blue-grey date">${s.createDate }</span>
-		                             
+		                             <!-- 수정 삭제 버튼 -->
 		                             <c:if test="${s.scheduleWriter eq login || manager}">
 		                                <a href="${pageContext.request.contextPath }/safari/modifySchedule?scheduleNo=${s.scheduleNo }" class="addr"><span class="fa fa-pencil-square-o ml-2"></span>수정</a>
 	                          			<a href="${pageContext.request.contextPath }/safari/removeSchedule?scheduleNo=${s.scheduleNo }" class="addr"><span class="fa fa-trash-o ml-2"></span>삭제</a>
@@ -99,8 +100,9 @@
 	                            <div class="card-footer px-0 py-0">
 	                             <div class="card-content">
 	                                 <div class="card-body">
-	                                     <p class="card-text ml-2 mt-2">${s.scheduleContent }</p>
+	                                     <p class="card-text ml-1 mt-2 mb-3">${s.scheduleContent }</p>
 	                                     <p class="card-text mb-2">
+	                                     <!-- 일정 멤버 리스트 -->
 	                                     <c:forEach var="sm" items="${s.scheduleMembers}">
 		                                     <c:choose>
 			                        	 		<c:when test="${sm.filename eq null }">
@@ -114,8 +116,23 @@
 			                        	 	</c:choose>
 	                                     </c:forEach>
 	                                     </p>
+	                                     <!-- 참석 여부 cnt -->
+	                                     <p class="card-text mb-3">
+		                                     <c:forEach var="a" items="${s.scheduleAttendances }">
+		                                 		<c:if test="${a.scheduleAttendance eq 'Y' }">
+		                                 			<span class="text-primary mr-1">참석 : ${a.attendCnt}</span>
+	                                 			</c:if>
+	                                 			<c:if test="${a.scheduleAttendance eq 'U' }">
+	                                 				<span class="text-secindary mr-1">미정 : ${a.attendCnt}</span>
+	                                 			</c:if>
+	                                 			<c:if test="${a.scheduleAttendance eq 'N' }">
+	                                 				<span class="text-danger mr-1">불참 : ${a.attendCnt}</span>
+	                                 			</c:if>
+		                                     </c:forEach>
+		                                 </p>
+	                                     <p class="card-text mb-2">
 	                                     <c:if test="${s.scheduleLocation ne ''}">
-		                                     <span class="blue-grey addr"><span class="fa fa-map-marker mr-2"></span>${s.scheduleLocation }</span>
+		                                     <span class="blue-grey addr"><span class="fa fa-map-marker mr-1"></span>${s.scheduleLocation }</span>
 		                                     <span class="blue-grey addr">${s.scheduleDetailLocation }</span>
 	                                     	<div id="map${i.index }" style="width:100%;height:300px;" ></div>
 	                                     	<script>
@@ -132,17 +149,8 @@
 			                             <div class="card-content">
 			                                 <div class="card-body text-center">
 			                                 	<div class="form-group mt-1">
-			                                 	<c:forEach var="a" items="${s.scheduleAttendances }">
-			                                 		<c:if test="${a.scheduleAttendance eq 'Y' }">
-		                                 				<button type="button" onclick="location.href='${pageContext.request.contextPath }/safari/modifyScheduleAttend?scheduleNo=${s.scheduleNo }&scheduleAttend=Y'" class="btn btn-primary round btn-min-width ml-1 mr-1">참석 ${a.attendCnt}</button>
-		                                 			</c:if>
-		                                 			<c:if test="${a.scheduleAttendance eq 'U' }">
-		                                 				<button type="button" class="btn btn-light round btn-min-width ml-1 mr-1" disabled>미정 ${a.attendCnt}</button>
-		                                 			</c:if>
-		                                 			<c:if test="${a.scheduleAttendance eq 'N' }">
-		                                 				<button type="button" onclick="location.href='${pageContext.request.contextPath }/safari/modifyScheduleAttend?scheduleNo=${s.scheduleNo }&scheduleAttend=N'" class="btn btn-danger round btn-min-width ml-1 mr-1">불참 ${a.attendCnt}</button>
-		                                 			</c:if>
-			                                     </c:forEach>
+	                                 				<button type="button" onclick="location.href='${pageContext.request.contextPath }/safari/modifyScheduleAttend?scheduleNo=${s.scheduleNo }&scheduleAttend=Y&workMemberName=${sm.workMemberName}'" class="btn btn-primary round btn-min-width ml-1 mr-1">참석</button>
+	                                 				<button type="button" onclick="location.href='${pageContext.request.contextPath }/safari/modifyScheduleAttend?scheduleNo=${s.scheduleNo }&scheduleAttend=N&workMemberName=${sm.workMemberName}'" class="btn btn-danger round btn-min-width ml-1 mr-1">불참</button>
 			                                     </div>
 			                                 </div>
 			                             </div>
@@ -192,7 +200,7 @@
 		                                <form action="${pageContext.request.contextPath }/safari/addScheduleComment" method="post" id="commentForm">
 		                                	<input type="hidden" name="scheduleNo" value="${s.scheduleNo }">
 		                                	<input type="hidden" name="cmtMemberEmail" value="${login }">
-		                                     <input type="text" class="form-control" name="scheduleCmtContent" id="comment" onkeyup="insertComment()" placeholder="입력 Enter입니다.">
+		                                     <input type="text" class="form-control" name="scheduleCmtContent" id="comment" onkeyup="insertComment(this)" placeholder="입력 Enter입니다.">
 		                                     <div class="form-control-position">
 		                                         <i class="fa fa-dashcube"></i>
 		                                     </div>
@@ -204,6 +212,7 @@
 	                        </div>
 	                    </div>
 	                </section>
+	                </c:if>
             	</c:forEach>
                 <%@ include file="/WEB-INF/view/schedule/addSchedule.jsp" %>
             </div>
@@ -245,7 +254,6 @@
 
 	<script src="${pageContext.request.contextPath }/resources/assets/js/scripts.js"></script>
 	<script src="${pageContext.request.contextPath }/resources/assets/js/addSchedule.js"></script>
-	
 
 <script>
 	$('#addrBtn').click(function(){

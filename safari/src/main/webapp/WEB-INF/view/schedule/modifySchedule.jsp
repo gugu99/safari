@@ -83,7 +83,7 @@
                                                 <div class="col-12">
                                                     <div class="form-group">
                                                         <label for="languageselect2"><span class="fa fa-users mr-2"></span>참석자(*)</label>
-                                                        <select class="form-control scheduleMemberSelect" id="scheduleMember" multiple="multiple" onChange="selectScheduleMember(this)">
+                                                        <select class="form-control memberSelect" id="scheduleMember" multiple="multiple" onChange="selectScheduleMember(this)">
                                                         	<c:forEach var="sm" items="${scheduleMembers }">
                                                        			 <option value="${sm.workMemberEmail }" ${sm.scheduleNo ne null ? 'selected' : ''}>${sm.workMemberName }</option>
                                                         	</c:forEach>

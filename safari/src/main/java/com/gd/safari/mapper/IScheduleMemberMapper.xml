@@ -17,7 +17,7 @@
 	</insert>
 	
 	<!-- 일정 참석 여부 조회 -->
-	<select id="selectScheduleAttend" resultType="String" parameterType="com.gd.safari.vo.ScheduleMember">
+	<select id="selectScheduleAttend" resultType="String" parameterType="map">
 		SELECT
 			schedule_attend schedulAttend
 		FROM
@@ -29,7 +29,7 @@
 	</select>
 	
 	<!-- 일정 참석 여부 변경 -->
-	<update id="updateScheduleAttend" parameterType="com.gd.safari.vo.ScheduleMember">
+	<update id="updateScheduleAttend" parameterType="map">
 		UPDATE
 			schedule_member
 		SET
@@ -87,12 +87,13 @@
 	</select>
 	
 	<!-- 일정 멤버 전체 삭제 -->
-	<delete id="deleteScheduleMember" parameterType="int">
+	<!-- On Delete CASCADE 사용하기로 변경 -> 삭제 -->
+	<!-- <delete id="deleteScheduleMember" parameterType="int">
 		DELETE FROM
 			schedule_member
 		WHERE
 			schedule_no = #{scheduleNo}
-	</delete>
+	</delete> -->
 	
 	<!-- 일정 멤버 한명 삭제 -->
 	<delete id="deleteScheduleMemberByScheduleNoAndScheduleMemberEmail" parameterType="com.gd.safari.vo.ScheduleMember">

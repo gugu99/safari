@@ -11,9 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.mapper.IProjectMemberMapper;
-import com.gd.safari.mapper.IScheduleCommentLikeMapper;
-import com.gd.safari.mapper.IScheduleCommentMapper;
-import com.gd.safari.mapper.IScheduleLikeMapper;
 import com.gd.safari.mapper.IScheduleMapper;
 import com.gd.safari.mapper.IScheduleMemberMapper;
 import com.gd.safari.vo.Schedule;
@@ -33,12 +30,6 @@ public class ScheduleService implements IScheduleService {
 	private IScheduleMemberMapper scheduleMemberMapper;
 	@Autowired
 	private IProjectMemberMapper projectMemberMapper;
-	@Autowired
-	private IScheduleCommentMapper scheduleCommentMapper;
-	@Autowired
-	private IScheduleCommentLikeMapper scheduleCommentLikeMapper;
-	@Autowired
-	private IScheduleLikeMapper scheduleLikeMapper;
 	
 	// 일정 리스트 (프로젝트 멤버리스트, 일정, 일정 멤버, 일정 댓글)
 	@Override
@@ -201,32 +192,70 @@ public class ScheduleService implements IScheduleService {
 		return row;
 	}
 
-	// 트랜잭션 처리하기
-		// 일정 삭제하기
-			// 일정 멤버 삭제 
-			// 일정 좋아요 삭제
-			// 일정 댓글 삭제
-				//일정 댓글 좋아요 삭제 
+
 	@Override
-	@Transactional
 	public void removeSchedule(int scheduleNo) {
 		log.debug(TeamColor.GDE + "scheduleNo --- " + scheduleNo);
 		
-		// 일정에 등록된 댓글 번호 조회
-		List<Integer> list = scheduleCommentMapper.selectScheduleCmtNoByScheduleNo(scheduleNo);
-		// 조회된 댓글 번호 만큼 댓글 좋아요 삭제
-		for (Integer i : list) {
-			scheduleCommentLikeMapper.deleteScheduleCommentLike(i);
-		}
-		// 댓글 좋아요 삭제 후 일정에 등록된 댓글 삭제
-		scheduleCommentMapper.deleteScheduleComment(scheduleNo);
-		// 일정 좋아요 삭제
-		scheduleLikeMapper.deleteScheduleLike(scheduleNo);
-		// 일정 멤버 삭제
-		scheduleMemberMapper.deleteScheduleMember(scheduleNo);
-		
-		// 일정에 포함된 데이터들을 모두 지운 후 일정 삭제하기
 		int row = scheduleMapper.deleteSchedule(scheduleNo);
 		log.debug(TeamColor.GDE + "row --- " + row);
 	}
+
+//	// 트랜잭션 처리하기
+//		// 일정 삭제하기
+//			// 일정 멤버 삭제 
+//			// 일정 좋아요 삭제
+//			// 일정 댓글 삭제
+//				//일정 댓글 좋아요 삭제 
+//	@Override
+//	@Transactional(rollbackFor = Exception.class)
+//	public void removeSchedule(int scheduleNo) {
+//		log.debug(TeamColor.GDE + "scheduleNo --- " + scheduleNo);
+//		
+//		// 일정에 등록된 댓글 번호 조회
+//		List<Integer> list = scheduleCommentMapper.selectScheduleCmtNoByScheduleNo(scheduleNo);
+//		// 조회된 댓글 번호 만큼 댓글 좋아요 삭제
+//		for (Integer i : list) {
+//			scheduleCommentLikeMapper.deleteScheduleCommentLike(i);
+//		}
+//		// 댓글 좋아요 삭제 후 일정에 등록된 댓글 삭제
+//		scheduleCommentMapper.deleteScheduleComment(scheduleNo);
+//		// 일정 좋아요 삭제
+//		scheduleLikeMapper.deleteScheduleLike(scheduleNo);
+//		// 일정 멤버 삭제
+//		scheduleMemberMapper.deleteScheduleMember(scheduleNo);
+//		
+//		// 일정에 포함된 데이터들을 모두 지운 후 일정 삭제하기
+//		int row = scheduleMapper.deleteSchedule(scheduleNo);
+//		log.debug(TeamColor.GDE + "row --- " + row);
+//	}
+//
+//	// 프로젝트 삭제 시 일정 전체 삭제
+//	@Override
+//	@Transactional(rollbackFor = Exception.class)
+//	public void removeScheduleByprojectNo(int projectNo) {
+//		log.debug(TeamColor.GDE + "projectNo --- " + projectNo);
+//		
+//		// 프로젝트 내 일정 번호 리스트
+//		List<Integer> scheduleNoList = scheduleMapper.selectScheduleNoByProjectNo(projectNo);
+//		
+//		// 일정 개수만큼 댓글 좋아요/댓글/일정 좋아요/일정 멤버 삭제하기
+//		for (Integer scheduleNo : scheduleNoList) {
+//			// 일정에 등록된 댓글 번호 조회
+//			List<Integer> scheduleCmtNoList = scheduleCommentMapper.selectScheduleCmtNoByScheduleNo(scheduleNo);
+//			// 조회된 댓글 번호 만큼 댓글 좋아요 삭제
+//			for (Integer scheduleCmtNo : scheduleCmtNoList) {
+//				scheduleCommentLikeMapper.deleteScheduleCommentLike(scheduleCmtNo);
+//			}
+//			// 댓글 좋아요 삭제 후 일정에 등록된 댓글 삭제
+//			scheduleCommentMapper.deleteScheduleComment(scheduleNo);
+//			// 일정 좋아요 삭제
+//			scheduleLikeMapper.deleteScheduleLike(scheduleNo);
+//			// 일정 멤버 삭제
+//			scheduleMemberMapper.deleteScheduleMember(scheduleNo);
+//		}
+//		// 일정에 포함된 데이터들을 모두 지운 후 프로젝트 내 일정 전체 삭제하기
+//		int row = scheduleMapper.deleteScheduleByProjectNo(projectNo);
+//		log.debug(TeamColor.GDE + "row --- " + row);
+//	}
 }

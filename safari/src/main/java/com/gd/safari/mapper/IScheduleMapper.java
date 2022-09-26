@@ -21,4 +21,9 @@ public interface IScheduleMapper {
 	int updateSchedule(Map<String, Object> map);
 	// 일정 삭제
 	int deleteSchedule(int scheduleNo);
+	// 프로젝트 내 일정 번호 전체 조회
+	// On Delete CASCADE 사용하기로 변경 -> 조회할 필요 없어짐
+//	List<Integer> selectScheduleNoByProjectNo(int projectNo);
+	// 프로젝트 삭제 시 일정 전체 삭제
+	int deleteScheduleByProjectNo(int projectNo);
 }

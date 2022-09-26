@@ -31,10 +31,11 @@
 	</insert>
 	
 	<!-- 일정 좋아요 삭제 -->
-	<delete id="deleteScheduleLike" parameterType="int">
+	<!-- On Delete CASCADE 사용하기로 변경 -> 삭제 -->
+	<!-- <delete id="deleteScheduleLike" parameterType="int">
 		DELETE FROM
 			schedule_like
 		WHERE 
 			schedule_no = #{scheduleNo}
-	</delete>
+	</delete> -->
 </mapper>

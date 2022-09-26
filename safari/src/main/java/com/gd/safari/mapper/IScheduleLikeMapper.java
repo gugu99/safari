@@ -12,5 +12,6 @@ public interface IScheduleLikeMapper {
 	// 일정 좋아요 추가
 	int insertScheduleLike(ScheduleLike scheduleLike);
 	// 일정 좋아요 삭제
-	int deleteScheduleLike(int scheduleNo);
+	// On Delete CASCADE 사용하기로 변경 -> 삭제
+//	int deleteScheduleLike(int scheduleNo);
 }

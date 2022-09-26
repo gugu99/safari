@@ -53,7 +53,7 @@
 		                                                        <div class="col-12">
 		                                                            <div class="form-group">
 		                                                                <label for="languageselect2"><span class="fa fa-users mr-2"></span>참석자(*)</label>
-		                                                                <select class="form-control scheduleMemberSelect" id="scheduleMember" multiple="multiple" onChange="selectScheduleMember(this)">
+		                                                                <select class="form-control memberSelect" id="scheduleMember" multiple="multiple" onChange="selectScheduleMember(this)">
 		                                                                	<c:forEach var="pm" items="${projectMemberList }">
 		                                                                		 <option value="${pm.workMemberEmail }" ${login eq pm.workMemberEmail ? 'selected' : ''}>${pm.workMemberName }</option>
 		                                                                	</c:forEach>

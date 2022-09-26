@@ -12,5 +12,6 @@ public interface IScheduleCommentLikeMapper {
 	// 일정 댓글 좋아요 추가
 	int insertScheduleCommentLike(ScheduleCommentLike scheduleCommentLike);
 	// 일정 댓글 좋아요 삭제
-	int deleteScheduleCommentLike(int scheduleCmtNo);
+	// On Delete CASCADE 사용하기로 변경 -> 삭제
+//	int deleteScheduleCommentLike(int scheduleCmtNo);
 }

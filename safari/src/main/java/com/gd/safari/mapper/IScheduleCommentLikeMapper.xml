@@ -30,11 +30,11 @@
 			)
 	</insert>
 	
-	<!-- 일정 댓글 좋아요 삭제 -->
-	<delete id="deleteScheduleCommentLike" parameterType="int">
+	<!-- 일정 댓글 좋아요 삭제 On Delete CASCADE 사용하기로 변경 -> 삭제 -->
+	<!-- <delete id="deleteScheduleCommentLike" parameterType="int">
 		DELETE FROM
 			schedule_comment_like
 		WHERE
 			schedule_cmt_no = #{scheduleCmtNo}
-	</delete>
+	</delete> -->
 </mapper>

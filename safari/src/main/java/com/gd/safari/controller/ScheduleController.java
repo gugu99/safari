@@ -68,7 +68,7 @@ public class ScheduleController {
 	
 	// 일정 수정 폼으로 이동
 	@GetMapping("/safari/modifySchedule")
-	public String modifySchedule(HttpSession session ,Model model, int scheduleNo) {
+	public String modifySchedule(HttpSession session ,Model model, @RequestParam int scheduleNo) {
 		log.debug(TeamColor.GDE + "scheduleNo --- " + scheduleNo);
 		
 		// 세션에 저장된 workNo 가져오기

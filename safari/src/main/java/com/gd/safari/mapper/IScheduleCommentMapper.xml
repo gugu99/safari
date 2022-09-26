@@ -30,11 +30,20 @@
 			schedule_no = #{scheduleNo};
 	</select>
 	
-	<!-- 댓글 삭제하기 -->
+	<!-- 댓글 한개 삭제 -->
 	<delete id="deleteScheduleComment" parameterType="int">
 		DELETE FROM
 			schedule_comment
 		WHERE
-			schedule_no = #{scheduleNo}
+			schedule_cmt_no = #{scheduleCmtNo}
 	</delete>
+	
+	<!-- 일정 전체 댓글 삭제하기 -->
+	<!-- On Delete CASCADE 사용하기로 변경 -> 삭제 -->
+	<!-- <delete id="deleteScheduleCommentByScheduleNo" parameterType="int">
+		DELETE FROM
+			schedule_comment
+		WHERE
+			schedule_no = #{scheduleNo}
+	</delete> -->
 </mapper>
