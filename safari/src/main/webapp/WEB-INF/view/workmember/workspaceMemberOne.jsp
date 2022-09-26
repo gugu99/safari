@@ -90,7 +90,7 @@
                                                     <div class="form-group">
                                                         <div class="controls">
                                                             <label>전화번호</label>
-                                                            <input type="email" class="form-control" readonly placeholder="전화번호" value="${workspaceMemberOne.workMemberPhone }" required data-validation-required-message="This email field is required">
+                                                            <input type="text" class="form-control" readonly placeholder="전화번호" value="${workspaceMemberOne.workMemberPhone }" required data-validation-required-message="This email field is required">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -98,13 +98,13 @@
                                                      <div class="form-group">
                                                         <div class="controls">
                                                             <label>부서</label>
-                                                            <input type="email" class="form-control" readonly placeholder="부서" value="${workspaceMemberOne.workMemberDept }" required data-validation-required-message="This email field is required">
+                                                            <input type="text" class="form-control" readonly placeholder="부서" value="${workspaceMemberOne.workMemberDept }" required data-validation-required-message="This email field is required">
                                                         </div>
                                                     </div>
                                                      <div class="form-group">
                                                         <div class="controls">
                                                             <label>직위</label>
-                                                            <input type="email" class="form-control" readonly placeholder="직위" value="${workspaceMemberOne.workMemberPos}" required data-validation-required-message="This email field is required">
+                                                            <input type="text" class="form-control" readonly placeholder="직위" value="${workspaceMemberOne.workMemberPos}" required data-validation-required-message="This email field is required">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -118,7 +118,7 @@
                                                      <div class="form-group">
                                                         <div class="controls">
                                                             <label>멤버주소</label>
-                                                            <input type="email" class="form-control" readonly placeholder="주소" value="${workspaceMemberOne.workMemberAddr}" required data-validation-required-message="This email field is required">
+                                                            <input type="text" class="form-control" readonly placeholder="주소" value="${workspaceMemberOne.workMemberAddr}" required data-validation-required-message="This email field is required">
                                                         </div>
                                                     </div>
                                                 </div>

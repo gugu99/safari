@@ -61,4 +61,13 @@ public interface IWorkspaceMemberMapper {
 	// 멤버 레벨 알아오는 메서드
 	int selectWorkspaceMemberLevel (WorkspaceMember workspaceMember);
 	
+	// active 값에 따른 메서드
+	List<WorkspaceMember> selectWorkspaceMemberListByActive(WorkspaceMember workspaceMember);
+	
+	// active 값 Y로 바꾸는메서드
+	int updateWorkspaceMemberActiveApprove(int workMemberNo);
+	
+	// 가입된 workspaceMemberEmail 인지 확인 하는 메서드
+	String selectWorkspaceMemberEmailByConfirm(WorkspaceMember workspaceMember);
+	
 }

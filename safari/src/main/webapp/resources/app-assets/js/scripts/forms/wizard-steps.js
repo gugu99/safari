@@ -34,7 +34,7 @@ $(".number-tab-steps").steps({
 			alert('워크스페이스멤버이름을 입력하세요');
 			$('#workMemberName').focus();
 			return;
-		} else if ($('#workMemberEmail').val() != '') {
+		} else if ($("input[name='workMemberEmail']").val() != '') {
 			for (var i = 0; i < grpl; i++) {
 				console.log(i);
 				console.log(grpl);
@@ -42,7 +42,7 @@ $(".number-tab-steps").steps({
 					alert('이메일형식을 확인해주세요.\nexample@example.com');
 					console.log($("input[name='workMemberEmail']").eq(i).val());
 					return;
-				} else if ($('#workMemberEmail').val() != '') {
+				} else if ($("input[name='workMemberEmail']").val() != '') {
 					$.ajax({
 						async: false,
 						url: '/safari/existEmail',

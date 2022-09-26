@@ -33,7 +33,7 @@ $(".number-tab-steps").steps({
 						$('#memberEmail').focus();
 						return;
 					} else {
-						alert('올바른코드입니다.');
+						alert('가입이완료되었습니다 승인이 될때까지 기다려주세.');
 						$('#addWorkspaceForm').submit();
 					}
 				}

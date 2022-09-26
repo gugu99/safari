@@ -20,7 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 public class WorkspaceMemberService implements IWorkspaceMemberService {
 	@Autowired
 	private IWorkspaceMemberMapper workspaceMemberMapper;
-
+	 
+	// 워크스페이스멤버추가
 	@Override
 	public int addWorkspaceMember(WorkspaceMember workspaceMember) {
 
@@ -30,7 +31,8 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		// workspaceMember 추가
 		return workspaceMemberMapper.insertWorkspaceMember(workspaceMember);
 	}
-
+	
+	// 워크스페이스 리스트
 	@Override
 	public List<WorkspaceMember> getWorkspaceMemberList(int workNo) {
 		
@@ -40,7 +42,8 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		// workspaceMember List
 		return workspaceMemberMapper.selectWorkspaceMemberList(workNo); 
 	}
-
+	
+	// 워크스페이스 상세보기
 	@Override
 	public Map<String, Object> getWorkspaceMemberOne(int workMemberNo) {
 		
@@ -51,6 +54,7 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		return workspaceMemberMapper.selectWorkspaceMemberOne(workMemberNo);
 	}
 
+	// 워크스페이스 멤버넘버
 	@Override
 	public int getWorkspaceMemberNo(WorkspaceMember workspaceMember) {
 		
@@ -60,7 +64,8 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		// workspaceMember No 가져오는 메서드
 		return workspaceMemberMapper.selectWorkspaceMemberNo(workspaceMember);
 	}
-
+	
+	// 워크스페이스멤버 수정
 	@Override
 	public int modifyWorkspaceMember(WorkspaceMember workspaceMember) {
 		
@@ -70,7 +75,8 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		// 워크스페이스 멤버 수정
 		return workspaceMemberMapper.updateWorkspaceMember(workspaceMember);
 	}
-
+	
+	// 초대된멤버 추가
 	@Override
 	public int inviteAddWorkspaceMember(WorkspaceMember workspaceMember, String[] workMemberEmail) {
 		
@@ -93,7 +99,8 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		//result return
 		return result;
 	}
-
+	
+	// 활동여부 가져오는메서드
 	@Override
 	public String getWorkspaceMemberOneActive(int workMemberNo) {
 		// workMemberNo 디버거
@@ -102,7 +109,8 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		// 활동여부 가져오기 메서드
 		return workspaceMemberMapper.selectWorkspaceMemberOneActive(workMemberNo);
 	}
-
+	
+	// 코드 가져오는메서드
 	@Override
 	public String getWorkspaceMemberOneCode(int workMemberNo) {
 		
@@ -113,6 +121,7 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		return workspaceMemberMapper.selectWorkspaceMemberOneCode(workMemberNo);
 	}
 
+	// 존재이메일인지 확인하는메서드
 	@Override
 	public boolean getMemberEmailByConfirm(String memberEmail) {
 		
@@ -134,6 +143,7 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		return result;
 	}
 
+	// 워크스페이스 멤버 초반에 정보수정하는 메서드
 	@Override
 	public int modifyWorkspaceMemberByInvite(WorkspaceMember workspaceMember) {
 		
@@ -143,7 +153,8 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		// 초대된 멤버 처음 입장시 정보 변경하는메서드
 		return workspaceMemberMapper.updateWorkspaceMemberByInvite(workspaceMember);
 	}
-
+	
+	// 워크스페이스 멤버 레벨조정
 	@Override
 	public int modifyWorkspaceMemberByLevel(WorkspaceMember workspaceMember) {
 		
@@ -153,7 +164,8 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		// 워크스페이스멤버 권한등급 조정하는 메서드
 		return workspaceMemberMapper.updateWorkspaceMemberByLevel(workspaceMember);
 	}
-
+	
+	// 워크스페이스멤버 활동정지 하는메서드
 	@Override
 	public int modifyWorkspaceMemberByActive(int workMemberNo) {
 		
@@ -164,6 +176,7 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		return workspaceMemberMapper.updateWorkspaceMemberByActive(workMemberNo);
 	}
 
+	// 워크스페이스 레벨 가져오는메서드
 	@Override
 	public int getWorkspaceMemberLevel(WorkspaceMember workspaceMember) {
 		
@@ -172,5 +185,38 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		
 		return workspaceMemberMapper.selectWorkspaceMemberLevel(workspaceMember);
 	}
+
+	// 활동여부에따른 리스트 불러오기
+	@Override
+	public List<WorkspaceMember> getWorkspaceMemberListByActive(WorkspaceMember workspaceMember) {
+		
+		// workspaceMember  디버깅
+		log.debug(TeamColor.CJM + workspaceMember + " Service workspaceMember");
+		
+		// 멤버리스트 불러오기 
+		return workspaceMemberMapper.selectWorkspaceMemberListByActive(workspaceMember);
+	}
+
+	@Override
+	public int modifyWorkspaceMemberActiveApprove(int workMemberNo) {
+		// workMemberNo  디버깅
+		log.debug(TeamColor.CJM + workMemberNo + " Service workMemberNo");
+		
+		// 워크스페이스 활동정지 하는메서드
+		return workspaceMemberMapper.updateWorkspaceMemberActiveApprove(workMemberNo);
+		
+	}
+
+	@Override
+	public String getWorkspaceMemberEmailByConfirm(WorkspaceMember workspaceMember) {
+		
+		// workspaceMember  디버깅
+		log.debug(TeamColor.CJM + workspaceMember + " Service workspaceMember");
+		
+		// 가입된 workspaceMemberEmail 인지 확인 하는 메서드
+		return workspaceMemberMapper.selectWorkspaceMemberEmailByConfirm(workspaceMember);
+	}
+	
+	
 
 }

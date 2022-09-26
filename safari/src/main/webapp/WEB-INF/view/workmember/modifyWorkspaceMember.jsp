@@ -91,7 +91,7 @@
                                                     <div class="form-group">
                                                         <div class="controls">
                                                             <label>전화번호</label>
-                                                            <input name="workMemberPhone" id="workMemberPhone" type="email" class="form-control"  placeholder="전화번호" value="${workspaceMemberOne.workMemberPhone }" >
+                                                            <input name="workMemberPhone" id="workMemberPhone" type="text" class="form-control"  placeholder="전화번호" value="${workspaceMemberOne.workMemberPhone }" >
                                                         </div>
                                                     </div>
                                                 </div>
@@ -99,13 +99,13 @@
                                                      <div class="form-group">
                                                         <div class="controls">
                                                             <label>부서</label>
-                                                            <input name="workMemberDept" id="workMemberDept" type="email" class="form-control"  placeholder="부서" value="${workspaceMemberOne.workMemberDept }" >
+                                                            <input name="workMemberDept" id="workMemberDept" type="text" class="form-control"  placeholder="부서" value="${workspaceMemberOne.workMemberDept }" >
                                                         </div>
                                                     </div>
                                                      <div class="form-group">
                                                         <div class="controls">
                                                             <label>직위</label>
-                                                            <input name="workMemberPos" id="workMemberPos" type="email" class="form-control" placeholder="직위" value="${workspaceMemberOne.workMemberPos}" >
+                                                            <input name="workMemberPos" id="workMemberPos" type="text" class="form-control" placeholder="직위" value="${workspaceMemberOne.workMemberPos}" >
                                                         </div>
                                                     </div>
                                                     <div class="form-group">

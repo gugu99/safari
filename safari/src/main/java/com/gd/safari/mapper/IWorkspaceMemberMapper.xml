@@ -86,23 +86,23 @@
 	<!-- 워크스페이스 멤버 상세정보  -->
 	<select id = "selectWorkspaceMemberOne" parameterType="int" resultType ="map">
 		SELECT  
-			  wm.work_member_no     workMemberNo
-			, wm.work_member_name   workMemberName
-			, wm.work_member_addr  workMemberAddr
-			, wm.work_member_birth  workMemberBirth	
-			, wm.work_member_phone  workMemberPhone
-			, wm.work_member_dept   workMemberDept
-			, wm.work_member_pos    workMemberPos
-			, wm.active             active
-			, wm.work_member_level  workMemberLevel
-			, wm.create_date        createDate
-			, wm.update_date        updateDate
-			, wm.work_no            workNo
-			, wm.work_member_email  workMemberEmail
-			, pi.filename
-		FROM workspace_member wm inner join profile_img  pi
-		ON wm.work_member_no = pi.work_member_no
-		WHERE wm.work_member_no = #{workMemberNo}
+			  work_member_no     workMemberNo
+			, work_member_name   workMemberName
+			, work_member_addr  workMemberAddr
+			, work_member_birth  workMemberBirth	
+			, work_member_phone  workMemberPhone
+			, work_member_dept   workMemberDept
+			, work_member_pos    workMemberPos
+			, active             active
+			, work_member_level  workMemberLevel
+			, create_date        createDate
+			, update_date        updateDate
+			, work_no            workNo
+			, work_member_email  workMemberEmail
+			
+		FROM workspace_member 
+		
+		WHERE work_member_no = #{workMemberNo}
 	
 	</select>
 	
@@ -192,10 +192,8 @@
 			,work_member_phone = #{workMemberPhone}
 			,work_member_dept = #{workMemberDept}
 			,work_member_pos = #{workMemberPos}
-			,active = 'Y'
 			,create_date = now()
 			,update_date = now()
-			,work_member_code = null
 		WHERE
 			work_member_no = #{workMemberNo}
 			
@@ -246,6 +244,53 @@
 		FROM workspace_member 
 		where work_member_email = #{workMemberEmail} and work_no = #{workNo}
 	
+	</select>
+	
+	<!-- 워크스페이스멤버 리스트  -->
+	<select id = "selectWorkspaceMemberListByActive" parameterType="com.gd.safari.vo.WorkspaceMember" resultType="com.gd.safari.vo.WorkspaceMember">
+		SELECT 
+			  work_member_no    workMemberNo
+			, work_member_name  workMemberName
+			, work_member_addr workMemberAddr
+			, work_member_birth workMemberBirth
+			, work_member_phone workMemberPhone
+			, work_member_dept  workMemberDept
+			, work_member_pos   workMemberPos
+			, active
+			, work_member_level workMemberLevel
+			, create_date       createDate
+			, update_date       updateDate
+			, work_no           workNo
+			, work_member_email workMemberEmail
+		FROM workspace_member
+		
+		<where>
+			<if test="active == null">
+				 work_no = #{workNo}
+			</if>
+			<if test="active != null">
+				 work_no = #{workNo} AND active = #{active}
+			</if>
+		</where>
+	
+	</select>
+	
+	<!-- 멤버 승인 하는 메서드 (active Y으로) 바꾸는 메서드 -->
+	<update id="updateWorkspaceMemberActiveApprove" parameterType="int">
+		UPDATE workspace_member
+		SET
+			active = 'Y'
+		WHERE
+			work_member_no = #{workMemberNo}
+	</update>
+	
+	<!-- 가입된 이메일 확인 메서드   -->
+	<select id="selectWorkspaceMemberEmailByConfirm" resultType="string" parameterType="com.gd.safari.vo.WorkspaceMember">
+		SELECT
+			    work_member_email workMemberEmail
+		FROM	workspace_member
+		WHERE
+			    work_member_email = #{workMemberEmail} AND work_no = #{workNo}
 	</select>
 	
 </mapper>

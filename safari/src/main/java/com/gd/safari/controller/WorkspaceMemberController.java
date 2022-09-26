@@ -17,8 +17,6 @@ import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IMemberMailService;
 import com.gd.safari.service.IProfileImgService;
 import com.gd.safari.service.IWorkspaceMemberService;
-import com.gd.safari.service.IWorkspaceService;
-import com.gd.safari.vo.Workspace;
 import com.gd.safari.vo.WorkspaceMember;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,21 +26,23 @@ import lombok.extern.slf4j.Slf4j;
 public class WorkspaceMemberController {
 	@Autowired private IWorkspaceMemberService workspaceMemberService;
 	@Autowired private IProfileImgService profileImgService;
-	@Autowired private IWorkspaceService workspaceService;
 	@Autowired private IMemberMailService memberMailService;
 	
 
 	
-	
 	// 워크스페이스멤버 리스트 띄우기
 	@GetMapping("/safari/workspaceMemberList")
-	public String workspaceMemberList (Model model,HttpSession session) {
+	public String workspaceMemberList (Model model,HttpSession session,
+										WorkspaceMember workspaceMember) {
 		
 		// 세션 워크넘버 가져오기
-		int workNo = (Integer)session.getAttribute("workNo");								
+		int workNo = (Integer)session.getAttribute("workNo");	
+		
+		// 워크스페이스에 워크넘버 넣기
+		workspaceMember.setWorkNo(workNo);
 		
 		// 워크스페이스멤버 리스트 출력
-		List<WorkspaceMember> list = workspaceMemberService.getWorkspaceMemberList(workNo); 
+		List<WorkspaceMember> list = workspaceMemberService.getWorkspaceMemberListByActive(workspaceMember); 
 		
 		// 워크스페이스멤버 레벨 가져오기
 		int workMemberLevel = (int)session.getAttribute("workMemberLevel");
@@ -67,6 +67,8 @@ public class WorkspaceMemberController {
 	@GetMapping("/safari/workspaceMemberOne")
 	public String getWorkspaceMemberOne (Model model,HttpSession session) {
 		int workMemberNo = (int)session.getAttribute("workMemberNo");
+		
+		log.debug(TeamColor.CJM+workMemberNo +"Controller workMemberNo");
 		
 		// 워크스페이스멤버 리스트 출력메서드
 		Map<String,Object> list = workspaceMemberService.getWorkspaceMemberOne(workMemberNo); 
@@ -199,9 +201,9 @@ public class WorkspaceMemberController {
 		
 	}
 	
-	// 워크스페이스생성
+		// 워크스페이스멤버 초대
 		@PostMapping("/safari/addWorkspaceMemberByInvite")
-		public String addWorkspaceMemberByInvite( WorkspaceMember workspaceMember, HttpSession session,
+		public String addWorkspaceMemberByInvite( WorkspaceMember workspaceMember,
 				@RequestParam(value="workMemberEmail",required = false) String[] workMemberEmail) {
 				
 			// workspaceMember 디버깅
@@ -229,6 +231,20 @@ public class WorkspaceMemberController {
 
 		}
 	
+		// 워크스페이스 멤버 활동승인
+		@PostMapping("/safari/modifyWorkspaceMemberActiveApprove")
+		public String modifyWorkspaceMemberActiveApprove (@RequestParam(value = "workMemberNo") int workMemberNo) {
+			
+			// 워크스페이스 넘버 디버깅
+			log.debug(TeamColor.CJM+workMemberNo +"Controller workMemberNo"); 					  
+			
+			// 워크멤버 레벨 수정메서드
+			workspaceMemberService.modifyWorkspaceMemberActiveApprove(workMemberNo);
+			
+			// 워크스페이스멤버 멤버리스트 리다이렉트
+			return "redirect:/safari/workspaceMemberList";  										    
+			
+		}
 	
 	
 }

@@ -48,4 +48,13 @@ public interface IWorkspaceMemberService {
 	
 	// 워크스페이스 레벨 알아오는 메서드
 	int getWorkspaceMemberLevel (WorkspaceMember workspaceMember);
+	
+	// 워크스페이스 활동여부에 따른 리스트
+	 List<WorkspaceMember> getWorkspaceMemberListByActive(WorkspaceMember workspaceMember);
+	
+	 // Active Y로 바꾸는 메서드 
+	int modifyWorkspaceMemberActiveApprove(int workMemberNo);
+	
+	// 가입된 workspaceMemberEmail 인지 확인 하는 메서드
+	String getWorkspaceMemberEmailByConfirm(WorkspaceMember workspaceMember);
 }
