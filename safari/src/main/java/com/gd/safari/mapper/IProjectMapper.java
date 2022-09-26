@@ -11,8 +11,9 @@ import com.gd.safari.vo.ProjectForm;
 public interface IProjectMapper {
 	// 프로젝트 개관 페이지 띄우기
 	// 해당 워크스페이스에 속한 프로젝트 리스트를 반환
-	// 세션에 저장된 workMemberNo를 사용해 
-	// 해당 유저가 각 프로젝트의 수정/삭제 권한이 있는지를 검사하는 서브쿼리가 추가되어 있음 (manager)
+	// 세션에 저장된 workMemberNo를 사용해 해당 유저가 각 프로젝트의 수정/삭제 권한이 있는지를 검사하는 서브쿼리 (manager)
+	// workMemberNo를 사용해 북마크된 프로젝트인지를 검사하는 서브쿼리 (projectBookmark)
+	// 해당 프로젝트의 task 완성도를 반환하는 서브쿼리(complete)
 	List<Map<String, Object>> selectProjectListByWorkspaceNo(Map<String, Object> map);
 	
 	// 프로젝트 타이틀과 프로젝트 번호를 반환

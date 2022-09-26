@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IProjectGroupService;
+import com.gd.safari.vo.ProjectGroup;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,11 +25,12 @@ public class ProjectGroupController {
 	
 	// 프로젝트 그룹 추가
 	@PostMapping("/safari/projectGroup")
-	public String projectGroup(@RequestParam String projectGroupName) {
+	public String projectGroup(HttpSession session, ProjectGroup projectGroup) {
 		log.debug(TeamColor.CSK + "프로젝트 그룹 추가");
-		log.debug(TeamColor.CSK + projectGroupName);
-		
-		projectGroupService.addProjectGroup(projectGroupName);
+		projectGroup.setWorkNo((int)session.getAttribute("workNo"));
+		log.debug(TeamColor.CSK + projectGroup);
+
+		projectGroupService.addProjectGroup(projectGroup);
 
 		return "redirect:/safari/project";
 	}

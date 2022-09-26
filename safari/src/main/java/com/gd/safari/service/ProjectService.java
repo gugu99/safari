@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
+import com.gd.safari.mapper.IProjectBookmarkMapper;
 import com.gd.safari.mapper.IProjectGroupMapper;
 import com.gd.safari.mapper.IProjectMapper;
 import com.gd.safari.mapper.IProjectMemberMapper;
@@ -30,6 +31,8 @@ public class ProjectService implements IProjectService {
 	private IProjectGroupMapper projectGroupMapper;
 	@Autowired
 	private IProjectMemberMapper projectMemberMapper;
+	@Autowired
+	private IProjectBookmarkMapper projectBookmarkMapper;
 
 	// project 메인 페이지 정보 제공 메소드
 	@Override
@@ -145,5 +148,25 @@ public class ProjectService implements IProjectService {
 		// 모두 추가되면 controller에 연결
 		
 		projectMapper.deleteProject(projectNo);
+	}
+	
+	// 프로젝트 즐겨찾기 추가/제거
+	@Override
+	public int addOrRemoveProjectBookmark(Map<String, Object> map) {
+		
+		// projectBookmark의 값이 빈 문자열이면 insert 대상
+		if("".equals(map.get("projectBookmark"))) {
+			return projectBookmarkMapper.insertProjectBookmark(map);
+		}
+		
+		// 빈 문자열이 아니면 삭제 대상
+		return projectBookmarkMapper.deleteProjectBookmark(map);
+	}
+	
+	// 프로젝트 요약 페이지 띄우기
+	@Override
+	public Map<String, Object> getProjectSummary(int workNo) {
+		
+		return null;
 	}
 }

@@ -33,13 +33,15 @@
 	</select>
 	
 	<!-- 프로젝트 그룹 생성 -->
-	<insert id="insertProjectGroup" parameterType="java.lang.String">
+	<insert id="insertProjectGroup" parameterType="com.gd.safari.vo.ProjectGroup">
 		INSERT INTO project_group(
 			projectgroup_name
+			, work_no
 			, create_date
 			, update_date
 		) VALUES (
 			#{projectGroupName}
+			, #{workNo}
 			, NOW()
 			, NOW()
 		)

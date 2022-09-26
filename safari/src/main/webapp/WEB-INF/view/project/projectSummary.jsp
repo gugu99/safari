@@ -48,11 +48,11 @@
                     <div class="row breadcrumbs-top">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/safari/index">Home</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="#">Project</a>
+                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/safari/project">프로젝트</a>
                                 </li>
-                                <li class="breadcrumb-item active">Project Summary
+                                <li class="breadcrumb-item active">프로젝트 요약
                                 </li>
                             </ol>
                         </div>
@@ -290,7 +290,8 @@
                             </div>
                         </div>
                         <!--/ Project Overview -->
-                        <!-- Project Users -->
+                        
+                        <!-- 워크스페이스 멤버리스트 -->
                         <div class="card">
                             <div class="card-header mb-0">
                                 <h4 class="card-title">Project Users</h4>

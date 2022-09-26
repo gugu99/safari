@@ -18,7 +18,7 @@ public interface IProjectGroupMapper {
 	ProjectGroup selectProjectGroupByProjectGroupNo(int projectGroupNo);
 	
 	// 프로젝트 그룹 추가 메소드
-	int insertProjectGroup(String projectGroupName);
+	int insertProjectGroup(ProjectGroup projectGroup);
 	
 	// 프로젝트 그룹에 프로젝트 추가
 	int insertProjectGroupConn(ProjectGroupConn projectGroupConn);

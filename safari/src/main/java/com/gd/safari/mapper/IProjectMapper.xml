@@ -6,7 +6,8 @@
 		SELECT
 			p.project_no projectNo
 			, p.project_name projectName
-			, p.create_date createDate
+			, DATE_FORMAT(p.create_date ,'%Y-%m-%d') createDate
+			, p.project_end projectEnd
 			, (SELECT 
 					work_member_no 
 				FROM 
@@ -19,6 +20,24 @@
 					project_no = projectNo
 				AND 
 					work_member_no = #{workMemberNo}) manager
+			, (SELECT
+					work_member_no
+				FROM
+					project_bookmark
+				WHERE
+					project_no = projectNo
+				AND
+					work_member_no = #{workMemberNo}) projectBookmark
+			, (SELECT 
+					round(count(task_end) / count(*) * 100, 1)
+				FROM 
+					task_list tl 
+				INNER JOIN 
+					task t 
+				ON 
+					t.tasklist_no = tl.tasklist_no 
+				WHERE 
+					tl.project_no = projectNo) complete
 		FROM project p
 		
 		<!-- 내가 속한 프로젝트 -->
@@ -35,6 +54,14 @@
 				project_group_conn pgc 
 			ON 
 				pgc.project_no = p.project_no 
+		</if>
+		
+		<!-- 즐겨찾기 -->
+		<if test="'bookmark'.equals(section)">
+			INNER JOIN
+				project_bookmark pb
+			ON
+				p.project_no = pb.project_no
 		</if>
 		
 		WHERE
@@ -56,6 +83,11 @@
 		<if test="projectGroupNo != null">
 			AND
 				pgc.projectgroup_no = #{projectGroupNo}
+		</if>
+		
+		<if test="'bookmark'.equals(section)">
+			AND
+				pb.work_member_no = #{workMemberNo}
 		</if>
 		
 		<!-- 검색 -->

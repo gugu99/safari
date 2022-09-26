@@ -25,8 +25,8 @@ public class ProjectGroupService implements IProjectGroupService {
 	
 	// 프로젝트 그룹 추가
 	@Override
-	public int addProjectGroup(String projectGroupName) {
-		return projectGroupMapper.insertProjectGroup(projectGroupName);
+	public int addProjectGroup(ProjectGroup projectGroup) {
+		return projectGroupMapper.insertProjectGroup(projectGroup);
 	}
 	
 	// 한 프로젝트 그룹의 정보와 해당 그룹에 속한 프로젝트 리스트를 반환

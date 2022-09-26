@@ -2,9 +2,11 @@ package com.gd.safari.service;
 
 import java.util.*;
 
+import com.gd.safari.vo.ProjectGroup;
+
 public interface IProjectGroupService {
 	// 프로젝트 그룹 추가
-	int addProjectGroup(String projectGroupName);
+	int addProjectGroup(ProjectGroup projectGroup);
 	
 	// 수정폼에서 사용
 	// 프로젝트 그룹에 속한 프로젝트와 속하지 않은 프로젝트를 모두 반환

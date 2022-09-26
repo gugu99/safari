@@ -8,7 +8,7 @@
                   <div class="modal-header">
                       <h3 class="modal-title" id="myModalLabel35">프로젝트 추가</h3>
                   </div><!-- modal header -->
-                  <form method="post" action="${pageContext.request.contextPath}/safari/project">
+                  <form method="post" action="${pageContext.request.contextPath}/safari/project" id="addProjectForm">
                       <div class="modal-body">
                           <fieldset class="form-group floating-label-form-group">
                               <label for="projectName">프로젝트 이름(*)</label>
@@ -23,9 +23,9 @@
                           </fieldset>
                           <br>
                       </div>
-	                <div class="form-group col-12 mb-2">
+                     <div class="form-group col-12 mb-2">
 	                	 <div class="form-group">
-	                         <label>프로젝트 멤버</label>
+	                         <label>프로젝트 관리자</label>
 	                         <select class="form-control select2" multiple="multiple" id="projectMemberList" name="projectMemberList">
 	                           <c:forEach var="wm" items="${workspaceMemberList}">
 	                           		<c:if test="${workMemberNo eq wm.workMemberNo}">
@@ -44,7 +44,7 @@
 	               
                    <div class="modal-footer">
                        <button type="button" class="projectForm btn btn-outline-secondary btn-lg" id="hideBtn">닫기</button>
-                       <input type="submit" class="projectForm btn btn-outline-primary btn-lg" value="프로젝트 생성">
+                       <button type="button" class="projectForm btn btn-outline-primary btn-lg" id="projectBtn">프로젝트 생성</button>
                    </div>
                  </form>
             </div>

@@ -62,7 +62,11 @@ public class ProjectController {
 	
 	// 개별 프로젝트 요약 페이지
 	@GetMapping("/safari/projectSummary")
-	public String projectSummary() {
+	public String projectSummary(HttpSession session) {
+		int workNo = (int) session.getAttribute("workNo");
+		
+		projectService.getProjectSummary(workNo);
+		
 		return "project/projectSummary";
 	}
 	
@@ -78,4 +82,26 @@ public class ProjectController {
 	// 수정: RestProjectMapper
 	
 	// 삭제 메소드가 들어올 자리
+	
+	// 프로젝트 즐겨찾기
+	// ${pageContext.request.contextPath}/safari/projectLike?projectNo=${p.projectNo}?projectLike=${p.projectLike}
+	@GetMapping("/safari/projectBookmark")
+	public String projectBookmark(HttpSession session, @RequestParam Map<String, Object> map) {
+		log.debug(TeamColor.CSK + "프로젝트 즐겨찾기");
+		log.debug(TeamColor.CSK + "map: " + map);
+		
+		// 세션에 저장한 workMemberNo를 받아온다
+		map.put("workMemberNo", session.getAttribute("workMemberNo"));
+		
+		projectService.addOrRemoveProjectBookmark(map);
+		
+		// projectBookmark의 값이 빈 문자열이면 insert 대상
+		// 북마크에 새로 추가되었으므로 북마크된 프로젝트 페이지를 리턴
+		if("".equals(map.get("projectBookmark"))) {
+			return "redirect:/safari/project?section=bookmark";
+		}
+		
+		// 북마크에서 삭제된 경우 전체 프로젝트 페이지를 리턴
+		return "redirect:/safari/project";
+	}
 }

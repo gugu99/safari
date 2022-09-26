@@ -23,4 +23,10 @@ public interface IProjectService {
 	
 	// 프로젝트 삭제
 	void removeProject(int projectNo);
+	
+	// 프로젝트 즐겨찾기 추가/제거
+	int addOrRemoveProjectBookmark(Map<String, Object> map);
+	
+	// 프로젝트 요약 페이지를 띄우는 용도
+	Map<String, Object> getProjectSummary(int workNo);
 }

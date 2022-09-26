@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IProjectBookmarkMapper">
+
+	<!-- 즐겨찾기 추가 -->
+	<insert id="insertProjectBookmark" parameterType="java.util.Map">
+		INSERT INTO project_bookmark (
+			project_no
+			, work_member_no
+			, create_date		
+		) VALUES (
+			#{projectNo}
+			, #{workMemberNo}
+			, NOW()
+		)
+	</insert>
+	
+	<!-- 즐겨찾기 대상 -->
+	<delete id="deleteProjectBookmark" parameterType="java.util.Map">
+		DELETE FROM
+			project_bookmark
+		WHERE
+			project_no = #{projectNo}
+		AND
+			work_member_no = #{workMemberNo}
+	</delete>
+</mapper>
