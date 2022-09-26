@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-public class RestWorkspaceMember {
+public class RestWorkspaceMemberController {
 	@Autowired private IWorkspaceMemberService workspaceMemberService;
 	
 	// 아이디에 맞는 Code 가져오기
@@ -44,7 +44,7 @@ public class RestWorkspaceMember {
 		
 		// 리턴값 boolean - true (email 사용가능)
 		boolean emailAvailable = workspaceMemberService.getMemberEmailByConfirm(workMemberEmail);
-		log.debug(TeamColor.CSH + emailAvailable);
+		log.debug(TeamColor.CJM + emailAvailable);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		
@@ -70,7 +70,7 @@ public class RestWorkspaceMember {
 		
 		// 리턴값 boolean - true (email 사용가능)
 		String emailAvailable = workspaceMemberService.getWorkspaceMemberEmailByConfirm(workspaceMember);
-		log.debug(TeamColor.CSH + emailAvailable);
+		log.debug(TeamColor.CJM + emailAvailable);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		

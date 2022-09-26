@@ -433,14 +433,12 @@
 														<!-- 멤버승인 모달 끝 -->
 
 
-
-
 														<tr>
 															<td class="text-center">${r.workMemberPos }</td>
 															<td>
 																<div class="media">
 																	<div class="media-body media-middle">
-																		${r.workMemberName }</div>
+																		<a href="${pageContext.request.contextPath }/safari/feedback?workMemberNo=${r.workMemberNo}">${r.workMemberName }</a></div>
 																</div>
 															</td>
 															<td class="text-center"><a class="email"
@@ -667,7 +665,9 @@ $(document).ready(function() {
 	// 사원 초대폼 유효성검사
 	$('#inviteButton').click(function() {
 	var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
-
+	
+	var admin = 'yes'; 
+	
 	var grpl = $('input[name=workMemberEmail]').length;
 	//배열 생성
 	var grparr = new Array(grpl);
@@ -690,98 +690,109 @@ $(document).ready(function() {
 				url : '/safari/existEmail',
 				type : 'POST',
 				data : {workMemberEmail : $("input[name='workMemberEmail']").eq(i).val()},
-				success : function(json) {
-						if (json != '존재하는이메일') {
+				success : function(data) {
+						if (data != '존재하는이메일') {
 							alert(i+ 1+ '번쨰칸은 가입하지 않는 아이디입니다');
+							console.log(data);
 							return;
-						} 
+						}else if (data=='존재하는이메일'){
+							$.ajax({
+								async : false,
+								url : '/safari/existWorkspaceEmail',
+								type : 'POST',
+								data : {workMemberEmail : $("input[name='workMemberEmail']").eq(i).val()},
+								success : function(json) {
+										if (json == '이미사용') {
+											alert(i+ 1+ '칸은 이미가입된 이메일입니다.');
+											return;
+										} else if (json == '사용하지않음'&& i == grpl - 1) {
+											alert('제출완료');
+											$('#inviteForm').submit();
+										}
+									}
+								});
+							
+							} 
 					}
 				});
-			$.ajax({
-				async : false,
-				url : '/safari/existWorkspaceEmail',
-				type : 'POST',
-				data : {workMemberEmail : $("input[name='workMemberEmail']").eq(i).val()},
-				success : function(json) {
-						if (json == '이미사용') {
-							alert(i+ 1+ '칸은 이미가입된 이메일입니다.');
-							return;
-						} else if (json == '사용하지않음'&& i == grpl - 1) {
-							alert('제출완료');
-							$('#inviteForm').submit();
-						}
-					}
-				});
-			
-			} 
+			}
 		}
 	});
 	// 사원 초대폼 유효성검사 끝
 
 	// 게스트 초대폼 유효성 검사 시작
-	$('#guestInviteButton')
-			.click(
-					function() {
-						var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
+	$('#guestInviteButton').click(function() {
+		var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
 
-						var grpl = $('input[name=memberEmail]').length;
-						//배열 생성
-						var grparr = new Array(grpl);
-						//배열에 값 주입
+		var grpl = $('input[name=memberEmail]').length;
+		//배열 생성
+		var grparr = new Array(grpl);
+		//배열에 값 주입
 
-						for (var i = 0; i < grpl; i++) {
-							console.log(i);
-							console.log(grpl);
-							if ($(
-									"input[name='memberEmail']")
-									.eq(i).val() == '') {
-								alert('이메일이 빈칸입니다.');
+		for (var i = 0; i < grpl; i++) {
+			console.log(i);
+			console.log(grpl);
+			if ($("input[name='memberEmail']").eq(i).val() == '') {
+				alert('이메일이 빈칸입니다.');
+				return;
+			}
+			if (!reg_email.test($("input[name='memberEmail']").eq(i).val())) {
+				alert('이메일형식을 확인해주세요.\nexample@example.com');
+				console.log($("input[name='memberEmail']").eq(i).val());
+				return;
+			} else if ($("input[name='memberEmail']").eq(i).val() != '') {
+				$.ajax({
+					async : false,
+					url : '/safari/existEmail',
+					type : 'POST',
+					data : {workMemberEmail : $("input[name='memberEmail']").eq(i).val()},
+					success : function(data) {
+							if (data != '존재하는이메일') {
+								alert(i+ 1+ '번쨰칸은 가입하지 않는 아이디입니다');
+								console.log(data);
 								return;
-							}
-							if (!reg_email
-									.test($(
-											"input[name='memberEmail']")
-											.eq(i).val())) {
-								alert('이메일형식을 확인해주세요.\nexample@example.com');
-								console
-										.log($(
-												"input[name='memberEmail']")
-												.eq(i)
-												.val());
-								return;
-							} else if ($('#memberEmail')
-									.val() != '') {
-								$
-										.ajax({
-											async : false,
-											url : '/safari/existEmail',
-											type : 'POST',
-											data : {
-												workMemberEmail : $(
-														"input[name='memberEmail']")
-														.eq(
-																i)
-														.val()
-											},
-											success : function(
-													json) {
-												if (json != '존재하는이메일') {
-													alert(i
-															+ 1
-															+ '번쨰칸은 가입하지 않는 아이디입니다');
-													return;
-												} else if (json == '존재하는이메일'
-														&& i == grpl - 1) {
-													alert('제출완료');
-													$(
-															'#GuestInviteForm')
-															.submit();
-												}
-											}
-										});
-							}
+							}else if (data=='존재하는이메일'){
+								$.ajax({
+									async : false,
+									url : '/safari/existWorkspaceEmail',
+									type : 'POST',
+									data : {workMemberEmail : $("input[name='memberEmail']").eq(i).val()},
+									success : function(json) {
+											if (json == '이미사용') {
+												alert(i+ 1+ '칸은 이미가입된 이메일입니다.');
+												return;
+											} 
+											else if (json!='이미사용'){
+												$.ajax({
+													async : false,
+													url : '/safari/existGuestEmail',
+													type : 'POST',
+													data : {memberEmail : $("input[name='memberEmail']").eq(i).val()},
+													success : function(email) {
+															if (email == '이미사용') {
+																alert(i+ 1+ '칸은 이미가입된 게스트입니다.');
+																return;
+															} else if (json == '사용하지않음'&& i == grpl - 1) {
+																alert('제출완료');
+																$('#GuestInviteForm').submit();
+															}
+															
+														}
+													});
+												
+												} 
+											
+										}
+									});
+								
+								} 
 						}
 					});
+				}
+			}
+		});
+	
+	
 
 });
 </script>

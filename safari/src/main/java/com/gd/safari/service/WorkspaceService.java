@@ -96,18 +96,33 @@ public class WorkspaceService implements IWorkspaceService {
 		// 워크스페이스 수정 메서드
 		return workspaceMapper.updateWorkspace(workspace);
 	}
-
+	
+	// 워크스페이스 관리자 이메일 변경 메서드
 	@Override
 	public int modifyWorkspaceAdminEmail(Workspace workspace,WorkspaceMember workspaceMember,int workMemberNo) {
 		
 		// workspace 디버깅
 		log.debug(TeamColor.CJM + workspace + "Service workspace");
 		
-		workspaceMapper.updateWorkspaceAdminEmail(workspace);
-		workspaceMemberMapper.updateWorkspaceMemberByAdminLevel(workMemberNo);
-		workspaceMemberMapper.updateWorkspaceMemberByNewAdminLevel(workspaceMember.getWorkMemberNo());
+		// 바뀌기전 어드민 이메일 담기
+		String adminEmail = workspace.getAdminEmail();
+		
 		// 워크스페이스 관리자 이메일 변경 메서드
-		return workspaceMapper.updateWorkspaceAdminEmail(workspace);
+		workspaceMapper.updateWorkspaceAdminEmail(workspace);
+		
+		// 워크스페이스 과거 관리자 레벨 변경
+		workspaceMemberMapper.updateWorkspaceMemberByAdminLevel(workMemberNo);
+		
+		// 워크스페이스 새로운 관리자 레벨벼경
+		workspaceMemberMapper.updateWorkspaceMemberByNewAdminLevel(workspaceMember.getWorkMemberNo());
+		
+		// 워크스페이스 번호 얻기
+		workspaceMember.setWorkNo(workspace.getWorkNo());
+		
+		// 이메일 담기
+		workspaceMember.setWorkMemberEmail(adminEmail);
+		
+		return workspaceMemberMapper.selectWorkspaceMemberLevel(workspaceMember);
 	}
 
 	

@@ -196,7 +196,8 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		// 멤버리스트 불러오기 
 		return workspaceMemberMapper.selectWorkspaceMemberListByActive(workspaceMember);
 	}
-
+	
+	// 워크스페이스 활동정지 하는메서드
 	@Override
 	public int modifyWorkspaceMemberActiveApprove(int workMemberNo) {
 		// workMemberNo  디버깅
@@ -206,7 +207,8 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		return workspaceMemberMapper.updateWorkspaceMemberActiveApprove(workMemberNo);
 		
 	}
-
+	
+	// 가입된 workspaceMemberEmail 인지 확인 하는 메서드
 	@Override
 	public String getWorkspaceMemberEmailByConfirm(WorkspaceMember workspaceMember) {
 		

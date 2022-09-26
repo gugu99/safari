@@ -108,6 +108,8 @@ public class WorkspaceController {
 		
 		// 세션 workspaceMember 추가
 		session.setAttribute("workMemberNo", workMemberNo); 
+		
+		// 활동여부 만들기
 		String Active = workspaceMemberService.getWorkspaceMemberOneActive(workMemberNo);
 		
 		// 세션 workspaceMemberLevel 추가
@@ -189,8 +191,12 @@ public class WorkspaceController {
 		// session에서 현재관리자 워크스페이스넘버 가져오기
 		int workMemberNo = (int)session.getAttribute("workMemberNo");
 		
-		// 워크스페이스 수정 서비스
-		int row = workspaceService.modifyWorkspaceAdminEmail(workspace,workspaceMember,workMemberNo); 
+		// 워크스페이스 수정 서비스 과거 관리자 레벨 받아오기
+		int lastAdminLevel = workspaceService.modifyWorkspaceAdminEmail(workspace,workspaceMember,workMemberNo); 
+		log.debug(TeamColor.CJM + lastAdminLevel + "Controller lastAdminLevel");
+		
+		// session에 레벨 조정 하기
+		session.setAttribute("workMemberLevel", 1);
 		
 		// 워크스페이스리스트로 리다이렉트
 		return "redirect:/safari/workspaceMemberList"; 
