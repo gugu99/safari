@@ -37,27 +37,21 @@
                         <input type="text" class="form-control edit-kanban-item-end" placeholder="종료일" id="taskEnd" readonly>
                         <div class="result"></div>
                     </div>
-                    <div class="row">
-                        <div class="col-8">
-		                    <div class="form-group">
-		                    	<label>배정된 멤버</label>
-		                         	<a data-toggle="modal" href="#taskMemberModal"><input type="button" class="form-control edit-kanban-item-member memberBtn-modal text-left"></a>
-			                </div>
-			            </div>
-			            <div class="col-4">
-                            <div class="form-group">
-                                <label>중요도</label>
-                                <select class="form-control text-white edit-kanban-item-point" name="taskPoint">
-                                    <option value="" class="bg-primary" selected></option>
-                                    <option value="1" class="bg-danger">1</option>
-                                    <option value="2" class="bg-success">2</option>
-                                    <option value="3" class="bg-info">3</option>
-                                    <option value="4" class="bg-warning">4</option>
-                                    <option value="5" class="bg-secondary">5</option>
-                                </select>
-                            </div>
-                        </div>
-			        </div>
+                    <div class="form-group">
+                    	<label>배정된 멤버</label>
+                         	<a data-toggle="modal" href="#taskMemberModal"><input type="button" class="form-control edit-kanban-item-member memberBtn-modal text-left"></a>
+	                </div>
+			        <div class="form-group">
+                        <label>중요도</label>
+                        <select class="form-control text-white edit-kanban-item-point" name="taskPoint">
+                            <option value="" class="bg-primary" selected></option>
+                            <option value="1" class="bg-danger">1</option>
+                            <option value="2" class="bg-success">2</option>
+                            <option value="3" class="bg-info">3</option>
+                            <option value="4" class="bg-warning">4</option>
+                            <option value="5" class="bg-secondary">5</option>
+                        </select>
+                    </div>
                     <div class="row">
                         <div class="col-6">
                              <div class="form-group">
@@ -81,10 +75,12 @@
                    		<label>하위 업무</label>
                    		<ul class="edit-kanban-item-task">
                    			<!-- 하위 업무 리스트 -->
-                   		</ul>	
-                   		<div class="text-right">
+                   			
+                   		</ul>
+		                <input type="text" class="form-control lowerTask" id="lowerTask" placeholder="하위업무 만들기">	
+                   		<!-- <div class="text-right">
                    			<a data-toggle="modal" href="#taskModal"><input type="button" class="taskBtn-modal btn btn-outline-primary" value="하위업무 수정"></a>
-                   		</div>
+                   		</div> -->
                    </div>
            		</div>
 	            <div class="card-footer d-flex justify-content-end">

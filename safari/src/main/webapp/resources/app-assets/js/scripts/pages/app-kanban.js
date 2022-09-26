@@ -1003,7 +1003,7 @@ $(document).ready(function () {
   // ----------------------------------------------------------
   $(".edit-kanban-item-date").pickadate();
   $(".edit-kanban-item-start").pickadate();
-  $(".edit-kanban-item-end").pickadate();
+  // $(".edit-kanban-item-end").pickadate();
   $(".edit-kanban-item-time").pickatime();
   $(".edit-kanban-item-deadline-time").pickatime();
   
