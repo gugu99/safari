@@ -36,6 +36,24 @@
 			tl.project_no = #{projectNo}
 		AND t1.task_no != #{taskNo}
 	</select>
+	<!-- 하위 업무 생성 -->
+	<insert id="insertLowerTask" parameterType="com.gd.safari.vo.Task">
+		INSERT INTO task (
+			task_title
+			, task_writer
+			, tasklist_no
+			, task_upper_no
+			, create_date
+			, update_date
+		) VALUES (
+			#{taskTitle}
+			, #{taskWriter}
+			, #{tasklistNo}
+			, #{taskUpperNo}
+			, NOW()
+			, NOW()
+		);
+	</insert>
 	<!-- 하위 업무 추가 -->
 	<update id="updateinsertLowerTask" parameterType="map">
 		UPDATE task 

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.mapper.ILowerTaskMapper;
+import com.gd.safari.vo.Task;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,6 +47,13 @@ public class LowerTaskService implements ILowerTaskService {
 		}
 		
 		return result;
+	}
+
+	// 하위 업무 생성
+	@Override
+	public int addLowerTask(Task task) {
+		log.debug(TeamColor.CSH + this.getClass() + " 하위 업무 생성");
+		return lowerTaskMapper.insertLowerTask(task);
 	}
 	
 	// 하위 업무 추가

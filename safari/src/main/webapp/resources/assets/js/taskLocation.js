@@ -1,7 +1,8 @@
  
   // 업무 위치 변경
   // -------------------- updateLocation
-  $('.projectBtn-modal').click(function(){
+  $('.projectBtn-modal').on("click", function(){
+	console.log($('.taskLocation').val($('.edit-kanban-item-tasklistTitle').val()));
 	// 현재위치 보여주기
 	$('.taskLocation').val($('.edit-kanban-item-tasklistTitle').val());
 	// 프로젝트 선택
