@@ -65,5 +65,44 @@
 		WHERE
 			   member_email = #{memberEmail} AND work_no = #{workNo}
 	</select>
+	
+	<!-- 워크스페이스 게스트 수 구하기 -->
+	<select id="selectWorkspaceGuestCount" resultType="int" parameterType="int">
+		SELECT 
+				count(*) count 
+		FROM	workspace_guest
+		WHERE 	work_no = #{workNo}
+	</select>
+	
+	<!-- 워크스페이스 게스트 수 구하기 -->
+	<select id="selectWorkspaceGuestActiveWCount" resultType="int" parameterType="int">
+		SELECT 
+				count(*) count 
+		FROM	workspace_guest
+		WHERE 	work_no = #{workNo} AND active='W'
+	</select>
+	
+	<!-- 워크스페이스 게스트 수 구하기 -->
+	<select id="selectWorkspaceGuestActiveNCount" resultType="int" parameterType="int">
+		SELECT 
+				count(*) count 
+		FROM	workspace_guest
+		WHERE 	work_no = #{workNo} AND active='N'
+	</select>
+	
+	<!-- 워크스페이스 게스트로 속한 사람의 리스트 -->
+	<select id = "selectWorkspaceGuestListByEmail" parameterType="String" resultType ="map">
+		SELECT distinct 
+			  wg.work_no     workNo
+			, w.work_name   workName
+			, wg.create_date createDate
+			, wg.active
+			, wg.member_email memberEmail
+		FROM workspace_guest wg  inner join workspace w
+		ON  wg.work_no = w.work_no
+		where  wg.member_email = #{memberEmail}
+	
+	</select>
+	
 
 </mapper>

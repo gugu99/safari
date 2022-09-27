@@ -1,6 +1,8 @@
 package com.gd.safari.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.gd.safari.vo.WorkspaceGuest;
 import com.gd.safari.vo.WorkspaceMember;
@@ -21,5 +23,11 @@ public interface IWorkspaceGuestService {
 	
 	// 이미 생성된 게스트아이디인지 확인
 	String getWorkspaceGuestEmailByConfirm(WorkspaceGuest workspaceGuest);
+	
+	// 워크스페이스 멤버수 구하기
+	ArrayList<Integer> getWorkspaceGuestCount(WorkspaceGuest workspaceGuest);
+	
+	// 워크스페이스 게스트 index 목록 
+	List<Map<String,Object>> selectWorkspaceGuestListByEmail (String memberEmail);
 	
 }

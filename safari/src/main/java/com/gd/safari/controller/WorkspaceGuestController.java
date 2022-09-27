@@ -1,5 +1,6 @@
 package com.gd.safari.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,30 +30,30 @@ public class WorkspaceGuestController {
 	// 워크스페이스게스트 초대
 	@PostMapping("/safari/addWorkspaceGuestByInvite")
 	public String addWorkspaceGuestByInvite(WorkspaceGuest workspaceGuest,
-			@RequestParam(value = "memberEmail", required = false) String[] memberEmail) {
+			@RequestParam(value = "memberEmail1", required = false) String[] memberEmail1) {
 
 		// workspaceMember 디버깅
 		log.debug(TeamColor.CJM + workspaceGuest + "Controller workspaceGuest");
 
 		// workspace workMemberEmail배열 디버깅
-		log.debug(TeamColor.CJM + Arrays.toString(memberEmail) + "workMemberEmail workspace");
+		log.debug(TeamColor.CJM + Arrays.toString(memberEmail1) + "workMemberEmail workspace");
 
 		// workMemberEmail null 배열 확인
-		int emailLength = memberEmail.length;
+		int emailLength = memberEmail1.length;
 
 		// 메일 전송하는 메서드
 		if (emailLength != 0) {
 			log.debug(TeamColor.CJM + this.getClass() + " 로그인 페이지");
 			String code;
 			// 꼭 예외처리를 하지 않아도 되는 익셉션을 발생시킨다.
-			code = memberMailService.sendSimpleMessage(memberEmail);
+			code = memberMailService.sendSimpleMessage(memberEmail1);
 			log.debug(TeamColor.CJM + "인증코드 : " + code);
 			workspaceGuest.setWorkGuestCode(code);
-			workspaceGuestService.addWorkspaceGuestByInvite(workspaceGuest, memberEmail);
+			workspaceGuestService.addWorkspaceGuestByInvite(workspaceGuest, memberEmail1);
 
 		}
 		// 인덱스로 리다이렉트
-		return "redirect:/safari/workspaceMemberList";
+		return "redirect:/safari/workspaceGuestList";
 
 	}
 	
@@ -85,6 +86,15 @@ public class WorkspaceGuestController {
 		// 워크스페이스 멤버 리스트 디버깅
 		log.debug(TeamColor.CJM+list +"Controller WorkspaceGuestList"); 					
 		
+		// 멤버 및 Guest 명수 가져오기
+		ArrayList<Integer> count = workspaceGuestService.getWorkspaceGuestCount(workspaceGuest);
+		
+		model.addAttribute("allMemberCount", count.get(0));
+		model.addAttribute("WMemberCount", count.get(1));
+		model.addAttribute("NMemberCount", count.get(2));
+		model.addAttribute("allGuestCount", count.get(3));
+		model.addAttribute("NGuestCount", count.get(4));
+		model.addAttribute("WGuestCount", count.get(5));
 		 // 워크스페이스멤버리스트 페이지 forward
 		return "workmember/workspaceGuestList";  										   
 	}

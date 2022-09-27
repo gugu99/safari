@@ -121,7 +121,6 @@
 																			</div>
 																		</div>
 																	</fieldset>
-
 																</div>
 																<div class="modal-footer">
 																	<fieldset
@@ -161,7 +160,7 @@
 																			<div class="col-9">
 																				<input type="text" id="memberEmail"
 																					class="contact-email form-control memberEmail"
-																					name="memberEmail" placeholder="Email">
+																					name="memberEmail1" placeholder="Email">
 																			</div>
 																			<div class="col-3">
 																				<input value="추가" type="button"
@@ -187,12 +186,12 @@
 													</div>
 												</div>
 											</div>
-											<span>
-												<button id="btnSearchDrop1" type="button"
-													class="btn btn-warning"  data-toggle="modal"
-												data-target="#addInviteGuest">
-													게스트초대
-												</button> 
+											<span> 
+												<c:if test="${workMemberLevel > 1 }">
+													<button id="btnSearchDrop1" type="button"
+														class="btn btn-warning" data-toggle="modal"
+														data-target="#addInviteGuest">게스트초대</button>
+												</c:if>
 											</span>
 											<!--게스트초대모달끝 -->
 											<button class="btn btn-default btn-sm">
@@ -408,15 +407,15 @@
 								<p class="lead">사원</p>
 								<ul class="list-group">
 									<li class="list-group-item"><span
-										class="badge badge-primary badge-pill float-right">14</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceMemberList">모든멤버</a></li>
+										class="badge badge-primary badge-pill float-right">${allMemberCount}</span> <a
+										href="${pageContext.request.contextPath }/safari/workspaceMemberList">모든 멤버</a></li>
 									<li class="list-group-item"><span
-										class="badge badge-info badge-pill float-right">22</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceMemberList?active=W">초대중인멤버</a></li>
+										class="badge badge-info badge-pill float-right">${WMemberCount }</span> <a
+										href="${pageContext.request.contextPath }/safari/workspaceMemberList?active=W">초대중인 멤버</a></li>
 									<li class="list-group-item"><span
-										class="badge badge-warning badge-pill float-right">10</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceMemberList?active=N">삭제된멤버</a></li>
-									
+										class="badge badge-warning badge-pill float-right">${NMemberCount }</span> <a
+										href="${pageContext.request.contextPath }/safari/workspaceMemberList?active=N">삭제된 멤버</a></li>
+
 								</ul>
 							</div>
 							<!--/ Groups-->
@@ -426,14 +425,14 @@
 								<p class="lead">게스트</p>
 								<ul class="list-group">
 									<li class="list-group-item"><span
-										class="badge badge-primary badge-pill float-right">14</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceGuestList">모든게스트</a></li>
+										class="badge badge-primary badge-pill float-right">${allGuestCount }</span> <a
+										href="${pageContext.request.contextPath }/safari/workspaceGuestList">모든 게스트</a></li>
 									<li class="list-group-item"><span
-										class="badge badge-info badge-pill float-right">22</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceGuestList?active=W">초대중인게스트</a></li>
+										class="badge badge-info badge-pill float-right">${WGuestCount }</span> <a
+										href="${pageContext.request.contextPath }/safari/workspaceGuestList?active=W">초대중인 게스트</a></li>
 									<li class="list-group-item"><span
-										class="badge badge-info badge-pill float-right">22</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceGuestList?active=N">삭제된게스트</a></li>	
+										class="badge badge-info badge-pill float-right">${NGuestCount }</span> <a
+										href="${pageContext.request.contextPath }/safari/workspaceGuestList?active=N">삭제된 게스트</a></li>
 								</ul>
 							</div>
 							<!--/More-->
@@ -464,152 +463,201 @@
 
 
 <script>
-// 사원멤버추가 이메일추가칸 생성 삭제 
-$(document).ready(function(){ 
-	$("#btn_add").on('click',function(){ 
-		var tmpHtml =
-	"<fieldset id='remove1' class='form-group col-12' name='remove'>"+
-		"<div class='row'>"+
-			"<div class='col-9'>"+
-				"<input type='text' name='workMemberEmail' id='contact-email' class='contact-email form-control workMemberEmail' placeholder='Email'>"+
-			"</div>"+
-			"<div class='col-3'>"+
-				"<input value='삭제' name='remove1' type='button' class='btn btn danger form-control' id='btn_add'>"+
-			"</div>"+
-		"</div>"+
-	"</fieldset>"
-		  $(".add").append(tmpHtml);
-		
-		}); 
-	var trHtml = $("fieldset[name=remove]:last" ); //last를 사용하여 trStaff라는 명을 가진 마지막 태그 호출
-	$(document).on('click','input[name=remove1]',function(){   
-		
-		$('#remove1').remove();
-		cnt=cnt-1;
-		}); 
-// 사원멤버추가 이메일추가칸 생성 삭제끝
+	// 사원멤버추가 이메일추가칸 생성 삭제 
+	$(document)
+			.ready(
+					function() {
+						$("#btn_add")
+								.on(
+										'click',
+										function() {
+											var tmpHtml = "<fieldset id='remove1' class='form-group col-12' name='remove'>"
+													+ "<div class='row'>"
+													+ "<div class='col-9'>"
+													+ "<input type='text' name='workMemberEmail' id='contact-email' class='contact-email form-control workMemberEmail' placeholder='Email'>"
+													+ "</div>"
+													+ "<div class='col-3'>"
+													+ "<input value='삭제' name='remove1' type='button' class='btn btn danger form-control' id='btn_add'>"
+													+ "</div>"
+													+ "</div>"
+													+ "</fieldset>"
+											$(".add").append(tmpHtml);
 
+										});
+						var trHtml = $("fieldset[name=remove]:last"); //last를 사용하여 trStaff라는 명을 가진 마지막 태그 호출
+						$(document).on('click', 'input[name=remove1]',
+								function() {
 
-// 게스트추가 이메일추가칸 생성 삭제시작
-	$("#guest_add").on('click',function(){ 
-		var tmpHtml =
-	"<fieldset id='guestRemove' class='form-group col-12' name='guestRemove'>"+
-		"<div class='row'>"+
-			"<div class='col-9'>"+
-				"<input type='text' name='memberEmail' id='contact-email' class='contact-email form-control memberEmail' placeholder='Email'>"+
-			"</div>"+
-			"<div class='col-3'>"+
-				"<input value='삭제' name='guestRemove1' type='button' class='btn btn danger form-control' id='btn_add'>"+
-			"</div>"+
-		"</div>"+
-	"</fieldset>"
-		  $(".add2").append(tmpHtml);
-		
-		}); 
-	var trHtml = $("fieldset[name=guestRemove]:last" ); //last를 사용하여 trStaff라는 명을 가진 마지막 태그 호출
-	$(document).on('click','input[name=guestRemove1]',function(){   
-		
-		$('#guestRemove').remove();
-		cnt=cnt-1;
-		}); 		
-		
-});
-//게스트추가 이메일칸 생성 삭제끝
+									$('#remove1').remove();
+									cnt = cnt - 1;
+								});
+						// 사원멤버추가 이메일추가칸 생성 삭제끝
 
+						// 게스트추가 이메일추가칸 생성 삭제시작
+						$("#guest_add")
+								.on(
+										'click',
+										function() {
+											var tmpHtml = "<fieldset id='guestRemove' class='form-group col-12' name='guestRemove'>"
+													+ "<div class='row'>"
+													+ "<div class='col-9'>"
+													+ "<input type='text' name='memberEmail1' id='contact-email' class='contact-email form-control memberEmail' placeholder='Email'>"
+													+ "</div>"
+													+ "<div class='col-3'>"
+													+ "<input value='삭제' name='guestRemove1' type='button' class='btn btn danger form-control' id='btn_add'>"
+													+ "</div>"
+													+ "</div>"
+													+ "</fieldset>"
+											$(".add2").append(tmpHtml);
 
+										});
+						var trHtml = $("fieldset[name=guestRemove]:last"); //last를 사용하여 trStaff라는 명을 가진 마지막 태그 호출
+						$(document).on('click', 'input[name=guestRemove1]',
+								function() {
+
+									$('#guestRemove').remove();
+									cnt = cnt - 1;
+								});
+
+					});
+	//게스트추가 이메일칸 생성 삭제끝
 </script>
 
 <script>
-
-// 이메일유효성 검사
-$(document).ready(function(){ 
+	// 이메일유효성 검사
+$(document).ready(function() {
 	// 사원 초대폼 유효성검사
-	$('#inviteButton').click(function(){
-		var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
+	$('#inviteButton').click(function() {
+	var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
+	
+	var admin = 'yes'; 
+	
+	var grpl = $('input[name=workMemberEmail]').length;
+	//배열 생성
+	var grparr = new Array(grpl);
+	//배열에 값 주입
 
-		var grpl = $('input[name=workMemberEmail]').length;
-		//배열 생성
-		var grparr = new Array(grpl);
-		//배열에 값 주입
-		
-		for (var i = 0; i < grpl; i++) {
-			console.log(i);
-			console.log(grpl);
-			if ($("input[name='workMemberEmail']").eq(i).val() == '') {
-				alert('이메일이 빈칸입니다.');
-				return;
-			}
-			if (!reg_email.test($("input[name='workMemberEmail']").eq(i).val())) {
-				alert('이메일형식을 확인해주세요.\nexample@example.com');
-				console.log($("input[name='workMemberEmail']").eq(i).val());
-				return;
-			} else if ($('#workMemberEmail').val() != '') {
-				$.ajax({
-					async: false,
-					url: '/safari/existEmail',
-					type: 'POST',
-					data: { workMemberEmail: $("input[name='workMemberEmail']").eq(i).val() },
-					success: function(json) {
-						if (json != '존재하는이메일') {
-							alert(i + 1 + '번쨰칸은 가입하지 않는 아이디입니다');
+	for (var i = 0; i < grpl; i++) {
+		console.log(i);
+		console.log(grpl);
+		if ($("input[name='workMemberEmail']").eq(i).val() == '') {
+			alert('이메일이 빈칸입니다.');
+			return;
+		}
+		if (!reg_email.test($("input[name='workMemberEmail']").eq(i).val())) {
+			alert('이메일형식을 확인해주세요.\nexample@example.com');
+			console.log($("input[name='workMemberEmail']").eq(i).val());
+			return;
+			} else if ($("input[name='workMemberEmail']").val() != '') {
+			$.ajax({
+				async : false,
+				url : '/safari/existEmail',
+				type : 'POST',
+				data : {workMemberEmail : $("input[name='workMemberEmail']").eq(i).val()},
+				success : function(data) {
+						if (data != '존재하는이메일') {
+							alert(i+ 1+ '번쨰칸은 가입하지 않는 아이디입니다');
+							console.log(data);
 							return;
-						} else if (json == '존재하는이메일' && i == grpl - 1) {
-							alert('제출완료');
-							$('#inviteForm').submit();
-						}
+						}else if (data=='존재하는이메일'){
+							$.ajax({
+								async : false,
+								url : '/safari/existWorkspaceEmail',
+								type : 'POST',
+								data : {workMemberEmail : $("input[name='workMemberEmail']").eq(i).val()},
+								success : function(json) {
+										if (json == '이미사용') {
+											alert(i+ 1+ '칸은 이미가입된 이메일입니다.');
+											return;
+										} else if (json == '사용하지않음'&& i == grpl - 1) {
+											alert('제출완료');
+											$('#inviteForm').submit();
+										}
+									}
+								});
+							
+							} 
 					}
 				});
 			}
 		}
 	});
 	// 사원 초대폼 유효성검사 끝
-	
+
 	// 게스트 초대폼 유효성 검사 시작
-$('#guestInviteButton').click(function(){
-	var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
+	$('#guestInviteButton').click(function() {
+		var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
 
-	var grpl = $('input[name=memberEmail]').length;
-	//배열 생성
-	var grparr = new Array(grpl);
-	//배열에 값 주입
-	
-	for (var i = 0; i < grpl; i++) {
-		console.log(i);
-		console.log(grpl);
-		if ($("input[name='memberEmail']").eq(i).val() == '') {
-			alert('이메일이 빈칸입니다.');
-			return;
-		}
-		if (!reg_email.test($("input[name='memberEmail']").eq(i).val())) {
-			alert('이메일형식을 확인해주세요.\nexample@example.com');
-			console.log($("input[name='memberEmail']").eq(i).val());
-			return;
-		} else if ($('#memberEmail').val() != '') {
-			$.ajax({
-				async: false,
-				url: '/safari/existEmail',
-				type: 'POST',
-				data: { workMemberEmail: $("input[name='memberEmail']").eq(i).val() },
-				success: function(json) {
-					if (json != '존재하는이메일') {
-						alert(i + 1 + '번쨰칸은 가입하지 않는 아이디입니다');
-						return;
-					} else if (json == '존재하는이메일' && i == grpl - 1) {
-						alert('제출완료');
-						$('#GuestInviteForm').submit();
-					}
+		var grpl = $('input[name=memberEmail1]').length;
+		//배열 생성
+		var grparr = new Array(grpl);
+		//배열에 값 주입
+
+		for (var i = 0; i < grpl; i++) {
+			console.log(i);
+			console.log(grpl);
+			if ($("input[name='memberEmail1']").eq(i).val() == '') {
+				alert('이메일이 빈칸입니다.');
+				return;
+			}
+			if (!reg_email.test($("input[name='memberEmail1']").eq(i).val())) {
+				alert('이메일형식을 확인해주세요.\nexample@example.com');
+				console.log($("input[name='memberEmail1']").eq(i).val());
+				return;
+			} else if ($("input[name='memberEmail1']").eq(i).val() != '') {
+				$.ajax({
+					async : false,
+					url : '/safari/existEmail',
+					type : 'POST',
+					data : {workMemberEmail : $("input[name='memberEmail1']").eq(i).val()},
+					success : function(data) {
+							if (data != '존재하는이메일') {
+								alert(i+ 1+ '번쨰칸은 가입하지 않는 아이디입니다');
+								console.log(data);
+								return;
+							}else if (data=='존재하는이메일'){
+								$.ajax({
+									async : false,
+									url : '/safari/existWorkspaceEmail',
+									type : 'POST',
+									data : {workMemberEmail : $("input[name='memberEmail1']").eq(i).val()},
+									success : function(json) {
+											if (json == '이미사용') {
+												alert(i+ 1+ '칸은 이미가입된 이메일입니다.');
+												return;
+											} 
+											else if (json!='이미사용'){
+												$.ajax({
+													async : false,
+													url : '/safari/existGuestEmail',
+													type : 'POST',
+													data : {memberEmail : $("input[name='memberEmail1']").eq(i).val()},
+													success : function(email) {
+															if (email == '이미사용') {
+																alert(i+ 1+ '칸은 이미가입된 게스트입니다.');
+																return;
+															} else if (json == '사용하지않음'&& i == grpl - 1) {
+																alert('제출완료');
+																$('#GuestInviteForm').submit();
+															}
+															
+														}
+													});
+												
+												} 
+											
+										}
+									});
+								
+								} 
+						}
+					});
 				}
-			});
-		}
-	}
+			}
+		});
+	
+	
+
 });
-	
-	
-	
-});
-
-
-
 </script>
-
 </html>

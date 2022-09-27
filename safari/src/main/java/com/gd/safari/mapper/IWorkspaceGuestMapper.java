@@ -1,6 +1,7 @@
 package com.gd.safari.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -24,5 +25,17 @@ public interface IWorkspaceGuestMapper {
 	
 	// 이미 생성된 게스트인지 확인
 	String selectWorkspaceGuestEmailByConfirm(WorkspaceGuest workspaceGuest);
+	
+	// 워크스페이스 게스트 active W count
+	int selectWorkspaceGuestActiveWCount (int workNo);
+	
+	// 워크스페이스 게스트 카운트
+	int selectWorkspaceGuestCount (int workNo);
+	
+	// 워크스페이스 게스트 active W count
+	int selectWorkspaceGuestActiveNCount (int workNo);
+	
+	// 워크스페이스 게스트 index 목록 
+	List<Map<String,Object>> selectWorkspaceGuestListByEmail (String memberEmail);
 	
 }
