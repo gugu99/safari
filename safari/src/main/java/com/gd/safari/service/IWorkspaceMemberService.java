@@ -1,5 +1,6 @@
 package com.gd.safari.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,4 +58,7 @@ public interface IWorkspaceMemberService {
 	
 	// 가입된 workspaceMemberEmail 인지 확인 하는 메서드
 	String getWorkspaceMemberEmailByConfirm(WorkspaceMember workspaceMember);
+	
+	// 워크스페이스 멤버수 구하기
+	ArrayList<Integer> getWorkspaceMemberCount(WorkspaceMember workspaceMember);
 }

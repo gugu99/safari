@@ -1,5 +1,6 @@
 package com.gd.safari.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +58,17 @@ public class WorkspaceMemberController {
 		model.addAttribute("workNo",workNo);
 		
 		// 워크스페이스 멤버 리스트 디버깅
-		log.debug(TeamColor.CJM+list +"Controller WorkspaceMemberList"); 					
+		log.debug(TeamColor.CJM+list +"Controller WorkspaceMemberList"); 
+		
+		// 멤버 및 Guest 명수 가져오기
+		ArrayList<Integer> count = workspaceMemberService.getWorkspaceMemberCount(workspaceMember);
+		
+		model.addAttribute("allMemberCount", count.get(0));
+		model.addAttribute("WMemberCount", count.get(1));
+		model.addAttribute("NMemberCount", count.get(2));
+		model.addAttribute("allGuestCount", count.get(3));
+		model.addAttribute("NGuestCount", count.get(4));
+		model.addAttribute("WGuestCount", count.get(5));
 		
 		 // 워크스페이스멤버리스트 페이지 forward
 		return "workmember/workspaceMemberList";  										   

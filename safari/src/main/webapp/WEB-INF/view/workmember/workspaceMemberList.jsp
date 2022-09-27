@@ -543,13 +543,13 @@
 								<p class="lead">사원</p>
 								<ul class="list-group">
 									<li class="list-group-item"><span
-										class="badge badge-primary badge-pill float-right">14</span> <a
+										class="badge badge-primary badge-pill float-right">${allMemberCount}</span> <a
 										href="${pageContext.request.contextPath }/safari/workspaceMemberList">모든 멤버</a></li>
 									<li class="list-group-item"><span
-										class="badge badge-info badge-pill float-right">22</span> <a
+										class="badge badge-info badge-pill float-right">${WMemberCount }</span> <a
 										href="${pageContext.request.contextPath }/safari/workspaceMemberList?active=W">초대중인 멤버</a></li>
 									<li class="list-group-item"><span
-										class="badge badge-warning badge-pill float-right">10</span> <a
+										class="badge badge-warning badge-pill float-right">${NMemberCount }</span> <a
 										href="${pageContext.request.contextPath }/safari/workspaceMemberList?active=N">삭제된 멤버</a></li>
 
 								</ul>
@@ -561,13 +561,13 @@
 								<p class="lead">게스트</p>
 								<ul class="list-group">
 									<li class="list-group-item"><span
-										class="badge badge-primary badge-pill float-right">14</span> <a
+										class="badge badge-primary badge-pill float-right">${allGuestCount }</span> <a
 										href="${pageContext.request.contextPath }/safari/workspaceGuestList">모든 게스트</a></li>
 									<li class="list-group-item"><span
-										class="badge badge-info badge-pill float-right">22</span> <a
+										class="badge badge-info badge-pill float-right">${WGuestCount }</span> <a
 										href="${pageContext.request.contextPath }/safari/workspaceGuestList?active=W">초대중인 게스트</a></li>
 									<li class="list-group-item"><span
-										class="badge badge-info badge-pill float-right">22</span> <a
+										class="badge badge-info badge-pill float-right">${NGuestCount }</span> <a
 										href="${pageContext.request.contextPath }/safari/workspaceGuestList?active=N">삭제된 게스트</a></li>
 								</ul>
 							</div>

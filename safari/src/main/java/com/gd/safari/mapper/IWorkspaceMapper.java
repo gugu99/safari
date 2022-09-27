@@ -23,5 +23,10 @@ public interface IWorkspaceMapper {
 	
 	// 워크스페이스 관리자변경
 	int updateWorkspaceAdminEmail(Workspace workspace);
+	
+	// 워크스페이스 관리자조회
+	String selectWorkspaceAdminEmail(int workNo);
+	
+	// 워크스페이스 게스트 리스트
 
 }

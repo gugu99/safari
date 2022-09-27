@@ -66,6 +66,17 @@
 		
 	</update>
 	
+	<!-- 관리자 조회 -->
+	<select id = "selectWorkspaceAdminEmail" parameterType="int" resultType ="String">
+		SELECT
+				admin_email
+		FROM
+				workspace
+		WHERE
+				work_no = #{workNo}
+	
+	</select>
+	
 	
 	
 </mapper>

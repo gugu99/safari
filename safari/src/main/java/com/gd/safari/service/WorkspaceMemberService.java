@@ -1,5 +1,6 @@
 package com.gd.safari.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
+import com.gd.safari.mapper.IWorkspaceGuestMapper;
 import com.gd.safari.mapper.IWorkspaceMemberMapper;
 import com.gd.safari.vo.WorkspaceMember;
 
@@ -20,7 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 public class WorkspaceMemberService implements IWorkspaceMemberService {
 	@Autowired
 	private IWorkspaceMemberMapper workspaceMemberMapper;
-	 
+	@Autowired
+	private IWorkspaceGuestMapper workspaceGuestMapper;
 	// 워크스페이스멤버추가
 	@Override
 	public int addWorkspaceMember(WorkspaceMember workspaceMember) {
@@ -217,6 +220,35 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		
 		// 가입된 workspaceMemberEmail 인지 확인 하는 메서드
 		return workspaceMemberMapper.selectWorkspaceMemberEmailByConfirm(workspaceMember);
+	}
+	
+	// 워크스페이스 멤버수 구하기
+	@Override
+	public ArrayList<Integer> getWorkspaceMemberCount(WorkspaceMember workspaceMember) {
+		ArrayList<Integer> countList= new ArrayList<>();
+		// workspaceMember  디버깅
+		log.debug(TeamColor.CJM + workspaceMember + " Service workspaceMember");
+		
+		// 워크스페이스멤버 전체수
+		countList.add(workspaceMemberMapper.selectWorkspaceMemberCount(workspaceMember.getWorkNo())) ;
+		
+		// 워크스페이스 W 인 멤버수
+		countList.add(workspaceMemberMapper.selectWorkspaceMemberActiveWCount(workspaceMember.getWorkNo())) ;
+		
+		// 워크스페이스 active N인 멤버수
+		countList.add(workspaceMemberMapper.selectWorkspaceMemberActiveNCount(workspaceMember.getWorkNo()));
+		
+		// 워크스페이스 게스트 전체수
+		countList.add(workspaceGuestMapper.selectWorkspaceGuestCount(workspaceMember.getWorkNo()));
+		
+		// 워크스페이스 N인 게스트수
+		countList.add(workspaceGuestMapper.selectWorkspaceGuestActiveNCount(workspaceMember.getWorkNo()));
+		
+		// 워크스페이스 W인 게스트수
+		countList.add(workspaceGuestMapper.selectWorkspaceGuestActiveWCount(workspaceMember.getWorkNo()));
+		
+		// 워크스페이스 멤버수 구하는메서드
+		return countList;
 	}
 	
 	

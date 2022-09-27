@@ -293,4 +293,29 @@
 			    work_member_email = #{workMemberEmail} AND work_no = #{workNo}
 	</select>
 	
+	<!-- 워크스페이스 전체멤버 수 구하기 -->
+	<select id="selectWorkspaceMemberCount" resultType="int" parameterType="int">
+		SELECT 
+				count(*) count 
+		FROM	workspace_member
+		WHERE 	work_no = #{workNo}
+	</select>
+	
+	<!-- 워크스페이스 멤버 수 구하기 -->
+	<select id="selectWorkspaceMemberActiveWCount" resultType="int" parameterType="int">
+		SELECT 
+				count(*) count 
+		FROM	workspace_member
+		WHERE 	work_no = #{workNo} AND active='W'
+	</select>
+	
+	<!-- 워크스페이스 멤버 수 구하기 -->
+	<select id="selectWorkspaceMemberActiveNCount" resultType="int" parameterType="int">
+		SELECT 
+				count(*) count 
+		FROM	workspace_member
+		WHERE 	work_no = #{workNo} AND active='N'
+	</select>
+	
+	
 </mapper>
