@@ -23,14 +23,27 @@ $(document).ready(function () {
   var projectMember = new Array();
   // 업무 멤버 이미지 배열
   var user = new Array();
- 
+  // 프로젝트 번호
+  var projectNo = null;
+  // 서브스트링에 있는 값 꺼내기
+  var str = window.location.search;
+  // 정렬
+  var sort = (str.indexOf('sort') == -1) ? "0" : str.substring(str.lastIndexOf('=') + 1);
+  // 검색
+  var search = (str.indexOf('search') == -1) ? null : str.substring(str.lastIndexOf('=') + 1);
+  
   // 리스트를 위한 조회
   // ----------------------------------------------------------
   // Kanban Board and Item Data passed by json
   
+  
   $.ajax({
 		async : false,
 		type : 'GET',
+		data : {
+			sort : sort,
+			search : search		
+		},
 		url : '/safari/taskMember',
 		success : function(json){
 			console.log(json);
@@ -41,9 +54,14 @@ $(document).ready(function () {
 	// console.log(user);
   
   // 프로젝트번호에 맞는 업무 조회
+  
   $.ajax({
 		async : false,
 		type : 'POST',
+		data : {
+			sort : sort,	
+			search : search		
+		},
 		url : '/safari/task',
 		success : function(json){
 			// 디버깅
@@ -99,6 +117,8 @@ $(document).ready(function () {
 				  // console.log("temp");
 				  // console.log(temp);
 				  
+				  projectNo = item.projectNo;
+				  
 				  // 배열에 담기
 				  kanban_board_data.push({
 				      id: item.tasklistNo,
@@ -108,6 +128,58 @@ $(document).ready(function () {
 				  );
 			});
 		}
+  });
+  
+  // 정렬
+  // ---------------------------------------------
+  
+  $('#sort').on("change", function(){
+		// 선택된 정렬 받아오기
+		var value_str = document.getElementById('sort');
+		sort = value_str.options[value_str.selectedIndex].value;
+		switch(sort){
+			
+			case "1" : 
+				// 나에게 배정된 업무
+			    window.location.replace('/safari/taskList?projectNo=' + projectNo + "&sort=" + sort);
+				break;
+			
+			case "2" : 
+				// 내가 작성한 업무
+			    window.location.replace('/safari/taskList?projectNo=' + projectNo + "&sort=" + sort);
+				break;
+			
+			case "3" : 
+				// 포인트 있는 업무
+			    window.location.replace('/safari/taskList?projectNo=' + projectNo + "&sort=" + sort);
+				break;
+			
+			case "4" : 
+				// 포인트 없는 업무
+			    window.location.replace('/safari/taskList?projectNo=' + projectNo + "&sort=" + sort);
+				break;
+				
+			default :
+				// 전체업무
+			    window.location.replace('/safari/taskList?projectNo=' + projectNo);
+				break;
+			
+		}
+		
+  });
+  
+  
+  // 검색
+  // ----------------------------------------------------------
+  $('#searchBtn').click(function(){
+	search = $('#search').val();
+	console.log(search);
+		
+	if(sort == "0"){
+		window.location.replace('/safari/taskList?projectNo=' + projectNo + "&search=" + search);
+	} else {
+		window.location.replace('/safari/taskList?projectNo=' + projectNo + "&search=" + search + "&sort=" + sort);
+	}
   });
   
   
@@ -350,7 +422,6 @@ $(document).ready(function () {
 			$('.edit-kanban-item-start').val(start.replace("NaN-0NaN-0NaN", ""));
 			$('.edit-kanban-item-date').val(date.replace("NaN-0NaN-0NaN 0NaN:0NaN:0NaN", ""));
 			$('.edit-kanban-item-end').val(end.replace("NaN-0NaN-0NaN 0NaN:0NaN:0NaN", ""));
-			
 			// 업무멤버 조회
 			  $.ajax({
 					async : false,

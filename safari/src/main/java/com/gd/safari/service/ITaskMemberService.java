@@ -6,6 +6,10 @@ import java.util.Map;
 import com.gd.safari.vo.TaskMember;
 
 public interface ITaskMemberService {
+	// 해당 업무의 업무 멤버리스트 조회 - email, name - 피드백에서 사용할 메서드
+	List<Map<String, Object>> getMemberListNameAndEmailByTaskNo(int taskNo);
+	
+	
 	// 프로젝트멤버 가져오기
 	List<Map<String, Object>> getTaskMember(int projectNo);
 	// 해당 업무번호에 없는 프로젝트멤버 조회/해당 업무번호에 따른 업무멤버 조회 - 프로젝트번호, 업무번호 필요하여 map으로 사용

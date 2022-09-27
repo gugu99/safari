@@ -9,11 +9,11 @@ import com.gd.safari.vo.TaskList;
 
 public interface ITaskService {
 	// 프로젝트 번호에 맞는 업무 조회
-	List<Task> getTaskByProjectNo(int projectNo);
+	List<Task> getTaskByProjectNo(Map<String, Object> m);
 	// 업무리스트 번호에 맞는 업무 조회
 	List<Task> getTaskByTasklistNo(int tasklistNo);
-	// 정렬을 위한 조회
-	List<Task> getTask(Map<String, Object> m);
+	// 정렬을 위한 조회(나에게 배정된 업무)
+	List<Task> getTaskByProjectNoAndWorkMemberNo(Map<String, Object> m);
 	// 상세 보기
 	Map<String, Object> getTaskByTaskNo(int taskNo);
 	// 프로젝트 리스트 가져오기 (위치/하위업무 설정할 때 필요 - IProjectMapper에서 가져옴)

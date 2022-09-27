@@ -19,6 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class TaskMemberService implements ITaskMemberService {
 	@Autowired private ITaskMemberMapper taskMemberMapper;
+	
+	// 해당 업무의 업무 멤버리스트 조회 - email, name - 피드백에서 사용할 메서드
+	@Override
+	public List<Map<String, Object>> getMemberListNameAndEmailByTaskNo(int taskNo) {
+		return taskMemberMapper.selectMemberListNameAndEmailByTaskNo(taskNo);
+	}
+	
+	
 
 	// 프로젝트멤버 가져오기
 	@Override

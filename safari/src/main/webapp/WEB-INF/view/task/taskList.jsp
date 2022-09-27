@@ -23,6 +23,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/css/bootstrap-extended.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/css/colors.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/css/components.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/assets/css/taskList.css">
     <!-- END: Theme CSS-->
 
     <!-- BEGIN: Page CSS-->
@@ -56,8 +57,9 @@
                             </button>
                         </div>
                         <div class="col-2">
-                            <select class="form-control text-dark" id="">
-								<option value="default" selected>정렬</option> 
+                            <select class="form-control text-dark" id="sort">
+								<option value="">조회</option> 
+								<option value="0" class="bg-info">전체 업무</option>   
 								<option value="1" class="bg-info">나에게 배정된 업무</option>   
 								<option value="2" class="bg-info">내가 작성한 업무</option>   
 								<option value="3" class="bg-info">포인트가 있는 업무</option>   
@@ -65,7 +67,10 @@
                             </select>
                         </div>
                         <div class="col-2">
-                            <input type="text" class="form-control" placeholder="검색">
+                            <input type="text" class="form-control" placeholder="검색" id="search">
+                        </div>
+                        <div class="col-1">
+                            <button type="button" id="searchBtn" class="btn"><i class="fa fa-search"></i></button>
                         </div>
                         <div id="kanban-app"></div>
                     </div>
