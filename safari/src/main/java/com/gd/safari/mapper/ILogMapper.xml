@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.ILogMapper">
+	
+	<insert id="insertTaskListLog" parameterType ="com.gd.safari.vo.Log">
+		INSERT INTO log (
+			  log_no
+			, task_no
+			, log_member
+			, log_content
+			, create_date
+			, project_no
+		)VALUES(
+			  #{logNo}
+			, #{taskNo}
+			, #{logMember}
+			, '님이 업무리스트를 추가하셨습니다'
+			, NOW()
+			, #{projectNo}
+			
+		)	
+		
+	
+	</insert>
+	
+	<insert id="insertTaskLog" parameterType ="com.gd.safari.vo.Log">
+		INSERT INTO log (
+			  log_no
+			, task_no
+			, log_member
+			, log_content
+			, create_date
+			, project_no
+		)VALUES(
+			  #{logNo}
+			, #{taskNo}
+			, #{logMember}
+			, '님이 업무를 추가하셨습니다'
+			, NOW()
+			, #{projectNo}
+			
+		)	
+	
+	</insert>
+	
+	<insert id="insertUpdateTaskListLog" parameterType ="com.gd.safari.vo.Log">
+		INSERT INTO log (
+			  log_no
+			, task_no
+			, log_member
+			, log_content
+			, create_date
+			, project_no
+		)VALUES(
+			  #{logNo}
+			, #{taskNo}
+			, #{logMember}
+			, '님이 업무리스트를 수정하셨습니다'
+			, NOW()
+			, #{projectNo}
+			
+		)	
+	
+	</insert>
+	
+	<insert id="insertUpdateTaskLog" parameterType ="com.gd.safari.vo.Log">
+		INSERT INTO log (
+			  log_no
+			, task_no
+			, log_member
+			, log_content
+			, create_date
+			, project_no
+		)VALUES(
+			  #{logNo}
+			, #{taskNo}
+			, #{logMember}
+			, '님이 업무를 수정하셨습니다'
+			, NOW()
+			, #{projectNo}
+			
+		)	
+	
+	</insert>
+	
+	<insert id="insertDeleteTaskListLog" parameterType ="com.gd.safari.vo.Log">
+		INSERT INTO log (
+			  log_no
+			, task_no
+			, log_member
+			, log_content
+			, create_date
+			, project_no
+		)VALUES(
+			  #{logNo}
+			, #{taskNo}
+			, #{logMember}
+			, '님이 업무리스트를 삭제하셨습니다'
+			, NOW()
+			, #{projectNo}
+			
+		)	
+	
+	</insert>
+	
+	<insert id="insertDeleteTaskLog" parameterType ="com.gd.safari.vo.Log">
+		INSERT INTO log (
+			  log_no
+			, task_no
+			, log_member
+			, log_content
+			, create_date
+			, project_no
+		)VALUES(
+			  #{logNo}
+			, #{taskNo}
+			, #{logMember}
+			, '님이 업무를 삭제하셨습니다'
+			, NOW()
+			, #{projectNo}
+			
+		)	
+	
+	</insert>
+	
+
+
+</mapper>
