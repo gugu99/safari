@@ -20,15 +20,14 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                              <form action="${pageContext.request.contextPath }/safari/" method="post" id="addFeedbackForm">
-                                             		<input type="hidden" name="scheduleWriter" value="${login }">
+                                              <form action="${pageContext.request.contextPath }/safari/addFeedback" method="post" id="addFeedbackForm">
                                                   <div class="row">
                                                   	 <div class="col-12">
                                                           <div class="form-group">
                                                               <label for="languageselect2"><span class="fa fa-list-ul mr-2"></span>업무(*)</label>
-                                                              <select class="form-control select" id="taskList">
+                                                              <select class="form-control select" name="taskNo" id="taskList">
                                                            		 <option value="default" >업무를 선택하세요</option>
-                                                           		 <option value="email" >업무1</option>
+                                                           		 <option value="taksNo" >업무1</option>
                                                            		 <option value="email" >업무2</option>
                                                            		 <option value="email" >업무3</option>
                                                               </select>
@@ -50,13 +49,13 @@
                                                       <div class="col-12">
                                                           <div class="form-group">
                                                               <label for="scheduleContent"><span class="fa fa-pencil-square-o mr-1"></span>내용</label>
-                                                              <textarea class="form-control" name="scheduleContent" id="scheduleContent" rows="5" placeholder="내용을 입력하세요."></textarea>
+                                                              <textarea class="form-control" name="feedbackContent" id="feedbackContent" rows="5" placeholder="내용을 입력하세요."></textarea>
                                                           </div>
                                                       </div>
                                                       <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
                                                       	<div class="form-group mt-1">
                                                               <label for="scheduleAuth"><span class="fa fa-lock mr-1"></span>공개설정</label>
-                                                              <select class="form-control" id="scheduleAuth" name="scheduleAuth">
+                                                              <select class="form-control" id="feedbackAuth" name="feedbackAuth">
                                                                   <option value="N" selected>전체공개</option>
                                                                   <option value="Y">관리자, 작성자만 공개</option>
                                                               </select>

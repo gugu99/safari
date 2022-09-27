@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IFeedbackReceiverMapper">
+	<!-- 피드백 작성 후 피드백 멤버 추가하기 -->
+	<insert id="insertFeedbackReceiver" parameterType="map">
+		INSERT INTO
+			feedback_receiver
+			(
+				feedback_no
+				, feedback_receiver
+				, create_date
+				, update_date
+			)
+		VALUES 
+			(
+				#{feedbackNo}
+				, #{feedbackReceiver}
+				, NOW()
+				, NOW()
+			)
+	</insert>
+</mapper>

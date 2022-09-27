@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IFeedbackMapper">
+	<!-- 피드백 리스트 조회 -->
+	<select id="selectFeedbackByWorkspaceMember" resultType="com.gd.safari.vo.FeedbackList" parameterType="com.gd.safari.vo.WorkspaceMember">
+		SELECT DISTINCT
+			f.feedback_no
+			, f.feedback_sender
+			, f.task_no
+			, f.feedback_content
+			, f.feedback_auth
+			, f.create_date
+			, f.work_no
+			, f.sender_name
+			, f.sender_filename
+			, f.sender_file_ext
+			
+			, fr.feedback_receiver
+			, fr.receiver_name
+			, fr.receiver_filename
+			, fr.receiver_file_ext	
+			
+			, t.task_title
+		FROM
+			(
+			SELECT
+				f1.feedback_no
+				, f1.feedback_sender
+				, f1.task_no
+				, f1.feedback_content
+				, f1.feedback_auth
+				, f1.create_date
+				
+				, vwm1.work_no
+				, vwm1.work_member_name sender_name
+				, vwm1.filename sender_filename
+				, vwm1.file_ext sender_file_ext
+				
+				, fr2.feedback_receiver
+			FROM
+				feedback f1
+			INNER JOIN
+				v_workspace_member vwm1
+			ON
+				f1.feedback_sender = vwm1.work_member_email
+			INNER JOIN
+				feedback_receiver fr2
+			ON
+				f1.feedback_no = fr2.feedback_no
+			WHERE
+				(
+				f1.feedback_sender = #{workMemberEmail} 
+				OR 
+				fr2.feedback_receiver = #{workMemberEmail}) 
+			AND 
+				vwm1.work_no = #{workNo}
+			) f
+		LEFT OUTER JOIN
+			(
+			SELECT
+				fr1.feedback_no
+				, fr1.feedback_receiver
+				
+				, vwm2.work_no
+				, vwm2.work_member_name receiver_name
+				, vwm2.filename receiver_filename
+				, vwm2.file_ext receiver_file_ext	
+			FROM
+				feedback_receiver fr1
+			INNER JOIN
+				v_workspace_member vwm2
+			ON
+				fr1.feedback_receiver = vwm2.work_member_email
+			WHERE
+				vwm2.work_no = #{workNo}
+		
+			) fr
+		ON
+			f.feedback_no = fr.feedback_no
+		INNER JOIN
+			task t
+		ON
+			f.task_no = t.task_no
+		WHERE
+			f.work_no =#{workNo}
+	</select>
+
+	<!-- 피드백 작성 -->
+	<insert id="insertFeedback" parameterType="map">
+		<selectKey keyProperty="feedbackNo" resultType="int" order="AFTER">
+			<!-- 피드백 생성 후 해당 피드백 번호를 가져온다. -->
+			SELECT LAST_INSERT_ID() as feedbackNo
+		</selectKey>
+		
+		INSERT INTO
+			feedback (
+				task_no
+				, feedback_content
+				, feedback_sender
+				, feedback_auth
+				, create_date
+				, update_date
+			)
+		VALUES
+			(
+				#{taskNo}
+				, #{feedbackContent}
+				, #{feedbackSender}
+				, #{feedbackAuth}
+				, NOW()
+				, NOW()
+			)
+	</insert>
+</mapper>

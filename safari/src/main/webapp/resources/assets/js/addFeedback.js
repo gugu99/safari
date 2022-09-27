@@ -1,6 +1,3 @@
-var selected = $('#feedbackReceiver').val(); 
-console.log(selected);
-document.getElementById("feedbackReceiverList").value = selected;
 
 function selectFeedbackReceiver(e){
 	const arr = new Array();
@@ -21,18 +18,25 @@ function selectFeedbackReceiver(e){
 
 $('#addFeedbackBtn').click(function(){
 	
-	if($("#scheduleTitle").val() == ""){
-		alert("제목을 입력해 주세요.");
-			$("#scheduleTitle").focus();
+	if($("#taskList").val() == ""){
+		alert("업무를 선택해 주세요.");
 		
 		return false;
 	}
-	if($("#scheduleMember").val() == ""){
-		alert("참석자를 선택해 주세요.");
-			$("#scheduleMember").focus();
+	if($("#feedbackReceiver").val() == ""){
+		alert("멤버를 선택해 주세요.");
 		
 		return false;
 	}
+	if($("#feedbackContent").val() == ""){
+		alert("피드백 내용을 입력해 주세요.");
+		
+		return false;
+	}
+	
+	var selected = $('#feedbackReceiver').val(); 
+
+	document.getElementById("feedbackReceiverList").value = selected;
 	
 	addFeedbackForm.submit();
 });
