@@ -19,3 +19,7 @@ body.vertical-layout.vertical-menu-modern .content, body.vertical-layout.vertica
     list-style: none;
     text-align: end;
 }
+body.vertical-layout.vertical-menu-modern .navbar .navbar-header {
+    width: 300px;
+    padding-top: 17px;
+}

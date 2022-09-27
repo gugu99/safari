@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IMemberMailService;
+import com.gd.safari.service.IProfileImgService;
 import com.gd.safari.service.IWorkspaceMemberService;
 import com.gd.safari.service.IWorkspaceService;
 import com.gd.safari.vo.Member;
@@ -32,6 +33,10 @@ public class WorkspaceController {
 	private IWorkspaceMemberService workspaceMemberService;
 	@Autowired
 	private IMemberMailService memberMailService;
+	@Autowired
+	private IProfileImgService profileImgService;
+
+	
 
 	// 워크스페이스생성폼요청
 	@GetMapping("/safari/addWorkspace")
@@ -114,6 +119,9 @@ public class WorkspaceController {
 		
 		// 세션 workspaceMemberLevel 추가
 		session.setAttribute("workMemberLevel", workMemberLevel);
+		
+		// profile정보담기
+		session.setAttribute("profileImg",profileImgService.getProfileImgOne(workMemberNo));
 		
 		// 활동중인지확인
 		// Active 디버깅

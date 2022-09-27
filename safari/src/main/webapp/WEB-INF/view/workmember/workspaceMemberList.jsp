@@ -63,8 +63,7 @@
 													<input type="search" id="search-contacts"
 														class="form-control" placeholder="사원검색">
 													<div class="form-control-position">
-														<i
-															class="fa fa-search text-size-base text-muted la-rotate-270"></i>
+														<i class="fa fa-search text-size-base text-muted la-rotate-270"></i>
 													</div>
 												</div>
 											</form>
@@ -160,7 +159,7 @@
 																			<div class="col-9">
 																				<input type="text" id="memberEmail"
 																					class="contact-email form-control memberEmail"
-																					name="memberEmail" placeholder="Email">
+																					name="memberEmail1" placeholder="Email">
 																			</div>
 																			<div class="col-3">
 																				<input value="추가" type="button"
@@ -637,7 +636,7 @@
 											var tmpHtml = "<fieldset id='guestRemove' class='form-group col-12' name='guestRemove'>"
 													+ "<div class='row'>"
 													+ "<div class='col-9'>"
-													+ "<input type='text' name='memberEmail' id='contact-email' class='contact-email form-control memberEmail' placeholder='Email'>"
+													+ "<input type='text' name='memberEmail1' id='contact-email' class='contact-email form-control memberEmail' placeholder='Email'>"
 													+ "</div>"
 													+ "<div class='col-3'>"
 													+ "<input value='삭제' name='guestRemove1' type='button' class='btn btn danger form-control' id='btn_add'>"
@@ -724,7 +723,7 @@ $(document).ready(function() {
 	$('#guestInviteButton').click(function() {
 		var reg_email = RegExp(/^[0-9a-zA-Z]+(.[_a-z0-9-]+)*@(?:\w+\.)+\w+$/);
 
-		var grpl = $('input[name=memberEmail]').length;
+		var grpl = $('input[name=memberEmail1]').length;
 		//배열 생성
 		var grparr = new Array(grpl);
 		//배열에 값 주입
@@ -732,20 +731,20 @@ $(document).ready(function() {
 		for (var i = 0; i < grpl; i++) {
 			console.log(i);
 			console.log(grpl);
-			if ($("input[name='memberEmail']").eq(i).val() == '') {
+			if ($("input[name='memberEmail1']").eq(i).val() == '') {
 				alert('이메일이 빈칸입니다.');
 				return;
 			}
-			if (!reg_email.test($("input[name='memberEmail']").eq(i).val())) {
+			if (!reg_email.test($("input[name='memberEmail1']").eq(i).val())) {
 				alert('이메일형식을 확인해주세요.\nexample@example.com');
 				console.log($("input[name='memberEmail']").eq(i).val());
 				return;
-			} else if ($("input[name='memberEmail']").eq(i).val() != '') {
+			} else if ($("input[name='memberEmail1']").eq(i).val() != '') {
 				$.ajax({
 					async : false,
 					url : '/safari/existEmail',
 					type : 'POST',
-					data : {workMemberEmail : $("input[name='memberEmail']").eq(i).val()},
+					data : {workMemberEmail : $("input[name='memberEmail1']").eq(i).val()},
 					success : function(data) {
 							if (data != '존재하는이메일') {
 								alert(i+ 1+ '번쨰칸은 가입하지 않는 아이디입니다');
@@ -756,7 +755,7 @@ $(document).ready(function() {
 									async : false,
 									url : '/safari/existWorkspaceEmail',
 									type : 'POST',
-									data : {workMemberEmail : $("input[name='memberEmail']").eq(i).val()},
+									data : {workMemberEmail : $("input[name='memberEmail1']").eq(i).val()},
 									success : function(json) {
 											if (json == '이미사용') {
 												alert(i+ 1+ '칸은 이미가입된 이메일입니다.');
@@ -767,7 +766,7 @@ $(document).ready(function() {
 													async : false,
 													url : '/safari/existGuestEmail',
 													type : 'POST',
-													data : {memberEmail : $("input[name='memberEmail']").eq(i).val()},
+													data : {memberEmail : $("input[name='memberEmail1']").eq(i).val()},
 													success : function(email) {
 															if (email == '이미사용') {
 																alert(i+ 1+ '칸은 이미가입된 게스트입니다.');

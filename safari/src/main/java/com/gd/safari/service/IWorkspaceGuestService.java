@@ -28,6 +28,6 @@ public interface IWorkspaceGuestService {
 	ArrayList<Integer> getWorkspaceGuestCount(WorkspaceGuest workspaceGuest);
 	
 	// 워크스페이스 게스트 index 목록 
-	List<Map<String,Object>> selectWorkspaceGuestListByEmail (String memberEmail);
+	List<Map<String,Object>> getWorkspaceGuestListByEmail (String memberEmail);
 	
 }

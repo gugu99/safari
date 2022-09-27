@@ -119,7 +119,7 @@ public class WorkspaceGuestService implements IWorkspaceGuestService{
 	}
 
 	@Override
-	public List<Map<String,Object>> selectWorkspaceGuestListByEmail(String memberEmail) {
+	public List<Map<String,Object>> getWorkspaceGuestListByEmail(String memberEmail) {
 		
 		// memberEmail 디버깅
 		log.debug(TeamColor.CJM + memberEmail + " Service memberEmail");
