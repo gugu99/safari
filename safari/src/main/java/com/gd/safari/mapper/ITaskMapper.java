@@ -9,8 +9,16 @@ import com.gd.safari.vo.Task;
 
 @Mapper
 public interface ITaskMapper {
+	// 피드백 sender가 워크스페이스 관리자가 아닐때 receiver의 완료된 업무들 조회 - 피드백에서 사용할 메서드
+	List<Map<String, Object>> selectCompleteTaskListByReceiverNoAndSenderNo(Map<String, Integer> m);
+	// 피드백 sender가 워크스페이스 관리자일 때 receiver의 완료된 업무들 조회 - 피드백에서 사용할 메서드
+	List<Map<String, Object>> selectCompleteTaskListByReceiverNo(int feedbackReceiverNo);
+	
+	
 	// 프로젝트 번호에 맞는 업무 조회
 	List<Task> selectTaskByProjectNo(int projectNo);
+	// 업무리스트 번호에 맞는 업무 조회
+	List<Task> selectTaskByTasklistNo(int tasklistNo);
 	// 정렬을 위한 조회
 	List<Task> selectTask(Map<String, Object> m);
 	// 상세 보기

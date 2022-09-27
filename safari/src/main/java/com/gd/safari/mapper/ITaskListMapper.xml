@@ -11,6 +11,25 @@
 		WHERE 
 			project_no 			= #{projectNo}
 	</select>
+	<!-- 업무리스트 조회(나에게 배정된 업무) -->
+	<select id="selectTaskListByProjectNoAndWorkMemberNo" parameterType="map" resultType="com.gd.safari.vo.TaskList">
+		SELECT 
+			tl.tasklist_no tasklistNo
+			, tl.tasklist_title tasklistTitle
+			, tl.project_no projectNo
+		FROM 
+			task_list tl 					INNER JOIN task t 
+		ON 
+			tl.tasklist_no = t.tasklist_no 	INNER JOIN task_member tm 
+		ON 
+			t.task_no = tm.task_no 			INNER JOIN project_member pm 
+		ON 
+			tm.project_member_no = pm.project_member_no 
+		WHERE 
+			pm.project_no = #{workMemberNo} 
+		AND 
+			work_member_no = #{workMemberNo}
+	</select>
 	<!-- 현재위치 제외 업무리스트 조회 (업무 위치 변경을 위해) -->
 	<select id="selectTaskListByUpdateLocation" parameterType="map" resultType="com.gd.safari.vo.TaskList">
 		SELECT

@@ -36,7 +36,6 @@ public class TaskController {
 			log.debug(TeamColor.CSH + "업무수정 성공");
 		} else {
 			log.debug(TeamColor.CSH + "업무수정 실패");
-			return "redirect:/safari/taskList?projectNo=" + projectNo + "&errorMsg=Update Task Fail";
 		}
 		
 		return "redirect:/safari/taskList?projectNo=" + projectNo;

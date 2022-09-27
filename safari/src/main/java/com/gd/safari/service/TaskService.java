@@ -1,5 +1,6 @@
 package com.gd.safari.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class TaskService implements ITaskService {
 	@Autowired private ITaskMemberMapper taskMemberMapper;
 	@Autowired private ITaskListMapper taskListMapper;
 	@Autowired private IProjectMapper projectMapper;
-	
+
 	// 프로젝트 번호에 맞는 업무 조회
 	@Override
 	public List<Task> getTaskByProjectNo(int projectNo) {
@@ -36,9 +37,17 @@ public class TaskService implements ITaskService {
 		return taskMapper.selectTaskByProjectNo(projectNo);
 	}
 
+	// 업무리스트 번호에 맞는 업무 조회
+	@Override
+	public List<Task> getTaskByTasklistNo(int tasklistNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 번호에 맞는 업무 조회");
+		return taskMapper.selectTaskByTasklistNo(tasklistNo);
+	}
+	
 	// 정렬을 위한 조회
 	@Override
 	public List<Task> getTask(Map<String, Object> m) {
+		log.debug(TeamColor.CSH + this.getClass() + " 정렬을 위한 조회");
 		return taskMapper.selectTask(m);
 	}
 	
@@ -93,8 +102,40 @@ public class TaskService implements ITaskService {
 
 	// 업무 위치변경 - taskNo, tasklistNo 필요함
 	@Override
-	public int modifyTaskLocation(Map<String, Integer> m) {
+	public int modifyTaskLocation(int tasklistNo, int taskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 위치변경");
+		// 새로 갈 곳의 멤버 조회
+		/*List<Map<String, Object>> newMember = taskMemberMapper.selectTaskMemberByTaskListNo(tasklistNo);
+		// 가져온 업무멤버 조회
+		List<Map<String, Object>> oldMember = taskMemberMapper.selectTaskMemberByTaskNo(taskNo);
+		List<TaskMember> temp = new ArrayList<>();
+		
+		log.debug(TeamColor.CSH + newMember);
+		log.debug(TeamColor.CSH + oldMember);
+		
+		// 같으면 담기
+		for(Map<String, Object> n : newMember) {
+			for(Map<String, Object> o : oldMember) {
+				if(n.get("workMemberNo") == o.get("workMemberNo")) {
+					
+				}
+			}
+		}
+		// 가공
+		TaskMember t = new TaskMember();
+		t.setTaskNo((int) o.get("taskNo"));
+		t.setTaskNo((int) o.get("projectMemberNo"));
+		// 메서드 실행
+		taskMemberMapper.deleteTaskMember(t);*/
+		// 멤버 삭제 후 이동
+		//taskMemberMapper.deleteTaskMemberByTaskNo(taskNo);
+		
+		// param 값 가공
+		Map<String, Integer> m = new HashMap<>();
+		m.put("tasklistNo", tasklistNo);
+		m.put("taskNo", taskNo);
+		
+		
 		return taskMapper.updateTaskLocation(m);
 	}
 

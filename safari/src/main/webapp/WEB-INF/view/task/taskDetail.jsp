@@ -18,6 +18,7 @@
                		<input type="hidden" class="edit-kanban-item-tasklistTitle" name="tasklistTitle">
                     <div class="form-group">
                         <label>업무 제목</label>
+                        <div id="upperTask"></div>
                         <input type="text" class="form-control edit-kanban-item-title" placeholder="업무 제목" name="taskTitle">
                     </div>
                     <div class="form-group">
@@ -43,7 +44,7 @@
 	                </div>
 			        <div class="form-group">
                         <label>중요도</label>
-                        <select class="form-control text-white edit-kanban-item-point" name="taskPoint">
+                        <select class="form-control text-dark edit-kanban-item-point" name="taskPoint">
                             <option value="" class="bg-primary" selected></option>
                             <option value="1" class="bg-danger">1</option>
                             <option value="2" class="bg-success">2</option>

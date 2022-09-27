@@ -1,6 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.ITaskMapper">
+	<!-- 피드백 sender가 워크스페이스 관리자가 아닐때 receiver의 완료된 업무들 조회 - 피드백에서 사용할 메서드 -->
+	<select id="selectCompleteTaskListByReceiverNoAndSenderNo" parameterType="map" resultType="map">
+		SELECT
+			t2.task_no 				taskNo
+			, t.task_title 			taskTitle
+			, t2.work_member_no		workMemberNo
+		FROM
+			task t
+		INNER JOIN
+				(
+					SELECT
+						tm.task_no
+						, pm.work_member_no
+						, pm.project_no
+					FROM
+						task_member tm
+					INNER JOIN
+						project_member pm
+					ON
+						tm.project_member_no = pm.project_member_no
+					WHERE
+						pm.work_member_no in (#{feedbackReceiverNo}, #{feedbackSenderNo) )
+				) t2
+		ON 
+			t.task_no = t2.task_no
+		WHERE
+			t2.work_member_no = #{feedbackReceiverNo} 
+		AND
+			t.task_end IS NOT NULL
+	</select>
+	<!-- 피드백 sender가 워크스페이스 관리자일 때 receiver의 완료된 업무들 조회 - 피드백에서 사용할 메서드 -->
+	<select id="selectCompleteTaskListByReceiverNo" parameterType="int" resultType="map">
+		SELECT
+			t2.task_no 				taskNo
+			, t.task_title 			taskTitle
+			, t2.work_member_no 	workMemberNo
+		FROM
+			task t
+		INNER JOIN
+				(
+					SELECT
+						tm.task_no
+						, pm.work_member_no
+						, pm.project_no
+					FROM
+						task_member tm
+					INNER JOIN
+						project_member pm
+					ON
+						tm.project_member_no = pm.project_member_no
+				) t2
+		ON 
+			t.task_no = t2.task_no
+		WHERE
+			t2.work_member_no = #{feedbackReceiverNo} 
+		AND
+			t.task_end IS NOT NULL
+	</select>
+	
+	
+	
 	<!-- 프로젝트 번호에 맞는 업무 조회 -->
 	<select id="selectTaskByProjectNo" parameterType="int" resultType="com.gd.safari.vo.Task">
 		SELECT
@@ -16,6 +77,21 @@
 			t.tasklist_no 		= tl.tasklist_no
 		WHERE 	
 			tl.project_no 		= #{projectNo}
+		
+	</select>
+	<!-- 업무리스트 번호에 맞는 업무 조회 -->
+	<select id="selectTaskByTasklistNo" parameterType="int" resultType="com.gd.safari.vo.Task">
+		SELECT
+			task_no 									taskNo
+			, task_title 								taskTitle
+			, task_point 								taskPoint
+			, DATE_FORMAT(task_deadline, '%m/%d') 		taskDeadline
+			, tasklist_no 								tasklistNo
+			, task_upper_no 							taskUpperNo
+		FROM 	
+			task t 
+		WHERE 	
+			tasklist_no 		= #{tasklistNo}
 		
 	</select>
 	<!-- 정렬을 위한 조회 -->
@@ -41,7 +117,7 @@
 	</select>
 	<!-- 상세 보기 -->
 	<select id="selectTaskByTaskNo" parameterType="int" resultType="map">
-		SELECT
+				SELECT
 			t.task_title taskTitle
 			, t.task_content 	taskContent
 			, t.task_writer 	taskWriter
@@ -133,7 +209,7 @@
 	<update id="updateTaskLocation" parameterType="map">
 		UPDATE task 
 		SET 
-			tasklist_no = #{tasklistNo} 
+			tasklist_no 	= #{tasklistNo} 
 			, update_date 	= NOW()
 		WHERE 
 			task_no = #{taskNo}

@@ -9,6 +9,8 @@ import com.gd.safari.vo.TaskList;
 public interface ITaskListService {
 	// 업무리스트 조회
 	List<TaskList> getTaskList(int projectNo);
+	// 업무리스트 조회(나에게 배정된 업무)
+	List<TaskList> getTaskListByProjectNoAndWorkMemberNo(Map<String, Integer> m);
 	// 현재 프로젝트 이름 조회 (업무리스트 위치변경을 위해)
 	String getProjectNameByTasklistNo(int tasklistNo);
 	// 업무리스트 복사
@@ -20,7 +22,7 @@ public interface ITaskListService {
 	// 업무리스트 수정
 	int modifyTaskList(TaskList tasklist);
 	// 업무리스트 위치변경 - tasklistNo, projectNo가 필요하다
-	int modifyTaskListLocation(Map<String, Integer> m);
+	int modifyTaskListLocation(int projectNo, int tasklistNo);
 	// 업무리스트 삭제
 	int removeTaskList(int tasklistNo);
 }

@@ -10,6 +10,8 @@ import com.gd.safari.vo.TaskList;
 public interface ITaskService {
 	// 프로젝트 번호에 맞는 업무 조회
 	List<Task> getTaskByProjectNo(int projectNo);
+	// 업무리스트 번호에 맞는 업무 조회
+	List<Task> getTaskByTasklistNo(int tasklistNo);
 	// 정렬을 위한 조회
 	List<Task> getTask(Map<String, Object> m);
 	// 상세 보기
@@ -27,7 +29,7 @@ public interface ITaskService {
 	// 업무 수정
 	int modifyTask(Task task);
 	// 업무 위치변경 - taskNo, tasklistNo 필요함
-	int modifyTaskLocation(Map<String, Integer> m);
+	int modifyTaskLocation(int tasklistNo, int taskNo);
 	// 업무 완료
 	int modifyCompleteTask(int taskNo);
 	// 업무 완료취소

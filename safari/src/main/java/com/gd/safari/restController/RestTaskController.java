@@ -41,6 +41,20 @@ public class RestTaskController {
 		return tasks;
 	}
 	
+	// 업무리스트 번호에 맞는 업무 조회
+	@PostMapping("/safari/taskByTaskList")
+	public List<Task> taskByTaskList(int tasklistNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 번호에 맞는 업무 조회");
+		
+		// 서비스호출
+		// 리턴값 List<Task>
+		List<Task> tasks = taskService.getTaskByTasklistNo(tasklistNo);
+		
+		log.debug(TeamColor.CSH + "조회에 따른 업무 개수 : " + tasks.size());
+		
+		return tasks;
+	}
+		
 	// 프로젝트번호 + 나에게 배정된 업무
 	@PostMapping("/safari/myTask")
 	public List<Task> myTask(HttpSession session) {
@@ -157,7 +171,7 @@ public class RestTaskController {
 	public List<TaskList> taskListByTask(int projectNo, int tasklistNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 리스트");
 		// 디버깅
-		log.debug(TeamColor.CSH + "tasklistNo : " + tasklistNo + "projectNo : " + projectNo);
+		log.debug(TeamColor.CSH + "tasklistNo : " + tasklistNo + " projectNo : " + projectNo);
 		
 		// param 값 가공
 		Map<String, Integer> m = new HashMap<>();
@@ -204,16 +218,11 @@ public class RestTaskController {
 	public String updateTaskLocation(int tasklistNo, int taskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 위치 변경");
 		// 디버깅
-		log.debug(TeamColor.CSH + "tasklistNo : " + tasklistNo + "taskNo : " + taskNo);
-		
-		// param 값 가공
-		Map<String, Integer> m = new HashMap<>();
-		m.put("tasklistNo", tasklistNo);
-		m.put("taskNo", taskNo);
+		log.debug(TeamColor.CSH + "tasklistNo : " + tasklistNo + " taskNo : " + taskNo);
 		
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = taskService.modifyTaskLocation(m);
+		int row = taskService.modifyTaskLocation(tasklistNo, taskNo);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		

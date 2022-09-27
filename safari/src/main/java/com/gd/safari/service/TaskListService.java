@@ -1,5 +1,6 @@
 package com.gd.safari.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,9 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.mapper.ITaskListMapper;
 import com.gd.safari.mapper.ITaskMapper;
+import com.gd.safari.mapper.ITaskMemberMapper;
 import com.gd.safari.vo.CopyTaskList;
 import com.gd.safari.vo.Task;
 import com.gd.safari.vo.TaskList;
+import com.gd.safari.vo.TaskMember;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,12 +25,20 @@ import lombok.extern.slf4j.Slf4j;
 public class TaskListService implements ITaskListService {
 	@Autowired private ITaskListMapper taskListMapper;
 	@Autowired private ITaskMapper taskMapper;
+	@Autowired private ITaskMemberMapper taskMemberMapper;
 	
 	// 업무리스트 조회
 	@Override
 	public List<TaskList> getTaskList(int projectNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 보여주기");
 		return taskListMapper.selectTaskList(projectNo);
+	}
+	
+	// 업무리스트 조회(나에게 배정된 업무)
+	@Override
+	public List<TaskList> getTaskListByProjectNoAndWorkMemberNo(Map<String, Integer> m) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 조회(나에게 배정된 업무)");
+		return taskListMapper.selectTaskListByProjectNoAndWorkMemberNo(m);
 	}
 
 	// 현재 프로젝트 이름 조회 (업무리스트 위치변경을 위해)
@@ -102,8 +113,22 @@ public class TaskListService implements ITaskListService {
 
 	// 업무리스트 위치변경 - tasklistNo, projectNo가 필요하다
 	@Override
-	public int modifyTaskListLocation(Map<String, Integer> m) {
+	public int modifyTaskListLocation(int projectNo, int tasklistNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 위치변경");
+		
+		// 현재 업무리스트에 있는 멤버 찾기
+		List<TaskMember> taskMember = taskMemberMapper.selectTaskMemberByTaskListNo(tasklistNo);
+		
+		// 멤버 삭제 후
+		for(TaskMember tm : taskMember) {
+			taskMemberMapper.deleteTaskMember(tm);
+		}
+		// 파라미터 값 가공
+		Map<String, Integer> m = new HashMap<>();
+		m.put("projectNo", projectNo);
+		m.put("tasklistNo", tasklistNo);
+		
+				
 		return taskListMapper.updateTaskListLocation(m);
 	}
 
