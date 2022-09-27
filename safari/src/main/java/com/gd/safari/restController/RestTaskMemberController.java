@@ -22,7 +22,21 @@ import lombok.extern.slf4j.Slf4j;
 public class RestTaskMemberController {
 	@Autowired private ITaskMemberService taskMemberService;
 	
-	// 프로젝트 멤버 - 해당 업무 멤버
+	// 프로젝트멤버 가져오기
+	@GetMapping("/safari/taskMember")
+	public List<Map<String, Object>> taskMember(HttpSession session){
+		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트멤버 가져오기");
+		
+		// 서비스호출
+		// 리턴값 List<Map<String, Object>>
+		List<Map<String, Object>> result = taskMemberService.getTaskMember((int)session.getAttribute("projectNo"));
+		
+		log.debug(TeamColor.CSH + "조회에 따른 프로젝트멤버 : " + result.size());
+		
+		return result;
+	}
+	
+	// 프로젝트 멤버에서 해당 업무 멤버 뺀 나머지
 	@GetMapping("/safari/resultTaskMember")
 	public List<Map<String, Object>> resultTaskMember(HttpSession session, int taskNo){
 		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 멤버 - 해당 업무 멤버");

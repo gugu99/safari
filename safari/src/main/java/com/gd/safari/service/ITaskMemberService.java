@@ -6,6 +6,8 @@ import java.util.Map;
 import com.gd.safari.vo.TaskMember;
 
 public interface ITaskMemberService {
+	// 프로젝트멤버 가져오기
+	List<Map<String, Object>> getTaskMember(int projectNo);
 	// 해당 업무번호에 없는 프로젝트멤버 조회/해당 업무번호에 따른 업무멤버 조회 - 프로젝트번호, 업무번호 필요하여 map으로 사용
 	List<Map<String, Object>> getTaskMemberByProjectNoAndTaskNo(Map<String, Integer> map);
 	// 해당 업무번호에 따른 업무멤버 조회 (위에 것에서 파생되는 메서드)

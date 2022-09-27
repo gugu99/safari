@@ -19,7 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class TaskMemberService implements ITaskMemberService {
 	@Autowired private ITaskMemberMapper taskMemberMapper;
-	
+
+	// 프로젝트멤버 가져오기
+	@Override
+	public List<Map<String, Object>> getTaskMember(int projectNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트멤버 가져오기");
+		return taskMemberMapper.selectTaskMember(projectNo);
+	}
+
 	// 해당 업무번호에 없는 프로젝트멤버 조회/해당 업무번호에 따른 업무멤버 조회 - 프로젝트번호, 업무번호 필요하여 map으로 사용
 	@Override
 	public List<Map<String, Object>> getTaskMemberByProjectNoAndTaskNo(Map<String, Integer> map) {
@@ -81,5 +88,4 @@ public class TaskMemberService implements ITaskMemberService {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무멤버 삭제");
 		return taskMemberMapper.deleteTaskMember(taskMember);
 	}
-
 }
