@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IFileMapper">
+	<!-- 파일리스트 -->
+	<select id="selectAllFileList" parameterType="int" resultType="com.gd.safari.vo.File">
+		SELECT 
+				f.file_no		fileNo
+				,f.task_no		taskNo
+				,f.uploader		uploader
+				,f.filename		filename
+				,f.file_ext		fileExt
+				,f.origin_name	originName
+				,f.file_type	fileType
+				,f.file_size	fileSize
+				,f.create_date	createDate
+				,f.update_date	updateDate
+
+		FROM project p inner join task_list tl
+		
+		ON p.project_no = tl.project_no inner join task t
+			
+		ON tl.tasklist_no = t.tasklist_no inner join file f
+		
+		ON t.task_no = f.task_no
+		
+		WHERE p.project_no = #{projectNo}
+	
+	</select>
+	
+	<!-- 파일 삽입 메서드 -->
+	<insert id ="insertFile" parameterType="map">
+			INSERT INTO file(
+				  task_no
+				, uploader
+				, filename
+				, file_ext
+				, origin_name
+				, file_type
+				, file_size
+				, create_date
+				, update_date
+			) VALUES(
+				  #{task_no}
+				, #{uploader}
+				, #{filename}
+				, #{fileExt}
+				, #{originName}
+				, #{fileType}
+				, #{fileSize}
+				, NOW()
+				, NOW()
+			)
+	</insert>
+	
+	<!-- 파일 삭제메서드 -->
+	<delete id ="deleteFile" parameterType="int">
+		DELETE FROM File
+		WHERE file_no = #{fileNo}
+	</delete>
+	
+	
+	<!-- 파일 보여주는 메서드 -->
+	<select id = "selectFileOne" parameterType="int" resultType="com.gd.safari.vo.File">
+		SELECT 
+			  file_no       fileNo
+			, task_no       taskNo
+			, uploader      
+			, filename 
+			, file_ext      fileExt
+			, origin_name   originName
+			, file_type     fileType
+			, file_size     fileSize
+			, create_date   createDate
+			, update_date   updateDate
+		FROM file
+		WHERE file_no= #{fileNo}
+	</select>
+	
+	
+</mapper>

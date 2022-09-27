@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProfileImgService implements IProfileImgService {
 	@Autowired
-	IProfileImgMapper profileImgMapper;
+	private IProfileImgMapper profileImgMapper;
 
 	@Override
 	public int addProfileImg(Map<String, Object> map) {
@@ -102,7 +102,7 @@ public class ProfileImgService implements IProfileImgService {
 		// workMemberNo 디버깅
 		log.debug(TeamColor.CJM + workMemberNo + "Controller workMemberNo"); 
 		
-		// profile이지미 정보받기
+		// profile이미지 정보받기
 		ProfileImg profileImg = profileImgMapper.selectProfileImgOne(workMemberNo); 
 		
 		// 확장자 검색
