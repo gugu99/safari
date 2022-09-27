@@ -76,8 +76,9 @@
                     </div>
                     <div class="chat-sidebar-list-wrapper pt-2">
                     	<h5 class="px-2 pb-25 mb-2"><a href="${pageContext.request.contextPath}/safari/projectSummary">프로젝트 요약</a></h5>
+                    	<hr/>
                     	<!-- Button trigger modal -->
-                        <h5 class="px-2 pb-25 mb-0">프로젝트<button type="button" data-toggle="modal" data-target="#bootstrap" class="float-right btn btn-icon btn-secondary" ><i class="feather icon-plus cursor-pointer"></i></button></h5>
+                        <h5 class="px-2 pb-25 mb-0">프로젝트<button type="button" data-toggle="modal" data-target="#bootstrap" class="float-right plusBtn btn-light" ><i class="feather icon-plus cursor-pointer"></i></button></h5>
                         <%@ include file="/WEB-INF/view/project/addProjectModal.jsp"%>
                         <ul class="chat-sidebar-list">
                         	<li>
@@ -94,9 +95,11 @@
                             </li>
                         </ul>
                         
-                        <h5 class="px-2 pt-2 pb-25 mb-0 float-center">PROJECT GROUP<button type="button" class="float-right btn btn-icon btn-secondary" onclick="addProjectGroup()"><i class="feather icon-plus float-right cursor-pointer"></i></button></h5>                        
+                        <hr/>
+                        
+                        <h5 class="px-2 pb-25 mb-0 ">프로젝트 그룹<button type="button" class="float-right plusBtn btn-light" id="addProjectGroupBtn"><i class="feather icon-plus float-right cursor-pointer"></i></button></h5>                        
                         <!-- 프로젝트 그룹 생성 버튼을 눌렀을 시 입력창이 나타날 곳-->
-                        <div id="addProjectGroup" class="px-2 pt-2 pb-25 mb-0"></div>
+                        <div class="px-2 pt-2 pb-25 mb-0 addProjectGroup" id="addProjectGroup"></div>
                         <ul class="chat-sidebar-list">
                         
                         	<c:forEach var="pg" items="${projectGroupList}">
