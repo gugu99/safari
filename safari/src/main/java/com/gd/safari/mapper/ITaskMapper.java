@@ -18,9 +18,7 @@ public interface ITaskMapper {
 	// 프로젝트 번호에 맞는 업무 조회
 	List<Task> selectTaskByProjectNo(Map<String, Object> m);
 	// 업무리스트 번호에 맞는 업무 조회
-	List<Task> selectTaskByTasklistNo(int tasklistNo);
-	// 정렬을 위한 조회(나에게 배정된 업무)
-	List<Task> selectTaskByProjectNoAndWorkMemberNo(Map<String, Object> m);
+	//List<Task> selectTaskByTasklistNo(int tasklistNo);
 	// 상세 보기
 	Map<String, Object> selectTaskByTaskNo(int taskNo);
 	// 업무 복사를 위한 객체 받기

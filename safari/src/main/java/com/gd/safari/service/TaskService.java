@@ -34,30 +34,16 @@ public class TaskService implements ITaskService {
 	@Override
 	public List<Task> getTaskByProjectNo(Map<String, Object> m) {
 		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 번호에 맞는 업무 조회");
-		// 받아온 검색이 한글일 경우 파싱
-//		if(m.get("search") != null) {
-//			subStrBytes((String)m.get("search"), m.get("search").toString().length());
-//			
-//			log.debug(TeamColor.CSH + subStrBytes((String)m.get("search"), m.get("search").toString().length()));
-//		}
-		
 		return taskMapper.selectTaskByProjectNo(m);
 	}
 
 	// 업무리스트 번호에 맞는 업무 조회
-	@Override
-	public List<Task> getTaskByTasklistNo(int tasklistNo) {
-		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 번호에 맞는 업무 조회");
-		return taskMapper.selectTaskByTasklistNo(tasklistNo);
-	}
-	
-	// 정렬을 위한 조회(나에게 배정된 업무)
-	@Override
-	public List<Task> getTaskByProjectNoAndWorkMemberNo(Map<String, Object> m) {
-		log.debug(TeamColor.CSH + this.getClass() + " 정렬을 위한 조회");
-		return taskMapper.selectTaskByProjectNoAndWorkMemberNo(m);
-	}
-	
+//	@Override
+//	public List<Task> getTaskByTasklistNo(int tasklistNo) {
+//		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 번호에 맞는 업무 조회");
+//		return taskMapper.selectTaskByTasklistNo(tasklistNo);
+//	}
+
 	// 상세 보기
 	@Override
 	public Map<String, Object> getTaskByTaskNo(int taskNo) {
@@ -193,25 +179,4 @@ public class TaskService implements ITaskService {
 		
 		return taskMapper.deleteTask(taskNo);
 	}
-	
-	// 한글 byte로 자르기
-//	private String subStrBytes(String source, int cutLength) {
-//		if(!source.isEmpty()) {
-//	    	source = source.trim();
-//	        if(source.getBytes().length <= cutLength) {
-//	        	return source;
-//	        } else {
-//	            StringBuffer sb = new StringBuffer(cutLength);
-//	            int cnt = 0;
-//	            for(char ch : source.toCharArray()){
-//	            	cnt += String.valueOf(ch).getBytes().length;
-//	                if(cnt > cutLength) 
-//	                	break;
-//	            }
-//	            return sb.toString();
-//	        }
-//	    } else {
-//	    	return "";
-//	    }
-//	}
 }

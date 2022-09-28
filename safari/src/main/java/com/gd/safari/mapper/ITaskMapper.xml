@@ -108,7 +108,7 @@
 			ON 
 				tl.tasklist_no = t.tasklist_no 
 			WHERE 
-				t.task_point IS NOT NULL
+				t.task_point IN ('1','2','3','4','5')
 		</if>
 		<!-- 포인트가 없는 업무 -->
 		<if test="sort == 4">
@@ -117,13 +117,13 @@
 			ON 
 				tl.tasklist_no = t.tasklist_no 
 			WHERE 
-				t.task_point IS NULL
+				t.task_point NOT IN ('1','2','3','4','5')
 		</if>
 		<if test="search != null">
 			AND t.task_title LIKE CONCAT('%', #{search} ,'%')
 		</if>
 	</select>
-	<!-- 업무리스트 번호에 맞는 업무 조회 -->
+	<!-- 업무리스트 번호에 맞는 업무 조회 
 	<select id="selectTaskByTasklistNo" parameterType="int" resultType="com.gd.safari.vo.Task">
 		SELECT
 			task_no 									taskNo
@@ -137,28 +137,7 @@
 		WHERE 	
 			tasklist_no 		= #{tasklistNo}
 		
-	</select>
-	<!-- 정렬을 위한 조회 -->
-	<select id="selectTaskByProjectNoAndWorkMemberNo" parameterType="map" resultType="com.gd.safari.vo.Task">
-		<!-- 나에게 배정된 업무 <if test=""></if> -->
-		SELECT 
-			t.task_no 									taskNo
-			, t.task_title 								taskTitle
-			, t.task_point 								taskPoint
-			, DATE_FORMAT(t.task_deadline, '%m/%d') 	taskDeadline
-			, t.tasklist_no 							tasklistNo
-			, t.task_upper_no 							taskUpperNo
-		FROM 
-			task t 							INNER JOIN task_list tl 
-		ON 
-			t.tasklist_no = tl.tasklist_no 	INNER JOIN task_member tm 
-		ON 
-			t.task_no = tm.task_no 			INNER JOIN project_member pm 
-		ON 
-			tm.project_member_no = pm.project_member_no 
-		WHERE 
-			pm.project_no = #{projectNo} AND work_member_no = #{workMemberNo}
-	</select>
+	</select> -->
 	<!-- 상세 보기 -->
 	<select id="selectTaskByTaskNo" parameterType="int" resultType="map">
 				SELECT
@@ -209,11 +188,11 @@
 			, tasklist_no
 		) VALUES (
 			#{taskTitle}
-			, #{taskContent}
-			, #{taskStart}
-			, if(#{taskDeadline} = '', null, #{taskDeadline})
-			, #{taskEnd}
-			, #{taskPoint}
+			, IF(#{taskContent}='', NULL, #{taskContent})
+			, IF(#{taskStart}='', NULL, #{taskStart})
+			, IF(#{taskDeadline}='', NULL, #{taskDeadline})
+			, IF(#{taskEnd}='', NULL, #{taskEnd})
+			, IF(#{taskPoint}='', NULL, #{taskPoint})
 			, #{taskWriter}
 			, NOW()
 			, NOW()
@@ -241,10 +220,10 @@
 		UPDATE task 
 		SET
 			task_title 		= #{taskTitle}
-			, task_content 	= #{taskContent}
-			, task_point 	= #{taskPoint}
-			, task_start	= if(#{taskStart}='NaN-0NaN-0NaN', null, #{taskStart})  
-			, task_deadline = if(#{taskDeadline}='NaN-0NaN-0NaN :00', null, #{taskDeadline})
+			, task_content 	= IF(#{taskContent}='', NULL, #{taskContent})
+			, task_point 	= IF(#{taskPoint}='', NULL, #{taskPoint}) 
+			, task_start	= IF(#{taskStart}='NaN-0NaN-0NaN', NULL, #{taskStart})  
+			, task_deadline = IF(#{taskDeadline}='NaN-0NaN-0NaN :00', NULL, #{taskDeadline})
 			, update_date 	= NOW()
 		WHERE 
 			task_no 		= #{taskNo}

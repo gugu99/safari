@@ -73,25 +73,41 @@
                       </div>
                    </div>
                    <div class="form-group">
-                   		<label>하위 업무</label>
+                   		<label>하위업무</label>
                    		<ul class="edit-kanban-item-task">
                    			<!-- 하위 업무 리스트 -->
-                   			
                    		</ul>
-		                <input type="text" class="form-control lowerTask" id="lowerTask" placeholder="하위업무 만들기">	
-                   		<!-- <div class="text-right">
-                   			<a data-toggle="modal" href="#taskModal"><input type="button" class="taskBtn-modal btn btn-outline-primary" value="하위업무 수정"></a>
-                   		</div> -->
+                   		<div>
+		               	 	<input type="text" class="form-control lowerTask" id="lowerTask" placeholder="하위업무 만들기">	
+                   		</div>
+                   		<div class="text-right">
+                   		</div>
                    </div>
+                   <div class="row">
+                        <div class="col-6">
+                             <div class="form-group">
+		                   		<label>하위업무 전환</label>
+		                   		<div>
+                   					<a data-toggle="modal" href="#lowerTaskModal"><button type="button" class="lowerTaskBtn-modal btn btn-outline-primary">하위업무전환 <i class="feather icon-corner-down-left"></i></button></a>
+		                   		</div>
+		                    </div>
+                        </div>
+                        <div class="col-6">
+                        	<div class="form-group">
+		                   		<label>메인업무 전환</label>
+		                   		<div>
+		                   			<button type="button" class="taskBtn-modal btn btn-outline-primary" id="changeTaskBtn">메인업무전환 <i class="feather icon-corner-right-up"></i></button>
+		                   		</div>
+		                    </div>
+                        </div>
+                      </div>
            		</div>
 	            <div class="card-footer d-flex justify-content-end">
 	            	<button type="button" class="btn btn-warning cancel-kanban-item mr-1">
-	                    <i class="feather icon-check mr-50"></i>
-	                    <span>취소</span>
+	                    <span>완료취소</span>
 	                </button>
 	            	<button type="button" class="btn btn-info complete-kanban-item mr-1">
-	                    <i class="feather icon-check mr-50"></i>
-	                    <span>완료</span>
+	                    <span>업무완료</span>
 	                </button>
 	                <button type="reset" class="btn btn-danger delete-kanban-item mr-1">
 	                    <i class="feather icon-trash-2 mr-50"></i>
@@ -109,6 +125,7 @@
 </div>
 <%@include file="/WEB-INF/view/task/taskMemberModal.jsp"%>
 <%@include file="/WEB-INF/view/task/taskModal.jsp"%>
+<%@include file="/WEB-INF/view/task/lowerTaskModal.jsp"%>
 <%@include file="/WEB-INF/view/task/updateTaskLocationModal.jsp"%>
 <%@include file="/WEB-INF/view/task/updateTaskListLocationModal.jsp"%>
 <%@include file="/WEB-INF/view/task/copyTaskListModal.jsp"%>

@@ -54,38 +54,18 @@ public class RestTaskController {
 	}
 	
 	// 업무리스트 번호에 맞는 업무 조회
-	@PostMapping("/safari/taskByTaskList")
-	public List<Task> taskByTaskList(int tasklistNo) {
-		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 번호에 맞는 업무 조회");
-		
-		// 서비스호출
-		// 리턴값 List<Task>
-		List<Task> tasks = taskService.getTaskByTasklistNo(tasklistNo);
-		
-		log.debug(TeamColor.CSH + "조회에 따른 업무 개수 : " + tasks.size());
-		
-		return tasks;
-	}
-		
-	// 프로젝트번호 + 나에게 배정된 업무
-	@PostMapping("/safari/myTask")
-	public List<Task> myTask(HttpSession session) {
-		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 번호 + 나에게 배정된 업무 조회");
-		
-		// param가공
-		Map<String, Object> m = new HashMap<>();
-		m.put("projectNo", (int)session.getAttribute("projectNo"));
-		m.put("workMemberNo", (int)session.getAttribute("workMemberNo"));
-		
-		
-		// 서비스호출
-		// 리턴값 List<Task>
-		List<Task> tasks = taskService.getTaskByProjectNoAndWorkMemberNo(m);
-		
-		log.debug(TeamColor.CSH + "조회에 따른 업무 개수 : " + tasks.size());
-		
-		return tasks;
-	}
+//	@PostMapping("/safari/taskByTaskList")
+//	public List<Task> taskByTaskList(int tasklistNo) {
+//		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 번호에 맞는 업무 조회");
+//		
+//		// 서비스호출
+//		// 리턴값 List<Task>
+//		List<Task> tasks = taskService.getTaskByTasklistNo(tasklistNo);
+//		
+//		log.debug(TeamColor.CSH + "조회에 따른 업무 개수 : " + tasks.size());
+//		
+//		return tasks;
+//	}
 	
 	// 업무 복사를 위한 객체 받기
 	@GetMapping("/safari/getTask")
