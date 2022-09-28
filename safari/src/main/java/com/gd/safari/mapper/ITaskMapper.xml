@@ -22,7 +22,7 @@
 					ON
 						tm.project_member_no = pm.project_member_no
 					WHERE
-						pm.work_member_no in (#{feedbackReceiverNo}, #{feedbackSenderNo) )
+						pm.work_member_no in (#{feedbackReceiverNo}, #{feedbackSenderNo} )
 				) t2
 		ON 
 			t.task_no = t2.task_no
@@ -108,7 +108,7 @@
 			ON 
 				tl.tasklist_no = t.tasklist_no 
 			WHERE 
-				t.task_point IN ('1','2','3','4','5')
+				t.task_point IS NOT NULL
 		</if>
 		<!-- 포인트가 없는 업무 -->
 		<if test="sort == 4">
@@ -117,10 +117,13 @@
 			ON 
 				tl.tasklist_no = t.tasklist_no 
 			WHERE 
-				t.task_point NOT IN ('1','2','3','4','5')
+				t.task_point IS NULL
 		</if>
 		<if test="search != null">
 			AND t.task_title LIKE CONCAT('%', #{search} ,'%')
+		</if>
+		<if test="check == false">
+			AND t.task_deadline IS NULL
 		</if>
 	</select>
 	<!-- 업무리스트 번호에 맞는 업무 조회 
