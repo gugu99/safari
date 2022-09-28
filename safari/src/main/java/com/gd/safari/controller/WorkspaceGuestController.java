@@ -29,7 +29,7 @@ public class WorkspaceGuestController {
 	@Autowired private IMemberMailService memberMailService;
 	
 	// 워크스페이스게스트 초대
-	@PostMapping("/safari/addWorkspaceGuestByInvite")
+	@PostMapping("/member/addWorkspaceGuestByInvite")
 	public String addWorkspaceGuestByInvite(WorkspaceGuest workspaceGuest,
 			@RequestParam(value = "memberEmail1", required = false) String[] memberEmail1) {
 
@@ -54,12 +54,12 @@ public class WorkspaceGuestController {
 
 		}
 		// 인덱스로 리다이렉트
-		return "redirect:/safari/workspaceGuestList";
+		return "redirect:/member/workspaceGuestList";
 
 	}
 	
 	// 워크스페이스게스트 정렬 리스트
-	@GetMapping("/safari/workspaceGuestList")
+	@GetMapping("/member/workspaceGuestList")
 	public String workspaceMemberList (Model model,HttpSession session,
 			@RequestParam Map<String,Object> map) {
 		
@@ -101,7 +101,7 @@ public class WorkspaceGuestController {
 	}
 	
 	// 워크스페이스 게스트 추방
-	@PostMapping("/safari/modifyWorkspaceGuestByActive")
+	@PostMapping("/member/modifyWorkspaceGuestByActive")
 	public String modifyWorkspaceGuestByActive(WorkspaceGuest workspaceGuest) {
 			
 		// workspaceMember 디버깅
@@ -111,12 +111,12 @@ public class WorkspaceGuestController {
 		workspaceGuestService.modifyWorkspaceGuestByActive(workspaceGuest);
 		
 		// 게스트리스트로 리다이렉트
-		return "redirect:/safari/workspaceGuestList";
+		return "redirect:/member/workspaceGuestList";
 
 	}
 	
 	// 워크스페이스 게스트 승인
-		@PostMapping("/safari/modifyWorkspaceGuestActiveApprove")
+		@PostMapping("/member/modifyWorkspaceGuestActiveApprove")
 		public String modifyWorkspaceGuestActiveApprove(WorkspaceGuest workspaceGuest) {
 				
 			// workspaceMember 디버깅
@@ -126,7 +126,7 @@ public class WorkspaceGuestController {
 			workspaceGuestService.modifyWorkspaceGuestActiveApprove(workspaceGuest);
 			
 			// 게스트리스트로 리다이렉트
-			return "redirect:/safari/workspaceGuestList";
+			return "redirect:/member/workspaceGuestList";
 
 		}
 	

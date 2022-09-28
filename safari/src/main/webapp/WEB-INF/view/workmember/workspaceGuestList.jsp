@@ -59,7 +59,7 @@
 											<div class="sidebar-toggle d-block d-lg-none">
 												<i class="feather icon-menu font-large-1"></i>
 											</div>
-											<form action="${pageContext.request.contextPath }/safari/workspaceGuestList">
+											<form action="${pageContext.request.contextPath }/member/workspaceGuestList">
 												<div class="position-relative">
 													<input type="search" id="search-contacts" name="search"
 														class="form-control" placeholder="게스트검색 이메일을 입력해주세요">
@@ -97,7 +97,7 @@
 													<div class="modal-content">
 														<section class="contact-form">
 															<form id="inviteForm" class="contact-input"
-																action="${pageContext.request.contextPath }/safari/addWorkspaceMemberByInvite"
+																action="${pageContext.request.contextPath }/member/addWorkspaceMemberByInvite"
 																method="post">
 																<div class="modal-header">
 																	<h5 class="modal-title" id="exampleModalLabel1">사원초대</h5>
@@ -146,7 +146,7 @@
 													<div class="modal-content">
 														<section class="contact-form">
 															<form id="GuestInviteForm" class="contact-input"
-																action="${pageContext.request.contextPath }/safari/addWorkspaceGuestByInvite"
+																action="${pageContext.request.contextPath }/member/addWorkspaceGuestByInvite"
 																method="post">
 																<div class="modal-header">
 																	<h5 class="modal-title" id="exampleModalLabel1">게스트초대</h5>
@@ -234,7 +234,7 @@
 																		<form id="updateWorkGuestActiveForm${i}"
 																			name="updateWorkGuestActiveForm${i}"
 																			class="contact-input"
-																			action="${pageContext.request.contextPath }/safari/modifyWorkspaceGuestByActive"
+																			action="${pageContext.request.contextPath }/member/modifyWorkspaceGuestByActive"
 																			method="post">
 																			<div class="modal-header">
 																				<h5 class="modal-title" id="exampleModalLabel">게스트추방</h5>
@@ -281,7 +281,7 @@
 																		<form id="updateWorkGuestApprove${i}"
 																			name="updateWorkGuestApprove${i}"
 																			class="contact-input"
-																			action="${pageContext.request.contextPath }/safari/modifyWorkspaceGuestActiveApprove"
+																			action="${pageContext.request.contextPath }/member/modifyWorkspaceGuestActiveApprove"
 																			method="post">
 																			<div class="modal-header">
 																				<h5 class="modal-title" id="exampleModalLabel">게스트승인</h5>
@@ -409,13 +409,13 @@
 								<ul class="list-group">
 									<li class="list-group-item"><span
 										class="badge badge-primary badge-pill float-right">${allMemberCount}</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceMemberList">모든 멤버</a></li>
+										href="${pageContext.request.contextPath }/member/workspaceMemberList">모든 멤버</a></li>
 									<li class="list-group-item"><span
 										class="badge badge-info badge-pill float-right">${WMemberCount }</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceMemberList?active=W">초대중인 멤버</a></li>
+										href="${pageContext.request.contextPath }/member/workspaceMemberList?active=W">초대중인 멤버</a></li>
 									<li class="list-group-item"><span
 										class="badge badge-warning badge-pill float-right">${NMemberCount }</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceMemberList?active=N">삭제된 멤버</a></li>
+										href="${pageContext.request.contextPath }/member/workspaceMemberList?active=N">삭제된 멤버</a></li>
 
 								</ul>
 							</div>
@@ -427,13 +427,13 @@
 								<ul class="list-group">
 									<li class="list-group-item"><span
 										class="badge badge-primary badge-pill float-right">${allGuestCount }</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceGuestList">모든 게스트</a></li>
+										href="${pageContext.request.contextPath }/member/workspaceGuestList">모든 게스트</a></li>
 									<li class="list-group-item"><span
 										class="badge badge-info badge-pill float-right">${WGuestCount }</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceGuestList?active=W">초대중인 게스트</a></li>
+										href="${pageContext.request.contextPath }/member/workspaceGuestList?active=W">초대중인 게스트</a></li>
 									<li class="list-group-item"><span
 										class="badge badge-info badge-pill float-right">${NGuestCount }</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceGuestList?active=N">삭제된 게스트</a></li>
+										href="${pageContext.request.contextPath }/member/workspaceGuestList?active=N">삭제된 게스트</a></li>
 								</ul>
 							</div>
 							<!--/More-->
@@ -552,7 +552,7 @@ $(document).ready(function() {
 			} else if ($("input[name='workMemberEmail']").val() != '') {
 			$.ajax({
 				async : false,
-				url : '/safari/existEmail',
+				url : '/member/existEmail',
 				type : 'POST',
 				data : {workMemberEmail : $("input[name='workMemberEmail']").eq(i).val()},
 				success : function(data) {
@@ -563,7 +563,7 @@ $(document).ready(function() {
 						}else if (data=='존재하는이메일'){
 							$.ajax({
 								async : false,
-								url : '/safari/existWorkspaceEmail',
+								url : '/member/existWorkspaceEmail',
 								type : 'POST',
 								data : {workMemberEmail : $("input[name='workMemberEmail']").eq(i).val()},
 								success : function(json) {
@@ -608,7 +608,7 @@ $(document).ready(function() {
 			} else if ($("input[name='memberEmail1']").eq(i).val() != '') {
 				$.ajax({
 					async : false,
-					url : '/safari/existEmail',
+					url : '/member/existEmail',
 					type : 'POST',
 					data : {workMemberEmail : $("input[name='memberEmail1']").eq(i).val()},
 					success : function(data) {
@@ -619,7 +619,7 @@ $(document).ready(function() {
 							}else if (data=='존재하는이메일'){
 								$.ajax({
 									async : false,
-									url : '/safari/existWorkspaceEmail',
+									url : '/member/existWorkspaceEmail',
 									type : 'POST',
 									data : {workMemberEmail : $("input[name='memberEmail1']").eq(i).val()},
 									success : function(json) {
@@ -630,7 +630,7 @@ $(document).ready(function() {
 											else if (json!='이미사용'){
 												$.ajax({
 													async : false,
-													url : '/safari/existGuestEmail',
+													url : '/member/existGuestEmail',
 													type : 'POST',
 													data : {memberEmail : $("input[name='memberEmail1']").eq(i).val()},
 													success : function(email) {

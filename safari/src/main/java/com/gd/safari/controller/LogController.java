@@ -20,7 +20,7 @@ public class LogController {
 	
 	
 	// 워크스페이스게스트 정렬 리스트
-		@GetMapping("/safari/logList")
+		@GetMapping("/member/logList")
 		public String logList (Model model,HttpSession session) {
 			
 			// projectNo 세션 가져오기

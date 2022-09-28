@@ -58,7 +58,7 @@
 											<div class="sidebar-toggle d-block d-lg-none">
 												<i class="feather icon-menu font-large-1"></i>
 											</div>
-											<form action="${pageContext.request.contextPath }/safari/workspaceMemberList">
+											<form action="${pageContext.request.contextPath }/member/workspaceMemberList">
 												<div class="position-relative">
 													<input type="text" id="search-contacts" name="search"
 														class="form-control" placeholder="사원검색">
@@ -95,7 +95,7 @@
 													<div class="modal-content">
 														<section class="contact-form">
 															<form id="inviteForm" class="contact-input"
-																action="${pageContext.request.contextPath }/safari/addWorkspaceMemberByInvite"
+																action="${pageContext.request.contextPath }/member/addWorkspaceMemberByInvite"
 																method="post">
 																<div class="modal-header">
 																	<h5 class="modal-title" id="exampleModalLabel1">사원초대</h5>
@@ -144,7 +144,7 @@
 													<div class="modal-content">
 														<section class="contact-form">
 															<form id="GuestInviteForm" class="contact-input"
-																action="${pageContext.request.contextPath }/safari/addWorkspaceGuestByInvite"
+																action="${pageContext.request.contextPath }/member/addWorkspaceGuestByInvite"
 																method="post">
 																<div class="modal-header">
 																	<h5 class="modal-title" id="exampleModalLabel1">게스트초대</h5>
@@ -229,7 +229,7 @@
 																	<section class="contact-form">
 																		<form id="workMemberLevelForm${i }"
 																			name="workMemberLevelForm${i}" class="contact-input"
-																			action="${pageContext.request.contextPath }/safari/modifyWorkspaceMemberByLevel"
+																			action="${pageContext.request.contextPath }/member/modifyWorkspaceMemberByLevel"
 																			method="post">
 																			<div class="modal-header">
 																				<h5 class="modal-title" id="exampleModalLabel">권한변경</h5>
@@ -304,7 +304,7 @@
 																		<form id="updateWorkMemberAdminForm${i }"
 																			name="updateWorkMemberAdminForm${i}"
 																			class="contact-input"
-																			action="${pageContext.request.contextPath }/safari/modifyWorkspaceAdmin"
+																			action="${pageContext.request.contextPath }/member/modifyWorkspaceAdmin"
 																			method="post">
 																			<div class="modal-header">
 																				<h5 class="modal-title" id="exampleModalLabel">권한변경</h5>
@@ -351,7 +351,7 @@
 																		<form id="updateWorkMemberAdminForm${i }"
 																			name="updateWorkMemberAdminForm${i}"
 																			class="contact-input"
-																			action="${pageContext.request.contextPath }/safari/modifyWorkspaceMemberByActive"
+																			action="${pageContext.request.contextPath }/member/modifyWorkspaceMemberByActive"
 																			method="post">
 																			<div class="modal-header">
 																				<h5 class="modal-title" id="exampleModalLabel">멤버추방</h5>
@@ -396,7 +396,7 @@
 																		<form id="updateWorkMemberApproveForm${i }"
 																			name="updateWorkMemberApproveForm${i}"
 																			class="contact-input"
-																			action="${pageContext.request.contextPath }/safari/modifyWorkspaceMemberActiveApprove"
+																			action="${pageContext.request.contextPath }/member/modifyWorkspaceMemberActiveApprove"
 																			method="post">
 																			<div class="modal-header">
 																				<h5 class="modal-title" id="exampleModalLabel">멤버승인</h5>
@@ -437,7 +437,7 @@
 															<td>
 																<div class="media">
 																	<div class="media-body media-middle">
-																		<a href="${pageContext.request.contextPath }/safari/feedback?workMemberNo=${r.workMemberNo}">${r.workMemberName }</a></div>
+																		<a href="${pageContext.request.contextPath }/member/feedback?workMemberNo=${r.workMemberNo}">${r.workMemberName }</a></div>
 																</div>
 															</td>
 															<td class="text-center"><a class="email"
@@ -543,13 +543,13 @@
 								<ul class="list-group">
 									<li class="list-group-item"><span
 										class="badge badge-primary badge-pill float-right">${allMemberCount}</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceMemberList">모든 멤버</a></li>
+										href="${pageContext.request.contextPath }/member/workspaceMemberList">모든 멤버</a></li>
 									<li class="list-group-item"><span
 										class="badge badge-info badge-pill float-right">${WMemberCount }</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceMemberList?active=W">초대중인 멤버</a></li>
+										href="${pageContext.request.contextPath }/member/workspaceMemberList?active=W">초대중인 멤버</a></li>
 									<li class="list-group-item"><span
 										class="badge badge-warning badge-pill float-right">${NMemberCount }</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceMemberList?active=N">삭제된 멤버</a></li>
+										href="${pageContext.request.contextPath }/member/workspaceMemberList?active=N">삭제된 멤버</a></li>
 
 								</ul>
 							</div>
@@ -561,13 +561,13 @@
 								<ul class="list-group">
 									<li class="list-group-item"><span
 										class="badge badge-primary badge-pill float-right">${allGuestCount }</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceGuestList">모든 게스트</a></li>
+										href="${pageContext.request.contextPath }/member/workspaceGuestList">모든 게스트</a></li>
 									<li class="list-group-item"><span
 										class="badge badge-info badge-pill float-right">${WGuestCount }</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceGuestList?active=W">초대중인 게스트</a></li>
+										href="${pageContext.request.contextPath }/member/workspaceGuestList?active=W">초대중인 게스트</a></li>
 									<li class="list-group-item"><span
 										class="badge badge-info badge-pill float-right">${NGuestCount }</span> <a
-										href="${pageContext.request.contextPath }/safari/workspaceGuestList?active=N">삭제된 게스트</a></li>
+										href="${pageContext.request.contextPath }/member/workspaceGuestList?active=N">삭제된 게스트</a></li>
 								</ul>
 							</div>
 							<!--/More-->
@@ -686,7 +686,7 @@ $(document).ready(function() {
 			} else if ($("input[name='workMemberEmail']").val() != '') {
 			$.ajax({
 				async : false,
-				url : '/safari/existEmail',
+				url : '/member/existEmail',
 				type : 'POST',
 				data : {workMemberEmail : $("input[name='workMemberEmail']").eq(i).val()},
 				success : function(data) {
@@ -697,7 +697,7 @@ $(document).ready(function() {
 						}else if (data=='존재하는이메일'){
 							$.ajax({
 								async : false,
-								url : '/safari/existWorkspaceEmail',
+								url : '/member/existWorkspaceEmail',
 								type : 'POST',
 								data : {workMemberEmail : $("input[name='workMemberEmail']").eq(i).val()},
 								success : function(json) {
@@ -742,7 +742,7 @@ $(document).ready(function() {
 			} else if ($("input[name='memberEmail1']").eq(i).val() != '') {
 				$.ajax({
 					async : false,
-					url : '/safari/existEmail',
+					url : '/member/existEmail',
 					type : 'POST',
 					data : {workMemberEmail : $("input[name='memberEmail1']").eq(i).val()},
 					success : function(data) {
@@ -753,7 +753,7 @@ $(document).ready(function() {
 							}else if (data=='존재하는이메일'){
 								$.ajax({
 									async : false,
-									url : '/safari/existWorkspaceEmail',
+									url : '/member/existWorkspaceEmail',
 									type : 'POST',
 									data : {workMemberEmail : $("input[name='memberEmail1']").eq(i).val()},
 									success : function(json) {
@@ -764,7 +764,7 @@ $(document).ready(function() {
 											else if (json!='이미사용'){
 												$.ajax({
 													async : false,
-													url : '/safari/existGuestEmail',
+													url : '/member/existGuestEmail',
 													type : 'POST',
 													data : {memberEmail : $("input[name='memberEmail1']").eq(i).val()},
 													success : function(email) {

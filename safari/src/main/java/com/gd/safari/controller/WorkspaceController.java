@@ -92,7 +92,7 @@ public class WorkspaceController {
 	}
 
 	// 워크스페이스 메인창
-	@GetMapping("/safari/workspaceMain")
+	@GetMapping("/member/workspaceMain")
 	public String workspaceMain(HttpSession session, WorkspaceMember workspaceMember, Model model) {
 		// workspaceMember 디버깅
 		log.debug(TeamColor.CJM + workspaceMember + "Controller workspaceMember"); 
@@ -146,7 +146,7 @@ public class WorkspaceController {
 		}
 		
 		// projectList로 redirect
-		return "redirect:/safari/project"; 
+		return "redirect:/member/project"; 
 	}
 	
 	// 워크스페이스 게스트 메인창
@@ -204,7 +204,7 @@ public class WorkspaceController {
 	}
 	
 	//워크스페이스 관리자 변경
-	@PostMapping("/safari/modifyWorkspaceAdmin")
+	@PostMapping("/member/modifyWorkspaceAdmin")
 	public String modifyWorkspaceAdmin(Workspace workspace,WorkspaceMember workspaceMember,
 										HttpSession session) {
 		
@@ -232,7 +232,7 @@ public class WorkspaceController {
 		session.setAttribute("workMemberLevel", 1);
 		
 		// 워크스페이스리스트로 리다이렉트
-		return "redirect:/safari/workspaceMemberList"; 
+		return "redirect:/member/workspaceMemberList"; 
 
 	}
 

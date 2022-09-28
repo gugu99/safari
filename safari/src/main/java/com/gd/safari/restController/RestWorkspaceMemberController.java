@@ -21,7 +21,7 @@ public class RestWorkspaceMemberController {
 	@Autowired private IWorkspaceMemberService workspaceMemberService;
 	
 	// 아이디에 맞는 Code 가져오기
-	@PostMapping("/safari/workspaceCode")
+	@PostMapping("/member/workspaceCode")
 	public @ResponseBody String duplicateEmail(HttpSession session) {
 		 // 세션 workMemberNo
 		int workMemberNo = (int)session.getAttribute("workMemberNo");				
@@ -37,7 +37,7 @@ public class RestWorkspaceMemberController {
 	}
 	
 	// 존재하는 email인지확인
-	@PostMapping("/safari/existEmail")
+	@PostMapping("/member/existEmail")
 	public @ResponseBody String existMail(@RequestParam (value = "workMemberEmail") String workMemberEmail ) {
 		// workMemberEmail 디버깅
 		log.debug(TeamColor.CJM +workMemberEmail + "이메일 검사");
@@ -59,7 +59,7 @@ public class RestWorkspaceMemberController {
 	}
 	
 	// 존재하는 workMemberEmail 인지 확인
-	@PostMapping("/safari/existWorkspaceEmail")
+	@PostMapping("/member/existWorkspaceEmail")
 	public @ResponseBody String existWorkspaceEmail(WorkspaceMember workspaceMember ,HttpSession session) {
 														
 		// workspaceMember 디버깅

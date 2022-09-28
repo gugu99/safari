@@ -19,7 +19,7 @@ public class RestWorkspaceGuestController {
 	@Autowired private IWorkspaceGuestService workspaceGuestService;
 	
 	
-	@PostMapping("/safari/existGuestEmail")
+	@PostMapping("/member/existGuestEmail")
 	public @ResponseBody String existWorkspaceEmail(WorkspaceGuest workspaceGuest ,HttpSession session) {
 														
 		// workspaceMember 디버깅

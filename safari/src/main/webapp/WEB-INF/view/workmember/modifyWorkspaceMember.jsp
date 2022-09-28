@@ -67,13 +67,13 @@
                                                 <h4 class="media-heading">${workspaceMemberOne.workMemberEmail}</h4>
                                                 <div class="col-12 px-0 d-flex">
                                                     <a href="#" class="btn btn-sm btn-primary mr-25" data-toggle="modal" data-target="#inlineForm">사진변경</a>
-                                                    <a href="${pageContext.request.contextPath}/safari/removeProfileImg" class="btn btn-sm btn-primary mr-25" >사진삭제</a>
+                                                    <a href="${pageContext.request.contextPath}/member/removeProfileImg" class="btn btn-sm btn-primary mr-25" >사진삭제</a>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- users edit media object ends -->
                                         <!-- users edit account form start -->
-                                        <form action="${pageContext.request.contextPath}/safari/modifyWorkspaceMember" method="post">
+                                        <form action="${pageContext.request.contextPath}/member/modifyWorkspaceMember" method="post">
                                             <div class="row">
                                                 <div class="col-12 col-sm-6">
                                                     <div class="form-group">
@@ -278,7 +278,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form id="profileImgForm"  method="post" action="${pageContext.request.contextPath}/safari/addProfileImg" enctype="multipart/form-data">
+                        <form id="profileImgForm"  method="post" action="${pageContext.request.contextPath}/member/addProfileImg" enctype="multipart/form-data">
                             <div class="modal-body">
 			                    <div class="col-12 px-0 d-flex flex-sm-row flex-column justify-content-start">
                                     <input class="btn btn-sm btn-primary ml-50" name="imgFile" type="file" id="imgFile"  accept="image/gif, image/jpeg, image/png">
