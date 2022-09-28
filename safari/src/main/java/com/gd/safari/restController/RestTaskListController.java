@@ -70,7 +70,7 @@ public class RestTaskListController {
 	}
 	
 	// 복사업무리스트 생성
-	@PostMapping("/safari/copyTaskList")
+	@PostMapping("/member/copyTaskList")
 	public String copyTaskList(HttpSession session, @RequestParam(value = "copyTaskList", required = false) String copyTaskList) {
 		log.debug(TeamColor.CSH + this.getClass() + " 복사업무리스트 생성");
 		
@@ -142,7 +142,7 @@ public class RestTaskListController {
 	}
 		
 	// 업무리스트 생성
-	@PostMapping("/safari/insertTaskList")
+	@PostMapping("/member/insertTaskList")
 	public String insertTaskList(HttpSession session, TaskList taskList) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 생성");
 		
@@ -169,7 +169,7 @@ public class RestTaskListController {
 	}
 	
 	// 업무리스트 수정
-	@PostMapping("/safari/updateTaskList")
+	@PostMapping("/member/updateTaskList")
 	public String updateTaskList(TaskList taskList) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 수정");
 		// 디버깅
@@ -192,7 +192,7 @@ public class RestTaskListController {
 	}
 
 	// 업무리스트 위치변경 - tasklistNo, projectNo가 필요하다
-	@PostMapping("/safari/updateTaskListLocation")
+	@PostMapping("/member/updateTaskListLocation")
 	public String updateTaskListLocation(int projectNo, int tasklistNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 수정");
 		// 디버깅
@@ -215,7 +215,7 @@ public class RestTaskListController {
 	}
 	
 	// 업무리스트 삭제
-	@PostMapping("/safari/deleteTaskList")
+	@PostMapping("/member/deleteTaskList")
 	public String deleteTaskList(int tasklistNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 삭제");
 		// 디버깅

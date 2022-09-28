@@ -10,7 +10,7 @@
             </button>
         </div>
         <!-- form start -->
-        <form class="edit-kanban-item" action="${pageContext.request.contextPath }/safari/updateTask" method="post">
+        <form class="edit-kanban-item" action="${pageContext.request.contextPath }/member/updateTask" method="post">
             <div class="card-content position-relative">
                 <div class="card-body">
                		<input type="hidden" class="edit-kanban-item-id" name="taskNo">

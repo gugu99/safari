@@ -61,7 +61,7 @@
 			taskNo : $('.edit-kanban-item-id').val(),
 			tasklistNo : value_str.options[value_str.selectedIndex].value
 		},
-		url : '/safari/updateTaskLocation',
+		url : '/member/updateTaskLocation',
 		success : function(json){
 			if(json != 'ok'){
 				alert('업무 위치 변경을 실패했습니다.');
@@ -73,6 +73,6 @@
 		}	
 	});	
 	// 프로젝트 번호에 알맞게 페이지 이동
-    window.location.replace('/safari/taskList?projectNo=' + value_project.options[value_project.selectedIndex].value);
+    window.location.replace('/member/taskList?projectNo=' + value_project.options[value_project.selectedIndex].value);
   });
   

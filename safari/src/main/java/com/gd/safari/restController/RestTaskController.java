@@ -55,6 +55,55 @@ public class RestTaskController {
 		return tasks;
 	}
 	
+	// 업무 상세보기
+	@GetMapping("/safari/taskDetail")
+	public Map<String, Object> taskDetail(int taskNo){
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 상세보기");
+		
+		// 서비스호출
+		// 리턴값 Map<String, Object>
+		Map<String, Object> task = taskService.getTaskByTaskNo(taskNo);
+		
+		log.debug(TeamColor.CSH + "업무 상세내용 : " + task);
+		
+		return task;
+	}
+	
+	// 프로젝트 리스트
+	@PostMapping("/safari/projectListByTask")
+	public List<Project> projectListByTask(HttpSession session) {
+		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 리스트");
+		
+		// 서비스호출
+		// 리턴값 List<Project>
+		List<Project> projectList = taskService.getProjectTitleAndNoByWorkspaceNo((int)session.getAttribute("workNo"));
+		
+		log.debug(TeamColor.CSH + "조회에 따른 프로젝트 개수 : " + projectList.size());
+		
+		return projectList;
+	}
+	
+	// 현재위치 제외 업무리스트 조회
+	@PostMapping("/safari/taskListByTask")
+	public List<TaskList> taskListByTask(int projectNo, int tasklistNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 리스트");
+		// 디버깅
+		log.debug(TeamColor.CSH + "tasklistNo : " + tasklistNo + " projectNo : " + projectNo);
+		
+		// param 값 가공
+		Map<String, Integer> m = new HashMap<>();
+		m.put("projectNo", projectNo);
+		m.put("tasklistNo", tasklistNo);
+		
+		// 서비스호출
+		// 리턴값 List<Project>
+		List<TaskList> taskList = taskService.getTaskListByUpdateLocation(m);
+		
+		log.debug(TeamColor.CSH + "조회에 따른 업무리스트 개수 : " + taskList.size());
+		
+		return taskList;
+	}
+	
 	// 업무 복사를 위한 객체 받기
 	@GetMapping("/safari/getTask")
 	public Task getTask(int taskNo) {
@@ -68,7 +117,7 @@ public class RestTaskController {
 	}
 	
 	// 복사업무 생성
-	@PostMapping("/safari/copyTask")
+	@PostMapping("/member/copyTask")
 	public String copyTask(HttpSession session, @RequestParam(value = "task", required = false) String task) {
 		log.debug(TeamColor.CSH + this.getClass() + " 복사업무 생성");
 		
@@ -120,57 +169,8 @@ public class RestTaskController {
 		return jsonStr;
 	}
 	
-	// 업무 상세보기
-	@GetMapping("/safari/taskDetail")
-	public Map<String, Object> taskDetail(int taskNo){
-		log.debug(TeamColor.CSH + this.getClass() + " 업무 상세보기");
-		
-		// 서비스호출
-		// 리턴값 Map<String, Object>
-		Map<String, Object> task = taskService.getTaskByTaskNo(taskNo);
-		
-		log.debug(TeamColor.CSH + "업무 상세내용 : " + task);
-		
-		return task;
-	}
-	
-	// 프로젝트 리스트
-	@PostMapping("/safari/projectListByTask")
-	public List<Project> projectListByTask(HttpSession session) {
-		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 리스트");
-		
-		// 서비스호출
-		// 리턴값 List<Project>
-		List<Project> projectList = taskService.getProjectTitleAndNoByWorkspaceNo((int)session.getAttribute("workNo"));
-		
-		log.debug(TeamColor.CSH + "조회에 따른 프로젝트 개수 : " + projectList.size());
-		
-		return projectList;
-	}
-	
-	// 현재위치 제외 업무리스트 조회
-	@PostMapping("/safari/taskListByTask")
-	public List<TaskList> taskListByTask(int projectNo, int tasklistNo) {
-		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 리스트");
-		// 디버깅
-		log.debug(TeamColor.CSH + "tasklistNo : " + tasklistNo + " projectNo : " + projectNo);
-		
-		// param 값 가공
-		Map<String, Integer> m = new HashMap<>();
-		m.put("projectNo", projectNo);
-		m.put("tasklistNo", tasklistNo);
-		
-		// 서비스호출
-		// 리턴값 List<Project>
-		List<TaskList> taskList = taskService.getTaskListByUpdateLocation(m);
-		
-		log.debug(TeamColor.CSH + "조회에 따른 업무리스트 개수 : " + taskList.size());
-		
-		return taskList;
-	}
-	
 	// 업무 생성
-	@PostMapping("/safari/insertTask")
+	@PostMapping("/member/insertTask")
 	public String insertTask(HttpSession session, Task task) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 생성");
 		// 디버깅
@@ -196,7 +196,7 @@ public class RestTaskController {
 	}
 	
 	// 업무 위치 변경
-	@PostMapping("/safari/updateTaskLocation")
+	@PostMapping("/member/updateTaskLocation")
 	public String updateTaskLocation(int tasklistNo, int taskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 위치 변경");
 		// 디버깅
@@ -219,7 +219,7 @@ public class RestTaskController {
 	}
 	
 	// 업무 완료
-	@PostMapping("/safari/completeTask")
+	@PostMapping("/member/completeTask")
 	public String completeTask(int taskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 완료");
 		// 디버깅
@@ -242,7 +242,7 @@ public class RestTaskController {
 	}
 	
 	// 업무 완료취소
-	@PostMapping("/safari/cancelEndTask")
+	@PostMapping("/member/cancelEndTask")
 	public String cancelEndTask(int taskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 취소");
 		// 디버깅
@@ -265,7 +265,7 @@ public class RestTaskController {
 	}
 	
 	// 업무 삭제
-	@PostMapping("/safari/deleteTask")
+	@PostMapping("/member/deleteTask")
 	public String deleteTask(int taskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 삭제");
 		// 디버깅

@@ -65,7 +65,7 @@ $('#copyTaskList').click(function(){
 	$.ajax({
 		async : false,
 		type : 'POST',
-		url : '/safari/copyTaskList',
+		url : '/member/copyTaskList',
 		data : {
 			copyTaskList : JSON.stringify(copyTaskList)
 		},
@@ -80,6 +80,6 @@ $('#copyTaskList').click(function(){
     });
     
     // 프로젝트 번호에 알맞게 페이지 이동
-	window.location.replace('/safari/taskList?projectNo=' + projectNo);
+	window.location.replace('/member/taskList?projectNo=' + projectNo);
 
 });

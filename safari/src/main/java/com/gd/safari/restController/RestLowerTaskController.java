@@ -55,7 +55,7 @@ public class RestLowerTaskController {
 	}
 	
 	// 하위 업무 생성
-	@PostMapping("/safari/insertLowerTask")
+	@PostMapping("/member/insertLowerTask")
 	public String insertLowerTask(HttpSession session, int tasklistNo, int taskNo, String taskTitle) {
 		log.debug(TeamColor.CSH + this.getClass() + " 하위 업무 생성");
 		// 디버깅
@@ -83,7 +83,7 @@ public class RestLowerTaskController {
 	}
 	
 	// 하위 업무 전환
-	@PostMapping("/safari/updateLowerTask")
+	@PostMapping("/member/updateLowerTask")
 	public String updateLowerTask(int taskNo, int lowerTaskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 하위 업무 전환");
 		// 디버깅
@@ -109,7 +109,7 @@ public class RestLowerTaskController {
 	}
 	
 	// 메인 업무 전환
-	@PostMapping("/safari/deleteLowerTask")
+	@PostMapping("/member/deleteLowerTask")
 	public String deleteLowerTask(int lowerTaskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 하위 업무 해제");
 		// 디버깅

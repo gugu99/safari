@@ -75,7 +75,7 @@ public class RestTaskMemberController {
 	}
 	
 	// 업무멤버 생성
-	@PostMapping("/safari/insertTaskMember")
+	@PostMapping("/member/insertTaskMember")
 	public String insertTaskMember(TaskMember taskMember) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무멤버 생성");
 		// 디버깅
@@ -98,7 +98,7 @@ public class RestTaskMemberController {
 	}
 	
 	// 업무멤버 삭제
-	@PostMapping("/safari/deleteTaskMember")
+	@PostMapping("/member/deleteTaskMember")
 	public String deleteTaskMember(TaskMember taskMember) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무멤버 삭제");
 		// 디버깅
