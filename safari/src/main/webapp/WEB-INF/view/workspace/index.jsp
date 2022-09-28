@@ -190,7 +190,31 @@
 								</div>
 							</div>
 						</c:forEach>
+						<!-- 워크스페이스게스트 목록-->
+						<c:forEach var="g" items="${GuestWorkspaceList}">
+							<c:set var="i" value="${i+1 }" />
+							<div class="col-lg-4 col-md-4">
+								<div class="card text-center">
+									<div class="card-content">
+										<div class="card-body">
+											
+											<h4 class="card-title success">${g.workName }</h4>
 
+											<p class="card-text"></p>
+											<p class="card-text">${g.createDate }</p>
+											<!-- Button trigger modal -->
+
+											<a
+												href="${pageContext.request.contextPath }/safari/workspaceGuestMain?workNo=${g.workNo}">
+												<button type="button" class="btn btn-outline-success"
+													data-toggle="modal" data-target="#iconForm">show
+													GuestWorkspace</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
 
 						<!--워크스페이스 추가 폼  -->
 						<div class="col-lg-4 col-md-4">
@@ -218,50 +242,6 @@
 						</div>
 					</div>
 					<div class="content-body"></div>
-					 <nav class="header-navbar navbar-expand-sm navbar navbar-with-menu navbar-light navbar-shadow border-grey border-lighten-2">
-                        <div class="navbar-wrapper">
-                            <div class="navbar-header">
-                                <ul class="nav navbar-nav mr-auto">
-                                    <li class="nav-item">
-                                   	<h4>Guest Workspace List</h4>
-                                    </li>
-                                    <li class="nav-item d-md-none float-right"><a data-toggle="collapse" data-target="#navbar-mobile10" class="nav-link open-navbar-container"><i class="icon-ellipsis pe-2x icon-rotate-right"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="navbar-container content">
-                                <div id="navbar-mobile10" class="collapse navbar-collapse">
-                                </div>
-                            </div>
-                        </div>
-                    </nav>
-                    <div class="row">
-						<!-- 워크스페이스게스트 목록-->
-						<c:forEach var="g" items="${GuestWorkspaceList}">
-							<c:set var="i" value="${i+1 }" />
-							<div class="col-lg-4 col-md-4">
-								<div class="card text-center">
-									<div class="card-content">
-										<div class="card-body">
-											
-											<h4 class="card-title success">${g.workName }</h4>
-
-											<p class="card-text"></p>
-											<p class="card-text">${g.createDate }</p>
-											<!-- Button trigger modal -->
-
-											<a
-												href="${pageContext.request.contextPath }/safari/workspaceMain?workNo=${g.workNo}">
-												<button type="button" class="btn btn-outline-success"
-													data-toggle="modal" data-target="#iconForm">show
-													workspace</button>
-											</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-                    
-                    </div>
 				</div>
 			</div>
 		</div>

@@ -19,6 +19,7 @@ import com.gd.safari.service.IWorkspaceMemberService;
 import com.gd.safari.service.IWorkspaceService;
 import com.gd.safari.vo.Member;
 import com.gd.safari.vo.Workspace;
+import com.gd.safari.vo.WorkspaceGuest;
 import com.gd.safari.vo.WorkspaceMember;
 
 import lombok.extern.slf4j.Slf4j;
@@ -140,7 +141,24 @@ public class WorkspaceController {
 		// projectList로 redirect
 		return "redirect:/safari/project"; 
 	}
-
+	
+	// 워크스페이스 게스트 메인창
+	@GetMapping("/safari/workspaceGuestMain")
+	public String workspaceGuestMain(HttpSession session, WorkspaceGuest workspaceGuest, Model model) {
+			// workspaceMember 디버깅
+			log.debug(TeamColor.CJM + workspaceGuest + "Controller workspaceGuest"); 
+			
+			// 세션 workNo 추가
+			session.setAttribute("workNo", workspaceGuest.getWorkNo()); 
+			
+			// 세션 Guest 추가
+			session.setAttribute("Guest", "Guest");
+			
+			// projectList로 redirect
+			return "redirect:/safari/project"; 
+		}
+	
+	
 	// 워크스페이스삭제
 	@PostMapping("/safari/removeWorkspace")
 	public String removeWorkspace(@RequestParam(value = "workNo") int workNo, Member member, HttpSession session) {
