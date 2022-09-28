@@ -8,7 +8,7 @@
                   <div class="modal-header">
                       <h3 class="modal-title" id="myModalLabel35">프로젝트 추가</h3>
                   </div><!-- modal header -->
-                  <form method="post" action="${pageContext.request.contextPath}/safari/project" id="addProjectForm">
+                  <form method="post" action="${pageContext.request.contextPath}/member/project" id="addProjectForm">
                       <div class="modal-body">
                           <fieldset class="form-group floating-label-form-group">
                               <label for="projectName">프로젝트 이름(*)</label>

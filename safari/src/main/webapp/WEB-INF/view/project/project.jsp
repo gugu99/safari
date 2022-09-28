@@ -52,12 +52,8 @@
 	<%@ include file="/WEB-INF/view/inc/header.jsp" %> <!-- header -->
 	<%@ include file="/WEB-INF/view/inc/sidebar.jsp" %> <!-- sidebar -->
 	
-	<input type="hidden" id="guest" value="${guest}">
-	
     <!-- BEGIN: Content-->
     <div class="app-content content">
-    <!--  
-    <c:if test="${guest eq null}">-->
         <div class="sidebar-left" id="sidebar">
             <div class="sidebar">
                 <!-- app chat sidebar start -->
@@ -68,7 +64,7 @@
                     <div class="chat-sidebar-search">
                         <div class="d-flex align-items-center">
                         	<!-- 검색 -->
-                        	<form method="get" action="${pageContext.request.contextPath}/safari/project">
+                        	<form method="get" action="${pageContext.request.contextPath}/member/project">
                            	 	<fieldset class="form-group position-relative has-icon-left mx-75 mb-0">
 	                                <input type="text" class="form-control round" id="chat-search" placeholder="Search" name="search">
 	                                <div class="form-control-position">
@@ -79,23 +75,23 @@
                         </div>
                     </div>
                     <div class="chat-sidebar-list-wrapper pt-2">
-                    	<h5 class="px-2 pb-25 mb-2"><a href="${pageContext.request.contextPath}/safari/projectSummary">프로젝트 요약</a></h5>
+                    	<h5 class="px-2 pb-25 mb-2"><a href="${pageContext.request.contextPath}/member/projectSummary">프로젝트 요약</a></h5>
                     	<hr/>
-                    	<!-- Button trigger modal -->
+                    	<!-- 프로젝트 추가 -->
                         <h5 class="px-2 pb-25 mb-0">프로젝트<button type="button" data-toggle="modal" data-target="#bootstrap" class="float-right plusBtn btn-light" ><i class="feather icon-plus cursor-pointer"></i></button></h5>
                         <%@ include file="/WEB-INF/view/project/addProjectModal.jsp"%>
                         <ul class="chat-sidebar-list">
                         	<li>
-                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project">전체 프로젝트</a></h6>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/member/project">전체 프로젝트</a></h6>
                             </li>
                             <li>
-                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project?section=my">내가 속한 프로젝트</a></h6>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/member/project?section=my">내가 속한 프로젝트</a></h6>
                             </li>
                             <li>
-                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project?section=bookmark">중요 프로젝트</a></h6>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/member/project?section=bookmark">중요 프로젝트</a></h6>
                             </li>
                             <li>
-                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project?section=keep">보관된 프로젝트</a></h6>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/member/project?section=keep">보관된 프로젝트</a></h6>
                             </li>
                         </ul>
                         
@@ -105,14 +101,13 @@
                         <!-- 프로젝트 그룹 생성 버튼을 눌렀을 시 입력창이 나타날 곳-->
                         <div class="px-2 pt-2 pb-25 mb-0 addProjectGroup" id="addProjectGroup"></div>
                         <ul class="chat-sidebar-list">
-                        
                         	<c:forEach var="pg" items="${projectGroupList}">
 	                            <li>
 	                                <h6 class="mb-0">
-	                                	<a href="${pageContext.request.contextPath}/safari/project?projectGroupNo=${pg.projectGroupNo}">
+	                                	<a href="${pageContext.request.contextPath}/member/project?projectGroupNo=${pg.projectGroupNo}&order=${paramMap.order}">
 	                                		${pg.projectGroupName}
 	                                	</a>
-	                                	<a href="${pageContext.request.contextPath}/safari/modifyProjectGroup?projectGroupNo=${pg.projectGroupNo}">
+	                                	<a href="${pageContext.request.contextPath}/member/modifyProjectGroup?projectGroupNo=${pg.projectGroupNo}">
 	                                		<i class="feather icon-edit float-right cursor-pointer"></i>
 	                                	</a>
 	                                </h6>
@@ -123,7 +118,6 @@
   				  </div>
   			</div>
     	</div> <!-- END: side bar -->
-  <!--  </c:if> --> 
     		
     		<div class="content-right" id="projectListContent">
             	<div class="content-overlay"></div>
@@ -136,7 +130,7 @@
 		                            <ol class="breadcrumb">
 		                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/safari/index">Home</a>
 		                                </li>
-		                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/safari/project">Project</a>
+		                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/member/project">프로젝트</a>
 		                                </li>
 		                                <li class="breadcrumb-item active">${title}
 		                                </li>
@@ -145,16 +139,21 @@
 		                    </div>
 		                </div>
 		                <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2 pr-2">
-		                    <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
-		                        <div class="btn-group" role="group">
-		                            <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-settings icon-left"></i> Settings</button>
-		                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1"><a class="dropdown-item" href="card-bootstrap.html">Bootstrap Cards</a><a class="dropdown-item" href="component-buttons-extended.html">Buttons Extended</a></div>
-		                        </div><a class="btn btn-outline-primary" href="full-calender-basic.html"><i class="feather icon-mail"></i></a><a class="btn btn-outline-primary" href="timeline-center.html"><i class="feather icon-pie-chart"></i></a>
+		                    <div class="btn-group float-md-right">
+		                    	<!-- 정렬 메뉴 -->
+		                    	<form method="get" action="${pageContext.request.contextPath}/member/project" id="orderForm">
+			                    	<!--  -->
+			                    	<select class="hide-search form-control" name="order" id="order">
+	                                     <option value="" ${paramMap.order eq null ? 'selected' : ''}>기본순</option>
+	                                     <option value="new" ${paramMap.order eq 'new' ? 'selected' : ''}>최신순</option>
+	                                     <option value="old"  ${paramMap.order eq 'old' ? 'selected' : ''}>등록일순</option>
+	                                     <option value="abc" ${paramMap.order eq 'abc' ? 'selected' : ''}>가나다순</option>
+	                                </select>
+                                </form>
 		                    </div>
 		                </div>
 		            </div>
-		            <div class="content-body">
-    		
+		    <div class="content-body">
     			<!-- Card drag area section start -->
     			<!-- 프로젝트 카드 -->
                 <section id="drag-area">
@@ -166,24 +165,26 @@
 	                        <div class="col-md-3 col-sm-12 pl-3 pr-2 pt-3">
 	                            <div class="card">
 	                                <div class="card-header">
-	                                	<h4 class="card-title"><a href="${pageContext.request.contextPath}/safari/taskList?projectNo=${p.projectNo}">${p.projectName}</a></h4>
+	                                	<h4 class="card-title"><a href="${pageContext.request.contextPath}/${(guest eq null)? 'member' : 'safari'}/taskList?projectNo=${p.projectNo}">${p.projectName}</a></h4>
 	                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 	                                    <div class="heading-elements">
 	                                        <ul class="list-inline mb-0">
-	                                            <li>
-	                                            	<a href="${pageContext.request.contextPath}/safari/projectBookmark?projectNo=${p.projectNo}&projectBookmark=${p.projectBookmark}">
-	                                            		<c:if test="${p.projectBookmark ne null}">
-	                                            			<i class="fa fa-star"></i>
-	                                            		</c:if>
-	                                            		<c:if test="${p.projectBookmark eq null}">
-	                                            			<i class="fa fa-star-o"></i>
-	                                            		</c:if>
-	                                            	</a>
-	                                            </li><!-- 즐겨찾기 -->
 	                                            <c:if test="${p.manager ne null}">
-	                                            	<li><a href="${pageContext.request.contextPath}/safari/modifyProject?projectNo=${p.projectNo}"><i class="feather icon-edit"></i></a></li><!-- 수정 -->
+	                                            	<li><a href="${pageContext.request.contextPath}/member/modifyProject?projectNo=${p.projectNo}"><i class="feather icon-edit"></i></a></li><!-- 수정 -->
 	                                            	<li><a href=""><i class="feather icon-trash-2"></i></a></li><!-- 삭제 -->
 	                                            </c:if>
+	                                             <c:if test="${guest eq null}">
+	                                            	<li>
+		                                            	<a href="${pageContext.request.contextPath}/member/projectBookmark?projectNo=${p.projectNo}&projectBookmark=${p.projectBookmark}">
+		                                            		<c:if test="${p.projectBookmark ne null}">
+		                                            			<i class="fa fa-star"></i>
+		                                            		</c:if>
+		                                            		<c:if test="${p.projectBookmark eq null}">
+		                                            			<i class="fa fa-star-o"></i>
+		                                            		</c:if>
+		                                            	</a>
+	                                           	 	</li><!-- 즐겨찾기 -->
+	                                           	</c:if>
 	                                        </ul>
 	                                    </div>
 	                                </div>
@@ -226,6 +227,10 @@
     </div>
     		
     <!-- END: Content-->
+    
+    <input type="hidden" id="guest" value="${guest}">
+	<input type="hidden" id="section" value="${paramMap.section}">
+	<input type="hidden" id="projectGroupNo" value="${paramMap.projectGroupNo}">
 
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>

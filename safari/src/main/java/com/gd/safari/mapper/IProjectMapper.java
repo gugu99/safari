@@ -17,7 +17,7 @@ public interface IProjectMapper {
 	List<Map<String, Object>> selectProjectListByWorkspaceNo(Map<String, Object> map);
 	
 	// 게스트 계정으로 들어왔을 시 공개할 프로젝트 리스트
-	List<Map<String, Object>> selectPublicProjectListByWorkspaceNo(int workNo);
+	List<Map<String, Object>> selectPublicProjectListByWorkspaceNo(Map<String, Object> map);
 	
 	// 프로젝트 타이틀과 프로젝트 번호를 반환
 	// 조원들이 Task 기능 구현에 쓸 메소드

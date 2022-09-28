@@ -32,7 +32,7 @@ public class ProjectGroupController {
 
 		projectGroupService.addProjectGroup(projectGroup);
 
-		return "redirect:/safari/project";
+		return "redirect:/member/project";
 	}
 	
 	// 프로젝트 그룹 수정 폼 띄우기
@@ -52,21 +52,21 @@ public class ProjectGroupController {
 	}
 	
 	// 프로젝트 그룹 정보 수정 및 그룹에 프로젝트 삽입/삭제
-	@PostMapping("/safari/modifyProjectGroup")
+	@PostMapping("/member/modifyProjectGroup")
 	public String modifyProjectGroup(@RequestParam Map<String, Object> map) {
 		log.debug(TeamColor.CSK + "@PostMapping addProjToProjGroup" + map);
 		
 		projectGroupService.modifyProjectGroup(map);
 		
-		return "redirect:/safari/project"; // TODO 프로젝트 그룹 선택된 페이지로 보내기 
+		return "redirect:/member/project"; // TODO 프로젝트 그룹 선택된 페이지로 보내기 
 	}
 	
-	@GetMapping("/safari/deleteProjectGroup")
+	@GetMapping("/member/deleteProjectGroup")
 	public String deleteProjectGroup(@RequestParam int projectGroupNo) {
 		log.debug(TeamColor.CSK + "프로젝트 그룹 삭제");
 		
 		projectGroupService.deleteProjectGroup(projectGroupNo);
 		
-		return "redirect:/safari/project";
+		return "redirect:/member/project";
 	}
 }

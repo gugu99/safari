@@ -98,7 +98,6 @@
 	                                                
 	                                                <div class="modal-footer">
 								                       <a href="${pageContext.request.contextPath}/safari/deleteProjectGroup?projectGroupNo=${projectGroup.projectGroupNo}" class="projectForm btn btn-outline-secondary btn-lg">삭제</a>
-								                       <input type="reset" class="projectForm btn btn-outline-secondary btn-lg" data-dismiss="modal" value="취소">
 								                       <input type="submit" class="projectForm btn btn-outline-primary btn-lg" value="수정">
 								                   </div>
 								                </form>

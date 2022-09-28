@@ -114,11 +114,23 @@
 			AND
 				p.project_name LIKE CONCAT('%',#{search},'%')
 		</if>
-		ORDER BY
-			p.project_no
+		
+		<!-- 정렬 -->
+		<if test="''.equals(order) || 'old'.equals(order)">
+			ORDER BY
+				p.project_no
+		</if>
+		<if test="'new'.equals(order)">
+			ORDER BY
+				p.create_date DESC
+		</if>
+		<if test="'abc'.equals(order)">
+			ORDER BY
+				p.project_name
+		</if>
 	</select>
 	
-	<select id="selectPublicProjectListByWorkspaceNo" parameterType="int" resultType="java.util.Map">
+	<select id="selectPublicProjectListByWorkspaceNo" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			p.project_no projectNo 
 			, p.project_auth projectAuth
@@ -140,7 +152,20 @@
 		WHERE
 			p.project_auth = 'N'
 		AND
-			p.work_no = #{workNo};
+			p.work_no = #{workNo}
+		<!-- 정렬 -->
+		<if test="''.equals(order) || 'old'.equals(order)">
+			ORDER BY
+				p.project_no
+		</if>
+		<if test="'new'.equals(order)">
+			ORDER BY
+				p.create_date DESC
+		</if>
+		<if test="'abc'.equals(order)">
+			ORDER BY
+				p.project_name
+		</if>
 	</select>
 	
 	<!-- 워크스페이스에 속한 프로젝트의 번호와 제목만 출력 -->

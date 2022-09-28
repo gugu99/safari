@@ -37,16 +37,19 @@ public class ProjectService implements IProjectService {
 	// project 메인 페이지 정보 제공 메소드
 	@Override
 	public Map<String, Object> getProjectListByWorkspace(Map<String, Object> paramMap) {
-		int workNo = (int)paramMap.get("workNo");
-		
 		Map<String, Object> map = new HashMap<>();
 		
 		// 게스트 계정으로 접속했을 시
-//		if(paramMap.get("guest") != null) {
-//			List<Map<String, Object>> projectList = projectMapper.selectPublicProjectListByWorkspaceNo(workNo);
-//			map.put("projectList", projectList);
-//			return map;
-//		}
+		if(paramMap.get("guest") != null) {
+			// 공개된 프로젝트만 보여준다
+			log.debug(TeamColor.CSK + "GUEST");
+			List<Map<String, Object>> projectList = projectMapper.selectPublicProjectListByWorkspaceNo(paramMap);
+			map.put("projectList", projectList);
+			return map;
+		}
+		
+		log.debug(TeamColor.CSK + "MEMBER");
+		int workNo = (int)paramMap.get("workNo");
 		
 		// 워크스페이스 멤버일 경우
 		// 전체 프로젝트 리스트
@@ -59,13 +62,13 @@ public class ProjectService implements IProjectService {
 		List<ProjectGroup> projectGroupList = projectGroupMapper.selectProjectGroupListByWorkspaceNo(workNo);
 		
 		// jsp에서 띄울 타이틀 구하기
-		String title = "전체 프로젝트";
+		String title = "프로젝트 리스트";
 		
-		if(paramMap.get("projectGroupNo") != null) {
+		if(paramMap.get("projectGroupNo") != null || !("".equals(paramMap.get("projectGroupNo")))) {
 			title = "프로젝트 그룹 리스트";
 		} else if(paramMap.get("search") != null) {
 			title = paramMap.get("search") + "의 검색 결과";
-		} else if(paramMap.get("section") != null) {
+		} else if(paramMap.get("section") != null || "".equals(paramMap.get("section"))) {
 			// section 파라미터의 값에 따라 title 값 변경
 			String section = (String) paramMap.get("section");
 			if("my".equals(section)) {
