@@ -189,7 +189,7 @@
                                 <c:if test="${profileImg.filename!=null }">
                               	 	<img src="${pageContext.request.contextPath}/resources/upload/${profileImg.filename}${profileImg.fileExt}" alt="" class="users-avatar-shadow rounded-circle" height="64" width="64">
                                 </c:if>	
-                                </div><span class="user-name">${login}</span>
+                                </div><span class="user-name">${workMemberName}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="${pageContext.request.contextPath }/safari/workspaceMemberOne"><i class="feather icon-user"></i> Edit Profile</a><a class="dropdown-item" href="app-email.html"><i class="feather icon-mail"></i> My Inbox</a><a class="dropdown-item" href="user-cards.html"><i class="feather icon-check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="feather icon-message-square"></i> Chats</a>
                                 <div class="dropdown-divider"></div><a class="dropdown-item" href="${pageContext.request.contextPath }/safari/logout"><i class="feather icon-power"></i> Logout</a>

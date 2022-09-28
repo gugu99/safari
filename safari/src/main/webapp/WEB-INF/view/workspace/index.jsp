@@ -56,22 +56,6 @@
 
 
 				<div class="container">
-				<nav class="header-navbar navbar-expand-sm navbar navbar-with-menu navbar-light navbar-shadow border-grey border-lighten-2">
-                        <div class="navbar-wrapper">
-                            <div class="navbar-header">
-                                <ul class="nav navbar-nav mr-auto">
-                                    <li class="nav-item">
-                                   	<h4>Member Workspace List</h4>
-                                    </li>
-                                    <li class="nav-item d-md-none float-right"><a data-toggle="collapse" data-target="#navbar-mobile10" class="nav-link open-navbar-container"><i class="icon-ellipsis pe-2x icon-rotate-right"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="navbar-container content">
-                                <div id="navbar-mobile10" class="collapse navbar-collapse">
-                                </div>
-                            </div>
-                        </div>
-                    </nav>
 					<div class="row">
 						<!-- 워크스페이스 목록-->
 						<c:forEach var="r" items="${workspaceList}">
@@ -234,8 +218,6 @@
 												type="button" class="btn btn-outline-success">
 
 												create workspace</button></a>
-
-
 									</div>
 								</div>
 							</div>

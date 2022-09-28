@@ -123,6 +123,19 @@
 	
 	</insert>
 	
+	<select id="selectLogList" parameterType="com.gd.safari.vo.Log" resultType="com.gd.safari.vo.Log">
+		SELECT 
+				log_no
+				, task_no
+				,log_member
+				,log_content
+				,create_date
+				,project_no
+				
+		FROM	log
+		WHERE project_no = #{projectNo}
+	
+	</select>
 
 
 </mapper>
