@@ -138,24 +138,9 @@
 			AND t.task_title LIKE CONCAT('%', #{search} ,'%')
 		</if>
 		<if test="check == false">
-			AND t.task_deadline IS NULL
+			AND t.task_end IS NULL
 		</if>
 	</select>
-	<!-- 업무리스트 번호에 맞는 업무 조회 
-	<select id="selectTaskByTasklistNo" parameterType="int" resultType="com.gd.safari.vo.Task">
-		SELECT
-			task_no 									taskNo
-			, task_title 								taskTitle
-			, task_point 								taskPoint
-			, DATE_FORMAT(task_deadline, '%m/%d') 		taskDeadline
-			, tasklist_no 								tasklistNo
-			, task_upper_no 							taskUpperNo
-		FROM 	
-			task t 
-		WHERE 	
-			tasklist_no 		= #{tasklistNo}
-		
-	</select> -->
 	<!-- 상세 보기 -->
 	<select id="selectTaskByTaskNo" parameterType="int" resultType="map">
 				SELECT

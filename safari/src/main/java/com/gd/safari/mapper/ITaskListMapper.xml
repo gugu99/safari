@@ -2,18 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.ITaskListMapper">
 	<!-- 업무리스트 보여주기 -->
-	<select id="selectTaskList" parameterType="map" resultType="com.gd.safari.vo.TaskList">
+	<select id="selectTaskList" parameterType="int" resultType="com.gd.safari.vo.TaskList">
 	
 		SELECT
 			DISTINCT tl.tasklist_no 		tasklistNo
 			, tl.tasklist_title 			tasklistTitle
 			, tl.project_no 				projectNo
-		<if test="sort == 0">
-			FROM task_list tl
-			WHERE 
-				tl.project_no 			= #{projectNo}
-		</if>
-		<!-- 업무리스트 조회(나에게 배정된 업무) -->
+		FROM task_list tl
+		WHERE 
+			tl.project_no 			= #{projectNo}
+		<!-- 업무리스트 조회(나에게 배정된 업무) 
 		<if test="sort == 1">
 			FROM 
 				task_list tl 					INNER JOIN task t 
@@ -28,7 +26,7 @@
 			AND 
 				pm.work_member_no 	= #{workMemberNo}
 		</if>
-		<!-- 업무리스트 조회(내가 작성한 업무) -->
+		업무리스트 조회(내가 작성한 업무)
 		<if test="sort == 2">
 			FROM 
 				task_list tl INNER JOIN task t 
@@ -37,7 +35,7 @@
 			WHERE 
 				tl.project_no = #{projectNo} AND t.task_writer = #{taskWriter}
 		</if>
-		<!-- 포인트가 있는 업무 -->
+		포인트가 있는 업무
 		<if test="sort == 3">
 			FROM 
 				task_list tl INNER JOIN task t 
@@ -46,18 +44,18 @@
 			WHERE 
 				t.task_point IS NOT NULL
 		</if>
-		<!-- 포인트가 없는 업무 -->
+		포인트가 없는 업무
 		<if test="sort == 4">
 			FROM 
 				task_list tl INNER JOIN task t 
 			ON 
 				tl.tasklist_no = t.tasklist_no 
 			WHERE 
-				t.task_point IS NOT NULL
-		</if>
+				t.task_point IS NULL
+		</if> 
 		<if test="search != null">
 			AND tl.tasklist_title LIKE CONCAT('%', #{search} ,'%')
-		</if>
+		</if>-->
 	</select>
 	<!-- 현재위치 제외 업무리스트 조회 (업무 위치 변경을 위해) -->
 	<select id="selectTaskListByUpdateLocation" parameterType="map" resultType="com.gd.safari.vo.TaskList">

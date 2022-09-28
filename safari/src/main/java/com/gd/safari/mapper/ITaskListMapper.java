@@ -11,7 +11,7 @@ import com.gd.safari.vo.TaskList;
 @Mapper
 public interface ITaskListMapper {
 	// 업무리스트 조회
-	List<TaskList> selectTaskList(Map<String, Object> m);
+	List<TaskList> selectTaskList(int projectNo);
 	// 현재위치 제외 업무리스트 조회 (업무 위치 변경을 위해)
 	List<TaskList> selectTaskListByUpdateLocation(Map<String, Integer> m);
 	// 현재 프로젝트 이름 조회 (업무리스트 위치변경을 위해)

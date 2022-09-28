@@ -30,7 +30,11 @@ $(document).ready(function () {
   // 정렬
   var sort = (str.indexOf('sort') == -1) ? "0" : str.substring(str.lastIndexOf('=') + 1);
   // 검색
-  var search = (str.indexOf('search') == -1) ? null : decodeURIComponent(str.substring(str.indexOf('search=') + 7, (str.indexOf('&sort=') == -1 ? '' : str.lastIndexOf('&'))));
+  var search = (str.indexOf('search') == -1) ? null : decodeURIComponent(str.indexOf('&sort=') == -1 ? str.substring(str.indexOf('search=') + 7) : str.substring(str.indexOf('search=') + 7, str.lastIndexOf('&')));
+  // 완료
+  var check = (str.indexOf('check') == -1) || str.substring(str.indexOf('check=') + 6) == 'false' ? false : true;
+  $('#completeTaskCheck').prop('checked',check);
+  
   
   // 리스트를 위한 조회
   // ----------------------------------------------------------
@@ -40,10 +44,6 @@ $(document).ready(function () {
   $.ajax({
 		async : false,
 		type : 'GET',
-		data : {
-			sort : sort,
-			search : search		
-		},
 		url : '/safari/taskMember',
 		success : function(json){
 			console.log(json);
@@ -60,7 +60,8 @@ $(document).ready(function () {
 		type : 'POST',
 		data : {
 			sort : sort,	
-			search : search		
+			search : search,
+			check : check	
 		},
 		url : '/safari/task',
 		success : function(json){
@@ -137,33 +138,13 @@ $(document).ready(function () {
 		// 선택된 정렬 받아오기
 		var value_str = document.getElementById('sort');
 		sort = value_str.options[value_str.selectedIndex].value;
-		switch(sort){
-			
-			case "1" : 
-				// 나에게 배정된 업무
-			    window.location.replace('/safari/taskList?projectNo=' + projectNo + "&sort=" + sort);
-				break;
-			
-			case "2" : 
-				// 내가 작성한 업무
-			    window.location.replace('/safari/taskList?projectNo=' + projectNo + "&sort=" + sort);
-				break;
-			
-			case "3" : 
-				// 포인트 있는 업무
-			    window.location.replace('/safari/taskList?projectNo=' + projectNo + "&sort=" + sort);
-				break;
-			
-			case "4" : 
-				// 포인트 없는 업무
-			    window.location.replace('/safari/taskList?projectNo=' + projectNo + "&sort=" + sort);
-				break;
-				
-			default :
-				// 전체업무
-			    window.location.replace('/safari/taskList?projectNo=' + projectNo);
-				break;
-			
+		
+		if(sort == "0"){
+			// 전체업무
+		    window.location.replace('/safari/taskList?projectNo=' + projectNo);
+		} else {
+			// 조회 있는 경우
+		    window.location.replace('/safari/taskList?projectNo=' + projectNo + "&sort=" + sort);
 		}
 		
   });
@@ -176,12 +157,26 @@ $(document).ready(function () {
 	console.log(search);
 		
 	if(sort == "0"){
+		// 검색만 있을 경우
 		window.location.replace('/safari/taskList?projectNo=' + projectNo + "&search=" + search);
 	} else {
+		// 검색과 조회가 같이 있을 경우
 		window.location.replace('/safari/taskList?projectNo=' + projectNo + "&search=" + search + "&sort=" + sort);
 	}
   });
   
+  // 완료된 업무
+  
+  $('#completeTaskCheck').on('change', function(){
+	
+  	// check가 되어있으면 완료된 업무 보기 - true
+  	// 안되어있으면 완료된 업무 안보기 - false
+  	// console.log($('#completeTaskCheck').is(':checked'));
+	check = $('#completeTaskCheck').is(':checked');
+	
+	window.location.replace('/safari/taskList?projectNo=' + projectNo + "&check=" + check);
+	
+  });
   
   // 업무 멤버
   // ----------------------------------------------------------

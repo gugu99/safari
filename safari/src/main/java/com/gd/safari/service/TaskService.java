@@ -37,13 +37,6 @@ public class TaskService implements ITaskService {
 		return taskMapper.selectTaskByProjectNo(m);
 	}
 
-	// 업무리스트 번호에 맞는 업무 조회
-//	@Override
-//	public List<Task> getTaskByTasklistNo(int tasklistNo) {
-//		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 번호에 맞는 업무 조회");
-//		return taskMapper.selectTaskByTasklistNo(tasklistNo);
-//	}
-
 	// 상세 보기
 	@Override
 	public Map<String, Object> getTaskByTaskNo(int taskNo) {

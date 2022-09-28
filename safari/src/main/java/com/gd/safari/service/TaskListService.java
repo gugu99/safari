@@ -29,16 +29,9 @@ public class TaskListService implements ITaskListService {
 	
 	// 업무리스트 조회
 	@Override
-	public List<TaskList> getTaskList(Map<String, Object> m) {
+	public List<TaskList> getTaskList(int projectNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 보여주기");
-		
-//		// 받아온 검색이 한글일 경우 파싱
-//		if(m.get("search") != null) {
-//			subStringBytes((String)m.get("search"), 10, 3);
-//			
-//			log.debug(TeamColor.CSH + subStringBytes((String)m.get("search"), 10, 3));
-//		}
-		return taskListMapper.selectTaskList(m);
+		return taskListMapper.selectTaskList(projectNo);
 	}
 
 	// 현재 프로젝트 이름 조회 (업무리스트 위치변경을 위해)
@@ -138,33 +131,4 @@ public class TaskListService implements ITaskListService {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 삭제");
 		return taskListMapper.deleteTaskList(tasklistNo);
 	}
-	
-	// 한글 byte로 자르기
-//	public String subStringBytes(String str, int byteLength, int sizePerLetter) {
-//		int retLength = 0;
-//		int tempSize = 0;
-//		int asc;
-//		if (str == null || "".equals(str) || "null".equals(str)) {
-//			str = "";
-//		}
-//
-//		int length = str.length();
-//
-//		for (int i = 1; i <= length; i++) {
-//			asc = (int) str.charAt(i - 1);
-//			if (asc > 127) {
-//				if (byteLength >= tempSize + sizePerLetter) {
-//					tempSize += sizePerLetter;
-//					retLength++;
-//				}
-//			} else {
-//				if (byteLength > tempSize) {
-//					tempSize++;
-//					retLength++;
-//				}
-//			}
-//		}
-//
-//		return str.substring(0, retLength);
-//	}
 }

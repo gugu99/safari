@@ -66,11 +66,12 @@
 								<option value="4" class="bg-info">포인트가 없는 업무</option>   
                             </select>
                         </div>
-                        <div class="col-2">
+                        <div class="col-2 mr-1">
                             <input type="text" class="form-control" placeholder="검색" id="search">
                         </div>
-                        <div class="col-1">
+                        <div class="col-2">
                             <button type="button" id="searchBtn" class="btn"><i class="fa fa-search"></i></button>
+                            <p class="mycheckbox"><input type="checkbox" id="completeTaskCheck"><span> 완료된 업무 보기 </span></p>
                         </div>
                         <div id="kanban-app"></div>
                     </div>

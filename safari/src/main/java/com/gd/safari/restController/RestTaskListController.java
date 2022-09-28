@@ -1,9 +1,7 @@
 package com.gd.safari.restController;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -31,24 +29,12 @@ public class RestTaskListController {
 	
 	// 업무리스트 조회
 	@PostMapping("/safari/taskList")
-	public List<TaskList> taskList(HttpSession session, String sort, String search) {
+	public List<TaskList> taskList(HttpSession session) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 조회");
-		
-		if(sort == null) {
-			sort = "0";
-		}
-		
-		// 파라미터값 가공
-		Map<String, Object> m = new HashMap<>();
-		m.put("projectNo", (int)session.getAttribute("projectNo"));
-		m.put("workMemberNo", (int)session.getAttribute("workMemberNo"));
-		m.put("taskWriter", (String)session.getAttribute("login"));
-		m.put("sort", sort);
-		m.put("search", search);
 		
 		// 서비스 호출
 		// 리턴값 List<TaskList>
-		List<TaskList> taskList = taskListService.getTaskList(m);
+		List<TaskList> taskList = taskListService.getTaskList((int)session.getAttribute("projectNo"));
 		
 		log.debug(TeamColor.CSH + "조회에 따른 업무리스트 개수 : " + taskList.size());
 		

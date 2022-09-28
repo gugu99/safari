@@ -29,7 +29,7 @@ public class RestTaskController {
 	
 	// 업무 조회
 	@PostMapping("/safari/task")
-	public List<Task> task(HttpSession session, String sort, String search) {
+	public List<Task> task(HttpSession session, String sort, String search, boolean check) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 조회");
 
 		if(sort == null) {
@@ -43,29 +43,17 @@ public class RestTaskController {
 		m.put("taskWriter", (String)session.getAttribute("login"));
 		m.put("sort", sort);
 		m.put("search", search);
+		m.put("check", check);
 		
 		// 서비스호출
 		// 리턴값 List<Task>
 		List<Task> tasks = taskService.getTaskByProjectNo(m);
 
 		log.debug(TeamColor.CSH + "조회에 따른 업무 개수 : " + tasks.size());
+		log.debug(TeamColor.CSH + check);
 		
 		return tasks;
 	}
-	
-	// 업무리스트 번호에 맞는 업무 조회
-//	@PostMapping("/safari/taskByTaskList")
-//	public List<Task> taskByTaskList(int tasklistNo) {
-//		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 번호에 맞는 업무 조회");
-//		
-//		// 서비스호출
-//		// 리턴값 List<Task>
-//		List<Task> tasks = taskService.getTaskByTasklistNo(tasklistNo);
-//		
-//		log.debug(TeamColor.CSH + "조회에 따른 업무 개수 : " + tasks.size());
-//		
-//		return tasks;
-//	}
 	
 	// 업무 복사를 위한 객체 받기
 	@GetMapping("/safari/getTask")
