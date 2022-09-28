@@ -51,7 +51,7 @@ public interface IWorkspaceMemberService {
 	int getWorkspaceMemberLevel (WorkspaceMember workspaceMember);
 	
 	// 워크스페이스 활동여부에 따른 리스트
-	 List<WorkspaceMember> getWorkspaceMemberListByActive(WorkspaceMember workspaceMember);
+	 List<WorkspaceMember> getWorkspaceMemberListByActive(Map<String, Object> map);
 	
 	 // Active Y로 바꾸는 메서드 
 	int modifyWorkspaceMemberActiveApprove(int workMemberNo);
@@ -60,5 +60,5 @@ public interface IWorkspaceMemberService {
 	String getWorkspaceMemberEmailByConfirm(WorkspaceMember workspaceMember);
 	
 	// 워크스페이스 멤버수 구하기
-	ArrayList<Integer> getWorkspaceMemberCount(WorkspaceMember workspaceMember);
+	ArrayList<Integer> getWorkspaceMemberCount(int workNo);
 }

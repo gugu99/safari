@@ -247,7 +247,7 @@
 	</select>
 	
 	<!-- 워크스페이스멤버 리스트  -->
-	<select id = "selectWorkspaceMemberListByActive" parameterType="com.gd.safari.vo.WorkspaceMember" resultType="com.gd.safari.vo.WorkspaceMember">
+	<select id = "selectWorkspaceMemberListByActive" parameterType="map" resultType="com.gd.safari.vo.WorkspaceMember">
 		SELECT 
 			  work_member_no    workMemberNo
 			, work_member_name  workMemberName
@@ -270,6 +270,10 @@
 			</if>
 			<if test="active != null">
 				 work_no = #{workNo} AND active = #{active}
+			</if>
+			
+			<if test="search != null">
+				AND work_member_name LIKE CONCAT('%', #{search} ,'%')
 			</if>
 		</where>
 	
@@ -316,6 +320,7 @@
 		FROM	workspace_member
 		WHERE 	work_no = #{workNo} AND active='N'
 	</select>
+	
 	
 	
 </mapper>

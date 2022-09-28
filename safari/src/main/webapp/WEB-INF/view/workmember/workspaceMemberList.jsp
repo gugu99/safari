@@ -58,12 +58,12 @@
 											<div class="sidebar-toggle d-block d-lg-none">
 												<i class="feather icon-menu font-large-1"></i>
 											</div>
-											<form action="#">
+											<form action="${pageContext.request.contextPath }/safari/workspaceMemberList">
 												<div class="position-relative">
-													<input type="search" id="search-contacts"
+													<input type="text" id="search-contacts" name="search"
 														class="form-control" placeholder="사원검색">
 													<div class="form-control-position">
-														<i class="fa fa-search text-size-base text-muted la-rotate-270"></i>
+														<button type="submit"><i class="fa fa-search text-size-base text-muted la-rotate-270"></i></button>
 													</div>
 												</div>
 											</form>

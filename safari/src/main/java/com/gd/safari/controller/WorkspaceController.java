@@ -124,6 +124,10 @@ public class WorkspaceController {
 		// profile정보담기
 		session.setAttribute("profileImg",profileImgService.getProfileImgOne(workMemberNo));
 		
+		// session에 workspaceName 담기 
+		session.setAttribute("workMemberName",workspaceMemberService.getWorkspaceMemberOne(workMemberNo).get("workMemberName"));
+		
+		
 		// 활동중인지확인
 		// Active 디버깅
 		log.debug(TeamColor.CJM + Active + "Controller active"); 

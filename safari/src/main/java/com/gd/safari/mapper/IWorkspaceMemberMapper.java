@@ -62,7 +62,7 @@ public interface IWorkspaceMemberMapper {
 	int selectWorkspaceMemberLevel (WorkspaceMember workspaceMember);
 	
 	// active 값에 따른 메서드
-	List<WorkspaceMember> selectWorkspaceMemberListByActive(WorkspaceMember workspaceMember);
+	List<WorkspaceMember> selectWorkspaceMemberListByActive(Map<String, Object> map);
 	
 	// active 값 Y로 바꾸는메서드
 	int updateWorkspaceMemberActiveApprove(int workMemberNo);

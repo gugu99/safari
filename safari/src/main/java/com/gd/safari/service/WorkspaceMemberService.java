@@ -191,13 +191,13 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 
 	// 활동여부에따른 리스트 불러오기
 	@Override
-	public List<WorkspaceMember> getWorkspaceMemberListByActive(WorkspaceMember workspaceMember) {
+	public List<WorkspaceMember> getWorkspaceMemberListByActive(Map<String, Object> map) {
 		
 		// workspaceMember  디버깅
-		log.debug(TeamColor.CJM + workspaceMember + " Service workspaceMember");
+		log.debug(TeamColor.CJM + map.get("search") + " Service search");
 		
 		// 멤버리스트 불러오기 
-		return workspaceMemberMapper.selectWorkspaceMemberListByActive(workspaceMember);
+		return workspaceMemberMapper.selectWorkspaceMemberListByActive(map);
 	}
 	
 	// 워크스페이스 활동정지 하는메서드
@@ -224,28 +224,28 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 	
 	// 워크스페이스 멤버수 구하기
 	@Override
-	public ArrayList<Integer> getWorkspaceMemberCount(WorkspaceMember workspaceMember) {
+	public ArrayList<Integer> getWorkspaceMemberCount(int workNo) {
 		ArrayList<Integer> countList= new ArrayList<>();
 		// workspaceMember  디버깅
-		log.debug(TeamColor.CJM + workspaceMember + " Service workspaceMember");
+		log.debug(TeamColor.CJM + workNo + " Service workspaceMember");
 		
 		// 워크스페이스멤버 전체수
-		countList.add(workspaceMemberMapper.selectWorkspaceMemberCount(workspaceMember.getWorkNo())) ;
+		countList.add(workspaceMemberMapper.selectWorkspaceMemberCount(workNo)) ;
 		
 		// 워크스페이스 W 인 멤버수
-		countList.add(workspaceMemberMapper.selectWorkspaceMemberActiveWCount(workspaceMember.getWorkNo())) ;
+		countList.add(workspaceMemberMapper.selectWorkspaceMemberActiveWCount(workNo)) ;
 		
 		// 워크스페이스 active N인 멤버수
-		countList.add(workspaceMemberMapper.selectWorkspaceMemberActiveNCount(workspaceMember.getWorkNo()));
+		countList.add(workspaceMemberMapper.selectWorkspaceMemberActiveNCount(workNo));
 		
 		// 워크스페이스 게스트 전체수
-		countList.add(workspaceGuestMapper.selectWorkspaceGuestCount(workspaceMember.getWorkNo()));
+		countList.add(workspaceGuestMapper.selectWorkspaceGuestCount(workNo));
 		
 		// 워크스페이스 N인 게스트수
-		countList.add(workspaceGuestMapper.selectWorkspaceGuestActiveNCount(workspaceMember.getWorkNo()));
+		countList.add(workspaceGuestMapper.selectWorkspaceGuestActiveNCount(workNo));
 		
 		// 워크스페이스 W인 게스트수
-		countList.add(workspaceGuestMapper.selectWorkspaceGuestActiveWCount(workspaceMember.getWorkNo()));
+		countList.add(workspaceGuestMapper.selectWorkspaceGuestActiveWCount(workNo));
 		
 		// 워크스페이스 멤버수 구하는메서드
 		return countList;

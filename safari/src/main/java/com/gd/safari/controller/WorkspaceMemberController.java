@@ -34,16 +34,22 @@ public class WorkspaceMemberController {
 	// 워크스페이스멤버 리스트 띄우기
 	@GetMapping("/safari/workspaceMemberList")
 	public String workspaceMemberList (Model model,HttpSession session,
-										WorkspaceMember workspaceMember) {
+			@RequestParam Map<String,Object> map) {
+		
+		// search 검색
+		log.debug(TeamColor.CJM+map.get("search") +"Controller search");
+		
+		// search 검색
+		log.debug(TeamColor.CJM+map.get("active") +"Controller active");
 		
 		// 세션 워크넘버 가져오기
 		int workNo = (Integer)session.getAttribute("workNo");	
 		
 		// 워크스페이스에 워크넘버 넣기
-		workspaceMember.setWorkNo(workNo);
+		map.put("workNo", workNo);
 		
 		// 워크스페이스멤버 리스트 출력
-		List<WorkspaceMember> list = workspaceMemberService.getWorkspaceMemberListByActive(workspaceMember); 
+		List<WorkspaceMember> list = workspaceMemberService.getWorkspaceMemberListByActive(map); 
 		
 		// 워크스페이스멤버 레벨 가져오기
 		int workMemberLevel = (int)session.getAttribute("workMemberLevel");
@@ -61,7 +67,7 @@ public class WorkspaceMemberController {
 		log.debug(TeamColor.CJM+list +"Controller WorkspaceMemberList"); 
 		
 		// 멤버 및 Guest 명수 가져오기
-		ArrayList<Integer> count = workspaceMemberService.getWorkspaceMemberCount(workspaceMember);
+		ArrayList<Integer> count = workspaceMemberService.getWorkspaceMemberCount(workNo);
 		
 		model.addAttribute("allMemberCount", count.get(0));
 		model.addAttribute("WMemberCount", count.get(1));
