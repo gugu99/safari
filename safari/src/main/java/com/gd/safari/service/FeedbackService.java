@@ -1,5 +1,6 @@
 package com.gd.safari.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.mapper.IFeedbackMapper;
 import com.gd.safari.mapper.IFeedbackReceiverMapper;
+import com.gd.safari.mapper.IWorkspaceMemberMapper;
+import com.gd.safari.vo.FeedbackList;
+import com.gd.safari.vo.WorkspaceMember;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +24,8 @@ public class FeedbackService implements IFeedbackService {
 	private IFeedbackMapper feedbackMapper;
 	@Autowired
 	private IFeedbackReceiverMapper feedbackReceiverMapper;
+	@Autowired
+	private IWorkspaceMemberMapper workspaceMemberMapper;
 	
 	// 피드백 작성
 	// 피드백 작성 후 피드백 번호 가져와서 피드백 받는 사람 추가
@@ -49,4 +55,21 @@ public class FeedbackService implements IFeedbackService {
 		}
 	}
 
+	@Override
+	public Map<String, Object> getFeedbackListAndMemberInfoByWorkspaceMember(WorkspaceMember workspaceMember) {
+		// 해당 회원의 정보
+		Map<String, Object> member = workspaceMemberMapper.selectWorkspaceMemberOne(workspaceMember.getWorkMemberNo());
+		log.debug(TeamColor.CSK + "member: " + member);
+
+		workspaceMember.setWorkMemberEmail((String)member.get("workMemberEmail"));
+		// 피드백 리스트
+		List<FeedbackList> feedbackList = feedbackMapper.selectFeedbackByWorkspaceMember(workspaceMember);
+		log.debug(TeamColor.CSK + "feedbackList: " + feedbackList);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("feedbackList", feedbackList);
+		map.put("member", member);
+		
+		return map;
+	}
 }

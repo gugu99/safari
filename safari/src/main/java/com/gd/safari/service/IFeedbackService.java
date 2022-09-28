@@ -2,8 +2,12 @@ package com.gd.safari.service;
 
 import java.util.Map;
 
-public interface IFeedbackService {
+import com.gd.safari.vo.WorkspaceMember;
 
+public interface IFeedbackService {
 	// 피드백 작성하기
 	void addFeedback(Map<String, Object> map);
+	
+	// 피드백 리스트, 회원정보 출력
+	Map<String, Object> getFeedbackListAndMemberInfoByWorkspaceMember(WorkspaceMember workspaceMember);
 }
