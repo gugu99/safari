@@ -4,32 +4,13 @@
 	<!-- 프로젝트 리스트 띄우기 -->
 	<select id="selectProjectListByWorkspaceNo" resultType="java.util.Map" parameterType="java.util.Map">
 		SELECT
-			p.project_no projectNo
-			, p.project_name projectName
-			, DATE_FORMAT(p.create_date ,'%Y-%m-%d') createDate
+			p.project_no projectNo 
+			, p.project_auth projectAuth
+			, p.project_name projectName 
+			, DATE_FORMAT(p.create_date ,'%Y-%m-%d') createDate 
 			, p.project_end projectEnd
 			, (SELECT 
-					work_member_no 
-				FROM 
-					project_member 
-				WHERE 
-					active = 'Y'
-				AND
-					project_member_auth = 'Y' 
-				AND 
-					project_no = projectNo
-				AND 
-					work_member_no = #{workMemberNo}) manager
-			, (SELECT
-					work_member_no
-				FROM
-					project_bookmark
-				WHERE
-					project_no = projectNo
-				AND
-					work_member_no = #{workMemberNo}) projectBookmark
-			, (SELECT 
-					round(count(task_end) / count(*) * 100, 1)
+					round(count(task_end) / count(*) * 100, 1) 
 				FROM 
 					task_list tl 
 				INNER JOIN 
@@ -38,7 +19,28 @@
 					t.tasklist_no = tl.tasklist_no 
 				WHERE 
 					tl.project_no = projectNo) complete
-		FROM project p
+			, (SELECT 
+					work_member_no 
+				FROM 
+					project_member 
+				WHERE 
+					active = 'Y' 
+				AND 
+					project_member_auth = 'Y' 
+				AND 
+					project_no = projectNo 
+				AND 
+					work_member_no = #{workMemberNo}) manager
+			, (SELECT 
+					work_member_no 
+				FROM 
+					project_bookmark 
+				WHERE 
+					project_no = projectNo 
+				AND 
+					work_member_no = #{workMemberNo}) projectBookmark 
+		FROM
+			project p
 		
 		<!-- 내가 속한 프로젝트 -->
 		<if test="'my'.equals(section)">
@@ -65,7 +67,24 @@
 		</if>
 		
 		WHERE
-			p.work_no = #{workNo}
+			work_no = #{workNo}
+		AND
+			(p.project_auth = 'N'
+			OR
+			p.project_no 
+				IN (
+					SELECT 
+						p.project_no 
+					FROM 
+						project p 
+					INNER JOIN 
+						project_member pm 
+					ON 
+						p.project_no = pm.project_no 
+					WHERE work_member_no = #{workMemberNo} 
+						AND project_auth = 'Y'
+					)
+			)
 		
 		<!-- 내가 속한 프로젝트 -->
 		<if test="'my'.equals(section)">
@@ -93,8 +112,35 @@
 		<!-- 검색 -->
 		<if test="search != null">
 			AND
-				p.project_name LIKE CONCAT('%',#{search},'%');
+				p.project_name LIKE CONCAT('%',#{search},'%')
 		</if>
+		ORDER BY
+			p.project_no
+	</select>
+	
+	<select id="selectPublicProjectListByWorkspaceNo" parameterType="int" resultType="java.util.Map">
+		SELECT
+			p.project_no projectNo 
+			, p.project_auth projectAuth
+			, p.project_name projectName 
+			, DATE_FORMAT(p.create_date ,'%Y-%m-%d') createDate 
+			, p.project_end projectEnd
+			, (SELECT 
+					round(count(task_end) / count(*) * 100, 1) 
+				FROM 
+					task_list tl 
+				INNER JOIN 
+					task t 
+				ON 
+					t.tasklist_no = tl.tasklist_no 
+				WHERE 
+					tl.project_no = projectNo) complete
+		FROM
+			project p
+		WHERE
+			p.project_auth = 'N'
+		AND
+			p.work_no = #{workNo};
 	</select>
 	
 	<!-- 워크스페이스에 속한 프로젝트의 번호와 제목만 출력 -->

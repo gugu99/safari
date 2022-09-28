@@ -39,9 +39,19 @@ public class ProjectService implements IProjectService {
 	public Map<String, Object> getProjectListByWorkspace(Map<String, Object> paramMap) {
 		int workNo = (int)paramMap.get("workNo");
 		
+		Map<String, Object> map = new HashMap<>();
+		
+		// 게스트 계정으로 접속했을 시
+//		if(paramMap.get("guest") != null) {
+//			List<Map<String, Object>> projectList = projectMapper.selectPublicProjectListByWorkspaceNo(workNo);
+//			map.put("projectList", projectList);
+//			return map;
+//		}
+		
+		// 워크스페이스 멤버일 경우
 		// 전체 프로젝트 리스트
 		List<Map<String, Object>> projectList = projectMapper.selectProjectListByWorkspaceNo(paramMap);
-		
+				
 		// 워크스페이스 멤버 리스트
 		List<WorkspaceMember> workspaceMemberList = workspaceMemberMapper.selectWorkspaceMemberList(workNo);
 
@@ -69,8 +79,6 @@ public class ProjectService implements IProjectService {
 		}
 
 		// map에 묶기
-		Map<String, Object> map = new HashMap<>();
-		
 		map.put("projectList", projectList);
 		map.put("workspaceMemberList", workspaceMemberList);
 		map.put("projectGroupList", projectGroupList);

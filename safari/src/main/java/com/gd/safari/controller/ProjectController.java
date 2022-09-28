@@ -32,7 +32,12 @@ public class ProjectController {
 
 		// 세션의 workNo, workspaceNo를 paramMap에 넣기
 		paramMap.put("workNo", session.getAttribute("workNo"));
+		// paramMap.put("guest", session.getAttribute("guest")); 
+		// paramMap.put("guest", null); 
 		paramMap.put("workMemberNo", session.getAttribute("workMemberNo"));
+		
+		log.debug(TeamColor.CSK + "paramMap: " + paramMap);
+
 		
 		// MyBatis 동적쿼리로 보여줄 리스트 반환
 		Map<String, Object> map = projectService.getProjectListByWorkspace(paramMap);
@@ -45,6 +50,7 @@ public class ProjectController {
 		model.addAttribute("projectGroupList", map.get("projectGroupList")); // 프로젝트 그룹리스트
 		model.addAttribute("workMemberNo", (int)session.getAttribute("workMemberNo")); // 프로젝트 생성자가 프로젝트 멤버로 바로 삽입되게 하기 위함
 		model.addAttribute("title", map.get("title")); // 검색, 정렬 기준에 따른 부제목
+		// model.addAttribute("guest", null); // null이면 멤버, not null이면 게스트
 		
 		return "project/project";
 	}
