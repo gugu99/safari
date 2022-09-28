@@ -19,4 +19,25 @@
 				, NOW()
 			)
 	</insert>
+	
+	<!-- 피드백 수정을 위한 기존 피드백 수신자 조회 -->
+	<select id="selectFeedbackReceiverByFeedbackNo" parameterType="int" resultType="map">
+		SELECT
+			feedback_no feedbackNo
+			, feedback_receiver feedbackReceiver
+		FROM
+			feedback_receiver
+		WHERE
+			feedback_no = #{feedbackNo}
+	</select>
+	
+	<!-- 피드백 수신자 삭제하기 -->
+	<delete id="deleteFeedbackReceiverByFeedbackNoAndEmail" parameterType="map">
+		DELETE FROM
+			feedback_receiver
+		WHERE
+			feedback_no = #{feedbackNo}
+		AND
+			feedback_receiver = #{feedbackReceiver}
+	</delete>
 </mapper>

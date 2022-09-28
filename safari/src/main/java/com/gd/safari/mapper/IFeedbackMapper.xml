@@ -132,4 +132,35 @@
 				, NOW()
 			)
 	</insert>
+	
+	<!-- 피드백 수정을 위한 피드백 한개 조회 -->
+	<select id="selectFeedbackOne" parameterType="int" resultType="map">
+		SELECT
+			f.feedback_no feedbackNo
+			, f.task_no taskNo
+			, t.task_title taskTitle
+			, f.feedback_content feedbackContent
+			, f.feedback_sender feedbackSender
+			, f.feedback_auth feedbackAuth
+		FROM
+			feedback f
+		INNER JOIN
+			task t
+		ON
+			f.task_no = t.task_no
+		WHERE
+			feedback_no = #{feedbackNo} 
+	</select>
+	
+	<!-- 피드백 수정하기 -->
+	<update id="updateFeedback" parameterType="map">
+		UPDATE
+			feedback
+		SET
+			feedback_content = #{feedbackContent}
+			, feedback_auth = #{feedbackAuth}
+			, update_date = NOW()
+		WHERE
+			feedback_no = #{feedbackNo}
+	</update>
 </mapper>

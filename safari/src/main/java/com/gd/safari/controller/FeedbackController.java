@@ -1,5 +1,6 @@
 package com.gd.safari.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -28,14 +29,11 @@ public class FeedbackController {
 	public String feedback(HttpSession session, Model model, WorkspaceMember workspaceMember, Map<String, Object> sender) {
 		log.debug(TeamColor.CSK + "피드백 리스트 띄우기");
 		
-		// 세션에 저장된 값 - workMemberNo
+		// 세션에 저장된 값 - workMemberNo, workNo, login
 		sender.put("senderWorkMemberNo", session.getAttribute("workMemberNo"));
-		
-		// 세션에 저장된 값 - workMemberNo
 		sender.put("workNo", session.getAttribute("workNo"));
-		
-		// 세션에 저장된 값 - login
 		sender.put("senderWorkMemberEmail", session.getAttribute("login"));
+		
 		log.debug(TeamColor.GDE + "sender --- " + sender);
 		
 		// 세션의 값 세팅
@@ -54,7 +52,7 @@ public class FeedbackController {
 	}
 	
 	// 피드백 작성하기
-	@PostMapping("/safari/addFeedback")
+	@PostMapping("/member/addFeedback")
 	public String addFeedback(HttpSession session, @RequestParam Map<String, Object> map) {
 		log.debug(TeamColor.GDE + "map --- " + map);
 		
@@ -66,5 +64,21 @@ public class FeedbackController {
 		feedbackService.addFeedback(map);
 		
 		return "redirect:/safari/feedback?workMemberNo=" + map.get("workMemberNo");
+	}
+	
+	// 피드백 수정 폼
+	@GetMapping("/member/modifyFeedback")
+	public String modifyFeedback(Model model, @RequestParam int feedbackNo) {
+		log.debug(TeamColor.GDE + "feedbackNo --- " + feedbackNo);
+		
+		// 피드백, 피드백 수신자리스트, 피드백 준 업무의 멤버리스트 가져오기
+		Map<String, Object> map = feedbackService.getFeedbackOne(feedbackNo);
+		
+		// 모델에 담기
+		model.addAttribute("feedbackReceiverList", map.get("feedbackReceiverList"));
+		model.addAttribute("feedbackOne", map.get("feedbackOne"));
+		model.addAttribute("taskMemberList", map.get("taskMemberList"));
+		
+		return "feedback/modifyFeedback";
 	}
 }

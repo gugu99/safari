@@ -20,7 +20,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                              <form action="${pageContext.request.contextPath }/safari/addFeedback" method="post" id="addFeedbackForm">
+                                              <form action="${pageContext.request.contextPath }/member/addFeedback" method="post" id="addFeedbackForm">
                                               	<input type="hidden" name="workMemberNo" value="${member.workMemberNo }">
                                                   <div class="row">
                                                   	 <div class="col-12">

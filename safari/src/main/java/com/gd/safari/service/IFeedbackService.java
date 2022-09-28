@@ -10,4 +10,7 @@ public interface IFeedbackService {
 	
 	// 피드백 리스트, 회원정보 출력
 	Map<String, Object> getFeedbackListAndMemberInfoByWorkspaceMember(WorkspaceMember workspaceMember, Map<String, Object> sender);
+	
+	// 피드백 한개 조회 - 수정 폼
+	Map<String, Object> getFeedbackOne(int feedbackNo);
 }

@@ -12,8 +12,10 @@ import com.gd.safari.commons.TeamColor;
 import com.gd.safari.mapper.IFeedbackMapper;
 import com.gd.safari.mapper.IFeedbackReceiverMapper;
 import com.gd.safari.mapper.ITaskMapper;
+import com.gd.safari.mapper.ITaskMemberMapper;
 import com.gd.safari.mapper.IWorkspaceMapper;
 import com.gd.safari.mapper.IWorkspaceMemberMapper;
+import com.gd.safari.vo.Feedback;
 import com.gd.safari.vo.FeedbackList;
 import com.gd.safari.vo.WorkspaceMember;
 
@@ -32,6 +34,8 @@ public class FeedbackService implements IFeedbackService {
 	private IWorkspaceMapper workspaceMapper;
 	@Autowired
 	private ITaskMapper taskMapper;
+	@Autowired
+	private ITaskMemberMapper taskMemberMapper;
 	
 	// 피드백 작성
 	// 피드백 작성 후 피드백 번호 가져와서 피드백 받는 사람 추가
@@ -95,6 +99,31 @@ public class FeedbackService implements IFeedbackService {
 		map.put("feedbackList", feedbackList);
 		map.put("member", member);
 		map.put("taskList", taskList);
+		
+		return map;
+	}
+
+	// 피드백 한개 조회 - 수정 폼
+	@Override
+	public Map<String, Object> getFeedbackOne(int feedbackNo) {
+		log.debug(TeamColor.GDE + "feedbackNo --- " + feedbackNo);
+		
+		// 피드백 한개 조회
+		Map<String, Object> feedbackOne = feedbackMapper.selectFeedbackOne(feedbackNo);
+		log.debug(TeamColor.GDE + feedbackOne);
+		
+		// 해당 피드백의 수신자 리스트
+		List<Map<String, Object>> feedbackReceiverList = feedbackReceiverMapper.selectFeedbackReceiverByFeedbackNo(feedbackNo);
+		log.debug(TeamColor.GDE + "feedbackReceiverList --- " + feedbackReceiverList);
+		
+		// 피드백 준 업무의 업무멤버 조회
+		List<Map<String, Object>> taskMemberList = taskMemberMapper.selectMemberListNameAndEmailByTaskNo((int)feedbackOne.get("feedbackNo"));
+		
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("feedback", feedbackOne);
+		map.put("feedbackReceiverList", feedbackReceiverList);
+		map.put("taskMemberList", taskMemberList);
 		
 		return map;
 	}

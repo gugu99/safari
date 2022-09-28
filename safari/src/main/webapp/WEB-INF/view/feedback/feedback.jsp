@@ -145,7 +145,7 @@
 
 									<span class="blue-grey date ml-1">${fl.createDate}</span>
 									<!-- 수정 삭제 버튼 -->
-									<a href="${pageContext.request.contextPath}/}" class="addr"><span class="fa fa-pencil-square-o ml-2"></span> 수정</a> 
+									<a href="${pageContext.request.contextPath}/member/modifyFeedback?feedbackNo=${fl.feedbackNo}" class="addr"><span class="fa fa-pencil-square-o ml-2"></span> 수정</a> 
 									<a href="${pageContext.request.contextPath}/" class="addr"><span class="fa fa-trash-o ml-2"></span> 삭제</a>
 								</div>
 
@@ -222,7 +222,7 @@
 	<script
 		src="${pageContext.request.contextPath }/resources/assets/js/scripts.js"></script>
 	<script
-		src="${pageContext.request.contextPath }/resources/assets/js/addSchedule.js"></script>
+		src="${pageContext.request.contextPath }/resources/assets/js/addFeedback.js"></script>
 
 </body>
 <!-- END: Body-->
