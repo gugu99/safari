@@ -51,10 +51,14 @@
 
 	<%@ include file="/WEB-INF/view/inc/header.jsp" %> <!-- header -->
 	<%@ include file="/WEB-INF/view/inc/sidebar.jsp" %> <!-- sidebar -->
-
+	
+	<input type="hidden" id="guest" value="${guest}">
+	
     <!-- BEGIN: Content-->
     <div class="app-content content">
-        <div class="sidebar-left">
+    <!--  
+    <c:if test="${guest eq null}">-->
+        <div class="sidebar-left" id="sidebar">
             <div class="sidebar">
                 <!-- app chat sidebar start -->
                 <div class="chat-sidebar card">
@@ -119,9 +123,9 @@
   				  </div>
   			</div>
     	</div> <!-- END: side bar -->
+  <!--  </c:if> --> 
     		
-    		
-    		<div class="content-right">
+    		<div class="content-right" id="projectListContent">
             	<div class="content-overlay"></div>
             	<div class="content-wrapper">
 		            <div class="content-header row pt-2 pl-2">
@@ -191,6 +195,13 @@
                                            		<div class="progress-bar bg-info" role="progressbar" style="width: ${p.complete}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                       		</div>
                                       		</c:if>
+                                      			<c:if test='${p.projectAuth eq "N"}'>
+                                      				 <p class="card-text text-right date blue-grey">공개</p>
+                                      			</c:if>
+                                      			<c:if test='${p.projectAuth eq "Y"}'>
+                                      				 <p class="card-text text-right date blue-grey">비공개</p>
+                                      			</c:if>
+                                      			
                                       			<c:if test='${p.projectEnd eq null}'>
                                       				 <p class="card-text text-right date blue-grey">진행중</p>
                                       			</c:if>
