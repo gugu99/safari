@@ -27,12 +27,12 @@ public class LowerTaskService implements ILowerTaskService {
 		return lowerTaskMapper.selectLowerTaskByTaskNo(taskNo);
 	}
 	
-	// 하위 업무가 아닌 것 가져오기
+	// 프로젝트번호에 맞는 업무 가져오기 (단, 자신이 아닌 것)
 	@Override
-	public List<Map<String, Object>> getLowerTaskByProjectNo(Map<String, Integer> map) {
-		log.debug(TeamColor.CSH + this.getClass() + " 하위 업무가 아닌 것 가져오기");
+	public List<Map<String, Object>> getTaskByProjectNoForLowerTask(Map<String, Integer> map) {
+		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트번호에 맞는 업무 가져오기 (단, 자신이 아닌 것)");
 		
-		List<Map<String, Object>> lowerTask = lowerTaskMapper.selectLowerTaskByProjectNo(map);
+		List<Map<String, Object>> lowerTask = lowerTaskMapper.selectTaskByProjectNoForLowerTask(map);
 		List<Map<String, Object>> result = new ArrayList<>();
 		
 		// 디버깅
@@ -56,17 +56,17 @@ public class LowerTaskService implements ILowerTaskService {
 		return lowerTaskMapper.insertLowerTask(task);
 	}
 	
-	// 하위 업무 추가
+	// 하위 업무 전환
 	@Override
-	public int modifyinsertLowerTask(Map<String, Integer> m) {
-		log.debug(TeamColor.CSH + this.getClass() + " 하위 업무 추가");
-		return lowerTaskMapper.updateinsertLowerTask(m);
+	public int modifyChangeLowerTask(Map<String, Integer> m) {
+		log.debug(TeamColor.CSH + this.getClass() + " 하위 업무 전환");
+		return lowerTaskMapper.updateChangeLowerTask(m);
 	}
 	
-	// 하위 업무 해제
+	// 메인 업무 전환
 	@Override
-	public int modifydeleteLowerTask(int lowerTaskNo) {
-		log.debug(TeamColor.CSH + this.getClass() + " 하위 업무 해제");
-		return lowerTaskMapper.updatedeleteLowerTask(lowerTaskNo);
+	public int modifyChangeTask(int lowerTaskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 메인 업무 전환");
+		return lowerTaskMapper.updateChangeTask(lowerTaskNo);
 	}
 }

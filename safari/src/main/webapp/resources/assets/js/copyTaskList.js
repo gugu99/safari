@@ -3,7 +3,7 @@
 var tasklistNo;
 var copyTaskList;
 
-$(document).on("click", ".copyTaskListBtn-Modal", function () {
+$(document).on("click", ".copyTaskListBtn-modal", function () {
 	// 현재 위치한 업무리스트 번호 받아오기
 	$id = $(this)
       .closest(".kanban-board")

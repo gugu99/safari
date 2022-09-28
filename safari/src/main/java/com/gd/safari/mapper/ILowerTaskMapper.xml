@@ -14,27 +14,18 @@
 		WHERE 
 			t.task_upper_no 	= #{taskNo}
 	</select>
-	<!-- 프로젝트번호에 맞는 업무 가져오기 (단, 하위업무가 아닌 것) -->
-	<select id="selectLowerTaskByProjectNo" parameterType="map" resultType="map">
+	<!-- 프로젝트번호에 맞는 업무 가져오기 (단, 자신이 아닌 것) -->
+	<select id="selectTaskByProjectNoForLowerTask" parameterType="map" resultType="map">
 		SELECT 
-			t1.task_no			taskNo	
-			, t1.task_title		taskTitle
-			, t2.task_upper_no 	taskUpperNo
-			, t2.task_no 		lowerTaskNo
-			, tl.project_no		projectNo
+			t.task_no			taskNo
+			, t.task_title		taskTitle
+			, tl.project_no 	projectNo
 		FROM 
-			task t1 LEFT OUTER JOIN (
-				SELECT * FROM task WHERE task_upper_no = #{taskNo}
-			) t2 
+			task t INNER JOIN task_list tl 
 		ON 
-			t1.task_no 			= t2.task_no
-		INNER JOIN 
-			task_list tl 
-		ON 
-			t1.tasklist_no 		= tl.tasklist_no
+			t.tasklist_no = tl.tasklist_no 
 		WHERE 
-			tl.project_no = #{projectNo}
-		AND t1.task_no != #{taskNo}
+			t.task_no != #{taskNo} AND tl.project_no = #{projectNo}
 	</select>
 	<!-- 하위 업무 생성 -->
 	<insert id="insertLowerTask" parameterType="com.gd.safari.vo.Task">
@@ -49,13 +40,13 @@
 			#{taskTitle}
 			, #{taskWriter}
 			, #{tasklistNo}
-			, #{taskUpperNo}
+			, IF(#{taskUpperNo}='', NULL, #{taskUpperNo})
 			, NOW()
 			, NOW()
 		);
 	</insert>
-	<!-- 하위 업무 추가 -->
-	<update id="updateinsertLowerTask" parameterType="map">
+	<!-- 하위 업무 전환 -->
+	<update id="updateChangeLowerTask" parameterType="map">
 		UPDATE task 
 		SET 
 			task_upper_no = #{taskNo}
@@ -63,8 +54,8 @@
 		WHERE 
 			task_no = #{lowerTaskNo}
 	</update>
-	<!-- 하위 업무 해제 -->
-	<update id="updatedeleteLowerTask" parameterType="int">
+	<!-- 메인 업무 전환 -->
+	<update id="updateChangeTask" parameterType="int">
 		UPDATE task 
 		SET 
 			task_upper_no = NULL 

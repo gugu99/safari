@@ -35,10 +35,10 @@ public class RestLowerTaskController {
 		return lowerTask;
 	}
 	
-	// 하위업무가 아닌 리스트
-	@PostMapping("/safari/lowerTaskN")
-	public List<Map<String, Object>> lowerTaskN(int projectNo, int taskNo) {
-		log.debug(TeamColor.CSH + this.getClass() + " 하위업무가 아닌 리스트");
+	// 프로젝트번호에 맞는 업무 가져오기 (단, 자신이 아닌 것)
+	@PostMapping("/safari/taskForLowerTask")
+	public List<Map<String, Object>> taskForLowerTask(int projectNo, int taskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 자신이 아닌 프로젝트번호에 맞는 업무 가져오기");
 		
 		// param 값 가공
 		Map<String, Integer> m = new HashMap<>();
@@ -47,11 +47,11 @@ public class RestLowerTaskController {
 				
 		// 서비스호출
 		// 리턴값 List<Map<String, Object>>
-		List<Map<String, Object>> lowerTask = lowerTaskService.getLowerTaskByProjectNo(m);
+		List<Map<String, Object>> task = lowerTaskService.getTaskByProjectNoForLowerTask(m);
 		
-		log.debug(TeamColor.CSH + "하위업무가 아닌 리스트 개수 : " + lowerTask.size());
+		log.debug(TeamColor.CSH + "조회에 따른 업무 개수 : " + task.size());
 		
-		return lowerTask;
+		return task;
 	}
 	
 	// 하위 업무 생성
@@ -82,35 +82,33 @@ public class RestLowerTaskController {
 		return jsonStr;
 	}
 	
-	// 하위 업무 추가
-//	@PostMapping("/safari/insertLowerTask")
-//	public String insertLowerTask(int taskNo, int lowerTaskNo) {
-//		log.debug(TeamColor.CSH + this.getClass() + " 하위 업무 추가");
-//		// 디버깅
-//		log.debug(TeamColor.CSH + "lowerTaskNo : " + lowerTaskNo + " taskNo : " + taskNo);
-//		
-//		// param 값 가공
-//		Map<String, Integer> m = new HashMap<>();
-//		m.put("taskNo", taskNo);
-//		m.put("lowerTaskNo", lowerTaskNo);
-//		
-//		// 서비스 호출
-//		// 리턴값 int - 0일 경우 실행되지 않음
-//		int row = lowerTaskService.modifyinsertLowerTask(m);
-//		// json으로 만들 변수 초기화
-//		String jsonStr = "";
-//		
-//		// 메서드의 결과에 따라 json 분기
-//		if(row != 0) { // 성공
-//			jsonStr = "ok";
-//		} else { // 실패
-//			jsonStr = "not ok";
-//		}
-//		
-//		return jsonStr;
-//	}
+	// 하위 업무 전환
+	@PostMapping("/safari/updateLowerTask")
+	public String updateLowerTask(int taskNo, int lowerTaskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 하위 업무 전환");
+		// 디버깅
+		log.debug(TeamColor.CSH + " taskNo : " + taskNo + " lowerTaskNo" + lowerTaskNo);
+		
+		// 파라미터 가공
+		Map<String, Integer> m = new HashMap<>();
+		m.put("taskNo", taskNo);
+		m.put("lowerTaskNo", lowerTaskNo);
+
+		// 서비스 호출
+		// 리턴값 int - 0일 경우 실행되지 않음
+		int row = lowerTaskService.modifyChangeLowerTask(m);
+		String jsonStr = "";
+		
+		// 메서드의 결과에 따라 json 분기
+		if(row != 0) { // 성공
+			jsonStr = "ok";
+		} else { // 실패
+			jsonStr = "not ok";
+		}
+		return jsonStr;
+	}
 	
-	// 하위 업무 해제
+	// 메인 업무 전환
 	@PostMapping("/safari/deleteLowerTask")
 	public String deleteLowerTask(int lowerTaskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 하위 업무 해제");
@@ -119,7 +117,7 @@ public class RestLowerTaskController {
 		
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = lowerTaskService.modifydeleteLowerTask(lowerTaskNo);
+		int row = lowerTaskService.modifyChangeTask(lowerTaskNo);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		
