@@ -29,7 +29,17 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/css/core/menu/menu-types/vertical-menu-modern.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/css/pages/app-kanban.css">
     <!-- END: Page CSS-->
+	<!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/vendors/css/tables/datatable/datatables.min.css">
+    <!-- END: Vendor CSS-->
 
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/css/core/colors/palette-gradient.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/css/pages/app-invoice.css">
+    <!-- END: Page CSS-->
+	
+	
+	
 </head>
 <!-- END: Head-->
 
@@ -44,20 +54,92 @@
     <div class="app-content content">
     	<%@ include file="/WEB-INF/view/task/taskHeader.jsp" %> <!-- taskHeader -->
         <div class="content-overlay"></div>
+        <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
         <div class="content-wrapper">
-            <div class="content-body mt-2">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                    
-                    
-                    
+            <div class="content-header row">
+                <div class="content-header-left col-md-6 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="breadcrumb-wrapper col-12">
+                        </div>
+                    </div>
+                    <h3 class="content-header-title mb-0">활동로그 리스트</h3>
+                </div>
+                <div class="content-header-right col-md-6 col-12">
+                    <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="feather icon-settings icon-left"></i> Settings</button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1"><a class="dropdown-item" href="card-bootstrap.html">Bootstrap Cards</a><a class="dropdown-item" href="component-buttons-extended.html">Buttons Extended</a></div>
+                        </div><a class="btn btn-outline-primary" href="full-calender-basic.html"><i class="feather icon-mail"></i></a><a class="btn btn-outline-primary" href="timeline-center.html"><i class="feather icon-pie-chart"></i></a>
                     </div>
                 </div>
+            </div>
+            <div class="content-body">
+                <div class="row mb-1 mt-1 mt-md-0">
+                    <div class="col-12">
+                        <a href="invoice-add.html" class="btn btn-primary">Create Invoice</a>
+                    </div>
                 </div>
-                
+                <div class="card">
+                    <div class="card-body">
+                        <!-- datatable started -->
+                        <div id="app-invoice-wrapper" class="">
+                            <table id="app-invoice-table" class="table" style="width: 100%;">
+                                <thead class="border-bottom border-dark">
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>
+                                            <span class="align-middle">Invoice#</span>
+                                        </th>
+                                        <th>Amount</th>
+                                        <th>Date</th>
+                                        <th>Customer</th>
+                                        <th>Tags</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                	<c:forEach var="l" items="${logList }">
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <a href="invoice-view.html">${l.logNo }</a>
+                                        </td>
+                                        <td><span class="invoice-amount">${l.taskNo }</span></td>
+                                        <td><span class="invoice-date">${l.logMember }</span></td>
+                                        <td><span class="invoice-customer">${l.logContent}</span></td>
+                                        <td>
+                                            <span class="bullet bullet-success bullet-sm"></span>
+                                            Technology
+                                        </td>
+                                        <td><span class="badge badge-danger badge-pill">${l.createDate }</span></td>
+                                        <td>
+                                            <div class="invoice-action">
+                                                <a href="invoice-view.html" class="invoice-action-view mr-1">
+                                                    <i class="feather icon-eye"></i>
+                                                </a>
+                                                <a href="invoice-edit.html" class="invoice-action-edit cursor-pointer">
+                                                    <i class="feather icon-edit-1"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </c:forEach>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+    <!-- END: Content-->
+
     </div>
     <!-- END: Content-->
 
@@ -91,6 +173,16 @@
     <script src="${pageContext.request.contextPath }/resources/assets/js/copyTask.js"></script>
     <script src="${pageContext.request.contextPath }/resources/assets/js/lowerTask.js"></script>
     <!-- END: Page JS-->
+
+	<script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/tables/datatable/datatables.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/tables/datatable/datatables.checkboxes.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/pages/app-invoice.js"></script>
+
 
 </body>
 <!-- END: Body-->

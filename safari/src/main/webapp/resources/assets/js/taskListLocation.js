@@ -65,7 +65,7 @@ $('#updateTaskListLocation').click(function(){
 			projectNo : projectNo,
 			tasklistNo : tasklistNo
 		},
-		url : '/safari/updateTaskListLocation',
+		url : '/member/updateTaskListLocation',
 		success : function(json){
 			if(json != 'ok'){
 				alert('업무리스트 위치변경을 실패했습니다.');
@@ -76,5 +76,5 @@ $('#updateTaskListLocation').click(function(){
 	});	
 	
 	// 프로젝트 번호에 알맞게 페이지 이동
-    window.location.replace('/safari/taskList?projectNo=' + projectNo);
+    window.location.replace('/member/taskList?projectNo=' + projectNo);
 });

@@ -32,7 +32,7 @@ public class WorkspaceMemberController {
 
 	
 	// 워크스페이스멤버 리스트 띄우기
-	@GetMapping("/safari/workspaceMemberList")
+	@GetMapping("/member/workspaceMemberList")
 	public String workspaceMemberList (Model model,HttpSession session,
 			@RequestParam Map<String,Object> map) {
 		
@@ -81,7 +81,7 @@ public class WorkspaceMemberController {
 	}
 	
 	// 워크스페이스멤버 상세정보
-	@GetMapping("/safari/workspaceMemberOne")
+	@GetMapping("/member/workspaceMemberOne")
 	public String getWorkspaceMemberOne (Model model,HttpSession session) {
 		int workMemberNo = (int)session.getAttribute("workMemberNo");
 		
@@ -108,7 +108,7 @@ public class WorkspaceMemberController {
 	}
 	
 	// 워크스페이스멤버 수정폼
-	@GetMapping("/safari/modifyWorkspaceMember")
+	@GetMapping("/member/modifyWorkspaceMember")
 	public String modifyWorkspaceMember (Model model,HttpSession session) {
 		int workMemberNo = (int)session.getAttribute("workMemberNo");
 		
@@ -133,7 +133,7 @@ public class WorkspaceMemberController {
 	}
 	
 	// 워크스페이스 멤버 수정하기
-	@PostMapping("/safari/modifyWorkspaceMember")
+	@PostMapping("/member/modifyWorkspaceMember")
 	public String modifyWorkspaceMember (WorkspaceMember workspaceMember ,HttpSession session,
 										@RequestParam(value = "detailWorkMemeberAddr") String detailWorkMemeberAddr) {
 		
@@ -156,12 +156,12 @@ public class WorkspaceMemberController {
 		workspaceMemberService.modifyWorkspaceMember(workspaceMember);
 		
 		  // 워크스페이스멤버 상세보기로 리다이렉트
-		return "redirect:/safari/workspaceMemberOne";  										    
+		return "redirect:/member/workspaceMemberOne";  										    
 		
 	}
 	
 	// 워크스페이스 초대된멤버 처음입장 할떄 정보수정
-	@PostMapping("/safari/modifyWorkspaceMemberByInvite")
+	@PostMapping("/member/modifyWorkspaceMemberByInvite")
 	public String modifyWorkspaceMemberByInvite (WorkspaceMember workspaceMember ,HttpSession session,
 										@RequestParam(value = "detailWorkMemeberAddr") String detailWorkMemeberAddr) {
 		
@@ -189,7 +189,7 @@ public class WorkspaceMemberController {
 	}
 	
 	// 워크스페이스 멤버 레벨 조정
-	@PostMapping("/safari/modifyWorkspaceMemberByLevel")
+	@PostMapping("/member/modifyWorkspaceMemberByLevel")
 	public String modifyWorkspaceMemberByLevel (WorkspaceMember workspaceMember) {
 		
 		// 워크스페이스 멤버 디버깅
@@ -199,12 +199,12 @@ public class WorkspaceMemberController {
 		workspaceMemberService.modifyWorkspaceMemberByLevel(workspaceMember);
 		
 		// 워크스페이스멤버 멤버리스트 리다이렉트
-		return "redirect:/safari/workspaceMemberList";  										    
+		return "redirect:/member/workspaceMemberList";  										    
 		
 	}
 	
 	// 워크스페이스 멤버 활동정지시키기
-	@PostMapping("/safari/modifyWorkspaceMemberByActive")
+	@PostMapping("/member/modifyWorkspaceMemberByActive")
 	public String modifyWorkspaceMemberByActive (@RequestParam(value = "workMemberNo") int workMemberNo) {
 		
 		// 워크스페이스 넘버 디버깅
@@ -214,12 +214,12 @@ public class WorkspaceMemberController {
 		workspaceMemberService.modifyWorkspaceMemberByActive(workMemberNo);
 		
 		// 워크스페이스멤버 멤버리스트 리다이렉트
-		return "redirect:/safari/workspaceMemberList";  										    
+		return "redirect:/member/workspaceMemberList";  										    
 		
 	}
 	
 		// 워크스페이스멤버 초대
-		@PostMapping("/safari/addWorkspaceMemberByInvite")
+		@PostMapping("/member/addWorkspaceMemberByInvite")
 		public String addWorkspaceMemberByInvite( WorkspaceMember workspaceMember,
 				@RequestParam(value="workMemberEmail",required = false) String[] workMemberEmail) {
 				
@@ -244,12 +244,12 @@ public class WorkspaceMemberController {
 				
 			}
 			// 인덱스로 리다이렉트
-			return "redirect:/safari/workspaceMemberList"; 
+			return "redirect:/member/workspaceMemberList"; 
 
 		}
 	
 		// 워크스페이스 멤버 활동승인
-		@PostMapping("/safari/modifyWorkspaceMemberActiveApprove")
+		@PostMapping("/member/modifyWorkspaceMemberActiveApprove")
 		public String modifyWorkspaceMemberActiveApprove (@RequestParam(value = "workMemberNo") int workMemberNo) {
 			
 			// 워크스페이스 넘버 디버깅
@@ -259,7 +259,7 @@ public class WorkspaceMemberController {
 			workspaceMemberService.modifyWorkspaceMemberActiveApprove(workMemberNo);
 			
 			// 워크스페이스멤버 멤버리스트 리다이렉트
-			return "redirect:/safari/workspaceMemberList";  										    
+			return "redirect:/member/workspaceMemberList";  										    
 			
 		}
 	

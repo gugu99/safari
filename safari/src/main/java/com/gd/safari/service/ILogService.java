@@ -5,5 +5,5 @@ import java.util.List;
 import com.gd.safari.vo.Log;
 
 public interface ILogService {
-	List<Log> getLogList (Log log);
+	List<Log> getLogList (int projectNo);
 }

@@ -123,14 +123,14 @@
 	
 	</insert>
 	
-	<select id="selectLogList" parameterType="com.gd.safari.vo.Log" resultType="com.gd.safari.vo.Log">
+	<select id="selectLogList" parameterType="int" resultType="com.gd.safari.vo.Log">
 		SELECT 
-				log_no
-				, task_no
-				,log_member
-				,log_content
-				,create_date
-				,project_no
+				  log_no		logNo			
+				, task_no		taskNo
+				, log_member	logMember
+				, log_content	logContent
+				, create_date	createDate
+				, project_no	projectNo
 				
 		FROM	log
 		WHERE project_no = #{projectNo}

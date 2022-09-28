@@ -28,13 +28,48 @@ $(document).ready(function () {
   // 서브스트링에 있는 값 꺼내기
   var str = window.location.search;
   // 정렬
-  var sort = (str.indexOf('sort') == -1) ? "0" : str.substring(str.lastIndexOf('=') + 1);
+  var sort;
   // 검색
-  var search = (str.indexOf('search') == -1) ? null : decodeURIComponent(str.indexOf('&sort=') == -1 ? str.substring(str.indexOf('search=') + 7) : str.substring(str.indexOf('search=') + 7, str.lastIndexOf('&')));
+  var search;
   // 완료
-  var check = (str.indexOf('check') == -1) || str.substring(str.indexOf('check=') + 6) == 'false' ? false : true;
-  $('#completeTaskCheck').prop('checked',check);
+  var check;
   
+  // 정렬에 관한 설정
+  if(str.indexOf('sort') == -1){
+	sort = "0";
+  } else {
+	sort = str.substring(str.lastIndexOf('=') + 1);
+  
+ 	$('#sort > option[value=' + sort + ']').attr('selected', true);
+  }
+  
+  // 검색에 관한 설정
+  if(str.indexOf('search') == -1){
+	search = null;
+  } else {
+	if(str.indexOf('&sort=') == -1){
+		search = decodeURIComponent(str.substring(str.indexOf('search=') + 7));	
+	} else {
+		search = decodeURIComponent(str.substring(str.indexOf('search=') + 7, str.lastIndexOf('&')));
+	}
+	
+	$('#search').val(search);
+  }
+  
+  // 완료에 관한 설정 || str.substring(str.indexOf('check=') + 6) == 'false'
+  // check에 관한 것이 없으면 check = false
+  if(str.indexOf('check') == -1){
+	check = false;
+	// check에 관한 것이 있다면 분기
+  } else {
+	if(str.indexOf('&s') == -1){
+		check = str.substring(str.indexOf('check=') + 6) == 'false' ? false : true;
+	} else {
+		check = str.substring(str.indexOf('check=') + 6, str.indexOf('&s')) == 'false' ? false : true;
+	}
+  }
+  
+  $('#completeTaskCheck').prop('checked', check);
   
   // 리스트를 위한 조회
   // ----------------------------------------------------------
@@ -141,10 +176,21 @@ $(document).ready(function () {
 		
 		if(sort == "0"){
 			// 전체업무
-		    window.location.replace('/safari/taskList?projectNo=' + projectNo);
+		    window.location.replace('/member/taskList?projectNo=' + projectNo);
 		} else {
-			// 조회 있는 경우
-		    window.location.replace('/safari/taskList?projectNo=' + projectNo + "&sort=" + sort);
+		    if(search != null && check == null){
+				// 검색과 정렬 같이 있을 경우
+				window.location.replace('/member/taskList?projectNo=' + projectNo + "&search=" + search + "&sort=" + sort);
+			} else if(search == null && check != null){
+				// 정렬과 체크 같이 있을 경우
+				window.location.replace('/member/taskList?projectNo=' + projectNo + "&check=" + check + "&sort=" + sort);
+			} else if(search != null && check != null) {
+				// 모두 다 있을 경우
+				window.location.replace('/member/taskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search + "&sort=" + sort);
+			} else {
+				// 조회 있는 경우
+		    	window.location.replace('/member/taskList?projectNo=' + projectNo + "&sort=" + sort);
+			}
 		}
 		
   });
@@ -152,20 +198,33 @@ $(document).ready(function () {
   
   // 검색
   // ----------------------------------------------------------
+  
   $('#searchBtn').click(function(){
 	search = $('#search').val();
 	console.log(search);
 		
-	if(sort == "0"){
-		// 검색만 있을 경우
-		window.location.replace('/safari/taskList?projectNo=' + projectNo + "&search=" + search);
+	if(search == null){
+		// 전체업무
+	    window.location.replace('/member/taskList?projectNo=' + projectNo);
 	} else {
-		// 검색과 조회가 같이 있을 경우
-		window.location.replace('/safari/taskList?projectNo=' + projectNo + "&search=" + search + "&sort=" + sort);
+		if(sort != "0" && check == null){
+			// 검색과 조회가 같이 있을 경우
+			window.location.replace('/member/taskList?projectNo=' + projectNo + "&search=" + search + "&sort=" + sort);
+		} else if(sort == "0" && check != null){
+			// 검색과 체크 같이 있을 경우
+			window.location.replace('/member/taskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search);
+		} else if(sort != "0" && check != null) {
+			// 모두 다 있을 경우
+			window.location.replace('/member/taskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search + "&sort=" + sort);
+		} else {
+			// 검색만 있을 경우
+			window.location.replace('/member/taskList?projectNo=' + projectNo + "&search=" + search);
+		}
 	}
   });
   
   // 완료된 업무
+  // ----------------------------------------------------------
   
   $('#completeTaskCheck').on('change', function(){
 	
@@ -174,9 +233,27 @@ $(document).ready(function () {
   	// console.log($('#completeTaskCheck').is(':checked'));
 	check = $('#completeTaskCheck').is(':checked');
 	
-	window.location.replace('/safari/taskList?projectNo=' + projectNo + "&check=" + check);
+	if(check == null){
+		// 전체업무
+	    window.location.replace('/member/taskList?projectNo=' + projectNo);
+	} else {
+		if(sort != "0" && search == null){
+			// 체크와 정렬 같이 있을 경우
+			window.location.replace('/member/taskList?projectNo=' + projectNo + "&check=" + check + "&sort=" + sort);
+		} else if(sort == "0" && search != null){
+			// 검색과 체크 같이 있을 경우
+			window.location.replace('/member/taskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search);
+		} else if(sort != "0" && search != null) {
+			// 모두 다 있을 경우
+			window.location.replace('/member/taskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search + "&sort=" + sort);
+		} else {
+			// 체크만 있을 경우
+			window.location.replace('/member/taskList?projectNo=' + projectNo + "&check=" + check);
+		}
+	}
 	
   });
+  
   
   // 업무 멤버
   // ----------------------------------------------------------
@@ -227,7 +304,7 @@ $(document).ready(function () {
 			taskNo : $('.edit-kanban-item-id').val(),
 			projectMemberNo : value_str.options[value_str.selectedIndex].value
  		},
-		url : '/safari/insertTaskMember',
+		url : '/member/insertTaskMember',
 		success : function(json){
 			
 			if(json != 'ok'){
@@ -297,7 +374,7 @@ $(document).ready(function () {
 			taskNo : $('.edit-kanban-item-id').val(),
 			projectMemberNo : value_str.options[value_str.selectedIndex].value
  		},
-		url : '/safari/deleteTaskMember',
+		url : '/member/deleteTaskMember',
 		success : function(json){
 			// 디버깅
 			// console.log("업무멤버 조회");
@@ -458,7 +535,7 @@ $(document).ready(function () {
 		 	  // 하위업무 리스트 보여주기
 		 	  var str = "";
 		 	  for(var i = 0; i < lowerTask_list.length; i++) {
-					str += '<li><a href="/safari/taskList?projectNo=' + lowerTask_list[i].projectNo + '">' + lowerTask_list[i].taskTitle + ' </a></li>';
+					str += '<li><a href="/member/taskList?projectNo=' + lowerTask_list[i].projectNo + '">' + lowerTask_list[i].taskTitle + ' </a></li>';
 			  }
 			  
 			  $('.edit-kanban-item-task').html(str);
@@ -532,7 +609,7 @@ $(document).ready(function () {
         $.ajax({
 			async : false,
 			type : 'POST',
-			url : '/safari/insertTask',
+			url : '/member/insertTask',
 			data : {
 				taskTitle : text,
 				tasklistNo : $id
@@ -564,7 +641,7 @@ $(document).ready(function () {
 	$.ajax({
 		async : false,
 		type : 'POST',
-		url : '/safari/completeTask',
+		url : '/member/completeTask',
 		data : {
 			taskNo : $('.edit-kanban-item-id').val()
 		},
@@ -588,7 +665,7 @@ $(document).ready(function () {
 	$.ajax({
 		async : false,
 		type : 'POST',
-		url : '/safari/cancelEndTask',
+		url : '/member/cancelEndTask',
 		data : {
 			taskNo : $('.edit-kanban-item-id').val()
 		},
@@ -689,7 +766,7 @@ $(document).ready(function () {
 					taskTitle : $('.lowerTask').val(),
 					tasklistNo : $('.edit-kanban-item-tasklistNo').val()
 				},
-				url : '/safari/insertLowerTask',
+				url : '/member/insertLowerTask',
 				success : function(json){
 					if(json != 'ok'){
 						alert('하위업무 생성을 실패했습니다.');
@@ -710,7 +787,7 @@ $(document).ready(function () {
 							// 다시 배열을 value에 담기
 							var str = "";
 							for(var i = 0; i < lowerTask_list.length; i++){
-								str += '<li><a href="/safari/taskList?projectNo=' + lowerTask_list[i].projectNo + '">' + lowerTask_list[i].taskTitle + ' </a></li>';
+								str += '<li><a href="/member/taskList?projectNo=' + lowerTask_list[i].projectNo + '">' + lowerTask_list[i].taskTitle + ' </a></li>';
 							}
 							  
 							$('.edit-kanban-item-task').html(str);
@@ -735,7 +812,7 @@ $(document).ready(function () {
 			taskNo : value_str.options[value_str.selectedIndex].value,
 			lowerTaskNo : $('.edit-kanban-item-id').val()
 		},
-		url : '/safari/updateLowerTask',
+		url : '/member/updateLowerTask',
 		success : function(json){
 			if(json != 'ok'){
 				alert('하위업무 전환을 실패했습니다.');
@@ -756,7 +833,7 @@ $(document).ready(function () {
 		data : {
 			lowerTaskNo : $('.edit-kanban-item-id').val()
 		},
-		url : '/safari/deleteLowerTask',
+		url : '/member/deleteLowerTask',
 		success : function(json){
 			if(json != 'ok'){
 				alert('메인업무 전환을 실패했습니다.');
@@ -912,7 +989,7 @@ $(document).ready(function () {
 	$.ajax({
 		async : false,
 		type : 'POST',
-		url : '/safari/insertTaskList',
+		url : '/member/insertTaskList',
 		data : {
 			tasklistTitle : '새 업무리스트'
 		},
@@ -943,7 +1020,7 @@ $(document).ready(function () {
 	 $.ajax({
 		async : false,
 		type : 'POST',
-		url : '/safari/deleteTaskList',
+		url : '/member/deleteTaskList',
 		data : {tasklistNo : $id},
 		success : function(json){
 			// console.log("id값 여기에 들어와야함 : " + $id);
@@ -1018,7 +1095,7 @@ $(document).ready(function () {
     $.ajax({
 		async : false,
 		type : 'POST',
-		url : '/safari/deleteTask',
+		url : '/member/deleteTask',
 		data : {taskNo : $delete_item},
 		success : function(json){
 			// console.log("$delete_item값 여기에 들어와야함 : " + teskNo);
@@ -1083,7 +1160,7 @@ $(document).ready(function () {
 		$.ajax({
 			async : false,
 			type : 'POST',
-			url : '/safari/updateTaskList',
+			url : '/member/updateTaskList',
 			data : {
 				tasklistNo : $id,
 				tasklistTitle : $value

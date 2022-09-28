@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TaskListController {
 	
 	// 업무리스트 페이지 이동
-	@GetMapping("/safari/taskList")
+	@GetMapping("/member/taskList")
 	public String taskList(HttpSession session, @RequestParam(value = "projectNo") int projectNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 페이지");
 		

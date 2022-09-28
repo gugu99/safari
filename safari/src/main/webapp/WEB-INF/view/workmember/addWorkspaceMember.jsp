@@ -104,7 +104,7 @@
 								</div>
 								<div class="card-content collapse show">
 									<div class="card-body">
-										<form id="addWorkspaceForm" action="${pageContext.request.contextPath }/safari/modifyWorkspaceMemberByInvite" class="number-tab-steps wizard-circle" method="post">
+										<form id="addWorkspaceForm" action="${pageContext.request.contextPath }/member/modifyWorkspaceMemberByInvite" class="number-tab-steps wizard-circle" method="post">
 											<!-- Step 1 -->
 											<h6>Step 1</h6>
 											<fieldset>

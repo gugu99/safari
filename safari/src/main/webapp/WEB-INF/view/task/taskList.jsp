@@ -57,13 +57,12 @@
                             </button>
                         </div>
                         <div class="col-2">
-                            <select class="form-control text-dark" id="sort">
-								<option value="">조회</option> 
-								<option value="0" class="bg-info">전체 업무</option>   
-								<option value="1" class="bg-info">나에게 배정된 업무</option>   
-								<option value="2" class="bg-info">내가 작성한 업무</option>   
-								<option value="3" class="bg-info">포인트가 있는 업무</option>   
-								<option value="4" class="bg-info">포인트가 없는 업무</option>   
+                            <select class="form-control text-write" id="sort">
+								<option value="0" class="bg-primary">전체 업무</option>   
+								<option value="1" class="bg-primary">나에게 배정된 업무</option>   
+								<option value="2" class="bg-primary">내가 작성한 업무</option>   
+								<option value="3" class="bg-primary">포인트가 있는 업무</option>   
+								<option value="4" class="bg-primary">포인트가 없는 업무</option>   
                             </select>
                         </div>
                         <div class="col-2 mr-1">

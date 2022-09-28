@@ -1,7 +1,6 @@
 package com.gd.safari.controller;
 
 
-import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -22,7 +21,7 @@ public class FileController {
 	@Autowired private IFileService fileService;
 	
 	
-	@GetMapping("/safari/fileList")
+	@GetMapping("/member/fileList")
 	public String index(HttpSession session ,Model model) {
 		
 		// 세션 가져오기 projectNo

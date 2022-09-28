@@ -19,13 +19,17 @@ public class LogService implements ILogService{
 	@Autowired private ILogMapper logMapper;
 	
 	@Override
-	public List<Log> getLogList(Log log) {
+	public List<Log> getLogList(int projectNo) {
 		
 		// 로그 디버깅
-		LogService.log.debug(TeamColor.CJM + log + "Service log");
+		LogService.log.debug(TeamColor.CJM + projectNo + "Service projectNo");
 	
 		// 로그 리스트 보여주기
-		return logMapper.selectLogList(log);
+		List<Log> list = logMapper.selectLogList(projectNo);
+		
+		LogService.log.debug(TeamColor.CJM + list + "Service list");
+		
+		return list;
 	}
 
 }

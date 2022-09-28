@@ -18,7 +18,7 @@ public class TaskController {
 	@Autowired private ITaskService taskService;
 	
 	// 업무 수정 액션
-	@PostMapping("/safari/updateTask")
+	@PostMapping("/member/updateTask")
 	public String updateTask(HttpSession session, Task task) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 수정 액션");
 		// 디버깅
@@ -37,7 +37,7 @@ public class TaskController {
 			log.debug(TeamColor.CSH + "업무수정 실패");
 		}
 		
-		return "redirect:/safari/taskList?projectNo=" + projectNo;
+		return "redirect:/member/taskList?projectNo=" + projectNo;
 	}
 	
 }

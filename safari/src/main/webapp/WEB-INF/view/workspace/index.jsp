@@ -164,7 +164,7 @@
 											<!-- Button trigger modal -->
 
 											<a
-												href="${pageContext.request.contextPath }/safari/workspaceMain?workNo=${r.workNo}">
+												href="${pageContext.request.contextPath }/member/workspaceMain?workNo=${r.workNo}">
 												<button type="button" class="btn btn-outline-success"
 													data-toggle="modal" data-target="#iconForm">show
 													workspace</button>
