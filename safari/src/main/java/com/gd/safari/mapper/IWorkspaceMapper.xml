@@ -67,13 +67,15 @@
 	</update>
 	
 	<!-- 관리자 조회 -->
-	<select id = "selectWorkspaceAdminEmail" parameterType="int" resultType ="String">
+	<select id = "selectWorkspaceAdminEmail" parameterType="map" resultType ="String">
 		SELECT
 				admin_email
 		FROM
 				workspace
 		WHERE
-				work_no = #{workNo}
+				work_no = #{workNo} 
+		AND
+				admin_email = #{senderWorkMemberEmail}
 	
 	</select>
 	

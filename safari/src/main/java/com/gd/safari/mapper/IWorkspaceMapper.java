@@ -1,6 +1,7 @@
 package com.gd.safari.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -25,7 +26,7 @@ public interface IWorkspaceMapper {
 	int updateWorkspaceAdminEmail(Workspace workspace);
 	
 	// 워크스페이스 관리자조회
-	String selectWorkspaceAdminEmail(int workNo);
+	String selectWorkspaceAdminEmail(Map<String, Object> map);
 	
 	// 워크스페이스 게스트 리스트
 

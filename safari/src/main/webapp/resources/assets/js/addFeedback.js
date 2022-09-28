@@ -1,3 +1,31 @@
+$(document).ready(function(){
+	$('#taskNo').change(function(){
+		// alert('taskList change');
+		// ajax호출 -> 값 -> countryId select append
+		if($('#taskNo').val() == ''){
+			alert('업무를 선택하세요');
+		} else {
+			$('#feedbackReceiver').empty();
+			
+			$.ajax({
+				url: '/safari/getFeedbackReceiverList',
+				type : 'get',
+				data : {taskNo : $('#taskNo').val()},
+				success : function(json) {
+					
+					$(json).each(function(index, item){ 
+						if(item.workMemberEmail == $('#myEmail').val()){
+							$('#feedbackReceiver').append('<option value="'+item.workMemberEmail+'" selected>'+item.workMemberName+'</option>')
+						} else {
+							$('#feedbackReceiver').append('<option value="'+item.workMemberEmail+'">'+item.workMemberName+'</option>');
+						}
+					}); // each end
+				} // success end
+			});	// ajax end			
+		} // if-else end
+	}); // taskNo change end
+});
+
 
 function selectFeedbackReceiver(e){
 	const arr = new Array();
@@ -18,7 +46,7 @@ function selectFeedbackReceiver(e){
 
 $('#addFeedbackBtn').click(function(){
 	
-	if($("#taskList").val() == ""){
+	if($("#taskNo").val() == ""){
 		alert("업무를 선택해 주세요.");
 		
 		return false;

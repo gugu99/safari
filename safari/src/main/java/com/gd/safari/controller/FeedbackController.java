@@ -25,8 +25,18 @@ public class FeedbackController {
 	
 	// 피드백 리스트
 	@GetMapping("/safari/feedback")
-	public String feedback(HttpSession session, Model model, WorkspaceMember workspaceMember) {
+	public String feedback(HttpSession session, Model model, WorkspaceMember workspaceMember, Map<String, Object> sender) {
 		log.debug(TeamColor.CSK + "피드백 리스트 띄우기");
+		
+		// 세션에 저장된 값 - workMemberNo
+		sender.put("senderWorkMemberNo", session.getAttribute("workMemberNo"));
+		
+		// 세션에 저장된 값 - workMemberNo
+		sender.put("workNo", session.getAttribute("workNo"));
+		
+		// 세션에 저장된 값 - login
+		sender.put("senderWorkMemberEmail", session.getAttribute("login"));
+		log.debug(TeamColor.GDE + "sender --- " + sender);
 		
 		// 세션의 값 세팅
 		// workNo, workMemberEmail
@@ -34,10 +44,11 @@ public class FeedbackController {
 
 		log.debug(TeamColor.CSK + "session -> workspaceMember: " + workspaceMember);
 		
-		Map<String, Object> map = feedbackService.getFeedbackListAndMemberInfoByWorkspaceMember(workspaceMember);
+		Map<String, Object> map = feedbackService.getFeedbackListAndMemberInfoByWorkspaceMember(workspaceMember, sender);
 		
 		model.addAttribute("member", map.get("member")); // 해당 회원의 정보
 		model.addAttribute("feedbackList", map.get("feedbackList")); // 해당 회원의 피드백 리스트
+		model.addAttribute("taskList", map.get("taskList")); // 해당 회원에게 피드백 줄 수 있는 업무리스트
 		
 		return "feedback/feedback";
 	}
@@ -54,6 +65,6 @@ public class FeedbackController {
 		// 피드백 작성
 		feedbackService.addFeedback(map);
 		
-		return "redirect:/safari/feedback";
+		return "redirect:/safari/feedback?workMemberNo=" + map.get("workMemberNo");
 	}
 }

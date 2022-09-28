@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.mapper.IFeedbackMapper;
 import com.gd.safari.mapper.IFeedbackReceiverMapper;
+import com.gd.safari.mapper.ITaskMapper;
+import com.gd.safari.mapper.IWorkspaceMapper;
 import com.gd.safari.mapper.IWorkspaceMemberMapper;
 import com.gd.safari.vo.FeedbackList;
 import com.gd.safari.vo.WorkspaceMember;
@@ -26,6 +28,10 @@ public class FeedbackService implements IFeedbackService {
 	private IFeedbackReceiverMapper feedbackReceiverMapper;
 	@Autowired
 	private IWorkspaceMemberMapper workspaceMemberMapper;
+	@Autowired
+	private IWorkspaceMapper workspaceMapper;
+	@Autowired
+	private ITaskMapper taskMapper;
 	
 	// 피드백 작성
 	// 피드백 작성 후 피드백 번호 가져와서 피드백 받는 사람 추가
@@ -35,11 +41,11 @@ public class FeedbackService implements IFeedbackService {
 		log.debug(TeamColor.GDE + "map --- " + map);
 		
 		// 피드백 받는 사람 배열로 가공하기
-		String tmp = (String)map.get("scheduleMemberList");
+		String tmp = (String)map.get("feedbackReceiverList");
 		String[] feedbackReceiverList = tmp.split(",");
 		
 		// feedbackReceiverList map에서 삭제
-		map.remove("scheduleMemberList");
+		map.remove("feedbackReceiverList");
 		
 		// 피드백 작성하기
 		int row = feedbackMapper.insertFeedback(map);
@@ -56,7 +62,26 @@ public class FeedbackService implements IFeedbackService {
 	}
 
 	@Override
-	public Map<String, Object> getFeedbackListAndMemberInfoByWorkspaceMember(WorkspaceMember workspaceMember) {
+	public Map<String, Object> getFeedbackListAndMemberInfoByWorkspaceMember(WorkspaceMember workspaceMember, Map<String, Object> sender) {
+		// 피드백 작성할 때 - 작성자가 관리자인지 아닌지 조회
+		String admin = workspaceMapper.selectWorkspaceAdminEmail(sender);
+		log.debug(TeamColor.GDE + "admin --- " + admin);
+		
+		List<Map<String, Object>> taskList = null;
+		
+		// 작성자가 워크스페이스 관리자일 때 피드백 수신자의 완료된 업무 전체 조회
+		if (admin != null) {
+			taskList = taskMapper.selectCompleteTaskListByReceiverNo(workspaceMember.getWorkMemberNo());
+		} else {
+			Map<String, Integer> workMemberNo = new HashMap<>();
+			workMemberNo.put("feedbackSenderNo", (Integer)sender.get("senderWorkMemberNo"));
+			workMemberNo.put("feedbackReceiverNo", workspaceMember.getWorkMemberNo());
+			log.debug(TeamColor.GDE + "workMemberNo --- " + workMemberNo);
+			// 작성자가 워크스페이스 관리자가 아닐 때
+			taskList = taskMapper.selectCompleteTaskListByReceiverNoAndSenderNo(workMemberNo);
+		}
+		log.debug(TeamColor.GDE + "taskList --- " + taskList);
+		
 		// 해당 회원의 정보
 		Map<String, Object> member = workspaceMemberMapper.selectWorkspaceMemberOne(workspaceMember.getWorkMemberNo());
 		log.debug(TeamColor.CSK + "member: " + member);
@@ -69,6 +94,7 @@ public class FeedbackService implements IFeedbackService {
 		Map<String, Object> map = new HashMap<>();
 		map.put("feedbackList", feedbackList);
 		map.put("member", member);
+		map.put("taskList", taskList);
 		
 		return map;
 	}

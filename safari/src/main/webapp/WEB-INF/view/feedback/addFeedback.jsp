@@ -21,15 +21,16 @@
                                             </div>
                                             <div class="modal-body">
                                               <form action="${pageContext.request.contextPath }/safari/addFeedback" method="post" id="addFeedbackForm">
+                                              	<input type="hidden" name="workMemberNo" value="${member.workMemberNo }">
                                                   <div class="row">
                                                   	 <div class="col-12">
                                                           <div class="form-group">
                                                               <label for="languageselect2"><span class="fa fa-list-ul mr-2"></span>업무(*)</label>
-                                                              <select class="form-control select" name="taskNo" id="taskList">
+                                                              <select class="form-control select" name="taskNo" id="taskNo">
                                                            		 <option value="default" >업무를 선택하세요</option>
-                                                           		 <option value="taksNo" >업무1</option>
-                                                           		 <option value="email" >업무2</option>
-                                                           		 <option value="email" >업무3</option>
+                                                           		 <c:forEach var="t" items="${taskList }">
+                                                           		 	<option value="${t.taskNo }" >${t.taskTitle }</option>
+                                                           		 </c:forEach>
                                                               </select>
                                                           </div>
                                                       </div>
@@ -38,10 +39,7 @@
                                                           <div class="form-group">
                                                               <label for="languageselect2"><span class="fa fa-users mr-2"></span>피드백 멤버(*)</label>
                                                               <select class="form-control memberSelect" id="feedbackReceiver" multiple="multiple" onChange="selectFeedbackReceiver(this)">
-                                                           		 <%-- <option value="${}" ${login eq  ? 'selected' : ''}>${fm.workMemberName }</option> --%>
-                                                           		 <option value="email" selected>이름1</option>
-                                                           		 <option value="email" >이름2</option>
-                                                           		 <option value="email" >이름3</option>
+                                                           		 
                                                               </select>
                                                           </div>
                                                       </div>
