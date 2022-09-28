@@ -52,7 +52,7 @@
                                 <div class="card-content">
                                     <div class="card-body">
 
-                                        <form action="${pageContext.request.contextPath }/safari/modifySchedule" method="post" id="modifyScheduleForm">
+                                        <form action="${pageContext.request.contextPath }/member/modifySchedule" method="post" id="modifyScheduleForm">
                                         	<input type="hidden" name="scheduleNo" value="${scheduleOne.scheduleNo }">
                                             <div class="row">
 												<div class="col-12">

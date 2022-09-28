@@ -21,7 +21,7 @@ public class ScheduleCommentController {
 	IScheduleCommentService scheduleCommentService;
 	
 	// 댓글 작성하기
-	@PostMapping("/safari/addScheduleComment")
+	@PostMapping("/member/addScheduleComment")
 	public String addScheduleComment(@RequestParam Map<String, Object> map) {
 		
 		log.debug(TeamColor.GDE + "map --- " + map);
@@ -36,7 +36,7 @@ public class ScheduleCommentController {
 	}
 	
 	// 댓글 삭제하기
-	@GetMapping("/safari/removeScheduleComment")
+	@GetMapping("/member/removeScheduleComment")
 	public String removeScheduleComment(@RequestParam int scheduleCmtNo) {
 		
 		log.debug(TeamColor.GDE + "scheduleCmtNo --- " + scheduleCmtNo);

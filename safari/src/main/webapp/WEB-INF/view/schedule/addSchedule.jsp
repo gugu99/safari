@@ -22,7 +22,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-		                                                <form action="${pageContext.request.contextPath }/safari/scheduleList" method="post" id="addScheduleForm">
+		                                                <form action="${pageContext.request.contextPath }/member/addScheduleList" method="post" id="addScheduleForm">
 		                                               		<input type="hidden" name="scheduleWriter" value="${login }">
 		                                                    <div class="row">
 		                                                        <div class="col-12">

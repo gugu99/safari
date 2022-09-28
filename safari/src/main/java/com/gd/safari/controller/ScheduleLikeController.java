@@ -21,7 +21,7 @@ public class ScheduleLikeController {
 	IScheduleLikeService scheduleLikeService;
 	
 	// 일정 좋아요 추가하기
-	@GetMapping("/safari/addScheduleLike")
+	@GetMapping("/member/addScheduleLike")
 	public String addScheduleLike(RedirectAttributes redirectAttributes, HttpSession session, ScheduleLike scheduleLike) {
 		log.debug(TeamColor.GDE + "scheduleLike --- " + scheduleLike);
 		

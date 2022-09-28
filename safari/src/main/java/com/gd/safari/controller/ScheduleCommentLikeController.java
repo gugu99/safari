@@ -21,7 +21,7 @@ public class ScheduleCommentLikeController {
 	IScheduleCommentLikeService scheduleCommentLikeService;
 	
 	// 댓글 좋아요 추가하기
-	@GetMapping("/safari/addScheduleCommentLike")
+	@GetMapping("/member/addScheduleCommentLike")
 	public String addScheduleCommentLike(RedirectAttributes redirectAttributes, HttpSession session, ScheduleCommentLike scheduleCommentLike) {
 		log.debug(TeamColor.GDE + "scheduleCommentLike --- " + scheduleCommentLike);
 		

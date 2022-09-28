@@ -52,7 +52,7 @@ public class ScheduleController {
 	}
 	
 	// 일정 추가 
-	@PostMapping("/safari/scheduleList")
+	@PostMapping("/member/addScheduleList")
 	public String addSchedule(HttpSession session, @RequestParam Map<String, Object> map) {
 		log.debug(TeamColor.GDE + "map --- " + map);
 		// 세션에 저장된 projectNo 가져와서 map에 넣어주기
@@ -67,7 +67,7 @@ public class ScheduleController {
 	}
 	
 	// 일정 수정 폼으로 이동
-	@GetMapping("/safari/modifySchedule")
+	@GetMapping("/member/modifySchedule")
 	public String modifySchedule(HttpSession session ,Model model, @RequestParam int scheduleNo) {
 		log.debug(TeamColor.GDE + "scheduleNo --- " + scheduleNo);
 		
@@ -90,7 +90,7 @@ public class ScheduleController {
 	}
 	
 	// 일정 수정
-	@PostMapping("/safari/modifySchedule")
+	@PostMapping("/member/modifySchedule")
 	public String modifySchedule(RedirectAttributes redirectAttributes, @RequestParam Map<String, Object> map) {
 		log.debug(TeamColor.GDE + "map --- " + map);
 		
@@ -107,7 +107,7 @@ public class ScheduleController {
 	}
 	
 	// 일정 삭제
-	@GetMapping("/safari/removeSchedule")
+	@GetMapping("/member/removeSchedule")
 	public String removeSchedule(@RequestParam int scheduleNo) {
 		log.debug(TeamColor.GDE + "scheduleNo --- " + scheduleNo);
 		

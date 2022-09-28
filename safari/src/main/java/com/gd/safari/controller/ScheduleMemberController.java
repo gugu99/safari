@@ -23,7 +23,7 @@ public class ScheduleMemberController {
 	private IScheduleMemberService scheduleMemberService;
 	
 	// 일정 참석여부 변경
-	@GetMapping("/safari/modifyScheduleAttend")
+	@GetMapping("/member/modifyScheduleAttend")
 	public String modifyScheduleAttend(HttpSession session, RedirectAttributes redirectAttributes, @RequestParam Map<String, Object> map) {
 		log.debug(TeamColor.GDE + map);
 		
