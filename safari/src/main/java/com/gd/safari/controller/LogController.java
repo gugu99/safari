@@ -21,19 +21,21 @@ public class LogController {
 	
 	// 워크스페이스게스트 정렬 리스트
 		@GetMapping("/safari/logList")
-		public String logList (Model model,HttpSession session, Log paramlog) {
-			log.debug(TeamColor.CJM+paramlog +"Controller paramlog");
+		public String logList (Model model,HttpSession session) {
 			
 			// projectNo 세션 가져오기
 			int projectNo = (int)session.getAttribute("projectNo");
 			
-			// log Vo에 ProjectNo 담기
-			paramlog.setProjectNo(projectNo);
+			// Log 리스트 뽑기
+			List<Log> list= logService.getLogList(projectNo);
 			
-			List<Log> list= logService.getLogList(paramlog);
+			// LogList 디버깅
+			log.debug(TeamColor.CJM+list +"Controller list");
 			
+			// model에 LogList 매핑
 			model.addAttribute("logList",list);
 			
+			// forward logList로
 			return "log/logList";  										   
 		}
 }

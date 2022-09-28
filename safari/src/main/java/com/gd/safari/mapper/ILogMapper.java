@@ -15,5 +15,5 @@ public interface ILogMapper {
 	int insertUpdateTaskLog(Log log);
 	int insertDeleteTaskListLog(Log log);
 	int insertDeleteTaskLog(Log log);
-	List<Log> selectLogList (Log log);
+	List<Log> selectLogList (int projectNo);
 }

@@ -97,6 +97,9 @@ public class WorkspaceController {
 		// workspaceMember 디버깅
 		log.debug(TeamColor.CJM + workspaceMember + "Controller workspaceMember"); 
 		
+		// 세션 Guest 추가
+		session.setAttribute("guest",null);
+		
 		// session email가져와서 workmember vo에 삽입
 		String memberEmail = ((String) session.getAttribute("login")); 
 		
@@ -156,7 +159,7 @@ public class WorkspaceController {
 			session.setAttribute("workNo", workspaceGuest.getWorkNo()); 
 			
 			// 세션 Guest 추가
-			session.setAttribute("Guest", "Guest");
+			session.setAttribute("guest", "guest");
 			
 			// projectList로 redirect
 			return "redirect:/safari/project"; 
