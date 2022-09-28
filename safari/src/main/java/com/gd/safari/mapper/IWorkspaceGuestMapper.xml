@@ -20,7 +20,7 @@
 	</insert>
 	
 	<!-- 워크스페이스게스트 리스트 정렬 -->
-	<select id= "selectWorkspaceGuestList" parameterType="com.gd.safari.vo.WorkspaceGuest" resultType="com.gd.safari.vo.WorkspaceGuest">
+	<select id= "selectWorkspaceGuestList" parameterType="map" resultType="com.gd.safari.vo.WorkspaceGuest">
 		SELECT 
 				member_email		    memberEmail
 				, work_no				workNo
@@ -35,6 +35,9 @@
 			</if>
 			<if test="active != null">
 				 work_no = #{workNo} AND active = #{active}
+			</if>
+			<if test="search != null">
+				AND member_email LIKE CONCAT('%', #{search} ,'%')
 			</if>
 		</where>
 	</select>

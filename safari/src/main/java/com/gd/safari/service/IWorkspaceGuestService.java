@@ -12,8 +12,8 @@ public interface IWorkspaceGuestService {
 	// 초대된 게스트 추가하는 메서드
 	public int addWorkspaceGuestByInvite(WorkspaceGuest workspaceGuest, String[] memberEmail) ;
 	
-	// 워크스페이스 게스트
-	List<WorkspaceMember> getWorkspaceGuestList(WorkspaceGuest workspaceGuest);
+	// 워크스페이스 게스트 리스트
+	List<WorkspaceMember> getWorkspaceGuestList(Map<String,Object> map);
 	
 	// 워크스페이스게스트 추방
 	int modifyWorkspaceGuestByActive (WorkspaceGuest workspaceGuest);
@@ -25,7 +25,7 @@ public interface IWorkspaceGuestService {
 	String getWorkspaceGuestEmailByConfirm(WorkspaceGuest workspaceGuest);
 	
 	// 워크스페이스 멤버수 구하기
-	ArrayList<Integer> getWorkspaceGuestCount(WorkspaceGuest workspaceGuest);
+	ArrayList<Integer> getWorkspaceGuestCount(int workNo);
 	
 	// 워크스페이스 게스트 index 목록 
 	List<Map<String,Object>> getWorkspaceGuestListByEmail (String memberEmail);

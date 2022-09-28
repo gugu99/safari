@@ -15,7 +15,7 @@ public interface IWorkspaceGuestMapper {
 	int insertWorkspaceGuest(WorkspaceGuest workspaceGuest);
 	
 	// 워크스페이스 게스트 목록
-	List<WorkspaceMember> selectWorkspaceGuestList(WorkspaceGuest workspaceGuest);
+	List<WorkspaceMember> selectWorkspaceGuestList(Map<String,Object> map);
 	
 	// 워크스페이스 게스트 추방
 	int updateWorkspaceGuestByActive (WorkspaceGuest workspaceGuest);

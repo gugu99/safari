@@ -3,6 +3,7 @@ package com.gd.safari.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -60,16 +61,16 @@ public class WorkspaceGuestController {
 	// 워크스페이스게스트 정렬 리스트
 	@GetMapping("/safari/workspaceGuestList")
 	public String workspaceMemberList (Model model,HttpSession session,
-										WorkspaceGuest workspaceGuest) {
+			@RequestParam Map<String,Object> map) {
 		
 		// 세션 워크넘버 가져오기
 		int workNo = (Integer)session.getAttribute("workNo");	
 		
 		// 워크스페이스에 워크넘버 넣기
-		workspaceGuest.setWorkNo(workNo);
+		map.put("workNo", workNo);
 		
 		// 워크스페이스멤버 리스트 출력
-		List<WorkspaceMember> list = workspaceGuestService.getWorkspaceGuestList(workspaceGuest); 
+		List<WorkspaceMember> list = workspaceGuestService.getWorkspaceGuestList(map); 
 		
 		// 워크스페이스멤버 레벨 가져오기
 		int workMemberLevel = (int)session.getAttribute("workMemberLevel");
@@ -87,7 +88,7 @@ public class WorkspaceGuestController {
 		log.debug(TeamColor.CJM+list +"Controller WorkspaceGuestList"); 					
 		
 		// 멤버 및 Guest 명수 가져오기
-		ArrayList<Integer> count = workspaceGuestService.getWorkspaceGuestCount(workspaceGuest);
+		ArrayList<Integer> count = workspaceGuestService.getWorkspaceGuestCount(workNo);
 		
 		model.addAttribute("allMemberCount", count.get(0));
 		model.addAttribute("WMemberCount", count.get(1));

@@ -22,7 +22,8 @@
 	href="${pageContext.request.contextPath }/resources/app-assets/css/pages/app-contacts.css">
 <%@ include file="/WEB-INF/view/inc/common-css.jsp"%>
 <!-- css -->
-
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/assets/css/workspaceGuest.css">
 </head>
 <!-- END: Head-->
 
@@ -58,13 +59,13 @@
 											<div class="sidebar-toggle d-block d-lg-none">
 												<i class="feather icon-menu font-large-1"></i>
 											</div>
-											<form action="#">
+											<form action="${pageContext.request.contextPath }/safari/workspaceGuestList">
 												<div class="position-relative">
-													<input type="search" id="search-contacts"
-														class="form-control" placeholder="사원검색">
+													<input type="search" id="search-contacts" name="search"
+														class="form-control" placeholder="게스트검색 이메일을 입력해주세요">
 													<div class="form-control-position">
-														<i
-															class="fa fa-search text-size-base text-muted la-rotate-270"></i>
+														<button type="submit" id ="searchButton"><i 
+															class="fa fa-search text-size-base text-muted la-rotate-270"></i></button>
 													</div>
 												</div>
 											</form>
