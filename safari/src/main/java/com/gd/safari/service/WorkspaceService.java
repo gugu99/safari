@@ -113,7 +113,7 @@ public class WorkspaceService implements IWorkspaceService {
 		// 워크스페이스 과거 관리자 레벨 변경
 		workspaceMemberMapper.updateWorkspaceMemberByAdminLevel(workMemberNo);
 		
-		// 워크스페이스 새로운 관리자 레벨벼경
+		// 워크스페이스 새로운 관리자 레벨변경
 		workspaceMemberMapper.updateWorkspaceMemberByNewAdminLevel(workspaceMember.getWorkMemberNo());
 		
 		// 워크스페이스 번호 얻기

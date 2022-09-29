@@ -28,6 +28,7 @@ public interface IWorkspaceMapper {
 	// 워크스페이스 관리자조회
 	String selectWorkspaceAdminEmail(Map<String, Object> map);
 	
-	// 워크스페이스 게스트 리스트
+	// 워크스페이스 내가 관리자인 리스트
+	List<Workspace> selectMyWorkspaceByMemberEmail(String memberEmail);
 
 }

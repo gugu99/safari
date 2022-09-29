@@ -321,6 +321,12 @@
 		WHERE 	work_no = #{workNo} AND active='N'
 	</select>
 	
-	
+	<select id ="selectWorkspaceMemberByWorkNoAndWorkMemberEmail" resultType="com.gd.safari.vo.WorkspaceMember" parameterType="map">
+		SELECT 
+			  work_member_email workMemberEmail
+			, work_member_name  workMemberName
+		FROM workspace_member 
+		WHERE work_no = #{workNo} and work_member_email != #{workMemberEmail}
+	</select>
 	
 </mapper>

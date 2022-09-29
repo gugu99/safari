@@ -60,8 +60,8 @@
 	
 		  UPDATE workspace
 		  SET
-		 	  admin_email = #{adminEmail}
-			, update_date = now()
+		 	 	  admin_email = #{adminEmail}	
+				, update_date = now()
 		  WHERE work_no = #{workNo}
 		
 	</update>
@@ -79,6 +79,15 @@
 	
 	</select>
 	
+	
+	
+	<select id="selectMyWorkspaceByMemberEmail" parameterType="String" resultType="com.gd.safari.vo.Workspace">
+		SELECT 
+			   work_no   workNo
+			 , work_name workName
+		FROM  workspace 
+		WHERE admin_email = #{memberEmail}
+	</select>
 	
 	
 </mapper>
