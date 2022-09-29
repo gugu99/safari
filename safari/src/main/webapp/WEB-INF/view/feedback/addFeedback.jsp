@@ -54,8 +54,8 @@
                                                       	<div class="form-group mt-1">
                                                               <label for="scheduleAuth"><span class="fa fa-lock mr-1"></span>공개설정</label>
                                                               <select class="form-control" id="feedbackAuth" name="feedbackAuth">
-                                                                  <option value="N" selected>전체공개</option>
-                                                                  <option value="Y">관리자, 작성자만 공개</option>
+                                                                  <option value="N">전체공개</option>
+                                                                  <option value="Y" selected>관리자, 작성자만 공개</option>
                                                               </select>
                                                           </div>
                                                           <div class="form-group">

@@ -1,6 +1,5 @@
 package com.gd.safari.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -25,7 +24,7 @@ public class FeedbackController {
 	private IFeedbackService feedbackService;
 	
 	// 피드백 리스트
-	@GetMapping("/safari/feedback")
+	@GetMapping("/member/feedback")
 	public String feedback(HttpSession session, Model model, WorkspaceMember workspaceMember, Map<String, Object> sender) {
 		log.debug(TeamColor.CSK + "피드백 리스트 띄우기");
 		
