@@ -63,13 +63,13 @@
 		WHERE 
 			task_no = #{taskNo}
 	</update>
-	<!-- 하위업무 삭제 -->
+	<!-- 하위업무 삭제 
 	<delete id="deleteLowerTask" parameterType="int">
 		DELETE FROM task
 		WHERE 
 			task_upper_no 	= #{taskNo}
-	</delete>
-	<!-- 하위업무의 하위업무 삭제  -->
+	</delete>-->
+	<!-- 하위업무의 하위업무 삭제  
 	<delete id="deleteLowerLowerTask" parameterType="int">
 		DELETE FROM task WHERE task_upper_no 
  		IN (
@@ -82,5 +82,5 @@
 					task_upper_no 	= #{taskNo}
 			) a
 		)
-	</delete>
+	</delete>-->
 </mapper>

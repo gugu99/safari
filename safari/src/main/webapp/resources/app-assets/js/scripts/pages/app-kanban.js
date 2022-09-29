@@ -317,7 +317,7 @@ $(document).ready(function () {
 				return;
 			} else {
 				// 배열에 추가
-				member_list.push({workMemberName : value_str.options[value_str.selectedIndex].text});
+				member_list.push({projectMemberNo : value_str.options[value_str.selectedIndex].value, workMemberName : value_str.options[value_str.selectedIndex].text});
 				
 				// 다시 배열을 value에 담기
 				var str = "";
@@ -371,7 +371,7 @@ $(document).ready(function () {
   $("#deleteBtn").on("click", function(){
 	  // 선택된 멤버 받아오기
 	  var value_str = document.getElementById('deleteMember');
-	 
+	 	
 	  $.ajax({
 	  	async : false,
 		type : 'POST',
@@ -982,7 +982,7 @@ $(document).ready(function () {
         '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"> ' +
         '<a data-toggle="modal" class="dropdown-item taskListBtn-modal" id="taskListBtn-modal" href="#updateTaskListLocationModal"><i class="feather icon-external-link mr-50"></i>위치 변경</a>' +
         '<a data-toggle="modal" class="dropdown-item copyTaskListBtn-modal" id="copyTaskListBtn-modal" href="#copyTaskListModal"><i class="feather icon-file-text mr-50"></i>복사</a>' +
-        '<a class="dropdown-item kanban-delete" id="kanban-delete" href="#"><i class="feather icon-trash-2 mr-50"></i>삭제</a>' +
+        '<a data-toggle="modal" class="dropdown-item kanban-delete" id="kanban-delete" href="#deleteTaskListModal"><i class="feather icon-trash-2 mr-50"></i>삭제</a>' +
         "</div>" + "</div>";
       var kanbanNewDropdown = $(kanbanNewBoard).find("header");
       $(kanbanNewDropdown).append(kanbanNewBoardData);
@@ -1011,35 +1011,6 @@ $(document).ready(function () {
      window.location.reload();
   });
 
-  // 업무리스트 삭제
-  // Delete kanban board 
-  //---------------------
-  $(document).on("click", ".kanban-delete", function () {
-    $id = $(this)
-      .closest(".kanban-board")
-      .attr("data-id");
-    //addEventListener("click", function () {
-      KanbanExample.removeBoard($id);
-      // console.log("id값 : " + $id);
-	//});
-	 $.ajax({
-		async : false,
-		type : 'POST',
-		url : '/member/deleteTaskList',
-		data : {tasklistNo : $id},
-		success : function(json){
-			// console.log("id값 여기에 들어와야함 : " + $id);
-			if(json != 'ok'){
-				alert('업무리스트 삭제를 실패했습니다.');
-				return;
-			} else {
-				alert('업무리스트 삭제를 성공했습니다.');
-			}
-		}
-    });
-  });
-
-
 
   // 칸반 보드 드롭다운
   // Kanban board dropdown
@@ -1056,7 +1027,7 @@ $(document).ready(function () {
       '<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"> ' +
       '<a data-toggle="modal" class="dropdown-item taskListBtn-modal" id="taskListBtn-modal" href="#updateTaskListLocationModal"><i class="feather icon-external-link mr-50"></i>위치 변경</a>' +
       '<a data-toggle="modal" class="dropdown-item copyTaskListBtn-modal" id="copyTaskListBtn-modal" href="#copyTaskListModal"><i class="feather icon-file-text mr-50"></i>복사</a>' +
-      '<a class="dropdown-item kanban-delete" id="kanban-delete" href="#"><i class="feather icon-trash-2 mr-50"></i>삭제</a>' +
+      '<a data-toggle="modal" class="dropdown-item kanban-delete" id="kanban-delete" href="#deleteTaskListModal"><i class="feather icon-trash-2 mr-50"></i>삭제</a>' +
       "</div>";
     if (!$(".kanban-board-header div").hasClass("dropdown")) {
       $(".kanban-board-header").append(kanban_dropdown);
@@ -1184,6 +1155,41 @@ $(document).ready(function () {
 		window.location.reload();
 	}
   });
+  
+  // 업무리스트 삭제 Modal
+  // Delete kanban board 
+  //---------------------
+ $(document).on("click", ".kanban-delete", function () {
+	
+    $id = $(this)
+      .closest(".kanban-board")
+      .attr("data-id");
+	
+	// 업무리스트 삭제
+	// -----------------------------------------------------------
+	$('#taskListDeleteBtn').on("click", function(){
+		$.ajax({
+			async : false,
+			type : 'POST',
+			url : '/member/deleteTaskList',
+			data : {tasklistNo : $id},
+			success : function(json){
+				// console.log("id값 여기에 들어와야함 : " + $id);
+				if(json != 'ok'){
+					alert('업무리스트 삭제를 실패했습니다.');
+					return;
+				} else {
+					alert('업무리스트 삭제를 성공했습니다.');
+					
+    				KanbanExample.removeBoard($id);
+				}
+			}
+	    });
+	    
+	});
+  });
+  
+  
   
   // date 날짜 포맷 메서드
   // ----------------------------------------------------------

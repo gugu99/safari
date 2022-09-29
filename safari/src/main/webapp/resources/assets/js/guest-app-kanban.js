@@ -181,20 +181,20 @@ $(document).ready(function () {
 		
 		if(sort == "0"){
 			// 전체업무
-		    window.location.replace('/safari/taskList?projectNo=' + projectNo);
+		    window.location.replace('/safari/guestTaskList?projectNo=' + projectNo);
 		} else {
 		    if(search != null && check == null){
 				// 검색과 정렬 같이 있을 경우
-				window.location.replace('/safari/taskList?projectNo=' + projectNo + "&search=" + search + "&sort=" + sort);
+				window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&search=" + search + "&sort=" + sort);
 			} else if(search == null && check != null){
 				// 정렬과 체크 같이 있을 경우
-				window.location.replace('/safari/taskList?projectNo=' + projectNo + "&check=" + check + "&sort=" + sort);
+				window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check + "&sort=" + sort);
 			} else if(search != null && check != null) {
 				// 모두 다 있을 경우
-				window.location.replace('/safari/taskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search + "&sort=" + sort);
+				window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search + "&sort=" + sort);
 			} else {
 				// 조회 있는 경우
-		    	window.location.replace('/safari/taskList?projectNo=' + projectNo + "&sort=" + sort);
+		    	window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&sort=" + sort);
 			}
 		}
 		
@@ -210,20 +210,20 @@ $(document).ready(function () {
 		
 	if(search == null){
 		// 전체업무
-	    window.location.replace('/safari/taskList?projectNo=' + projectNo);
+	    window.location.replace('/safari/guestTaskList?projectNo=' + projectNo);
 	} else {
 		if(sort != "0" && check == null){
 			// 검색과 조회가 같이 있을 경우
-			window.location.replace('/safari/taskList?projectNo=' + projectNo + "&search=" + search + "&sort=" + sort);
+			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&search=" + search + "&sort=" + sort);
 		} else if(sort == "0" && check != null){
 			// 검색과 체크 같이 있을 경우
-			window.location.replace('/safari/taskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search);
+			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search);
 		} else if(sort != "0" && check != null) {
 			// 모두 다 있을 경우
-			window.location.replace('/safari/taskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search + "&sort=" + sort);
+			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search + "&sort=" + sort);
 		} else {
 			// 검색만 있을 경우
-			window.location.replace('/safari/taskList?projectNo=' + projectNo + "&search=" + search);
+			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&search=" + search);
 		}
 	}
   });
@@ -240,20 +240,20 @@ $(document).ready(function () {
 	
 	if(check == null){
 		// 전체업무
-	    window.location.replace('/safari/taskList?projectNo=' + projectNo);
+	    window.location.replace('/safari/guestTaskList?projectNo=' + projectNo);
 	} else {
 		if(sort != "0" && search == null){
 			// 체크와 정렬 같이 있을 경우
-			window.location.replace('/safari/taskList?projectNo=' + projectNo + "&check=" + check + "&sort=" + sort);
+			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check + "&sort=" + sort);
 		} else if(sort == "0" && search != null){
 			// 검색과 체크 같이 있을 경우
-			window.location.replace('/safari/taskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search);
+			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search);
 		} else if(sort != "0" && search != null) {
 			// 모두 다 있을 경우
-			window.location.replace('/safari/taskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search + "&sort=" + sort);
+			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search + "&sort=" + sort);
 		} else {
 			// 체크만 있을 경우
-			window.location.replace('/safari/taskList?projectNo=' + projectNo + "&check=" + check);
+			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check);
 		}
 	}
 	

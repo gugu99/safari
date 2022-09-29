@@ -86,6 +86,7 @@
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
 
+	 <%@ include file="/WEB-INF/view/task/deleteTaskListModal.jsp"%>
 	 <%@ include file="/WEB-INF/view/inc/footer.jsp" %> <!-- footer -->
 
     <!-- BEGIN: Vendor JS-->

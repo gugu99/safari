@@ -20,7 +20,7 @@ public interface ILowerTaskMapper {
 	// 하위 업무 전환
 	int updateChangeTask(int lowerTaskNo);
 	// 하위업무 삭제 
-	int deleteLowerTask(int taskNo);
+//	int deleteLowerTask(int taskNo);
 	// 하위업무의 하위업무 삭제
-	int deleteLowerLowerTask(int taskNo);
+//	int deleteLowerLowerTask(int taskNo);
 }

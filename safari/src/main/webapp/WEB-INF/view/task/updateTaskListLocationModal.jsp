@@ -11,6 +11,11 @@
 			</div>
 			<div class="modal-body">
 				<div class="form-group">
+					<p>
+						업무리스트 위치변경을 하실경우 업무멤버는 삭제됩니다.<hr>
+					</p>
+				</div>
+				<div class="form-group">
                    	<label>현재위치</label>
                    	<input type="text" class="form-control taskListLocation" readonly>
                 </div>
