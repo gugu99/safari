@@ -48,6 +48,9 @@
 <!-- BEGIN: Vendor CSS-->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/app-assets/vendors/css/tables/datatable/datatables.min.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/assets/css/logList.css">
+
 <!-- END: Vendor CSS-->
 
 
@@ -82,6 +85,21 @@
 								<div class="card">
 									<div class="card-header">
 										<h4 class="card-title">활동로그</h4>
+										 	<div id ="memberByList">
+											<form id="LogMemberListForm" action="${pageContext.request.contextPath}/safari/logList" method="get">
+											<span>
+											<label>사원별로그</label>
+											<select name="logMember" onChange="LogMemberListForm.submit()">
+											<option>:::::::::::::::::::::::::</option>
+											<option value="">전체목록</option>
+											<c:forEach var="m" items="${logMemberList }">
+											<option>${ m.logMember}</option>
+											</c:forEach>
+											</select>
+											
+											</span>
+											</form>
+											</div>
 									</div>
 									<div class="card-content">
 										<div class="card-body">
@@ -110,7 +128,7 @@
 
 														<c:if test="${pageBegin >rowPerPage }">
 															<li class="page-item"><a class="page-link"
-																href="${pageContext.request.contextPath}/safari/logList?currentPage=${pageBegin - rowPerPage}"
+																href="${pageContext.request.contextPath}/safari/logList?currentPage=${pageBegin - rowPerPage}&logMember=${logMember}"
 																aria-label="Previous"> <span aria-hidden="true">이전</span>
 																	<span class="sr-only">Previous</span>
 															</a></li>
@@ -119,13 +137,13 @@
 														<c:forEach var="y" begin="${pageBegin }" end="${pageEnd }"
 															step="1">
 															<li class="page-item"><a class="page-link"
-																href="${pageContext.request.contextPath}/safari/logList?currentPage=${y}">${y}</a></li>
+																href="${pageContext.request.contextPath}/safari/logList?currentPage=${y}&logMember=${logMember}">${y}</a></li>
 
 														</c:forEach>
 
 														<c:if test="${pageEnd < lastPage}">
 															<li class="page-item"><a class="page-link"
-																href="${pageContext.request.contextPath}/safari/logList?currentPage=${pageBegin + rowPerPage}"
+																href="${pageContext.request.contextPath}/safari/logList?currentPage=${pageBegin + rowPerPage}&logMember=${logMember}"
 																aria-label="Next"> <span aria-hidden="true">다음</span>
 																	<span class="sr-only">Next</span>
 															</a></li>

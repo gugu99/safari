@@ -17,5 +17,6 @@ public interface IFileMapper {
 	// 파일 삭제
 	int deleteFile(int fileNo);
 	
+	// 파일 정보상세보기
 	com.gd.safari.vo.File selectFileOne(int FileNo);
 }	

@@ -23,7 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 public class LogService implements ILogService {
 	@Autowired
 	private ILogMapper logMapper;
-
+	
+	// 로그리스트 띄우는 메서드
 	@Override
 	public List<Log> getLogList(Map<String,Object> map) {
 
@@ -46,15 +47,23 @@ public class LogService implements ILogService {
 			a.setCreateDate(LogService.calculateTime(date));
 
 		}
-
+		// 로그 리스트 디버깅
 		LogService.log.debug(TeamColor.CJM + list + "Service list");
-
+		
+		// 리스트 보내기
 		return list;
 	}
-
+	
+	// 올린시간 현재시간과 비교 초, 분 ,시간, 일 , 달 , 년 구분하여 넣기
 	public static String calculateTime(Date date) {
+		
+		// 현재 시간
 		long curTime = System.currentTimeMillis();
+		
+		// 시간가져오기
 		long regTime = date.getTime();
+		
+		// 다른시간
 		long diffTime = (curTime - regTime) / 1000;
 		String msg = null;
 		if (diffTime < TIME_MAXIMUM.SEC) {
@@ -79,10 +88,20 @@ public class LogService implements ILogService {
 	}
 
 	private static class TIME_MAXIMUM {
+		
+		// 초
 		public static final int SEC = 60;
+		
+		// 분
 		public static final int MIN = 60;
+		
+		// 시간
 		public static final int HOUR = 24;
+		
+		// 날
 		public static final int DAY = 30;
+		
+		// 달
 		public static final int MONTH = 12;
 	}
 
@@ -91,5 +110,12 @@ public class LogService implements ILogService {
 
 		
 		return logMapper.selectLogCount(map);
+	}
+
+	@Override
+	public List<Log> getLogMemberList(int projectNo) {
+		LogService.log.debug(TeamColor.CJM + projectNo + "Service projectNo");
+		
+		return logMapper.selectLogMemberList(projectNo);
 	}
 }
