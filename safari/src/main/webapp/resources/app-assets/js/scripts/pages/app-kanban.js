@@ -23,10 +23,11 @@ $(document).ready(function () {
   var projectMember = new Array();
   // 업무 멤버 이미지 배열
   var user = new Array();
-  // 프로젝트 번호
-  var projectNo = null;
+  
   // 서브스트링에 있는 값 꺼내기
   var str = window.location.search;
+  // 프로젝트 번호
+  var projectNo;
   // 정렬
   var sort;
   // 검색
@@ -34,6 +35,12 @@ $(document).ready(function () {
   // 완료
   var check;
   
+  // 프로젝트 번호 가져오기
+  if(str.indexOf('&') == -1){
+	projectNo = str.substring(str.indexOf('projectNo=') + 10);
+  } else {
+	projectNo = str.substring(str.indexOf('projectNo=') + 10, str.indexOf('&'));
+  }
   // 정렬에 관한 설정
   if(str.indexOf('sort') == -1){
 	sort = "0";
@@ -152,8 +159,6 @@ $(document).ready(function () {
 				  // temp배열을 확인하는 디버깅코드
 				  // console.log("temp");
 				  // console.log(temp);
-				  
-				  projectNo = item.projectNo;
 				  
 				  // 배열에 담기
 				  kanban_board_data.push({

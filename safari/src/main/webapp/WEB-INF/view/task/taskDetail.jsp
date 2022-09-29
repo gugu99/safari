@@ -124,7 +124,6 @@
     </div>
 </div>
 <%@include file="/WEB-INF/view/task/taskMemberModal.jsp"%>
-<%@include file="/WEB-INF/view/task/taskModal.jsp"%>
 <%@include file="/WEB-INF/view/task/lowerTaskModal.jsp"%>
 <%@include file="/WEB-INF/view/task/updateTaskLocationModal.jsp"%>
 <%@include file="/WEB-INF/view/task/updateTaskListLocationModal.jsp"%>

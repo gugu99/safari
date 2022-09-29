@@ -24,4 +24,15 @@ public class TaskListController {
 		
 		return "task/taskList";
 	}
+	
+	// 게스트 업무리스트 페이지 이동
+	@GetMapping("/safari/guestTaskList")
+	public String guestTaskList(HttpSession session, @RequestParam(value = "projectNo") int projectNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 게스트용 업무리스트 페이지");
+		
+		session.setAttribute("projectNo", projectNo);
+		log.debug(TeamColor.CSH + "프로젝트 번호 : " + session.getAttribute("projectNo"));
+		
+		return "task/guestTaskList";
+	}
 }
