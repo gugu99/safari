@@ -11,6 +11,7 @@ import com.gd.safari.mapper.IProjectBookmarkMapper;
 import com.gd.safari.mapper.IProjectGroupMapper;
 import com.gd.safari.mapper.IProjectMapper;
 import com.gd.safari.mapper.IProjectMemberMapper;
+import com.gd.safari.mapper.IWorkspaceGuestMapper;
 import com.gd.safari.mapper.IWorkspaceMemberMapper;
 import com.gd.safari.vo.Project;
 import com.gd.safari.vo.ProjectForm;
@@ -24,9 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class ProjectService implements IProjectService {
 	@Autowired
+	private IProjectMapper projectMapper;
+	@Autowired
 	private IWorkspaceMemberMapper workspaceMemberMapper;
 	@Autowired
-	private IProjectMapper projectMapper;
+	private IWorkspaceGuestMapper workspaceGuestMapper;
 	@Autowired
 	private IProjectGroupMapper projectGroupMapper;
 	@Autowired
@@ -39,36 +42,45 @@ public class ProjectService implements IProjectService {
 	public Map<String, Object> getProjectListByWorkspace(Map<String, Object> paramMap) {
 		Map<String, Object> map = new HashMap<>();
 		
+		// not null이면 guest
+		String guest = workspaceGuestMapper.selectWorkspaceGuestByEmailAndWorkNo(paramMap);
+		log.debug(TeamColor.CSK + "guest: " + guest);
+
+		map.put("guest", guest);
+		
 		// 게스트 계정으로 접속했을 시
-		if(paramMap.get("guest") != null) {
+		if(guest != null) {
 			// 공개된 프로젝트만 보여준다
-			log.debug(TeamColor.CSK + "GUEST");
+			log.debug(TeamColor.CSK + "PROJECT - GUEST");
+			
 			List<Map<String, Object>> projectList = projectMapper.selectPublicProjectListByWorkspaceNo(paramMap);
+			
 			map.put("projectList", projectList);
+			map.put("title", "게스트 프로젝트 리스트");
+			
 			return map;
 		}
 		
-		log.debug(TeamColor.CSK + "MEMBER");
-		int workNo = (int)paramMap.get("workNo");
+		log.debug(TeamColor.CSK + "PROJECT - GUEST");
 		
 		// 워크스페이스 멤버일 경우
 		// 전체 프로젝트 리스트
 		List<Map<String, Object>> projectList = projectMapper.selectProjectListByWorkspaceNo(paramMap);
 				
 		// 워크스페이스 멤버 리스트
-		List<WorkspaceMember> workspaceMemberList = workspaceMemberMapper.selectWorkspaceMemberList(workNo);
+		List<WorkspaceMember> workspaceMemberList = workspaceMemberMapper.selectWorkspaceMemberList((int)paramMap.get("workNo"));
 
 		// 프로젝트 그룹리스트
-		List<ProjectGroup> projectGroupList = projectGroupMapper.selectProjectGroupListByWorkspaceNo(workNo);
+		List<ProjectGroup> projectGroupList = projectGroupMapper.selectProjectGroupListByWorkspaceNo((int)paramMap.get("workNo"));
 		
 		// jsp에서 띄울 타이틀 구하기
 		String title = "프로젝트 리스트";
 		
-		if(paramMap.get("projectGroupNo") != null || !("".equals(paramMap.get("projectGroupNo")))) {
+		if(paramMap.get("projectGroupNo") != null) {
 			title = "프로젝트 그룹 리스트";
 		} else if(paramMap.get("search") != null) {
 			title = paramMap.get("search") + "의 검색 결과";
-		} else if(paramMap.get("section") != null || "".equals(paramMap.get("section"))) {
+		} else if(paramMap.get("section") != null) {
 			// section 파라미터의 값에 따라 title 값 변경
 			String section = (String) paramMap.get("section");
 			if("my".equals(section)) {
@@ -151,14 +163,8 @@ public class ProjectService implements IProjectService {
 	// 프로젝트 삭제 메소드
 	@Transactional
 	@Override
-	public void removeProject(int projectNo) {
-		// 자식 테이블의 데이터를 다 지워야 프로젝트 삭제 가능
-		projectMemberMapper.deleteProjectMemberByProjectNo(projectNo);
-		
-		// TODO 조원들이 삭제메소드를 구현하는대로 추가할 것
-		// 모두 추가되면 controller에 연결
-		
-		projectMapper.deleteProject(projectNo);
+	public int removeProject(int projectNo) {
+		return projectMapper.deleteProject(projectNo);
 	}
 	
 	// 프로젝트 즐겨찾기 추가/제거

@@ -9,7 +9,7 @@
 
     	$.ajax({
     		type : 'get',
-    		url : '/safari/restModifyProject',
+    		url : '/member/restModifyProject',
     		data : {projectNo : $("#projectNo").val()},
     		success : function(json){
 				console.log(json);
@@ -88,7 +88,7 @@
 			
 			$.ajax({
 				type : 'put',
-				url : '/safari/modifyProject',
+				url : '/member/modifyProject',
 				data : {projectNo : $("#projectNo").val(),
 						projectName: $("#projectName").val()},
 				success : function(json){
@@ -107,7 +107,7 @@
 		$("#projectExpl").change(function(){
 			$.ajax({
 				type : 'put',
-				url : '/safari/modifyProject',
+				url : '/member/modifyProject',
 				data : {projectNo : $("#projectNo").val(),
 						projectExpl: $("#projectExpl").val()},
 				success : function(json){
@@ -125,7 +125,7 @@
 		$("#projectAuth").change(function(){
 			$.ajax({
 				type : 'put',
-				url : '/safari/modifyProject',
+				url : '/member/modifyProject',
 				data : {projectNo : $("#projectNo").val(),
 						projectAuth: $("#projectAuth").val()},
 				success : function(json){
@@ -145,7 +145,7 @@
 			
 			$.ajax({
 				type : 'put',
-				url : '/safari/modifyProject',
+				url : '/member/modifyProject',
 				data : {projectNo : $("#projectNo").val(),
 						projectStart: $("#date1").val()},
 				success : function(json){
@@ -165,7 +165,7 @@
 			
 			$.ajax({
 				type : 'put',
-				url : '/safari/modifyProject',
+				url : '/member/modifyProject',
 				data : {projectNo : $("#projectNo").val(),
 						projectDeadline: $("#date2").val()},
 				success : function(json){
@@ -185,7 +185,7 @@
 			
 			$.ajax({
 				type : 'put',
-				url : '/safari/modifyProject',
+				url : '/member/modifyProject',
 				data : {projectNo : $("#projectNo").val(),
 						projectEnd: $("#date3").val()},
 				success : function(json){
@@ -228,7 +228,7 @@
 			
 			$.ajax({
 				type : 'put',
-				url : '/safari/modifyMember',
+				url : '/member/modifyMember',
 				data : {projectNo : $("#projectNo").val(),
 						workMemberNo: (inOrOut) ? deleteManager[0] : newManager[0],
 						projectMemberAuth: "Y",
@@ -281,7 +281,7 @@
 			
 			$.ajax({
 				type : 'put',
-				url : '/safari/modifyMember',
+				url : '/member/modifyMember',
 				data : {projectNo : $("#projectNo").val(),
 						workMemberNo: (inOrOut) ? deleteMember[0] : newMember[0],
 						projectMemberAuth: "N", // 관리자가 아님
@@ -319,7 +319,7 @@
 			
 			$.ajax({
 				type : 'put',
-				url : '/safari/modifyProject',
+				url : '/member/modifyProject',
 				data : {projectNo : $("#projectNo").val(),
 						projectKeep : (projectKeep == 'Y') ? "N" : "Y"},
 				success : function(json){

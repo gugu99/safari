@@ -64,7 +64,7 @@
                     <div class="chat-sidebar-search">
                         <div class="d-flex align-items-center">
                         	<!-- 검색 -->
-                        	<form method="get" action="${pageContext.request.contextPath}/member/project">
+                        	<form method="get" action="${pageContext.request.contextPath}/safari/project">
                            	 	<fieldset class="form-group position-relative has-icon-left mx-75 mb-0">
 	                                <input type="text" class="form-control round" id="chat-search" placeholder="Search" name="search">
 	                                <div class="form-control-position">
@@ -82,16 +82,16 @@
                         <%@ include file="/WEB-INF/view/project/addProjectModal.jsp"%>
                         <ul class="chat-sidebar-list">
                         	<li>
-                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/member/project">전체 프로젝트</a></h6>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project">전체 프로젝트</a></h6>
                             </li>
                             <li>
-                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/member/project?section=my">내가 속한 프로젝트</a></h6>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project?section=my">내가 속한 프로젝트</a></h6>
                             </li>
                             <li>
-                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/member/project?section=bookmark">중요 프로젝트</a></h6>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project?section=bookmark">중요 프로젝트</a></h6>
                             </li>
                             <li>
-                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/member/project?section=keep">보관된 프로젝트</a></h6>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project?section=keep">보관된 프로젝트</a></h6>
                             </li>
                         </ul>
                         
@@ -104,7 +104,7 @@
                         	<c:forEach var="pg" items="${projectGroupList}">
 	                            <li>
 	                                <h6 class="mb-0">
-	                                	<a href="${pageContext.request.contextPath}/member/project?projectGroupNo=${pg.projectGroupNo}&order=${paramMap.order}">
+	                                	<a href="${pageContext.request.contextPath}/safari/project?projectGroupNo=${pg.projectGroupNo}&order=${paramMap.order}">
 	                                		${pg.projectGroupName}
 	                                	</a>
 	                                	<a href="${pageContext.request.contextPath}/member/modifyProjectGroup?projectGroupNo=${pg.projectGroupNo}">
@@ -130,7 +130,7 @@
 		                            <ol class="breadcrumb">
 		                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/safari/index">Home</a>
 		                                </li>
-		                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/member/project">프로젝트</a>
+		                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/safari/project">프로젝트</a>
 		                                </li>
 		                                <li class="breadcrumb-item active">${title}
 		                                </li>
@@ -141,7 +141,7 @@
 		                <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2 pr-2">
 		                    <div class="btn-group float-md-right">
 		                    	<!-- 정렬 메뉴 -->
-		                    	<form method="get" action="${pageContext.request.contextPath}/member/project" id="orderForm">
+		                    	<form method="get" action="${pageContext.request.contextPath}/safari/project" id="orderForm">
 			                    	<!--  -->
 			                    	<select class="hide-search form-control" name="order" id="order">
 	                                     <option value="" ${paramMap.order eq null ? 'selected' : ''}>기본순</option>
@@ -165,13 +165,13 @@
 	                        <div class="col-md-3 col-sm-12 pl-3 pr-2 pt-3">
 	                            <div class="card">
 	                                <div class="card-header">
-	                                	<h4 class="card-title"><a href="${pageContext.request.contextPath}/${(guest eq null)? 'member' : 'safari'}/taskList?projectNo=${p.projectNo}">${p.projectName}</a></h4>
+	                                	<h4 class="card-title"><a href="${pageContext.request.contextPath}/${(guest eq null)? 'member' : 'safari'}/${(guest eq null)? 'taskList' : 'guestTaskList'}?projectNo=${p.projectNo}">${p.projectName}</a></h4>
 	                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 	                                    <div class="heading-elements">
 	                                        <ul class="list-inline mb-0">
 	                                            <c:if test="${p.manager ne null}">
 	                                            	<li><a href="${pageContext.request.contextPath}/member/modifyProject?projectNo=${p.projectNo}"><i class="feather icon-edit"></i></a></li><!-- 수정 -->
-	                                            	<li><a href=""><i class="feather icon-trash-2"></i></a></li><!-- 삭제 -->
+	                                            	<li><a href="${pageContext.request.contextPath}/member/removeProject?projectNo=${p.projectNo}"><i class="feather icon-trash-2"></i></a></li><!-- 삭제 -->
 	                                            </c:if>
 	                                             <c:if test="${guest eq null}">
 	                                            	<li>

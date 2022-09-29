@@ -27,7 +27,7 @@ public class RestProjectController {
 	@Autowired
 	private IProjectMemberService projectMemberService;
 	
-	@GetMapping("/safari/restModifyProject")
+	@GetMapping("/member/restModifyProject")
 	public Map<String, Object> restModifyProject(HttpSession session, int projectNo) {
 		// 세션에 저장해놓은 workspace no를 받아온다
 		int workNo = (int)session.getAttribute("workNo");
@@ -36,14 +36,14 @@ public class RestProjectController {
 		return projectService.getProjectDetailByProjectNo(workNo, projectNo);
 	}
 	
-	@PutMapping("/safari/modifyProject")
+	@PutMapping("/member/modifyProject")
 	public Project restModifyProject(HttpSession session, @RequestParam Map<String, Object> map){
 		log.debug(TeamColor.CSK + "map: " + map);
 		map.put("workNo", (int)session.getAttribute("workNo"));
 		return projectService.modifyProject(map);
 	}
 	
-	@PutMapping("/safari/modifyMember")
+	@PutMapping("/member/modifyMember")
 	public List<Map<String, Object>> restModifyMember(HttpSession session, ProjectMember projectMember){
 		// 앞단에서 차집합을 구현하여 변동이 일어난 멤버만 받아온다
 		log.debug(TeamColor.CSK + "projectMember: " + projectMember);

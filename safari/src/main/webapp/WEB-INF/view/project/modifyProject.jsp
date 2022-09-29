@@ -43,7 +43,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/safari/index">Home</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/safari/project">프로젝트</a>
+                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/member/project">프로젝트</a>
                                 </li>
                                 <li class="breadcrumb-item active">프로젝트 수정
                                 </li>

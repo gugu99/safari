@@ -90,11 +90,11 @@ public class ProjectGroupService implements IProjectGroupService {
 		}
 	}
 	
-	// 프로젝트 삭제
+	// 프로젝트 그룹 삭제
 	@Transactional
 	@Override
 	public void deleteProjectGroup(int projectGroupNo) {
-		projectGroupMapper.deleteAllProjectGroupConnByProjectGroupNo(projectGroupNo);
+		// projectGroupMapper.deleteAllProjectGroupConnByProjectGroupNo(projectGroupNo);
 		projectGroupMapper.deleteProjectGroup(projectGroupNo);
 	}
 }

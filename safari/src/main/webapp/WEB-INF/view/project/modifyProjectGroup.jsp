@@ -20,8 +20,8 @@
     
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/app-assets/vendors/css/vendors.min.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/vendors/css/extensions/dragula.min.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/vendors/css/forms/selects/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/app-assets/vendors/css/extensions/dragula.min.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/app-assets/vendors/css/forms/selects/select2.min.css">
     <!-- END: Vendor CSS-->
 </head>
 <!-- END: Head-->
@@ -45,7 +45,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/safari/index">Home</a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/safari/project">프로젝트</a>
+                                <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/member/project">프로젝트</a>
                                 </li>
                                 <li class="breadcrumb-item active">프로젝트 수정
                                 </li>
@@ -76,7 +76,7 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-xl-8 col-lg-12 col-md-24 mb-1">
-	                                            <form method="post" action="${pageContext.request.contextPath}/safari/modifyProjectGroup">
+	                                            <form method="post" action="${pageContext.request.contextPath}/member/modifyProjectGroup">
 	                                                <fieldset class="form-group">
 	                                                    <label for="basicInput">프로젝트 그룹 이름</label>
 	                                                    <input type="text" class="form-control" id="basicInput" value="${projectGroup.projectGroupName}" name="projectGroupName">
@@ -97,7 +97,7 @@
 	                                                <input type="hidden" name="projectGroupNo" value="${projectGroup.projectGroupNo}">
 	                                                
 	                                                <div class="modal-footer">
-								                       <a href="${pageContext.request.contextPath}/safari/deleteProjectGroup?projectGroupNo=${projectGroup.projectGroupNo}" class="projectForm btn btn-outline-secondary btn-lg">삭제</a>
+								                       <a href="${pageContext.request.contextPath}/member/deleteProjectGroup?projectGroupNo=${projectGroup.projectGroupNo}" class="projectForm btn btn-outline-secondary btn-lg">삭제</a>
 								                       <input type="submit" class="projectForm btn btn-outline-primary btn-lg" value="수정">
 								                   </div>
 								                </form>
