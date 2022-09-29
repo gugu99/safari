@@ -20,7 +20,7 @@
             </li>
             <li class=" navigation-header"><span>Apps</span><i class=" feather icon-minus" data-toggle="tooltip" data-placement="right" data-original-title="Apps"></i>
             </li>
-            <li class=" nav-item"><a href="${pageContext.request.contextPath}/${(guest eq null)? 'member' : 'safari'}/project"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Project Summary">Project Application</span></a>
+            <li class=" nav-item"><a href="${pageContext.request.contextPath}/safari/project"><i class="feather icon-airplay"></i><span class="menu-title" data-i18n="Project Summary">Project Application</span></a>
             </li>
             <li class=" nav-item"><a href="${pageContext.request.contextPath}/member/chat"><i class="feather icon-message-square"></i><span class="menu-title" data-i18n="Chat Application">Chat Application</span></a>
             </li>
