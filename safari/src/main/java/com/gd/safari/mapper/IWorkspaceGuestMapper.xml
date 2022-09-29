@@ -69,6 +69,15 @@
 			   member_email = #{memberEmail} AND work_no = #{workNo}
 	</select>
 	
+	<!-- 게스트 여부 확인 (프로젝트 페이지에서 사용) -->
+	<select id="selectWorkspaceGuestByEmailAndWorkNo" resultType="string" parameterType="java.util.Map">
+		SELECT
+			    member_email memberEmail
+		FROM	workspace_guest
+		WHERE
+			   member_email = #{memberEmail} AND work_no = #{workNo}
+	</select>
+	
 	<!-- 워크스페이스 게스트 수 구하기 -->
 	<select id="selectWorkspaceGuestCount" resultType="int" parameterType="int">
 		SELECT 

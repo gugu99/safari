@@ -37,5 +37,7 @@ public interface IWorkspaceGuestMapper {
 	
 	// 워크스페이스 게스트 index 목록 
 	List<Map<String,Object>> selectWorkspaceGuestListByEmail (String memberEmail);
-	
+
+	// 워크스페이스 게스트인지 멤버인지 확인
+	String selectWorkspaceGuestByEmailAndWorkNo(Map<String, Object> map);
 }
