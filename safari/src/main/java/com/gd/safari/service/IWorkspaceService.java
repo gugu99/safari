@@ -2,7 +2,7 @@ package com.gd.safari.service;
 
 
 import java.util.List;
-
+import java.util.Map;
 
 import com.gd.safari.vo.Member;
 import com.gd.safari.vo.Workspace;
@@ -22,4 +22,11 @@ public interface IWorkspaceService {
 	
 	// 관리자 이메일 변경메서드
 	int modifyWorkspaceAdminEmail(Workspace workspace,WorkspaceMember workspaceMember,int workMemberNo);
+	
+	// 탈퇴를 위한 소유권 이전하기
+	// 워크스페이스 내가 관리자인 리스트
+	List<Workspace> getMyWorkspaceByMemberEmail(String memberEmail);
+	
+	
+	
 }

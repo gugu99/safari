@@ -61,4 +61,7 @@ public interface IWorkspaceMemberService {
 	
 	// 워크스페이스 멤버수 구하기
 	ArrayList<Integer> getWorkspaceMemberCount(int workNo);
+	
+	// 워크스페이스 번호에 맞는 워크스페이스멤버 중 나 제외한 리스트
+	List<WorkspaceMember> getWorkspaceMemberByWorkNoAndWorkMemberEmail(Map<String, Object> m);
 }

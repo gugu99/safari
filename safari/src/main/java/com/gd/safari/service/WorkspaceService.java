@@ -1,6 +1,7 @@
 package com.gd.safari.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -124,7 +125,20 @@ public class WorkspaceService implements IWorkspaceService {
 		
 		return workspaceMemberMapper.selectWorkspaceMemberLevel(workspaceMember);
 	}
+	
+		// 탈퇴를 위한 소유권 이전하기
+		// 워크스페이스 내가 관리자인 리스트
+		@Override
+		public List<Workspace> getMyWorkspaceByMemberEmail(String memberEmail) {
+			
+			// 디버깅
+			log.debug(TeamColor.CJM + memberEmail + "Service memberEmail");
+			
+			// 워크스페이스 내가 관리자인 리스트
+			return workspaceMapper.selectMyWorkspaceByMemberEmail(memberEmail);
+		}
 
+		
 	
 	
 }
