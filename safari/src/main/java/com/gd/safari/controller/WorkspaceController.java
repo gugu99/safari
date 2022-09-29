@@ -143,7 +143,7 @@ public class WorkspaceController {
 		}
 		
 		// projectList로 redirect
-		return "redirect:/member/project"; 
+		return "redirect:/safari/project"; 
 	}
 	
 	// 워크스페이스 게스트 메인창
