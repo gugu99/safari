@@ -1,7 +1,6 @@
 package com.gd.safari.service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,7 @@ import com.gd.safari.mapper.IProjectGroupMapper;
 import com.gd.safari.mapper.IProjectMapper;
 import com.gd.safari.vo.ProjectGroup;
 import com.gd.safari.vo.ProjectGroupConn;
+import com.gd.safari.vo.ProjectGroupForm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,34 +47,34 @@ public class ProjectGroupService implements IProjectGroupService {
 	// 프로젝트 그룹 수정 및 그룹에 속한 프로젝트 목록 추가, 삭제
 	@Transactional
 	@Override
-	public void modifyProjectGroup(Map<String, Object> map) {
-		// projectGroupName=pull 잊지마 얘들아!!!, projectList=1,2,3, projectGroupNo=1
-		String tmp = (String) map.get("projectList");
-		map.remove("projectList"); // project 테이블 컬럼에 맞추기 위해 map에서 삭제
+	public void modifyProjectGroup(ProjectGroupForm projectGroupForm) {
 		
 		// 프로젝트 그룹 수정
-		projectGroupMapper.updateProjectGroup(map);
+		projectGroupMapper.updateProjectGroup(projectGroupForm);
 		log.debug(TeamColor.CSK + "projectGroupMapper.updateProjectGroup() 성공");
 		
-		// 프로젝트 리스트에 변동사항 없는 경우
-		if("".equals(tmp)) {
-			return;
-		}
-		
-		String[] tmpArr = tmp.split(",");
-		int projectGroupNo = Integer.parseInt(String.valueOf(map.get("projectGroupNo")));
-		List<Integer> newProjectList = Arrays.asList(tmpArr).stream().map(Integer::parseInt).collect(Collectors.toList());
-		List<Integer> prevProjectList = projectGroupMapper.selectProjectListByProjectGroupNo(projectGroupNo);
+		// form에서 받아온 프로젝트 그룹 리스트
+		List<Integer> newProjectList = projectGroupForm.getProjectList();
+		log.debug(TeamColor.CSK + "newProjectList: " + newProjectList);
+
+		// 기존에 저장되어 있던 프로젝트 리스트
+		List<Integer> prevProjectList = projectGroupMapper.selectProjectListByProjectGroupNo(projectGroupForm.getProjectGroupNo());
+		log.debug(TeamColor.CSK + "prevProjectList: " + prevProjectList);
+
+		// 차집합 구현을 위해 생성자를 사용하여 복사
 		List<Integer> deleteProjectList = new ArrayList<>(prevProjectList);
-		
-		// log.debug(TeamColor.CSK + "prevProjectList" + prevProjectList);
+		log.debug(TeamColor.CSK + "deleteProjectList: " + deleteProjectList);
 		
 		deleteProjectList.removeAll(newProjectList); // 차집합
 		newProjectList.removeAll(prevProjectList); // 차집합
 		
+		log.debug(TeamColor.CSK + "newProjectList: " + newProjectList);
+		log.debug(TeamColor.CSK + "prevProjectList: " + prevProjectList);
+		log.debug(TeamColor.CSK + "deleteProjectList: " + deleteProjectList);
+		
 		// VO 생성
 		ProjectGroupConn projectGroupConn = new ProjectGroupConn();
-		projectGroupConn.setProjectGroupNo(projectGroupNo);
+		projectGroupConn.setProjectGroupNo(projectGroupForm.getProjectGroupNo());
 		
 		// 프로젝트 그룹에서 제외된 프로젝트
 		for(int p : deleteProjectList) {
@@ -85,7 +85,6 @@ public class ProjectGroupService implements IProjectGroupService {
 		// 프로젝트 그룹에 추가된 프로젝트
 		for(int p : newProjectList) {
 			projectGroupConn.setProjectNo(p);
-			System.out.println(projectGroupConn);
 			projectGroupMapper.insertProjectGroupConn(projectGroupConn);
 		}
 	}

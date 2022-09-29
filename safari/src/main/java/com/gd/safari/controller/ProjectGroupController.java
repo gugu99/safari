@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IProjectGroupService;
 import com.gd.safari.vo.ProjectGroup;
+import com.gd.safari.vo.ProjectGroupForm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,7 +25,7 @@ public class ProjectGroupController {
 	private IProjectGroupService projectGroupService;
 	
 	// 프로젝트 그룹 추가
-	@PostMapping("/safari/projectGroup")
+	@PostMapping("/member/projectGroup")
 	public String projectGroup(HttpSession session, ProjectGroup projectGroup) {
 		log.debug(TeamColor.CSK + "프로젝트 그룹 추가");
 		projectGroup.setWorkNo((int)session.getAttribute("workNo"));
@@ -32,7 +33,7 @@ public class ProjectGroupController {
 
 		projectGroupService.addProjectGroup(projectGroup);
 
-		return "redirect:/safari/project";
+		return "redirect:/member/project";
 	}
 	
 	// 프로젝트 그룹 수정 폼 띄우기
@@ -53,12 +54,12 @@ public class ProjectGroupController {
 	
 	// 프로젝트 그룹 정보 수정 및 그룹에 프로젝트 삽입/삭제
 	@PostMapping("/member/modifyProjectGroup")
-	public String modifyProjectGroup(@RequestParam Map<String, Object> map) {
-		log.debug(TeamColor.CSK + "@PostMapping addProjToProjGroup" + map);
+	public String modifyProjectGroup(ProjectGroupForm projectGroupForm) {
+		log.debug(TeamColor.CSK + "프로젝트 그룹 수정: " + projectGroupForm);
 		
-		projectGroupService.modifyProjectGroup(map);
+		projectGroupService.modifyProjectGroup(projectGroupForm);
 		
-		return "redirect:/safari/project"; // TODO 프로젝트 그룹 선택된 페이지로 보내기 
+		return "redirect:/member/project?projectGroupNo=" + projectGroupForm.getProjectGroupNo();
 	}
 	
 	// 프로젝트 그룹 삭제
@@ -68,6 +69,6 @@ public class ProjectGroupController {
 		
 		projectGroupService.deleteProjectGroup(projectGroupNo);
 		
-		return "redirect:/safari/project";
+		return "redirect:/member/project";
 	}
 }

@@ -85,7 +85,7 @@
 	                                                <!-- 프로젝트 리스트 -->
 								                	 <div class="form-group">
 								                         <label>프로젝트 리스트</label>
-								                         <select class="form-control select2" multiple="multiple" onChange="multiSelect(this, 'projectList')">
+								                         <select class="form-control select2" multiple="multiple" name="projectList">
 								                         	<c:forEach var="p" items="${projectList}">
 							                         			<option value="${p.projectNo}" ${p.projectGroupNo ne null ? 'selected' : ''}>${p.projectName}</option>
 								                         	</c:forEach>
@@ -93,7 +93,6 @@
 								                     </div>
 	                                                
 	                                                <!-- 수정된 projectMemberList -->
-	                                                <input type="hidden" id="projectList" name="projectList" value="">
 	                                                <input type="hidden" name="projectGroupNo" value="${projectGroup.projectGroupNo}">
 	                                                
 	                                                <div class="modal-footer">
@@ -124,7 +123,6 @@
     <%@ include file="/WEB-INF/view/inc/footer.jsp" %> <!-- footer -->
     <%@ include file="/WEB-INF/view/inc/common-js.jsp" %> <!-- js -->
     
-    
     <!-- BEGIN: Page Vendor JS-->
     <script src="${pageContext.request.contextPath}/resources/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
     <!-- END: Page Vendor JS-->
@@ -132,11 +130,6 @@
     <!-- BEGIN: Page JS-->
     <script src="${pageContext.request.contextPath}/resources/app-assets/js/scripts/forms/select/form-select2.js"></script>
     <!-- END: Page JS-->
-
-    <!-- BEGIN: 내가 만든 JS-->
-    <script src="${pageContext.request.contextPath }/resources/assets/js/multiSelect.js"></script>
-    <!-- END: 내가 만든 JS-->
-
 
 </body>
 <!-- END: Body-->

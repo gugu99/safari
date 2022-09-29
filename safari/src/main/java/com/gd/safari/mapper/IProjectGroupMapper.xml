@@ -61,7 +61,7 @@
 	</insert>
 	
 	<!-- 프로젝트 그룹 수정 -->
-	<update id="updateProjectGroup" parameterType="java.lang.String">
+	<update id="updateProjectGroup" parameterType="com.gd.safari.vo.ProjectGroupForm">
 		UPDATE 
 			project_group 
 		SET 

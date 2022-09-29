@@ -8,7 +8,7 @@
 			, p.project_auth projectAuth
 			, p.project_name projectName 
 			, DATE_FORMAT(p.create_date ,'%Y-%m-%d') createDate 
-			, p.project_end projectEnd
+			, IF(ISNULL(p.project_end), "진행중", "완료") projectEnd
 			, (SELECT 
 					round(count(task_end) / count(*) * 100, 1) 
 				FROM 
@@ -113,6 +113,11 @@
 		<if test="search != null">
 			AND
 				p.project_name LIKE CONCAT('%',#{search},'%')
+		</if>
+		
+		<if test="finish != null">
+			AND
+				p.project_end IS NULL
 		</if>
 		
 		<!-- 정렬 -->
