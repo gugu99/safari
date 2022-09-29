@@ -40,12 +40,12 @@
                                 <ul class="nav nav-tabs mb-2" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link d-flex align-items-center active" id="account-tab" data-toggle="tab" href="#account" aria-controls="account" role="tab" aria-selected="true">
-                                            <i class="feather icon-user mr-25"></i><span class="d-none d-sm-block">Profile</span>
+                                            <i class="feather icon-user mr-25"></i><span class="d-none d-sm-block">프로필</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link d-flex align-items-center" id="information-tab" data-toggle="tab" href="#information" aria-controls="information" role="tab" aria-selected="false">
-                                            <i class="feather icon-info mr-25"></i><span class="d-none d-sm-block">Information</span>
+                                            <i class="feather icon-info mr-25"></i><span class="d-none d-sm-block">일반설정</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -133,112 +133,7 @@
                                     </div>
                                     <div class="tab-pane" id="information" aria-labelledby="information-tab" role="tabpanel">
                                         <!-- users edit Info form start -->
-                                        <form novalidate>
-                                            <div class="row">
-                                                <div class="col-12 col-sm-6">
-                                                    <h5 class="mb-1"><i class="feather icon-link mr-25"></i>Social Links</h5>
-                                                    <div class="form-group">
-                                                        <label>Twitter</label>
-                                                        <input class="form-control" type="text" value="https://www.twitter.com/">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Facebook</label>
-                                                        <input class="form-control" type="text" value="https://www.facebook.com/">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Google+</label>
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>LinkedIn</label>
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Instagram</label>
-                                                        <input class="form-control" type="text" value="https://www.instagram.com/">
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-sm-6 mt-1 mt-sm-0">
-                                                    <h5 class="mb-1"><i class="feather icon-user mr-25"></i>Personal Info</h5>
-                                                    <div class="form-group">
-                                                        <div class="controls position-relative">
-                                                            <label>Birth date</label>
-                                                            <input type="text" class="form-control birthdate-picker" required placeholder="Birth date" data-validation-required-message="This birthdate field is required">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Country</label>
-                                                        <select class="form-control" id="accountSelect">
-                                                            <option>USA</option>
-                                                            <option>India</option>
-                                                            <option>Canada</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Languages</label>
-                                                        <select class="form-control" id="users-language-select2" multiple="multiple">
-                                                            <option value="English" selected>English</option>
-                                                            <option value="Spanish">Spanish</option>
-                                                            <option value="French">French</option>
-                                                            <option value="Russian">Russian</option>
-                                                            <option value="German">German</option>
-                                                            <option value="Arabic" selected>Arabic</option>
-                                                            <option value="Sanskrit">Sanskrit</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="controls">
-                                                            <label>Phone</label>
-                                                            <input type="text" class="form-control" required placeholder="Phone number" value="(+656) 254 2568" data-validation-required-message="This phone number field is required">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="controls">
-                                                            <label>Address</label>
-                                                            <input type="text" class="form-control" placeholder="Address" data-validation-required-message="This Address field is required">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="form-group">
-                                                        <label>Website</label>
-                                                        <input type="text" class="form-control" placeholder="Website address">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Favourite Music</label>
-                                                        <select class="form-control" id="users-music-select2" multiple="multiple">
-                                                            <option value="Rock">Rock</option>
-                                                            <option value="Jazz" selected>Jazz</option>
-                                                            <option value="Disco">Disco</option>
-                                                            <option value="Pop">Pop</option>
-                                                            <option value="Techno">Techno</option>
-                                                            <option value="Folk" selected>Folk</option>
-                                                            <option value="Hip hop">Hip hop</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="form-group">
-                                                        <label>Favourite movies</label>
-                                                        <select class="form-control" id="users-movies-select2" multiple="multiple">
-                                                            <option value="The Dark Knight" selected>The Dark Knight
-                                                            </option>
-                                                            <option value="Harry Potter" selected>Harry Potter</option>
-                                                            <option value="Airplane!">Airplane!</option>
-                                                            <option value="Perl Harbour">Perl Harbour</option>
-                                                            <option value="Spider Man">Spider Man</option>
-                                                            <option value="Iron Man" selected>Iron Man</option>
-                                                            <option value="Avatar">Avatar</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
-                                                    <button type="button" class="btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">정보수정
-                                                        </button>
-                                                    <button type="reset" class="btn btn-light">Cancel</button>
-                                                </div>
-                                            </div>
-                                        </form>
+                                        <%@ include file="/WEB-INF/view/account/information.jsp" %>
                                         <!-- users edit Info form ends -->
                                     </div>
                                 </div>
