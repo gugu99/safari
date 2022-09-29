@@ -32,17 +32,19 @@ public class ScheduleService implements IScheduleService {
 	private IProjectMemberMapper projectMemberMapper;
 	
 	// 일정 리스트 (프로젝트 멤버리스트, 일정, 일정 멤버, 일정 댓글)
+	// int projectNo, int workNo, int workMemberNo, String search
 	@Override
-	public Map<String, Object> getScheduleList(int projectNo, int workNo, int workMemberNo) {
+	public Map<String, Object> getScheduleList(Map<String, Object> paramMap) {
+		log.debug(TeamColor.GDE + "paramMap --- " + paramMap);
 		// 프로젝트 멤버리스트와 일정리스트를 담을 map 
 		 Map<String, Object> map = new HashMap<>();
 		// 프로젝트 멤버리스트
-		List<Map<String, Object>> projectMemberList = projectMemberMapper.selectProjectMemberList(projectNo);
+		List<Map<String, Object>> projectMemberList = projectMemberMapper.selectProjectMemberList((int)paramMap.get("projectNo"));
 		// 프로젝트 관리자인지 조회
-		Integer managerNo = projectMemberMapper.selectProjectManager(projectNo, workMemberNo);
+		Integer managerNo = projectMemberMapper.selectProjectManager((int)paramMap.get("projectNo"), (int)paramMap.get("workMemberNo"));
 		boolean manager = (managerNo == null) ? false : true;
 		// 일정 리스트
-		List<ScheduleList> scheduleList = scheduleMapper.selectScheduleList(projectNo, workNo);
+		List<ScheduleList> scheduleList = scheduleMapper.selectScheduleList(paramMap);
 		
 		
 		for(int i = 0; i < scheduleList.size(); i++) {

@@ -1,5 +1,6 @@
 package com.gd.safari.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -26,7 +27,10 @@ public class ScheduleController {
 
 	// 일정 리스트 페이지 이동
 	@GetMapping("/safari/scheduleList")
-	public String scheduleList(HttpSession session, Model model) {
+	public String scheduleList(HttpSession session, Model model, @RequestParam(value = "search", required = false) String search) {
+		log.debug(TeamColor.GDE + "search --- " + search);
+		Map<String, Object> paramMap = new HashMap<>();
+		
 		// 세션에 저장된 projectNo 가져오기
 		int projectNo = (int)session.getAttribute("projectNo");
 		log.debug(TeamColor.GDE + "projectNo --- " + projectNo);
@@ -39,7 +43,15 @@ public class ScheduleController {
 		int workMemberNo = (int)session.getAttribute("workMemberNo");
 		log.debug(TeamColor.GDE + "workMemberNo --- " + workMemberNo);
 		
-		Map<String, Object> map = scheduleService.getScheduleList(projectNo, workNo, workMemberNo);
+		// map에 담아 준다.
+		paramMap.put("search", search);
+		paramMap.put("projectNo", projectNo);
+		paramMap.put("workNo", workNo);
+		paramMap.put("workMemberNo", workMemberNo);
+		log.debug(TeamColor.GDE + "paramMap --- " + paramMap);
+		
+		// 일정 리스트 가져오기
+		Map<String, Object> map = scheduleService.getScheduleList(paramMap);
 		log.debug(TeamColor.GDE + "scheduleList --- " + map.get("scheduleList"));
 		log.debug(TeamColor.GDE + "projectMemberList --- " + map.get("projectMemberList"));
 		

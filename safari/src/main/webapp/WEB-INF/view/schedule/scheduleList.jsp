@@ -57,14 +57,22 @@
     	<%@ include file="/WEB-INF/view/task/taskHeader.jsp" %> <!-- taskHeader -->
         <div class="content-overlay"></div>
         <div class="content-wrapper">
-        	
+        	<div class="col-12">
+        		<div class="col-2  mr-1 ml-1 mb-1">
+        			<form action="${pageContext.request.contextPath }/safari/scheduleList" method="get" id="searchForm">
+	                	<input type="text" class="form-control" onkeyup="insertSearch(this)" placeholder="일정 검색 입력 후 Enter" name="search" id="search">
+	                </form>
+	            </div>
+        	</div>
             <div class="content-header row">
                 <div class="content-header-left col-md-8 mb-md-0 mb-2 mt-1">
                     <h2 class="content-header-title ml-5 mb-0">Schedule</h2>
                 </div>
-                <div class="content-header-left col-md-4 col-12 mb-md-0 mb-2 mt-1">
-                    <button class="btn btn-outline-primary ml-10" type="button" data-toggle="modal" data-target="#add-schedule"><i class="feather icon-plus icon-left"></i> 일정 추가하기</button>
-                </div>
+                <c:if test="${guest eq null }">
+                	<div class="content-header-left col-md-4 col-12 mb-md-0 mb-2 mt-1">
+	                    <button class="btn btn-outline-primary ml-10" type="button" data-toggle="modal" data-target="#add-schedule"><i class="feather icon-plus icon-left"></i> 일정 추가하기</button>
+	                </div>
+                </c:if>
             </div>
             <div class="content-body justify-content-center row mt-2">
             	<c:forEach var="s" items="${scheduleList }" varStatus="i">
@@ -87,7 +95,7 @@
 		                             <span class="text-bold-600 mr-1">${s.workMemberName }</span>
 		                             <span class="blue-grey date">${s.createDate }</span>
 		                             <!-- 수정 삭제 버튼 -->
-		                             <c:if test="${s.scheduleWriter eq login || manager && guest ne null}">
+		                             <c:if test="${s.scheduleWriter eq login || manager && guest eq null}">
 		                                <a href="${pageContext.request.contextPath }/safari/modifySchedule?scheduleNo=${s.scheduleNo }" class="addr"><span class="fa fa-pencil-square-o ml-2"></span>수정</a>
 	                          			<a href="${pageContext.request.contextPath }/safari/removeSchedule?scheduleNo=${s.scheduleNo }" class="addr"><span class="fa fa-trash-o ml-2"></span>삭제</a>
 	                          		</c:if>	
@@ -144,7 +152,7 @@
 	                            </div>
 	                            
 	                            <c:forEach var="sm" items="${s.scheduleMembers}">
-                                  	<c:if test="${sm.scheduleMemberEmail eq login && guest ne null}">
+                                  	<c:if test="${sm.scheduleMemberEmail eq login && guest eq null}">
 	                           		 <div class="card-footer px-0 py-0">
 			                             <div class="card-content">
 			                                 <div class="card-body text-center">
@@ -158,10 +166,10 @@
 	                          	 	</c:if>
 	                             </c:forEach>
 	                            <ul class="list-inline mb-0">
-	                            	<c:if test="${guest ne null }">
-                                    	<li class="pr-1"><a href="${pageContext.request.contextPath }/member/addScheduleLike?scheduleNo=${s.scheduleNo}" class=""><span class="fa fa-thumbs-o-up ml-1"></span> Like ${s.scheduleLikeCnt }</a></li>
+	                            	<c:if test="${guest eq null }">
+                                    	<li class="pr-1 ml-1"><a href="${pageContext.request.contextPath }/member/addScheduleLike?scheduleNo=${s.scheduleNo}" class=""><span class="fa fa-thumbs-o-up ml-1"></span> Like ${s.scheduleLikeCnt }</a></li>
                                     </c:if>
-                                    <li class="pr-1"><span class="fa fa-commenting-o"></span> Comment</li>
+                                    <li class="pr-1 ml-1"><span class="fa fa-commenting-o"></span> Comment</li>
                                 </ul>
 	                            
 	                            <!-- 댓글 -->
@@ -182,7 +190,7 @@
 		                                        
 		                                        	<div class="media-body ml-1">
 		                                        		<p class="text-bold-600 mb-0">${c.cmtWorkMemberName } <span class="blue-grey date ml-1">${c.cmtCreateDate }</span>
-		                                        			<c:if test="${guest ne null }">
+		                                        			<c:if test="${guest eq null }">
 			                                            		<a href="${pageContext.request.contextPath }/member/addScheduleCommentLike?scheduleCmtNo=${c.scheduleCmtNo}" class="addr"><span class="fa fa-thumbs-o-up ml-1 addr"></span> Like ${c.cmtLikeCnt }</a>
 			                                            		<c:if test="${login eq  c.cmtMemberEmail}">
 			                                            			<a href="${pageContext.request.contextPath }/member/removeScheduleComment?scheduleCmtNo=${c.scheduleCmtNo }" class="addr"><span class="fa fa-trash-o ml-2"></span>삭제</a>
@@ -198,7 +206,7 @@
 	                            </c:forEach>
 	                            
 	                            <!-- comment input -->
-	                            <c:if test="${guest ne null }">
+	                            <c:if test="${guest eq null }">
 		                            <div class="card-footer px-0 py-0">
 		                             <div class="card-body">
 		                                 <fieldset class="form-group position-relative has-icon-left mb-0">

@@ -42,7 +42,7 @@
 			<result column="attend_cnt" property="attendCnt"/>
 		</collection>
 	</resultMap>
-	<select id="selectScheduleList" parameterType="int" resultMap="resultScheduleList">
+	<select id="selectScheduleList" parameterType="map" resultMap="resultScheduleList">
 		SELECT
 			<!-- 일정 리스트 -->
 			s.schedule_no
@@ -221,6 +221,19 @@
 			s.schedule_no = ac.schedule_no
 		WHERE
 			s.project_no = #{projectNo} <!-- 세션값 -->
+		<!-- 일정 검색 동적쿼리 -->
+		<if test="search != null">
+		AND
+			(
+				s.schedule_title LIKE CONCAT('%', #{search}, '%') <!-- 일정 제목 검색 -->
+			OR
+				s.schedule_content LIKE CONCAT('%', #{search}, '%') <!-- 일정 내용 검색 -->
+			OR
+				s.work_member_name LIKE CONCAT('%', #{search}, '%') <!-- 일정 작성자 이름 검색 -->
+			OR
+				sm.work_member_name LIKE CONCAT('%', #{search}, '%') <!-- 일정 참석자 이름 검색 -->
+			)
+		</if>
 		ORDER BY
 			s.schedule_no DESC, sc.cmt_create_date ASC
 	</select>
