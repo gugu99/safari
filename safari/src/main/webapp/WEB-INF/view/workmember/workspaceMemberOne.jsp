@@ -186,9 +186,10 @@
 
     <%@ include file="/WEB-INF/view/inc/common-js.jsp" %> <!-- js -->
 
-
 </body>
 <!-- END: Body-->
+
+<script src="${pageContext.request.contextPath }/resources/assets/js/transferOfOwnership.js"></script>
 <script type="text/javascript">
 
 

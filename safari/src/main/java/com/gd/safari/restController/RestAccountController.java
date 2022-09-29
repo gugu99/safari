@@ -2,6 +2,11 @@ package com.gd.safari.restController;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -14,6 +19,11 @@ import com.gd.safari.ConfigUtils;
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IMailService;
 import com.gd.safari.service.IMemberService;
+import com.gd.safari.service.IWorkspaceMemberService;
+import com.gd.safari.service.IWorkspaceService;
+import com.gd.safari.service.WorkspaceMemberService;
+import com.gd.safari.vo.Workspace;
+import com.gd.safari.vo.WorkspaceMember;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +32,8 @@ import lombok.extern.slf4j.Slf4j;
 public class RestAccountController {
 	@Autowired private IMemberService memberService;
 	@Autowired private IMailService mailService;
+	@Autowired private IWorkspaceService workSpaceService;
+	@Autowired private IWorkspaceMemberService workspaceMemberService;
 	@Autowired private ConfigUtils configUtils;
 	
 	// 메일 확인
@@ -104,5 +116,39 @@ public class RestAccountController {
         }
 
         return ResponseEntity.badRequest().build();
+    }
+    
+    // 탈퇴를 위한 소유권 이전하기
+ 	// 워크스페이스 내가 관리자인 리스트
+    @GetMapping("/safari/myWorkspaceList")
+    public List<Workspace> myWorkspaceList(HttpSession session) {
+		log.debug(TeamColor.CSH + this.getClass() + " 워크스페이스 내가 관리자인 리스트");
+    	
+		// 서비스 호출
+    	List<Workspace> workspaceList = workSpaceService.getMyWorkspaceByMemberEmail((String)session.getAttribute("login"));
+    	
+    	// 디버깅
+    	log.debug(TeamColor.CSH + "워크스페이스리스트 : " + workspaceList);
+    	
+    	return workspaceList;
+    }
+    
+    // 워크스페이스 번호에 맞는 워크스페이스멤버 중 나 제외한 리스트
+    @GetMapping("/safari/workspaceMemberListForOwnership")
+    public List<WorkspaceMember> workspaceMemberListForOwnership(HttpSession session, int workNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 워크스페이스 내가 관리자인 리스트");
+    	
+		// 파라미터 가공
+		Map<String, Object> m = new HashMap<>();
+		m.put("workNo", workNo);
+		m.put("workMemberEmail", (String)session.getAttribute("login"));
+		
+		// 서비스 호출
+    	List<WorkspaceMember> workspaceMemberList = workspaceMemberService.getWorkspaceMemberByWorkNoAndWorkMemberEmail(m);
+    	
+    	// 디버깅
+    	log.debug(TeamColor.CSH + "나를 제외한 워크스페이스멤버 리스트 : " + workspaceMemberList);
+    	
+    	return workspaceMemberList;
     }
 }

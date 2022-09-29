@@ -62,7 +62,7 @@
                                     <div class="card-body">
                                         <form class="form-horizontal" action="${pageContext.request.contextPath }/account/recover-password" method="post" id="form">
                                             <fieldset class="form-group floating-label-form-group">
-                                                <label for="user-email">이메일</label>
+                                                <label for="memberEmail">이메일</label>
                                                 <input type="email" class="form-control" placeholder="이메일을 입력해주세요" name="memberEmail" id="memberEmail">
                                             </fieldset>
                                             <div class="card-body pt-0">
@@ -73,7 +73,7 @@
                                                 <input type="text" class="form-control" placeholder="이메일 인증번호를 입력해주세요" id="mailconfirm">
                                             </fieldset>
                                             <fieldset class="form-group floating-label-form-group mb-1">
-                                                <label for="user-password">새 비밀번호</label>
+                                                <label for="memberPw">새 비밀번호</label>
                                                 <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요" name="memberPw" id="memberPw">
                                             </fieldset>
                                             <button type="button" class="btn btn-outline-primary btn-lg btn-block" id="btn"><i class="icon-lock4"></i> 계정 복구</button>
