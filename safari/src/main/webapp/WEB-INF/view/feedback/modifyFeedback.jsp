@@ -53,6 +53,7 @@
 
                                          <form action="${pageContext.request.contextPath }/member/modifyFeedback" method="post" id="modifyFeedbackForm">
                                               	<input type="hidden" name="feedbackNo" value="${feedbackOne.feedbackNo }">
+                                              	<input type="hidden" name="workMemberNo" value="${workMemberNo }">
                                                   <div class="row">
                                                   	 <div class="col-12">
                                                            <div class="form-group">
@@ -65,8 +66,8 @@
                                                           <div class="form-group">
                                                               <label for="languageselect2"><span class="fa fa-users mr-2"></span>피드백 멤버(*)</label>
                                                               <select class="form-control memberSelect" id="feedbackReceiver" multiple="multiple" onChange="selectFeedbackReceiver(this)">
-                                                           		 <c:forEach var="fr" items="">
-                                                           		 
+                                                           		 <c:forEach var="fr" items="${feedbackReceiverList }">
+                                                           		 	<option value="${fr.workMemberEmail }" ${fr.feedbackReceiver ne null ? 'selected' : ''}>${fr.workMemberName }</option>
                                                            		 </c:forEach>
                                                               </select>
                                                           </div>
@@ -74,8 +75,8 @@
                                                       <input type="hidden" id="feedbackReceiverList" name="feedbackReceiverList" value="">
                                                       <div class="col-12">
                                                           <div class="form-group">
-                                                              <label for="scheduleContent"><span class="fa fa-pencil-square-o mr-1"></span>${feedbackOne.feedbackContent }</label>
-                                                              <textarea class="form-control" name="feedbackContent" id="feedbackContent" rows="5" placeholder="내용을 입력하세요."></textarea>
+                                                              <label for="scheduleContent"><span class="fa fa-pencil-square-o mr-1"></span>내용(*)</label>
+                                                              <textarea class="form-control" name="feedbackContent" id="feedbackContent" rows="5" placeholder="내용을 입력하세요.">${feedbackOne.feedbackContent }</textarea>
                                                           </div>
                                                       </div>
                                                       <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
@@ -97,7 +98,8 @@
                                                       </div>
                                                   </div>
                                                   <div class="form-actions text-right">
-	                                                <button type="reset" class="btn btn-outline-warning mr-1"><i class="feather icon-x"></i>취소</button>
+	                                                <button type="reset" class="btn btn-outline-danger mr-1"><i class="feather icon-x"></i>취소</button>
+	                                                <button type="button" onclick="location.href='${pageContext.request.contextPath }/safari/feedback?workMemberNo=${workMemberNo }'" class="btn btn-outline-warning mr-1"><i class="feather icon-rotate-ccw"></i>목록으로</button>
 	                                                <button type="button" id="modifyFeedbackBtn" class="btn btn-outline-primary"><i class="fa fa-check-square-o"></i>수정하기</button>
 	                                            </div>
                                               </form>

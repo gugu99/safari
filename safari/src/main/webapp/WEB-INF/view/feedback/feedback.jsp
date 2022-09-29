@@ -145,7 +145,7 @@
 
 									<span class="blue-grey date ml-1">${fl.createDate}</span>
 									<!-- 수정 삭제 버튼 -->
-									<a href="${pageContext.request.contextPath}/member/modifyFeedback?feedbackNo=${fl.feedbackNo}" class="addr"><span class="fa fa-pencil-square-o ml-2"></span> 수정</a> 
+									<a href="${pageContext.request.contextPath}/member/modifyFeedback?feedbackNo=${fl.feedbackNo}&workMemberNo=${member.workMemberNo}" class="addr"><span class="fa fa-pencil-square-o ml-2"></span> 수정</a> 
 									<a href="${pageContext.request.contextPath}/" class="addr"><span class="fa fa-trash-o ml-2"></span> 삭제</a>
 								</div>
 

@@ -13,4 +13,7 @@ public interface IFeedbackService {
 	
 	// 피드백 한개 조회 - 수정 폼
 	Map<String, Object> getFeedbackOne(int feedbackNo);
+	
+	// 피드백 수정하기 - 피드백 수신자, 피드백 내용, 공개권한
+	void modifyFeedback(Map<String, Object> map);
 }

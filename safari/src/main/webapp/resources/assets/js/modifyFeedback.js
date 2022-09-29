@@ -1,6 +1,3 @@
-var selected = $('#feedbackReceiver').val(); 
-
-document.getElementById("feedbackReceiverList").value = selected;
 
 function selectFeedbackReceiver(e){
 	const arr = new Array();
@@ -33,6 +30,9 @@ $('#modifyFeedbackBtn').click(function(){
 		return false;
 	}
 	
+	var selected = $('#feedbackReceiver').val(); 
+
+	document.getElementById("feedbackReceiverList").value = selected;
 	
-	addFeedbackForm.submit();
+	modifyFeedbackForm.submit();
 });

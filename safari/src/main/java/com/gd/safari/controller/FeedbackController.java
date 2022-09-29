@@ -68,17 +68,29 @@ public class FeedbackController {
 	
 	// 피드백 수정 폼
 	@GetMapping("/member/modifyFeedback")
-	public String modifyFeedback(Model model, @RequestParam int feedbackNo) {
+	public String modifyFeedback(Model model, @RequestParam int feedbackNo, @RequestParam int workMemberNo) {
 		log.debug(TeamColor.GDE + "feedbackNo --- " + feedbackNo);
 		
 		// 피드백, 피드백 수신자리스트, 피드백 준 업무의 멤버리스트 가져오기
 		Map<String, Object> map = feedbackService.getFeedbackOne(feedbackNo);
+		log.debug(TeamColor.GDE + map);
 		
 		// 모델에 담기
 		model.addAttribute("feedbackReceiverList", map.get("feedbackReceiverList"));
 		model.addAttribute("feedbackOne", map.get("feedbackOne"));
-		model.addAttribute("taskMemberList", map.get("taskMemberList"));
+		model.addAttribute("workMemberNo", workMemberNo);
 		
 		return "feedback/modifyFeedback";
+	}
+	
+	// 피드백 수정 action
+	@PostMapping("/member/modifyFeedback")
+	public String modifyFeedback(@RequestParam Map<String, Object> map) {
+		log.debug(TeamColor.GDE + "map --- " + map);
+		
+		// 피드백 수정하기 - 피드백 수신자, 피드백 내용, 공개권한
+		feedbackService.modifyFeedback(map);
+		
+		return "redirect:/safari/feedback?workMemberNo=" + map.get("workMemberNo");
 	}
 }

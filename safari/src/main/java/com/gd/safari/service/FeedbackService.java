@@ -1,5 +1,6 @@
 package com.gd.safari.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,19 +113,66 @@ public class FeedbackService implements IFeedbackService {
 		Map<String, Object> feedbackOne = feedbackMapper.selectFeedbackOne(feedbackNo);
 		log.debug(TeamColor.GDE + feedbackOne);
 		
-		// 해당 피드백의 수신자 리스트
-		List<Map<String, Object>> feedbackReceiverList = feedbackReceiverMapper.selectFeedbackReceiverByFeedbackNo(feedbackNo);
+		// 해당 피드백의 수신자와 업무멤버 리스트
+		List<Map<String, Object>> feedbackReceiverList = feedbackReceiverMapper.selectFeedbackReceiverAndtaskMember((int)feedbackOne.get("feedbackNo"), (int)feedbackOne.get("taskNo"));
 		log.debug(TeamColor.GDE + "feedbackReceiverList --- " + feedbackReceiverList);
 		
-		// 피드백 준 업무의 업무멤버 조회
-		List<Map<String, Object>> taskMemberList = taskMemberMapper.selectMemberListNameAndEmailByTaskNo((int)feedbackOne.get("feedbackNo"));
-		
-		
 		Map<String, Object> map = new HashMap<>();
-		map.put("feedback", feedbackOne);
+		map.put("feedbackOne", feedbackOne);
 		map.put("feedbackReceiverList", feedbackReceiverList);
-		map.put("taskMemberList", taskMemberList);
 		
 		return map;
+	}
+
+	// 피드백 수정하기 - 피드백 수정, 피드백 수신자 수정
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void modifyFeedback(Map<String, Object> map) {
+		log.debug(TeamColor.GDE + "map --- " + map);
+		
+		// 피드백 수정
+		int row = feedbackMapper.updateFeedback(map);
+		log.debug(TeamColor.GDE + "row --- " + row);
+		
+		// 피드백 받는 사람 배열로 가공하기
+		String tmp = (String)map.get("feedbackReceiverList");
+		String[] arr = tmp.split(",");
+		// 수정 수신자 이메일 배열을 담을 새로운 리스트
+		List<String> feedbackReceiverList = new ArrayList<>();
+		// 리스트에 수정 수신자 이메일을 담는다.
+		for (String s : arr) {
+			feedbackReceiverList.add(s);
+		}
+		log.debug(TeamColor.GDE + "feedbackReceiverList --- " + feedbackReceiverList);
+		// feedbackReceiverList map에서 삭제
+		map.remove("feedbackReceiverList");
+		
+		log.debug(TeamColor.GDE + map.get("feedbackNo").getClass());
+		
+		// 기존 수신자 리스트
+		List<String> preReceiver = feedbackReceiverMapper.selectFeedbackReceiverByFeedbackNo(Integer.parseInt((String) map.get("feedbackNo")));
+		log.debug(TeamColor.GDE + "preReceiver --- " + preReceiver);
+		
+		// 추가할 피드백 수신자 리스트 (수정 수신자 - 기존 수신자)
+		List<String> insertReceiver = new ArrayList<>(feedbackReceiverList);
+		insertReceiver.removeAll(preReceiver);
+		log.debug(TeamColor.GDE + "insertReceiver --- " + insertReceiver);
+		
+		// 삭제할 피드백 수신자 (기존 수신자 - 수정 수신자)
+		List<String> deleteReceiver = preReceiver;
+		deleteReceiver.removeAll(feedbackReceiverList);
+		log.debug(TeamColor.GDE + "deleteReceiver --- " + deleteReceiver);
+		
+		// 수신자 수만큼 추가
+		for (String insertReceiverEmail : insertReceiver) {
+			map.put("feedbackReceiver", insertReceiverEmail);
+			feedbackReceiverMapper.insertFeedbackReceiver(map);
+		}
+		
+		// 수신자 수만큼 삭제
+		for (String deleteReceiverEmail : deleteReceiver) {
+			map.put("feedbackReceiver", deleteReceiverEmail);
+			feedbackReceiverMapper.deleteFeedbackReceiverByFeedbackNoAndEmail(map);
+		}
 	}
 }

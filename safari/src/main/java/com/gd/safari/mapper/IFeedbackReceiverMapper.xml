@@ -21,14 +21,50 @@
 	</insert>
 	
 	<!-- 피드백 수정을 위한 기존 피드백 수신자 조회 -->
-	<select id="selectFeedbackReceiverByFeedbackNo" parameterType="int" resultType="map">
+	<select id="selectFeedbackReceiverByFeedbackNo" parameterType="int" resultType="String">
 		SELECT
-			feedback_no feedbackNo
-			, feedback_receiver feedbackReceiver
+			feedback_receiver feedbackReceiver
 		FROM
 			feedback_receiver
 		WHERE
 			feedback_no = #{feedbackNo}
+	</select>
+	
+	<!-- 기존 수신자와 해당 피드백의 업무 멤버 조회 -->
+	<select id="selectFeedbackReceiverAndtaskMember" parameterType="int" resultType="map">
+		SELECT
+			 fr.feedback_receiver feedbackReceiver
+			, t.work_member_email workMemberEmail
+			, t.work_member_name workMemberName
+		FROM
+			(
+			SELECT
+				wm.work_member_name		
+				, wm.work_member_email	
+			FROM
+				task_member tm
+			INNER JOIN
+				project_member pm
+			ON 
+				tm.project_member_no = pm.project_member_no
+			INNER JOIN
+				workspace_member wm
+			ON
+				pm.work_member_no = wm.work_member_no
+			WHERE
+				tm.task_no = #{taskNo}
+			) t
+		LEFT OUTER JOIN
+			(
+			SELECT
+				feedback_receiver
+			FROM
+				feedback_receiver
+			WHERE
+				feedback_no = #{feedbackNo}
+			) fr
+		ON
+			fr.feedback_receiver = t.work_member_email
 	</select>
 	
 	<!-- 피드백 수신자 삭제하기 -->
