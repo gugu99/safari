@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html class="loading" lang="ko" data-textdirection="ltr">
 <!-- BEGIN: Head-->
@@ -75,6 +76,19 @@
                 </c:if>
             </div>
             <div class="content-body justify-content-center row mt-2">
+            	<c:choose>
+            		<c:when test="${fn:length(scheduleList) == 0}">
+            			<section id="timeline" class="timeline-center col-md-8">
+		                    <div class="timeline-card card border-grey border-lighten-2">
+		                        <div class="card-content">
+		                        	 <div class="px-0 py-0 ml-1 mt-1 text-center">
+		                        	 	<p>일정이 없습니다.</p>
+		                        	 </div>
+		                        </div>
+		                    </div>
+		                </section>
+            		</c:when>
+            		<c:otherwise>
             	<c:forEach var="s" items="${scheduleList }" varStatus="i">
             		<!-- 일정이 전체공개인지, 관리자&작성자만 공개인지 확인 후 리스트 출력 -->
             		<c:if test="${s.scheduleAuth eq 'N'|| (s.scheduleAuth eq 'Y' && (s.scheduleWriter eq login || manager)) }">
@@ -228,6 +242,8 @@
 	                </section>
 	                </c:if>
             	</c:forEach>
+            	</c:otherwise>
+            	</c:choose>
                 <%@ include file="/WEB-INF/view/schedule/addSchedule.jsp" %>
             </div>
         </div>

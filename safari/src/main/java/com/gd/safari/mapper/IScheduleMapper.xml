@@ -230,8 +230,23 @@
 				s.schedule_content LIKE CONCAT('%', #{search}, '%') <!-- 일정 내용 검색 -->
 			OR
 				s.work_member_name LIKE CONCAT('%', #{search}, '%') <!-- 일정 작성자 이름 검색 -->
-			OR
-				sm.work_member_name LIKE CONCAT('%', #{search}, '%') <!-- 일정 참석자 이름 검색 -->
+			)
+		OR
+			s.schedule_no 
+		IN
+			(
+				SELECT
+					sm2.schedule_no
+				FROM
+					schedule_member sm2
+				INNER JOIN
+					v_workspace_member vwm3
+				ON
+					sm2.schedule_member_email = vwm3.work_member_email
+				WHERE
+					vwm3.work_no = #{workNo}
+				AND
+					vwm3.work_member_name LIKE CONCAT('%', #{search}, '%') <!-- 일정 참석자 이름 검색 -->
 			)
 		</if>
 		ORDER BY
