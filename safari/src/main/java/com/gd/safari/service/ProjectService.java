@@ -183,7 +183,11 @@ public class ProjectService implements IProjectService {
 	// 프로젝트 요약 페이지 띄우기
 	@Override
 	public Map<String, Object> getProjectSummary(int workNo) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("active", "Y");
+		map.put("workNo", workNo);
 		
+		workspaceMemberMapper.selectWorkspaceMemberListByActive(map);
 		return null;
 	}
 }

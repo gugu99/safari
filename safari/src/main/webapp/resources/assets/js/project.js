@@ -4,9 +4,6 @@ $(document).ready(function(){
 	const section = $('#section').val();
 	const projectGroupNo = $('#projectGroupNo').val();
 	
-	console.log("$('#guest').val(): " + $('#guest').val());
-	console.log("$('#guest').val() == null : " + $('#guest').val() == null);
-	
 	if(section != ""){
 		$("#order").append("<input type='hidden' name='section' value='" + section + "'>");
 	}
@@ -14,12 +11,6 @@ $(document).ready(function(){
 	if(projectGroupNo != ""){
 		// select에 hidden append
 		$("#order").append("<input type='hidden' name='projectGroupNo' value='" + projectGroupNo + "'>");
-	}
-	
-	if($('#guest').val() != ""){ // guest인 경우
-		$('#sidebar').remove();
-		$('#projectListContent').attr('class','content-center'); 
-		//projectListContent란 클래스명으로 찾아서 클래스명을 content-center으로 변경
 	}
 	
 	$('#order').change(function () {
@@ -45,6 +36,10 @@ $(document).ready(function(){
 			addProjectForm.submit();
 		}
 	});
+	
+	$('#colorCheck1').click(function(){
+		finishForm.submit();
+	})
 	
 	// 프로젝트 그룹 추가 버튼 클릭 시 input 창을 띄우는 메소드
 	let show = false;

@@ -24,7 +24,8 @@ public class ProjectController {
 	private IProjectService projectService;
 	
 	// 전체 프로젝트 개관, 프로젝트 추가 페이지
-	@GetMapping("/safari/project")
+	// @GetMapping("/safari/project")
+	@GetMapping(value = {"/safari/project", "/member/project"})
 	public String project(Model model, HttpSession session, @RequestParam Map<String, Object> paramMap) {
 		// paramMap: section(프로젝트 정렬 값), projectGroupNo(프로젝트 그룹 리스트), order(정렬)
 		log.debug(TeamColor.CSK + "paramMap: " + paramMap);
@@ -49,27 +50,9 @@ public class ProjectController {
 		model.addAttribute("title", map.get("title")); // 검색, 정렬 기준에 따른 부제목
 		model.addAttribute("paramMap", paramMap);
 		model.addAttribute("guest", map.get("guest"));
-		log.debug(TeamColor.CSK + " map.get(\"guest\"): " +  map.get("guest"));
-
 		
 		return "project/project";
 	}
-	
-//	@GetMapping("/safari/project")
-//	public String guestProject(Model model, HttpSession session, @RequestParam Map<String, Object> paramMap) {
-//		// 파라미터로 받은 맵에 세션에 저장된 정보 추가
-//		paramMap.put("workNo", session.getAttribute("workNo"));
-//		
-//
-//		log.debug(TeamColor.CSK + "session.getAttribute(\"guest\"): " + session.getAttribute("guest"));
-//		Map<String, Object> map = projectService.getProjectListByWorkspace(paramMap);
-//
-//		model.addAttribute("projectList", map.get("projectList")); // public인 프로젝트 리스트
-//		model.addAttribute("title", "프로젝트 리스트");
-//		model.addAttribute("paramMap", paramMap);
-//
-//		return "project/project";
-//	}
 	
 	// 프로젝트 추가
 	@PostMapping("/member/project")
@@ -82,7 +65,7 @@ public class ProjectController {
 		return "redirect:/safari/project";
 	}
 	
-	// 개별 프로젝트 요약 페이지
+	// 전체 프로젝트 overview
 	@GetMapping("/member/projectSummary")
 	public String projectSummary(HttpSession session) {
 		int workNo = (int) session.getAttribute("workNo");

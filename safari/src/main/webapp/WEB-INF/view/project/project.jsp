@@ -54,6 +54,7 @@
 	
     <!-- BEGIN: Content-->
     <div class="app-content content">
+    	<c:if test="${guest eq null}">
         <div class="sidebar-left" id="sidebar">
             <div class="sidebar">
                 <!-- app chat sidebar start -->
@@ -82,16 +83,16 @@
                         <%@ include file="/WEB-INF/view/project/addProjectModal.jsp"%>
                         <ul class="chat-sidebar-list">
                         	<li>
-                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project">전체 프로젝트</a></h6>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/member/project">전체 프로젝트</a></h6>
                             </li>
                             <li>
-                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project?section=my">내가 속한 프로젝트</a></h6>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/member/project?section=my">내가 속한 프로젝트</a></h6>
                             </li>
                             <li>
-                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project?section=bookmark">중요 프로젝트</a></h6>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/member/project?section=bookmark">중요 프로젝트</a></h6>
                             </li>
                             <li>
-                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/safari/project?section=keep">보관된 프로젝트</a></h6>
+                                <h6 class="mb-0"><a href="${pageContext.request.contextPath}/member/project?section=keep">보관된 프로젝트</a></h6>
                             </li>
                         </ul>
                         
@@ -104,7 +105,7 @@
                         	<c:forEach var="pg" items="${projectGroupList}">
 	                            <li>
 	                                <h6 class="mb-0">
-	                                	<a href="${pageContext.request.contextPath}/safari/project?projectGroupNo=${pg.projectGroupNo}&order=${paramMap.order}">
+	                                	<a href="${pageContext.request.contextPath}/member/project?projectGroupNo=${pg.projectGroupNo}&order=${paramMap.order}">
 	                                		${pg.projectGroupName}
 	                                	</a>
 	                                	<a href="${pageContext.request.contextPath}/member/modifyProjectGroup?projectGroupNo=${pg.projectGroupNo}">
@@ -118,8 +119,9 @@
   				  </div>
   			</div>
     	</div> <!-- END: side bar -->
+    	</c:if>
     		
-    		<div class="content-right" id="projectListContent">
+    		<div class="${(guest eq null) ? 'content-right' : 'content-center'}" id="projectListContent">
             	<div class="content-overlay"></div>
             	<div class="content-wrapper">
 		            <div class="content-header row pt-2 pl-2">
@@ -138,10 +140,18 @@
 		                        </div>
 		                    </div>
 		                </div>
+
 		                <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2 pr-2">
 		                    <div class="btn-group float-md-right">
+		                    	<!-- 종료된 프로젝트 제외하고 보기 -->
+		                    	<div class="mr-1 d-inline-block custom-control custom-checkbox mr-1">
+									<form action="${pageContext.request.contextPath}/${(guest eq null)? 'member' : 'safari'}/project" method="get" id="finishForm">
+										<input type="checkbox" class="custom-control-input bg-primary" name="finish" value="finish" id="colorCheck1" ${paramMap.finish != null ? 'checked' : ''}>
+										<label class="custom-control-label" for="colorCheck1">완료된 프로젝트 제외하기</label>
+									</form>
+                                </div>
 		                    	<!-- 정렬 메뉴 -->
-		                    	<form method="get" action="${pageContext.request.contextPath}/safari/project" id="orderForm">
+		                    	<form method="get" action="${pageContext.request.contextPath}/${(guest eq null)? 'member' : 'safari'}/project" id="orderForm">
 			                    	<!--  -->
 			                    	<select class="hide-search form-control" name="order" id="order">
 	                                     <option value="" ${paramMap.order eq null ? 'selected' : ''}>기본순</option>
@@ -203,12 +213,7 @@
                                       				 <p class="card-text text-right date blue-grey">비공개</p>
                                       			</c:if>
                                       			
-                                      			<c:if test='${p.projectEnd eq null}'>
-                                      				 <p class="card-text text-right date blue-grey">진행중</p>
-                                      			</c:if>
-                                      			<c:if test='${p.projectEnd ne null}'>
-                                      				 <p class="card-text text-right date blue-grey">완료</p>
-                                      			</c:if>
+                                      			<p class="card-text text-right date blue-grey">${p.projectEnd}</p>
 		                                        <p class="card-text text-right date blue-grey">${p.createDate}</p>
 	                                    </div>
 	                                </div>
@@ -228,7 +233,6 @@
     		
     <!-- END: Content-->
     
-    <input type="hidden" id="guest" value="${guest}">
 	<input type="hidden" id="section" value="${paramMap.section}">
 	<input type="hidden" id="projectGroupNo" value="${paramMap.projectGroupNo}">
 
@@ -268,11 +272,18 @@
     
     <!-- BEGIN: Page Vendor JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/forms/icheck/icheck.min.js"></script>
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Page JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/select/form-select2.js"></script>
     <!-- END: Page JS-->
+    
+    <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/forms/icheck/icheck.min.js"></script>
+    <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/checkbox-radio.js"></script>
+
+
+    
 
     <!-- BEGIN: 내가 만든 JS-->
     <script src="${pageContext.request.contextPath }/resources/assets/js/project.js"></script>
