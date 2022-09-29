@@ -1,6 +1,7 @@
 package com.gd.safari.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,5 +16,6 @@ public interface ILogMapper {
 	int insertUpdateTaskLog(Log log);
 	int insertDeleteTaskListLog(Log log);
 	int insertDeleteTaskLog(Log log);
-	List<Log> selectLogList (int projectNo);
+	List<Log> selectLogList (Map<String, Object> map);
+	int selectLogCount(Map<String,Object> map);
 }

@@ -81,7 +81,7 @@ public class WorkspaceMemberController {
 	}
 	
 	// 워크스페이스멤버 상세정보
-	@GetMapping("/member/workspaceMemberOne")
+	@GetMapping("/safari/workspaceMemberOne")
 	public String getWorkspaceMemberOne (Model model,HttpSession session) {
 		int workMemberNo = (int)session.getAttribute("workMemberNo");
 		

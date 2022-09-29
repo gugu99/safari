@@ -123,7 +123,7 @@
 	
 	</insert>
 	
-	<select id="selectLogList" parameterType="int" resultType="com.gd.safari.vo.Log">
+	<select id="selectLogList" parameterType="map" resultType="com.gd.safari.vo.Log">
 		SELECT 
 				  log_no		logNo			
 				, task_no		taskNo
@@ -134,7 +134,14 @@
 				
 		FROM	log
 		WHERE project_no = #{projectNo}
+		LIMIT #{beginRow}, #{rowPerPage}
+	</select>
 	
+	<select id="selectLogCount"  parameterType="map" resultType="int">
+		SELECT 
+			COUNT(*) count
+		FROM log
+		WHERE project_no = #{projectNo}
 	</select>
 
 
