@@ -56,7 +56,7 @@ public class WorkspaceController {
 			@RequestParam(value="detailWorkMemeberAddr") String detailWorkMemeberAddr) {
 		// workspace 디버깅
 		log.debug(TeamColor.CJM + workspace + "Controller workspace");			
-
+		
 		// workspaceMember 디버깅
 		log.debug(TeamColor.CJM + workspaceMember + "Controller workspaceMember"); 			
 		
@@ -154,7 +154,7 @@ public class WorkspaceController {
 	
 	// 워크스페이스 게스트 메인창
 	@GetMapping("/safari/workspaceGuestMain")
-	public String workspaceGuestMain(HttpSession session, WorkspaceGuest workspaceGuest, Model model) {
+	public String workspaceGuestMain(HttpSession session, WorkspaceGuest workspaceGuest, Model model,RedirectAttributes redirectAttributes) {
 			// workspaceMember 디버깅
 			log.debug(TeamColor.CJM + workspaceGuest + "Controller workspaceGuest"); 
 			
@@ -170,7 +170,16 @@ public class WorkspaceController {
 			// 활동여부 가져오기
 			String Active = workspaceGuestService.getWorkspaceGuestOneActive(workspaceGuest);
 			
-			if(Active.equals("W")) {
+			if (Active.equals("N")) {
+				redirectAttributes.addAttribute("errorMsg", "탈퇴한 게스트입니다");
+			// Active가 N 면 addWorkspaceMember폼으로
+				return "redirect:/safari/index"; 
+				
+			}else if(Active.equals("W")) {
+				if(workspaceGuestService.getWorkspaceGuestOneCode(workspaceGuest)==null) {
+					redirectAttributes.addAttribute("errorMsg", "게스트 승인이 될때까지 기다려주세요");
+					return "redirect:/safari/index";
+				}
 				
 				return "workmember/addWorkspaceGuest";
 				

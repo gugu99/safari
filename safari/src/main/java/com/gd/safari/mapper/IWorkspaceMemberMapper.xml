@@ -252,11 +252,12 @@
 		SELECT 
 			  work_member_no    workMemberNo
 			, work_member_name  workMemberName
-			, work_member_addr workMemberAddr
+			, work_member_addr  workMemberAddr
 			, work_member_birth workMemberBirth
 			, work_member_phone workMemberPhone
 			, work_member_dept  workMemberDept
 			, work_member_pos   workMemberPos
+			, work_member_code  workMemberCode
 			, active
 			, work_member_level workMemberLevel
 			, create_date       createDate
@@ -323,12 +324,12 @@
 	</select>
 	
 	<!-- member에서 회원탈퇴하기 -->
-	<update id="updateWorkspaceMemberAllActvieN" parameterType="String">
+	<update id="updateWorkspaceMemberAllActvieN" parameterType="string">
 		UPDATE workspace_member
 		SET
 			active = 'N'
 		WHERE
-			work_member_email= #{workMemberEmail}
+			work_member_email= #{memberEmail}
 	</update>
 	
 </mapper>

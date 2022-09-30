@@ -46,4 +46,10 @@ public interface IWorkspaceGuestMapper {
 	
 	// 게스트 활동여부 확인
 	String selectWorkspaceGuestOneActive(WorkspaceGuest workspaceGuest);
+	
+	// 게스트 코드 null로 바꾸기
+	int updateWorkspaceGuestCodeNull(WorkspaceGuest workspaceGuest);
+	
+	// 모든 게스트 활동 N으로바꾸기
+	int updateWorkspaceGuestAllActvieN(String memberEmail);
 }

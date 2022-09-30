@@ -118,7 +118,7 @@
 	
 	<select id = "selectWorkspaceGuestOneCode" parameterType="com.gd.safari.vo.WorkspaceGuest" resultType ="String">
 		SELECT  
-				 work_guest_code        	
+				 work_guest_code  workGuestCode      	
 		FROM 	 workspace_guest
 		WHERE 
 				 member_email = #{memberEmail} AND work_no = #{workNo}
@@ -133,5 +133,22 @@
 	
 	</select>
 	
-
+	<!-- 게스트 승인 하는 메서드 코드 null로 바꾸는 메서드 -->
+	<update id="updateWorkspaceGuestCodeNull" parameterType="com.gd.safari.vo.WorkspaceGuest">
+		UPDATE workspace_guest
+		SET
+			work_guest_code = null
+		WHERE
+			member_email = #{memberEmail} AND work_no = #{workNo}
+	</update>
+	
+	<!-- guest 회원탈퇴하기 -->
+	<update id="updateWorkspaceGuestAllActvieN" parameterType="string">
+		UPDATE workspace_guest
+		SET
+				active = 'N'
+		WHERE
+				member_email= #{memberEmail}
+	</update>
+	
 </mapper>

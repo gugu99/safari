@@ -128,6 +128,33 @@ public class WorkspaceGuestController {
 			// 게스트리스트로 리다이렉트
 			return "redirect:/member/workspaceGuestList";
 
+	}
+	
+	// 워크스페이스 게스트 코드인증 메서드
+	@PostMapping("/member/updateWorkspaceGuestCodeNull")
+	public String updateWorkspaceGuestCodeNull(WorkspaceGuest workspaceGuest,HttpSession session) {
+				
+			// workspaceMember 디버깅
+			log.debug(TeamColor.CJM + workspaceGuest + "Controller workspaceGuest");
+			
+			// 세션에서 어드민 이메일 가져오기
+			String adminEmail = ((String) session.getAttribute("login"));
+			
+			// 세션에서 워크스페이스넘버 가져오기
+			int workNo = (Integer)session.getAttribute("workNo");
+		
+			// 워크스페이스 게스트 넘버 넣어주기
+			workspaceGuest.setWorkNo(workNo);
+			
+			// 워크스페이스 게스트 이메일 넣어주기
+			workspaceGuest.setMemberEmail(adminEmail);
+			
+			// 워크스페이스 게스트 승인
+			workspaceGuestService.updateWorkspaceGuestCodeNull(workspaceGuest);
+			
+			// 게스트리스트로 리다이렉트
+			return "redirect:/safari/index";
+
 		}
 	
 	

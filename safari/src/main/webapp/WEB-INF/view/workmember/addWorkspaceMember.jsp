@@ -24,6 +24,8 @@
 <!-- css -->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/assets/css/addWorkspace.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/assets/css/index.css">
 
 
 </head>
@@ -31,14 +33,23 @@
 
 <!-- BEGIN: Body-->
 
-<body
-	class="vertical-layout vertical-menu-modern content-detached-right-sidebar   fixed-navbar"
-	data-open="click" data-menu="vertical-menu-modern"
-	data-col="content-detached-right-sidebar">
+<body>
+	
 
-	<%@ include file="/WEB-INF/view/inc/header.jsp"%>
 	<!-- header -->
-
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top" id="navbar">
+	  <ul class="navbar-nav">
+	  	<li><a class="navbar-brand" id="logo" href="${pageContext.request.contextPath }/safari/index" class="navbar-brand nav-link"><img src="${pageContext.request.contextPath }/resources/app-assets/images/logo/stack-logo-light.png" alt="branding logo"> Safari</a>	
+	  	</li>
+	  </ul>
+	  <div id="logtap" class="row">
+	 	<h4 id="textEmail">${login }님</h4>
+	 		 <div id="logout">
+		 		<div><span><a id="logo" href="${pageContext.request.contextPath }/safari/logout" class="navbar-brand nav-link"> <i class="feather icon-log-out">로그아웃</i></a></span>
+			 </div>
+			</div>
+		</div>
+	</nav>
 
 
 	<!-- BEGIN: Content-->

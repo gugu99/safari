@@ -147,4 +147,12 @@ public class WorkspaceGuestService implements IWorkspaceGuestService{
 		return workspaceGuestMapper.selectWorkspaceGuestOneActive(workspaceGuest);
 	}
 
+	@Override
+	public int updateWorkspaceGuestCodeNull(WorkspaceGuest workspaceGuest) {
+		
+		log.debug(TeamColor.CJM + workspaceGuest + " Service workspaceGuest");
+		
+		return workspaceGuestMapper.updateWorkspaceGuestCodeNull(workspaceGuest);
+	}
+
 }

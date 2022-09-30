@@ -36,4 +36,7 @@ public interface IWorkspaceGuestService {
 	// 활동상태 알아보기
 	String getWorkspaceGuestOneActive(WorkspaceGuest workspaceGuest);
 	
+	// 게스트 승인 인증 code 를 Null 바꿈
+	int updateWorkspaceGuestCodeNull(WorkspaceGuest workspaceGuest);
+	
 }

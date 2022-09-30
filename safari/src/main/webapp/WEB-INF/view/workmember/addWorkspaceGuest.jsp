@@ -24,19 +24,29 @@
 <!-- css -->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/assets/css/addWorkspace.css">
-
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/assets/css/index.css">
 
 </head>
 <!-- END: Head-->
 
 <!-- BEGIN: Body-->
 
-<body
-	class="vertical-layout vertical-menu-modern content-detached-right-sidebar   fixed-navbar"
-	data-open="click" data-menu="vertical-menu-modern"
-	data-col="content-detached-right-sidebar">
-
-	<%@ include file="/WEB-INF/view/inc/header.jsp"%>
+<body>
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top" id="navbar">
+	  <ul class="navbar-nav">
+	  	<li><a class="navbar-brand" id="logo" href="${pageContext.request.contextPath }/safari/index" class="navbar-brand nav-link"><img src="${pageContext.request.contextPath }/resources/app-assets/images/logo/stack-logo-light.png" alt="branding logo"> Safari</a>
+	  	</li>
+	  
+	  </ul>
+	  	<div id="logtap" class="row">
+			 <h4 id="textEmail">${login }님</h4>
+		 	<div id="logout">
+				 <div><span><a id="logo" href="${pageContext.request.contextPath }/safari/logout" class="navbar-brand nav-link"> <i class="feather icon-log-out">로그아웃</i></a></span>
+	 			</div>
+			</div>
+		</div>
+	</nav>
 	<!-- header -->
 
 
@@ -80,20 +90,20 @@
                                     <div class="card-body">
 
 
-                                        <form class="form">
+                                        <form id="codeAdminForm" class="form" action="${pageContext.request.contextPath}/member/updateWorkspaceGuestCodeNull" method="post">
                                             <div class="row justify-content-md-center">
                                                 <div class="col-md-9">
                                                     <div class="form-body">
 
                                                         <div class="form-group">
-                                                            <input type="tel" id="eventInput5" class="form-control" name="contact" placeholder="인증번호를 적어주세요">
+                                                            <input type="text" id="code" class="form-control" name="contact" placeholder="인증번호를 적어주세요">
                                                         </div>
 
 
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
-                                                <button id="" type="button" class="btn btn-primary">
+                                                <button id="codeButton" type="button" class="btn btn-primary">
                                                     <i class="fa fa-check-square-o"></i> 인증하기
                                                 </button>
                                            		 </div>
@@ -171,10 +181,28 @@
 <script>
 $(document).ready(function() {
 	// 사원 초대폼 유효성검사
-	$('#inviteButton').click(function() {
-		
-		
-		
+	$('#codeButton').click(function() {
+		if ($('#code').val() == '') {
+			alert('코드가 빈칸입니다.');
+			$('#code').focus();
+		}else {
+			$.ajax({
+				url: '/member/workspaceGuestCode',
+				type: 'POST',
+				success: function(json) {
+					console.log(json);
+					if (json != $('#code').val()) {
+						alert('잘못된코드입니다.');
+						$('#code').focus();
+						return;
+					} else {
+						alert('코드인증이 완료되었습니다 승인이 될때까지 기다려주세요.');
+						$('#codeAdminForm').submit();
+					}
+				}
+			});
+		}
+		return;
 	});
 });
 	

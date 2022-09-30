@@ -448,6 +448,8 @@
 															<td class="phone">${r.workMemberPhone }</td>
 															<td class="text-center">
 																<div class="media-body media-middle">${r.active }
+																<c:if test="${r.workMemberCode == null}">(코드인증확인)</c:if>
+																<c:if test="${r.workMemberCode != null}">(코드인증안됨)</c:if>
 																</div>
 															</td>
 															<c:if test="${workMemberLevel > 1 }">

@@ -69,6 +69,7 @@ public class WorkspaceMemberController {
 		// 멤버 및 Guest 명수 가져오기
 		ArrayList<Integer> count = workspaceMemberService.getWorkspaceMemberCount(workNo);
 		
+		
 		model.addAttribute("allMemberCount", count.get(0));
 		model.addAttribute("WMemberCount", count.get(1));
 		model.addAttribute("NMemberCount", count.get(2));

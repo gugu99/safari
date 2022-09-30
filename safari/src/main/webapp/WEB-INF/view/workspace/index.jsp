@@ -44,7 +44,7 @@
   
   </ul>
   <div id="logtap" class="row">
- <h4 id="textEmail">${adminEmail }님</h4>
+ <h4 id="textEmail">${login }님</h4>
  <div id="logout">
  
  
