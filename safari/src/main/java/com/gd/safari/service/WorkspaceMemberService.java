@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
+import com.gd.safari.mapper.IMemberMapper;
 import com.gd.safari.mapper.IWorkspaceGuestMapper;
 import com.gd.safari.mapper.IWorkspaceMemberMapper;
 import com.gd.safari.vo.WorkspaceMember;
@@ -20,6 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @Slf4j
 public class WorkspaceMemberService implements IWorkspaceMemberService {
+	
+	@Autowired
+	private IMemberMapper memberMapper;
 	@Autowired
 	private IWorkspaceMemberMapper workspaceMemberMapper;
 	@Autowired
@@ -135,7 +139,7 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		boolean result = false; 
 		
 		// 확인하는 메서드
-		String resultEmail = workspaceMemberMapper.selectMemberEmailByConfirm(memberEmail);
+		String resultEmail = memberMapper.selectMemberEmailByCheck(memberEmail);
 		
 		// 존재 하면 true
 		if (resultEmail != null) {

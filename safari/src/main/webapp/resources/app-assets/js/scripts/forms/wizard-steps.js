@@ -41,6 +41,7 @@ $(".number-tab-steps").steps({
 				if (!reg_email.test($("input[name='workMemberEmail']").eq(i).val())) {
 					alert('이메일형식을 확인해주세요.\nexample@example.com');
 					console.log($("input[name='workMemberEmail']").eq(i).val());
+					i = grpl+1;
 					return;
 				} else if ($("input[name='workMemberEmail']").val() != '') {
 					$.ajax({
@@ -50,7 +51,8 @@ $(".number-tab-steps").steps({
 						data: { workMemberEmail: $("input[name='workMemberEmail']").eq(i).val() },
 						success: function(json) {
 							if (json != '존재하는이메일') {
-								alert(i + 1 + '번쨰칸은 가입하지 않는 아이디입니다');
+								alert(i + 1 + '번쨰칸은 가입하지 않은 아이디 이거나 탈퇴한 아이디입니다.');
+								i = grpl+1;
 								return;
 							} else if (json == '존재하는이메일' && i == grpl - 1) {
 								alert('제출완료');

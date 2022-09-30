@@ -1,5 +1,5 @@
 @charset "UTF-8";
-#searchButton{
-	margin-top: -29px;
+#searchBtn{
+	padding: inherit;
 	
 }

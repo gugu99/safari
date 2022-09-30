@@ -21,6 +21,8 @@
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/app-assets/css/pages/app-contacts.css">
 <%@ include file="/WEB-INF/view/inc/common-css.jsp"%>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/assets/css/workspaceGuest.css">
 <!-- css -->
 
 </head>
@@ -63,7 +65,7 @@
 													<input type="text" id="search-contacts" name="search"
 														class="form-control" placeholder="사원검색">
 													<div class="form-control-position">
-														<button type="submit"><i class="fa fa-search text-size-base text-muted la-rotate-270"></i></button>
+														<button type="submit" id="searchBtn" class="btn"><i class="fa fa-search"></i></button>
 													</div>
 												</div>
 											</form>
@@ -677,6 +679,7 @@ $(document).ready(function() {
 		console.log(grpl);
 		if ($("input[name='workMemberEmail']").eq(i).val() == '') {
 			alert('이메일이 빈칸입니다.');
+			i = grpl+1;
 			return;
 		}
 		if (!reg_email.test($("input[name='workMemberEmail']").eq(i).val())) {
@@ -691,7 +694,8 @@ $(document).ready(function() {
 				data : {workMemberEmail : $("input[name='workMemberEmail']").eq(i).val()},
 				success : function(data) {
 						if (data != '존재하는이메일') {
-							alert(i+ 1+ '번쨰칸은 가입하지 않는 아이디입니다');
+							alert(i+ 1+ '번쨰칸은 가입하지 않는 아이디 이거나 탈퇴한 아이디입니다.');
+							i = grpl+1;
 							console.log(data);
 							return;
 						}else if (data=='존재하는이메일'){
@@ -703,6 +707,7 @@ $(document).ready(function() {
 								success : function(json) {
 										if (json == '이미사용') {
 											alert(i+ 1+ '칸은 이미가입된 이메일입니다.');
+											i = grpl+1;
 											return;
 										} else if (json == '사용하지않음'&& i == grpl - 1) {
 											alert('제출완료');
@@ -733,11 +738,13 @@ $(document).ready(function() {
 			console.log(grpl);
 			if ($("input[name='memberEmail1']").eq(i).val() == '') {
 				alert('이메일이 빈칸입니다.');
+				i = grpl+1;
 				return;
 			}
 			if (!reg_email.test($("input[name='memberEmail1']").eq(i).val())) {
 				alert('이메일형식을 확인해주세요.\nexample@example.com');
 				console.log($("input[name='memberEmail']").eq(i).val());
+				i = grpl+1;
 				return;
 			} else if ($("input[name='memberEmail1']").eq(i).val() != '') {
 				$.ajax({
@@ -747,8 +754,9 @@ $(document).ready(function() {
 					data : {workMemberEmail : $("input[name='memberEmail1']").eq(i).val()},
 					success : function(data) {
 							if (data != '존재하는이메일') {
-								alert(i+ 1+ '번쨰칸은 가입하지 않는 아이디입니다');
+								alert(i+ 1+ '번쨰칸은 가입하지 않는 아이디 이거나 탈퇴한 아이디입니다.');
 								console.log(data);
+								i = grpl+1;
 								return;
 							}else if (data=='존재하는이메일'){
 								$.ajax({
@@ -759,6 +767,7 @@ $(document).ready(function() {
 									success : function(json) {
 											if (json == '이미사용') {
 												alert(i+ 1+ '칸은 이미가입된 이메일입니다.');
+												i = grpl+1;
 												return;
 											} 
 											else if (json!='이미사용'){
@@ -770,6 +779,7 @@ $(document).ready(function() {
 													success : function(email) {
 															if (email == '이미사용') {
 																alert(i+ 1+ '칸은 이미가입된 게스트입니다.');
+																i = grpl+1;
 																return;
 															} else if (json == '사용하지않음'&& i == grpl - 1) {
 																alert('제출완료');
