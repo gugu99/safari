@@ -192,6 +192,7 @@
 			,work_member_phone = #{workMemberPhone}
 			,work_member_dept = #{workMemberDept}
 			,work_member_pos = #{workMemberPos}
+			,work_member_code= null
 			,create_date = now()
 			,update_date = now()
 		WHERE
