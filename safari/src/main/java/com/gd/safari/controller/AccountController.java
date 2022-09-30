@@ -1,5 +1,7 @@
 package com.gd.safari.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -206,6 +208,29 @@ public class AccountController {
 		return "redirect:/account/login";
 	}
 	
+	// 비밀번호 변경 액션
+	@PostMapping("/safari/change-password")
+	public String changePasswordWithGoogle(HttpSession session, @RequestParam Map<String, Object> m) {
+		log.debug(TeamColor.CSH + this.getClass() + " 비밀번호 변경 액션");
+		
+		// 파라미터 가공
+		m.put("memberEmail", session.getAttribute("login"));
+		// 디버깅
+		log.debug(TeamColor.CSH + m);
+		// 서비스 호출
+		int row = memberService.modifyMemberPwByNewPw(m);
+		
+		// 서비스메서드의 리턴값이 1이라면 성공
+		if(row == 1) {
+			log.debug(TeamColor.CSH + "비밀번호 변경 성공");
+		} else {
+			log.debug(TeamColor.CSH + "비밀번호 변경 실패");
+			return "redirect:/safari/workspaceMemberOne?errorMsg=Change Password Fail";
+		}
+		
+		return "redirect:/safari/logout";
+	}
+		
 	// 구글 로그인 비밀번호 변경 액션
 	@PostMapping("/account/change-passwordWithGoogle")
 	public void changePasswordWithGoogle(Member member) {
@@ -253,31 +278,29 @@ public class AccountController {
 		return "redirect:/account/login";
 	}
 	
-	// 계정삭제(탈퇴) 페이지 이동
-	@GetMapping("/safari/delete-account")
-	public String deleteAccount(Model model, @RequestParam(value = "errorMsg", required = false) String errorMsg) {
-		log.debug(TeamColor.CSH + this.getClass() + " 계정삭제(탈퇴) 페이지");
-		// 모델값에 에러메세지 담기
-		model.addAttribute("errorMsg", errorMsg);
-		return "account/delete-account";
-	}
-	
 	// 계정삭제(탈퇴) 액션
 	@PostMapping("/safari/delete-account")
-	public String deleteAccount(Member member) {
+	public String deleteAccount(HttpSession session, @RequestParam(value="memberEmail") String memberEmail) {
 		log.debug(TeamColor.CSH + this.getClass() + " 계정삭제(탈퇴) 액션");
 		
 		// 디버깅
-		log.debug(TeamColor.CSH + member);
-		// 서비스 호출
-		int row = memberService.modifyMemberActiveXByDeleteAccount(member);
+		log.debug(TeamColor.CSH + memberEmail);
+
+		int row = 0;
+		// 현재계정과 받아온 확인계정이 같은지 확인
+		if(!session.getAttribute("login").equals(memberEmail)){ // 같지 않다면 실패로 돌리기
+			row = 0;
+		} else { // 같을시에만 서비스를 호출한다
+			// 서비스 호출
+			row = memberService.modifyMemberActiveXByDeleteAccount(memberEmail);
+		}
 		
 		// 서비스메서드의 리턴값이 1이라면 성공
 		if(row == 1) {
 			log.debug(TeamColor.CSH + "계정삭제(탈퇴) 성공");
 		} else {
 			log.debug(TeamColor.CSH + "계정삭제(탈퇴) 실패");
-			return "redirect:/safari/delete-account?errorMsg=Delete Account Fail";
+			return "redirect:/safari/workspaceMemberOne?errorMsg=Delete Account Fail";
 		}
 		
 		return "redirect:/safari/logout";

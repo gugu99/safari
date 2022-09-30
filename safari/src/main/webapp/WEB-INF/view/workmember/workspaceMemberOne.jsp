@@ -189,7 +189,7 @@
 </body>
 <!-- END: Body-->
 
-<script src="${pageContext.request.contextPath }/resources/assets/js/transferOfOwnership.js"></script>
+<script src="${pageContext.request.contextPath }/resources/assets/js/account.js"></script>
 <script type="text/javascript">
 
 

@@ -74,7 +74,17 @@
 			member_email 	= #{memberEmail}
 			AND active IN('Y','N')
 	</update>
-	<!-- 비밀번호 변경 (원래 계정과 새로운 비밀번호 받기) -->
+	<!-- 비밀번호 변경 (원래 계정과 원래비밀번호 새로운 비밀번호 받기) -->
+	<update id="updateMemberPwByNewPw" parameterType="map">
+		UPDATE member
+		SET
+			member_pw 		= PASSWORD(#{memberNewPw})
+			, update_date 	= NOW()
+		WHERE
+			member_email 	= #{memberEmail} 
+			AND member_pw  	= PASSWORD(#{memberPw})
+	</update>
+	<!-- 구글계정 비밀번호 변경 (원래 계정과 새로운 비밀번호 받기) -->
 	<update id="updateMemberPwWithGoogle" parameterType="com.gd.safari.vo.Member">
 		UPDATE member
 		SET
@@ -106,13 +116,12 @@
 			AND active 		= 'Y'
 	</update>
 	<!-- 탈퇴 -->
-	<update id="updateMemberActiveXByDeleteAccount" parameterType="com.gd.safari.vo.Member">
+	<update id="updateMemberActiveXByDeleteAccount" parameterType="string">
 		UPDATE member
 		SET
 			active 			= 'X'
 			, update_date 	= NOW()
 		WHERE
 			member_email 	= #{memberEmail} 
-			AND member_pw 	= PASSWORD(#{memberPw})
 	</update>
 </mapper>

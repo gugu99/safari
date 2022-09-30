@@ -1,5 +1,7 @@
 package com.gd.safari.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -103,11 +105,18 @@ public class MemberService implements IMemberService {
 		log.debug(TeamColor.CSH + this.getClass() + " modifyMemberPwByRecoverPw (비밀번호 찾기)");
 		return memberMapper.updateMemberPwByRecoverPw(member);
 	}
+
+	// 비밀번호 변경 (원래 계정과 원래비밀번호 새로운 비밀번호 받기)
+	@Override
+	public int modifyMemberPwByNewPw(Map<String, Object> m) {
+		log.debug(TeamColor.CSH + this.getClass() + " modifyMemberPwByNewPw (비밀번호 변경)");
+		return memberMapper.updateMemberPwByNewPw(m);
+	}
 	
-	// 비밀번호 변경 (원래 계정과 새로운 비밀번호 받기)
+	// 구글 비밀번호 변경 (원래 계정과 새로운 비밀번호 받기)
 	@Override
 	public int modifyMemberPwWithGoogle(Member member) {
-		log.debug(TeamColor.CSH + this.getClass() + " modifyMemberPw (비밀번호 변경)");
+		log.debug(TeamColor.CSH + this.getClass() + " modifyMemberPwWithGoogle (구글 비밀번호 변경)");
 		return memberMapper.updateMemberPwWithGoogle(member);
 	}
 	
@@ -127,8 +136,13 @@ public class MemberService implements IMemberService {
 	
 	// 탈퇴 (active 값을 X로 변경)
 	@Override
-	public int modifyMemberActiveXByDeleteAccount(Member member) {
+	public int modifyMemberActiveXByDeleteAccount(String memberEmail) {
 		log.debug(TeamColor.CSH + this.getClass() + " modifyMemberActiveXByDeleteAccount (탈퇴)");
-		return memberMapper.updateMemberActiveXByDeleteAccount(member);
+		
+		// 업무멤버 삭제
+		
+		
+		// 마지막에 탈퇴
+		return memberMapper.updateMemberActiveXByDeleteAccount(memberEmail);
 	}
 }

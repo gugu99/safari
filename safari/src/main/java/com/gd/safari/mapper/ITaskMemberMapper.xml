@@ -106,37 +106,4 @@
 		WHERE
 			task_no = #{taskNo} AND project_member_no = #{projectMemberNo}
 	</delete>
-<!-- 	업무를 삭제할 시 같이 삭제될 업무멤버 삭제 (부모 삭제 시 자식 삭제)
-	<delete id="deleteTaskMemberByTaskNo" parameterType="int">
-		DELETE FROM task_member
-		WHERE
-			task_no = #{taskNo}
-	</delete>
-	하위업무 삭제시 삭제될 업무멤버 삭제 (부모 삭제 시 자식의 자식 삭제)
-	<delete id="deleteLowerTaskMemberByTaskNo" parameterType="int">
-		DELETE FROM task_member WHERE task_no 
- 		IN (
- 			SELECT task_no FROM (
- 				SELECT task_no
-				FROM task 
-				WHERE task_upper_no 	= #{taskNo}
-			) a
-		)
-	</delete>
-	하위업무의 하위업무 삭제시 삭제될 업무멤버 삭제 (부모 삭제 시 자식의 자식의 자식 삭제)
-	<delete id="deleteLowerLowerTaskMemberByTaskNo" parameterType="int">
-		DELETE FROM task_member where task_no
-		IN (
-			SELECT task_no 
-			FROM task 
-			WHERE task_upper_no 
- 			IN (
- 				SELECT task_no FROM (
- 					SELECT task_no
-					FROM task 
-					WHERE task_upper_no 	= #{taskNo}
-				) a
-			)
-		)
-	</delete> -->
 </mapper>
