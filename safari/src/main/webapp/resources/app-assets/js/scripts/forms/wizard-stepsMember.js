@@ -24,7 +24,7 @@ $(".number-tab-steps").steps({
 			return;
 		} else {
 			$.ajax({
-				url: '/safari/workspaceCode',
+				url: '/member/workspaceCode',
 				type: 'POST',
 				success: function(json) {
 					console.log(json);
@@ -33,7 +33,7 @@ $(".number-tab-steps").steps({
 						$('#memberEmail').focus();
 						return;
 					} else {
-						alert('가입이완료되었습니다 승인이 될때까지 기다려주세.');
+						alert('가입이완료되었습니다 승인이 될때까지 기다려주세요.');
 						$('#addWorkspaceForm').submit();
 					}
 				}

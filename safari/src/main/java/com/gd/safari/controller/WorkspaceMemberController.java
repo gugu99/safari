@@ -82,7 +82,8 @@ public class WorkspaceMemberController {
 	
 	// 워크스페이스멤버 상세정보
 	@GetMapping("/safari/workspaceMemberOne")
-	public String getWorkspaceMemberOne (Model model,HttpSession session) {
+	public String getWorkspaceMemberOne (Model model,HttpSession session,
+										@RequestParam(value = "errorMsg" ,required = false)  String errorMsg) {
 		int workMemberNo = (int)session.getAttribute("workMemberNo");
 		
 		log.debug(TeamColor.CJM+workMemberNo +"Controller workMemberNo");
@@ -94,7 +95,12 @@ public class WorkspaceMemberController {
 		model.addAttribute("profileImg",profileImgService.getProfileImgOne(workMemberNo));	  
 		
 		// workspaceMemberOne 매핑
-		model.addAttribute("workspaceMemberOne", list); 								      
+		model.addAttribute("workspaceMemberOne", list);
+		
+		// error 메세지 매핑
+		if(errorMsg != null) {
+		model.addAttribute("errorMsg", errorMsg);
+		}
 		
 		// 워크스페이스 멤버 리스트 디버깅
 		log.debug(TeamColor.CJM+list +"Controller workspaceMemberOne"); 					  
@@ -156,7 +162,7 @@ public class WorkspaceMemberController {
 		workspaceMemberService.modifyWorkspaceMember(workspaceMember);
 		
 		  // 워크스페이스멤버 상세보기로 리다이렉트
-		return "redirect:/member/workspaceMemberOne";  										    
+		return "redirect:/safari/workspaceMemberOne";  										    
 		
 	}
 	

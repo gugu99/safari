@@ -255,16 +255,16 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		return countList;
 	}
 	
-	// 워크스페이스 번호에 맞는 워크스페이스멤버 중 나 제외한 리스트
+	// 해당된 이메일 워크스페이스멤버 정지 (회원탈퇴)
 	@Override
-	public List<WorkspaceMember> getWorkspaceMemberByWorkNoAndWorkMemberEmail(Map<String, Object> m) {
+	public int modifyWorkspaceMemberAllActvieN(String workMemberEmail) {
+		// workMemberEmail  디버깅
+		log.debug(TeamColor.CJM + workMemberEmail + " Service workMemberEmail");
 		
-		// workNo 디버깅
-		log.debug(TeamColor.CJM +  m.get("workNo") + " Service workNo");
-		
-		// 워크스페이스 번호에 맞는 워크스페이스멤버 중 나 제외한 리스트
-		return workspaceMemberMapper.selectWorkspaceMemberByWorkNoAndWorkMemberEmail(m);
+		// 전체정지
+		return workspaceMemberMapper.updateWorkspaceMemberAllActvieN(workMemberEmail);
 	}
+	
 	
 
 }

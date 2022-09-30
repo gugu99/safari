@@ -40,4 +40,10 @@ public interface IWorkspaceGuestMapper {
 
 	// 워크스페이스 게스트인지 멤버인지 확인
 	String selectWorkspaceGuestByEmailAndWorkNo(Map<String, Object> map);
+	
+	// 게스트 코드 확인 하기
+	String selectWorkspaceGuestOneCode (WorkspaceGuest workspaceGuest);
+	
+	// 게스트 활동여부 확인
+	String selectWorkspaceGuestOneActive(WorkspaceGuest workspaceGuest);
 }

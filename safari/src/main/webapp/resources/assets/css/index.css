@@ -23,3 +23,17 @@ body.vertical-layout.vertical-menu-modern .navbar .navbar-header {
     width: 300px;
     padding-top: 17px;
 }
+#logo{
+	font-size:24px;
+}
+#navbar{
+	height: 60px
+}
+#logtap{
+	width: 1850px;
+    justify-content: right;
+
+}
+#textEmail{
+    margin: 9px;
+    color: white;}

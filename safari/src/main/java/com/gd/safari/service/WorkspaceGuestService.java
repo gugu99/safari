@@ -84,7 +84,8 @@ public class WorkspaceGuestService implements IWorkspaceGuestService{
 		// 워크스페이스 게스트 승인
 		return workspaceGuestMapper.updateWorkspaceGuestActiveApprove(workspaceGuest);
 	}
-
+	
+	// 게스트 이메일확인 메서드
 	@Override
 	public String getWorkspaceGuestEmailByConfirm(WorkspaceGuest workspaceGuest) {
 		// workspaceGuest 디버거
@@ -92,7 +93,8 @@ public class WorkspaceGuestService implements IWorkspaceGuestService{
 		
 		return workspaceGuestMapper.selectWorkspaceGuestEmailByConfirm(workspaceGuest);
 	}
-
+	
+	// 게스트 인원수 확인하는 메서드
 	@Override
 	public ArrayList<Integer> getWorkspaceGuestCount(int workNo) {
 		ArrayList<Integer> countList= new ArrayList<>();
@@ -120,7 +122,7 @@ public class WorkspaceGuestService implements IWorkspaceGuestService{
 		// 워크스페이스 멤버수 구하는메서드
 		return countList;
 	}
-
+	
 	@Override
 	public List<Map<String,Object>> getWorkspaceGuestListByEmail(String memberEmail) {
 		
@@ -128,6 +130,21 @@ public class WorkspaceGuestService implements IWorkspaceGuestService{
 		log.debug(TeamColor.CJM + memberEmail + " Service memberEmail");
 		
 		return workspaceGuestMapper.selectWorkspaceGuestListByEmail(memberEmail);
+	}
+
+	@Override
+	public String getWorkspaceGuestOneCode(WorkspaceGuest workspaceGuest) {
+		
+		// workspaceGuest 디버깅
+		log.debug(TeamColor.CJM + workspaceGuest + " Service workspaceGuest");
+		return workspaceGuestMapper.selectWorkspaceGuestOneCode(workspaceGuest);
+	}
+
+	@Override
+	public String getWorkspaceGuestOneActive(WorkspaceGuest workspaceGuest) {
+		
+		log.debug(TeamColor.CJM + workspaceGuest + " Service workspaceGuest");
+		return workspaceGuestMapper.selectWorkspaceGuestOneActive(workspaceGuest);
 	}
 
 }

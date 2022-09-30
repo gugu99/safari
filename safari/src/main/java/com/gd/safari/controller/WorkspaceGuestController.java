@@ -116,8 +116,8 @@ public class WorkspaceGuestController {
 	}
 	
 	// 워크스페이스 게스트 승인
-		@PostMapping("/member/modifyWorkspaceGuestActiveApprove")
-		public String modifyWorkspaceGuestActiveApprove(WorkspaceGuest workspaceGuest) {
+	@PostMapping("/member/modifyWorkspaceGuestActiveApprove")
+	public String modifyWorkspaceGuestActiveApprove(WorkspaceGuest workspaceGuest) {
 				
 			// workspaceMember 디버깅
 			log.debug(TeamColor.CJM + workspaceGuest + "Controller workspaceGuest");
@@ -129,5 +129,7 @@ public class WorkspaceGuestController {
 			return "redirect:/member/workspaceGuestList";
 
 		}
+	
+	
 	
 }

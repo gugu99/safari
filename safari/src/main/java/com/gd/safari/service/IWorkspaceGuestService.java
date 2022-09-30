@@ -30,4 +30,10 @@ public interface IWorkspaceGuestService {
 	// 워크스페이스 게스트 index 목록 
 	List<Map<String,Object>> getWorkspaceGuestListByEmail (String memberEmail);
 	
+	// 워크스페이스 게스트 코드 확인하기
+	String getWorkspaceGuestOneCode (WorkspaceGuest workspaceGuest);
+	
+	// 활동상태 알아보기
+	String getWorkspaceGuestOneActive(WorkspaceGuest workspaceGuest);
+	
 }

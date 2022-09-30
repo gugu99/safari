@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IWorkspaceGuestService;
@@ -30,7 +31,8 @@ public class HomeController {
 	// 인덱스 페이지 이동(로그인 후)
 	// 워크스페이스 리스트
 	@GetMapping("/safari/index")
-		public String index(HttpSession session ,Model model) {
+		public String index(HttpSession session ,Model model,
+				@RequestParam(value="errorMsg",required = false) String errorMsg) {
 			// 세션 이메일불러오기
 			String adminEmail = (String)session.getAttribute("login");   
 			
@@ -48,6 +50,13 @@ public class HomeController {
 			
 			// 워크스페이스 리스트 보여주기
 			model.addAttribute("workspaceList", list);
+			
+			model.addAttribute("adminEmail",adminEmail);
+			
+			if(errorMsg != null ) {
+			model.addAttribute("errorMsg",errorMsg);
+				
+			}
 			
 			// index 이동
 			return "workspace/index"; 														

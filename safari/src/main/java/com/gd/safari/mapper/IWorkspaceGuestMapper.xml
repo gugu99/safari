@@ -116,5 +116,22 @@
 	
 	</select>
 	
+	<select id = "selectWorkspaceGuestOneCode" parameterType="com.gd.safari.vo.WorkspaceGuest" resultType ="String">
+		SELECT  
+				 work_guest_code        	
+		FROM 	 workspace_guest
+		WHERE 
+				 member_email = #{memberEmail} AND work_no = #{workNo}
+	</select>
+	
+	<select id = "selectWorkspaceGuestOneActive" parameterType="com.gd.safari.vo.WorkspaceGuest" resultType ="String">
+		SELECT  
+				 active 	
+		FROM 	 workspace_guest
+		WHERE 
+				 member_email = #{memberEmail} AND work_no = #{workNo}
+	
+	</select>
+	
 
 </mapper>

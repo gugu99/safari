@@ -11,10 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IMemberMailService;
 import com.gd.safari.service.IProfileImgService;
+import com.gd.safari.service.IWorkspaceGuestService;
 import com.gd.safari.service.IWorkspaceMemberService;
 import com.gd.safari.service.IWorkspaceService;
 import com.gd.safari.vo.Member;
@@ -36,6 +38,8 @@ public class WorkspaceController {
 	private IMemberMailService memberMailService;
 	@Autowired
 	private IProfileImgService profileImgService;
+	@Autowired
+	private IWorkspaceGuestService workspaceGuestService;
 
 	
 
@@ -93,7 +97,7 @@ public class WorkspaceController {
 
 	// 워크스페이스 메인창
 	@GetMapping("/safari/workspaceMain")
-	public String workspaceMain(HttpSession session, WorkspaceMember workspaceMember, Model model) {
+	public String workspaceMain(HttpSession session, WorkspaceMember workspaceMember, Model model,RedirectAttributes redirectAttributes) {
 		// workspaceMember 디버깅
 		log.debug(TeamColor.CJM + workspaceMember + "Controller workspaceMember"); 
 		
@@ -115,7 +119,7 @@ public class WorkspaceController {
 		// 세션 workspaceMember 추가
 		session.setAttribute("workMemberNo", workMemberNo); 
 		
-		// 활동여부 만들기
+		// 활동여부 가져오기
 		String Active = workspaceMemberService.getWorkspaceMemberOneActive(workMemberNo);
 		
 		// 세션 workspaceMemberLevel 추가
@@ -127,18 +131,20 @@ public class WorkspaceController {
 		// session에 workspaceName 담기 
 		session.setAttribute("workMemberName",workspaceMemberService.getWorkspaceMemberOne(workMemberNo).get("workMemberName"));
 		
-		
 		// 활동중인지확인
 		// Active 디버깅
 		log.debug(TeamColor.CJM + Active + "Controller active"); 
 		if (Active.equals("N")) {
-			model.addAttribute("active", "탈퇴한 멤버입니다.");
+			redirectAttributes.addAttribute("errorMsg", "탈퇴한 회원입니다");
 		// Active가 N 면 addWorkspaceMember폼으로
 			return "redirect:/safari/index"; 
 			
 		} else if (Active.equals("W")) {
-			
-		// Active가 W 면 Index로
+			if(workspaceMemberService.getWorkspaceMemberOneCode(workMemberNo)==null) {
+				redirectAttributes.addAttribute("errorMsg", "승인이 될때까지 기다려주세요");
+				return "redirect:/safari/index";
+			}
+			// Active가 W 면 addWorkspaceMember로
 			return "workmember/addWorkspaceMember"; 
 		}
 		
@@ -155,8 +161,23 @@ public class WorkspaceController {
 			// 세션 workNo 추가
 			session.setAttribute("workNo", workspaceGuest.getWorkNo()); 
 			
+			// 세션에서 멤버 이메일 가져오기
+			String memberEmail = ((String) session.getAttribute("login"));
+			
+			// 워크스페이스 게스트에 이메일 넣기
+			workspaceGuest.setMemberEmail(memberEmail);
+			
+			// 활동여부 가져오기
+			String Active = workspaceGuestService.getWorkspaceGuestOneActive(workspaceGuest);
+			
+			if(Active.equals("W")) {
+				
+				return "workmember/addWorkspaceGuest";
+				
+			}
+			
 			// projectList로 redirect
-			return "redirect:/safari/project"; 
+			return "redirect:/safari/project";  // 잠시수정
 		}
 	
 	

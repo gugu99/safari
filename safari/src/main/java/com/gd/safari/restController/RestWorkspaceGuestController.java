@@ -43,5 +43,30 @@ public class RestWorkspaceGuestController {
 		
 		return jsonStr;
 	}
+	
+	@PostMapping("/member/workspaceGuestCode")
+	public @ResponseBody String duplicateGuestEmail(HttpSession session,WorkspaceGuest workspaceGuest) {
+		
+		// 세션 workNo
+		int workNo = (int)session.getAttribute("workNo");
+		
+		// 세션 email 넣기 
+		String memberEmail = ((String) session.getAttribute("login"));
+		
+		// 세트 워크넘버 넣기
+		workspaceGuest.setWorkNo(workNo);
+		
+		// 멤버 이메일 넣기
+		workspaceGuest.setMemberEmail(memberEmail);
+		
+		// code 불러오기
+		String code = workspaceGuestService.getWorkspaceGuestOneCode(workspaceGuest);	  
+		
+		// code 멤버 디버깅
+		log.debug(TeamColor.CJM+code +"RestController code"); 
+		
+		// return 코드
+		return code;
+	}
 
 }

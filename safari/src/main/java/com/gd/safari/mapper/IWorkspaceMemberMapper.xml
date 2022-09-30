@@ -322,12 +322,13 @@
 		WHERE 	work_no = #{workNo} AND active='N'
 	</select>
 	
-	<select id ="selectWorkspaceMemberByWorkNoAndWorkMemberEmail" resultType="com.gd.safari.vo.WorkspaceMember" parameterType="map">
-		SELECT 
-			  work_member_no 	workMemberNo
-			, work_member_name  workMemberName
-		FROM workspace_member 
-		WHERE work_no = #{workNo} and work_member_email != #{workMemberEmail}
-	</select>
+	<!-- member에서 회원탈퇴하기 -->
+	<update id="updateWorkspaceMemberAllActvieN" parameterType="String">
+		UPDATE workspace_member
+		SET
+			active = 'N'
+		WHERE
+			work_member_email= #{workMemberEmail}
+	</update>
 	
 </mapper>

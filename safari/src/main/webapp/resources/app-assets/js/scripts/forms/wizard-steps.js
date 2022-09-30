@@ -46,7 +46,7 @@ $(".number-tab-steps").steps({
 				} else if ($("input[name='workMemberEmail']").val() != '') {
 					$.ajax({
 						async: false,
-						url: '/safari/existEmail',
+						url: '/member/existEmail',
 						type: 'POST',
 						data: { workMemberEmail: $("input[name='workMemberEmail']").eq(i).val() },
 						success: function(json) {

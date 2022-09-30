@@ -37,7 +37,7 @@ public class MemberMailService implements IMemberMailService{
 			message.addRecipients(RecipientType.TO, to[i]);}
 			
 			// 메일 제목
-			message.setSubject("Safari 회원가입 이메일 인증");
+			message.setSubject("Safari 워크스페이스 코드 인증 번호입니다");
 			
 			// 메일 내용
 			String msg = "";
@@ -51,7 +51,7 @@ public class MemberMailService implements IMemberMailService{
 			msg += "<p>감사합니다.</p>";
 			msg += "<br>";
 			msg += "<div align='center' style='border:1px solid black; font-family:verdana;'>";
-			msg += "<h3 style='color:red;'>워크스페이스 가입창 코드입니다.</h3>";	
+			msg += "<h3 style='color:red;'>워크스페이스 멤버 초대창 코드입니다.</h3>";	
 			msg += "<div style='font-size:130%;'>";
 			msg += "CODE : <strong>";
 			// 인증번호 넣기

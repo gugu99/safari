@@ -79,7 +79,8 @@ public interface IWorkspaceMemberMapper {
 	// Active N인 카운트구하기
 	int selectWorkspaceMemberActiveNCount(int workNo);
 	
-	// 
-	List<WorkspaceMember> selectWorkspaceMemberByWorkNoAndWorkMemberEmail(Map<String, Object> m);
+	// 워크스페이스멤버 전원 정지
+	int updateWorkspaceMemberAllActvieN(String workMemberEmail);
+	
 	
 }
