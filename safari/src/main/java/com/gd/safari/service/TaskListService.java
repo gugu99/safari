@@ -56,6 +56,7 @@ public class TaskListService implements ITaskListService {
 	
 	// 업무리스트 복사생성
 	@Override
+	@Transactional
 	public int addCopyTaskList(CopyTaskList copyTaskList) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 복사생성");
 		// 업무리스트와 업무로 나누기
@@ -106,6 +107,7 @@ public class TaskListService implements ITaskListService {
 
 	// 업무리스트 위치변경 - tasklistNo, projectNo가 필요하다
 	@Override
+	@Transactional
 	public int modifyTaskListLocation(int projectNo, int tasklistNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 위치변경");
 		

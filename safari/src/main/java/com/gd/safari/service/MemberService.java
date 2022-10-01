@@ -1,5 +1,6 @@
 package com.gd.safari.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.mapper.IMemberMapper;
+import com.gd.safari.mapper.IProjectMemberMapper;
+import com.gd.safari.mapper.ITaskMemberMapper;
+import com.gd.safari.mapper.IWorkspaceGuestMapper;
+import com.gd.safari.mapper.IWorkspaceMemberMapper;
 import com.gd.safari.vo.Member;
+import com.gd.safari.vo.TaskMember;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,6 +23,10 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class MemberService implements IMemberService {
 	@Autowired private IMemberMapper memberMapper;
+	@Autowired private ITaskMemberMapper taskMemberMapper;
+	@Autowired private IProjectMemberMapper projectMemberMapper;
+	@Autowired private IWorkspaceMemberMapper workspaceMemberMapper;
+	@Autowired private IWorkspaceGuestMapper workspaceGuestMapper;
 	
 	// 회원가입
 	@Override
@@ -136,11 +146,25 @@ public class MemberService implements IMemberService {
 	
 	// 탈퇴 (active 값을 X로 변경)
 	@Override
+	@Transactional
 	public int modifyMemberActiveXByDeleteAccount(String memberEmail) {
 		log.debug(TeamColor.CSH + this.getClass() + " modifyMemberActiveXByDeleteAccount (탈퇴)");
 		
+		// 업무멤버 삭제 하기 위한 조회
+		List<TaskMember> taskMemberList = taskMemberMapper.selectTaskMemberByMemberEmail(memberEmail);
 		// 업무멤버 삭제
+		for(TaskMember t : taskMemberList) {
+			taskMemberMapper.deleteTaskMember(t);
+		}
 		
+		// 프로젝트멤버 active N 설정하기
+		projectMemberMapper.updateProjectMemberActiveNByMemberEmail(memberEmail);
+		
+		// 워크스페이스멤버 active N 설정하기
+		workspaceMemberMapper.updateWorkspaceMemberAllActvieN(memberEmail);
+		
+		// 워크스페이스게스트 active N 설정하기
+		workspaceGuestMapper.updateWorkspaceGuestAllActvieN(memberEmail);
 		
 		// 마지막에 탈퇴
 		return memberMapper.updateMemberActiveXByDeleteAccount(memberEmail);

@@ -19,11 +19,12 @@ $(document).ready(function () {
   var lowerTask_list = new Array();
   // 업무 멤버 리스트
   var member_list = new Array();
+  // 업무 코멘트 리스트
+  var taskCommentList = new Array();
   // 프로젝트 멤버 담을 배열
   var projectMember = new Array();
-  // 업무 멤버 이미지 배열
+  // 업무 멤버 배열
   var user = new Array();
-  
   // 서브스트링에 있는 값 꺼내기
   var str = window.location.search;
   // 프로젝트 번호
@@ -544,36 +545,21 @@ $(document).ready(function () {
 			  }
 			  
 			  $('.edit-kanban-item-task').html(str);
-			  
-			  // 완료업무라면 취소버튼 보이기 / 완료업무가 아니라면 완료버튼 보이기
-			  
-			  /*var str1 = "";
-			  if($('.edit-kanban-item-end').val() != ''){
-				str1 = '<button type="button" class="btn btn-warning cancel-kanban-item mr-1">' +
-	                   '<i class="feather icon-check mr-50"></i>' +
-	                   '<span>완료취소</span>' +
-	               	   '</button>';
-			  } else {
-				str1 = '<button type="button" class="btn btn-info complete-kanban-item mr-1">'+
-					   '<i class="feather icon-check mr-50"></i>' +
-	                   '<span>업무완료</span>' + 
-	                   '</button>';
-			  }
-			  str1 += '<button type="reset" class="btn btn-danger delete-kanban-item mr-1">' +
-	               	  '<i class="feather icon-trash-2 mr-50"></i>' +
-	               	  '<span>삭제</span>' +
-	               	  '</button>' +
-	               	  '<button type="button" class="btn btn-primary glow update-kanban-item">' +
-	                  '<i class="feather icon-play mr-50"></i>' +
-	                  '<span>수정</span>' +
-	               	  '</button>';
-	               	  
-			  $('.justify-content-end').html(str1);*/
 		}
 	  });
       
-      // 디버깅
-      // console.log($('.edit-kanban-item-member').val());
+  	  // 업무코멘트 리스트
+      $.ajax({
+	  	async : false,
+		type : 'GET',
+		data : { taskNo : kanban_curr_item_id },
+		url : '/member/taskCommentList',
+		success : function(json){
+			console.log("업무코멘트 리스트");
+			console.log(json);
+		}
+	  });	
+	
       
 	  // 편집 제목 설정
       // set edit title
@@ -1182,10 +1168,11 @@ $(document).ready(function () {
 					alert('업무리스트 삭제를 성공했습니다.');
 					
     				KanbanExample.removeBoard($id);
+    				
+					window.location.reload();
 				}
 			}
 	    });
-	    
 	});
   });
   

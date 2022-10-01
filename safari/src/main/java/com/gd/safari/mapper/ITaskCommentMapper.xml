@@ -1,98 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.ITaskCommentMapper">
-	<insert id="insertTaskComment" parameterType= "com.gd.safari.vo.TaskComment">
-		INSERT INTO task_comment(
-			  task_no
-			, task_cmt_content
-			, task_cmt_writer
-			, task_cmt_fix 
-			, create_date
-			, update_date
-		
-		) VALUES(
-			  #{taskNo}
-			, #{taskCmtContent}
-			, #{taskCmtWriter}
-			, 'N'
-			, NOW()
-			, NOW()
-		)
-		
-	</insert>
-	
-	<insert id="insertSubTaskComment" parameterType= "com.gd.safari.vo.TaskComment">
-		INSERT INTO task_comment(
-			  task_no
-			, task_cmt_content
-			, task_cmt_writer
-			, task_cmt_fix 
-			, create_date
-			, update_date
-			, task_cmt_upper_no
-		
-		) VALUES(
-			  #{taskNo}
-			, #{taskCmtContent}
-			, #{taskCmtWriter}
-			, 'N'
-			, NOW()
-			, NOW()
-			, #{taskCmtUpperNo}
-		)
-		
-	</insert>
-	
-	<update id="updateTaskComment" parameterType= "com.gd.safari.vo.TaskComment">
-		UPDATE task_comment 
-		SET
-			   task_cmt_content = #{taskCmtContent}
-		WHERE  task_cmt_no = #{taskCmtNo}
-	
-	</update>
-	
-	<delete id="deleteTaskComment" parameterType= "com.gd.safari.vo.TaskComment">
-		DELETE FROM task_comment 
-		WHERE  task_cmt_no = #{taskCmtNo}
-	</delete>
-
-	<update id="updateTaskCommentNewTaskCmtFix" parameterType= "com.gd.safari.vo.TaskComment">
-		UPDATE task_comment
-		SET
-			   task_cmt_fix = 'Y'
-			   
-		WHERE  task_cmt_no = #{taskCmtNo}
-	</update>
-	
-	<update id="updateTaskCommentLastTaskCmtFix" parameterType= "com.gd.safari.vo.TaskComment">
-		UPDATE task_comment
-		SET
-			   task_cmt_fix = 'N'
-			   
-		WHERE  task_cmt_no = #{taskCmtNo}
-	</update>
-	
-	<select id="selectTaskCommentNoByTaskCmtFixY" parameterType= "com.gd.safari.vo.TaskComment">
+	<!-- 업무 코멘트리스트 가져오기 -->
+	<select id="selectTaskComment" parameterType="int" resultType="map">
 		SELECT 
-			   task_cmt_no  taskCmtNo
-		FROM   task_comment
-		WHERE  task_no #{taskNo} AND task_cmt_fix = #{taskCmtFix}
-	
+			tc.task_cmt_no			taskCmtNo
+			, tc.task_cmt_content	taskCmtContent
+			, tc.create_date		createDate
+			, tc.task_cmt_upper_no	taskCmtUpperNo
+			, wm.work_member_name	workMemberName
+		FROM 
+			task_comment tc 				INNER JOIN task t
+		ON 
+			tc.task_no = t.task_no 			INNER JOIN task_list tl
+		ON 
+			t.tasklist_no = tl.tasklist_no 	INNER JOIN project p 
+		ON 
+			tl.project_no = p.project_no 	INNER JOIN workspace_member wm
+		ON 
+			p.work_no = wm.work_no
+		WHERE 
+			wm.work_member_email = tc.task_cmt_writer
+		AND 
+			tc.task_no = #{taskNo}
 	</select>
-
-	<select id="selectTaskCommentList" parameterType="com.gd.safari.vo.TaskComment">
-		SELECT 
-				  task_cmt_no 		taskCmtNo
-				, task_no     		taskNo
-				, task_cmt_content  taskCmtContent
-				, task_cmt_writer	taskCmtWriter
-				, task_cmt_fix		taskCmtFix
-				, create_date		createDate
-				, update_date		updateDate
-				, task_cmt_upper_no taskCmtUpperNo
-		FROM	task_comment
-		WHERE	task_no = #{taskNo}
-	</select>
-
-
 </mapper>

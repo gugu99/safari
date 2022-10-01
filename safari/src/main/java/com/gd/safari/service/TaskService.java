@@ -12,9 +12,11 @@ import com.gd.safari.commons.TeamColor;
 import com.gd.safari.mapper.IProjectMapper;
 import com.gd.safari.mapper.ITaskListMapper;
 import com.gd.safari.mapper.ITaskMapper;
+import com.gd.safari.mapper.ITaskMemberMapper;
 import com.gd.safari.vo.Project;
 import com.gd.safari.vo.Task;
 import com.gd.safari.vo.TaskList;
+import com.gd.safari.vo.TaskMember;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class TaskService implements ITaskService {
 	@Autowired private ITaskMapper taskMapper;
+	@Autowired private ITaskMemberMapper taskMemberMapper;
 	@Autowired private ITaskListMapper taskListMapper;
 	@Autowired private IProjectMapper projectMapper;
 
@@ -84,33 +87,20 @@ public class TaskService implements ITaskService {
 
 	// 업무 위치변경 - taskNo, tasklistNo 필요함
 	@Override
+	@Transactional
 	public int modifyTaskLocation(int tasklistNo, int taskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 위치변경");
-		// 새로 갈 곳의 멤버 조회
-		/*List<Map<String, Object>> newMember = taskMemberMapper.selectTaskMemberByTaskListNo(tasklistNo);
+		
 		// 가져온 업무멤버 조회
-		List<Map<String, Object>> oldMember = taskMemberMapper.selectTaskMemberByTaskNo(taskNo);
-		List<TaskMember> temp = new ArrayList<>();
+		List<TaskMember> oldMember = taskMemberMapper.selectTaskMemberByTaskNo(taskNo);
 		
-		log.debug(TeamColor.CSH + newMember);
 		log.debug(TeamColor.CSH + oldMember);
-		
-		// 같으면 담기
-		for(Map<String, Object> n : newMember) {
-			for(Map<String, Object> o : oldMember) {
-				if(n.get("workMemberNo") == o.get("workMemberNo")) {
-					
-				}
-			}
-		}
-		// 가공
-		TaskMember t = new TaskMember();
-		t.setTaskNo((int) o.get("taskNo"));
-		t.setTaskNo((int) o.get("projectMemberNo"));
+
 		// 메서드 실행
-		taskMemberMapper.deleteTaskMember(t);*/
 		// 멤버 삭제 후 이동
-		//taskMemberMapper.deleteTaskMemberByTaskNo(taskNo);
+		for(TaskMember t : oldMember) {
+			taskMemberMapper.deleteTaskMember(t);
+		}
 		
 		// param 값 가공
 		Map<String, Integer> m = new HashMap<>();
