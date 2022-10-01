@@ -37,7 +37,7 @@ $(document).ready(function(){
 		}
 	});
 	
-	$('#colorCheck1').click(function(){
+	$('#customSwitch1').click(function(){
 		finishForm.submit();
 	})
 	

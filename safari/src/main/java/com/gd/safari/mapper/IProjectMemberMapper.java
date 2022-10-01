@@ -23,6 +23,9 @@ public interface IProjectMemberMapper {
 	// 프로젝트 멤버 수정
 	int updateProjectMember(ProjectMember projectMember);
 	
+	// (탈퇴 기능에서 사용)
+	int updateProjectMemberActiveNByMemberEmail(String memberEmail);
+	
 	// 해당 프로젝트에 속 멤버를 모두 삭제 -> Project 삭제 메소드에서 사용
 	int deleteProjectMemberByProjectNo(int projectNo);
 }

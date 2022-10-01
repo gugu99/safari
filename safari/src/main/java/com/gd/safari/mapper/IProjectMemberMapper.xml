@@ -92,6 +92,31 @@
 	
 	</update>
 	
+	<update id="updateProjectMemberActiveNByMemberEmail" parameterType="java.util.Map">
+		UPDATE 
+			project_member 
+		SET 
+			active = 'N' 
+		WHERE 
+			project_member_no 
+			IN (
+				SELECT 
+					* 
+				FROM(
+					SELECT DISTINCT 
+						p.project_member_no 
+					FROM 
+						project_member p 
+					INNER JOIN 
+						workspace_member w 
+					ON 
+						p.work_member_no = w.work_member_no 
+					WHERE 
+						w.work_member_email = #{memberEmail}
+					) t
+				)
+	</update>
+	
 	<!-- 해당 프로젝트에 속한 멤버를 모두 삭제 -->	
 	<delete id="deleteProjectMemberByProjectNo" parameterType="int">
 		DELETE FROM project_member WHERE project_no = #{projectNo}

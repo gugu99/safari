@@ -144,11 +144,11 @@
 		                <div class="content-header-right col-md-6 col-12 mb-md-0 mb-2 pr-2">
 		                    <div class="btn-group float-md-right">
 		                    	<!-- 종료된 프로젝트 제외하고 보기 -->
-		                    	<div class="mr-1 d-inline-block custom-control custom-checkbox mr-1">
-									<form action="${pageContext.request.contextPath}/${(guest eq null)? 'member' : 'safari'}/project" method="get" id="finishForm">
-										<input type="checkbox" class="custom-control-input bg-primary" name="finish" value="finish" id="colorCheck1" ${paramMap.finish != null ? 'checked' : ''}>
-										<label class="custom-control-label" for="colorCheck1">완료된 프로젝트 제외하기</label>
-									</form>
+		                    	<div class="custom-control custom-switch mr-1 pt-1">
+		                    		<form action="${pageContext.request.contextPath}/${(guest eq null)? 'member' : 'safari'}/project" method="get" id="finishForm">
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch1" name="finish" ${paramMap.finish != null ? 'checked' : ''}>
+                                            <label class="custom-control-label" for="customSwitch1">완료된 프로젝트 제외하고 보기</label>
+                                    </form>
                                 </div>
 		                    	<!-- 정렬 메뉴 -->
 		                    	<form method="get" action="${pageContext.request.contextPath}/${(guest eq null)? 'member' : 'safari'}/project" id="orderForm">

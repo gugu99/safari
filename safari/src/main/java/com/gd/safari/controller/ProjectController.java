@@ -51,6 +51,9 @@ public class ProjectController {
 		model.addAttribute("paramMap", paramMap);
 		model.addAttribute("guest", map.get("guest"));
 		
+		// 게스트 여부 세션에 저장
+		session.setAttribute("guest", map.get("guest"));
+		
 		return "project/project";
 	}
 	
