@@ -555,12 +555,56 @@ $(document).ready(function () {
 		data : { taskNo : kanban_curr_item_id },
 		url : '/member/taskCommentList',
 		success : function(json){
-			console.log("업무코멘트 리스트");
+			// console.log("업무코멘트 리스트");
 			console.log(json);
+			
+			taskCommentList = json;
 		}
 	  });	
-	
-      
+	  
+	  // 업무코멘트 리스트 보여주기
+	  var str = "";
+	  for(var i = 0; i < taskCommentList.length; i++) {
+		 	let creatDate = dateFormat_show(new Date(taskCommentList[i].createDate));
+		 	
+			str += '<div class="snow-container border rounded p-1 mb-1">' +
+						'<div class="compose-editor">' +
+							'<div class="row">' +
+								'<div class="col-10">' +
+									'<div class="font-weight-bold">' +
+										taskCommentList[i].workMemberName + 
+									'</div>' +
+									'<div class="small">' + creatDate + '</div>'+
+								'</div>' + 
+								'<div class="col-2">' + 
+									'<a href="/member/taskCmtReply" class="btn btn-sm" id="taskCmtReplyBtn">' +
+										'<i class="feather icon-corner-up-left small"></i>' +
+									'</a>' +
+									'<a href="/member/taskCmtLike" class="btn btn-sm" id="taskCmtLikeBtn">' +
+										'<i class="feather icon-thumbs-up small"></i>' +
+									'</a>' + 
+									'<div class="dropdown">' +
+										'<div class="dropdown-toggle cursor-pointer mr-5" role="button" id="taskCmtMenuBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+										'</div>' +
+										'<div class="dropdown-menu dropdown-menu-right" aria-labelledby="taskCmtMenuBtn" id="' + taskCommentList[i].taskCmtNo + '"> ' +
+											'<a data-toggle="modal" class="dropdown-item taskCmtToTaskBtn-modal" id="taskCmtToTaskBtn-modal" href="#taskCmtToTaskModal"><i class="feather icon-file-plus mr-50"></i>업무로 만들기</a>' +
+											'<a data-toggle="modal" class="dropdown-item taskCmtFixBtn-modal" id="taskCmtFixBtn-modal" href="#taskCmtFixModal"><i class="feather icon-bookmark mr-50"></i>이 코멘트 고정하기</a>' +
+											'<a data-toggle="modal" class="dropdown-item updateTaskCmtBtn-modal" id="updateTaskCmtBtn-modal" href="#updateTaskCmtModal"><i class="feather icon-edit mr-50"></i>수정</a>' +
+											'<a data-toggle="modal" class="dropdown-item deleteTaskCmtBtn-modal" id="deleteTaskCmtBtn-modal" href="#deleteTaskCmtModal"><i class="feather icon-trash-2 mr-50"></i>삭제</a>' +
+										'</div>' +
+									'</div>' +
+								'</div>' +
+							'</div>' +
+							'<hr>' +
+							'<div>' +
+								taskCommentList[i].taskCmtContent + 
+							'</div>' +
+						'</div>' +
+					'</div>';
+	  }
+	  
+	  $('#taskCommentList').html(str);
+  
 	  // 편집 제목 설정
       // set edit title
       $(".edit-kanban-item .edit-kanban-item-title").val(kanban_item_title);
@@ -745,7 +789,6 @@ $(document).ready(function () {
   
   	// 하위 업무 생성
 	$('.lowerTask').on("keydown", function(event){
-		console.log();
 		if(event.keyCode === 13){
 			// 엔터를 누르는 동시에 현재 안에 값을 value로 저장한다.
 			// console.log($('.lowerTask').val());
@@ -836,6 +879,111 @@ $(document).ready(function () {
     });
   });
   
+  // 업무코멘트
+  // ----------------------------------------------------
+  // 업무코멘트 생성
+  
+  $('#cmtBtn').on("click", function(){
+	// alert($('.compose-editor').val());
+	// console.log($('.edit-kanban-item-id').val());
+	// console.log($('.compose-editor').val());
+	
+	$.ajax({
+		async : false,
+		type : 'POST',
+		data : {
+			taskNo : $('.edit-kanban-item-id').val(),
+			taskCmtContent : $('.compose-editor').val()
+		},
+		url : '/member/insertTaskComment',
+		success : function(json){
+			if(json != 'ok'){
+				alert('업무 코멘트 생성을 실패했습니다.');
+				return;
+			} else {
+				alert('업무 코멘트 생성을 성공했습니다.');
+			}
+		}	
+    });
+    
+    // 업무코멘트 리스트
+	  $.ajax({
+	  	async : false,
+		type : 'GET',
+		data : { taskNo : kanban_curr_item_id },
+		url : '/member/taskCommentList',
+		success : function(json){
+			// console.log("업무코멘트 리스트");
+			console.log(json);
+			
+			taskCommentList = json;
+		}
+	  });	
+	  
+	  // 업무코멘트 리스트 보여주기
+	  var str = "";
+	  for(var i = 0; i < taskCommentList.length; i++) {
+		 	let creatDate = dateFormat_show(new Date(taskCommentList[i].createDate));
+		 	
+			str += '<div class="snow-container border rounded p-1 mb-1">' +
+						'<div class="compose-editor">' +
+							'<div class="row">' +
+								'<div class="col-10">' +
+									'<div class="font-weight-bold">' +
+										taskCommentList[i].workMemberName + 
+									'</div>' +
+									'<div class="small">' + creatDate + '</div>'+
+								'</div>' + 
+								'<div class="col-2">' + 
+									'<a href="/member/taskCmtReply" class="btn btn-sm" id="taskCmtReplyBtn">' +
+										'<i class="feather icon-corner-up-left small"></i>' +
+									'</a>' +
+									'<a href="/member/taskCmtLike" class="btn btn-sm" id="taskCmtLikeBtn">' +
+										'<i class="feather icon-thumbs-up small"></i>' +
+									'</a>' + 
+									'<div class="dropdown">' +
+										'<div class="dropdown-toggle cursor-pointer mr-5" role="button" id="taskCmtMenuBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+										'</div>' +
+										'<div class="dropdown-menu dropdown-menu-right" aria-labelledby="taskCmtMenuBtn" id="' + taskCommentList[i].taskCmtNo + '"> ' +
+											'<a data-toggle="modal" class="dropdown-item taskCmtToTaskBtn-modal" id="taskCmtToTaskBtn-modal" href="#taskCmtToTaskModal"><i class="feather icon-file-plus mr-50"></i>업무로 만들기</a>' +
+											'<a data-toggle="modal" class="dropdown-item taskCmtFixBtn-modal" id="taskCmtFixBtn-modal" href="#taskCmtFixModal"><i class="feather icon-bookmark mr-50"></i>이 코멘트 고정하기</a>' +
+											'<a data-toggle="modal" class="dropdown-item updateTaskCmtBtn-modal" id="updateTaskCmtBtn-modal" href="#updateTaskCmtModal"><i class="feather icon-edit mr-50"></i>수정</a>' +
+											'<a data-toggle="modal" class="dropdown-item deleteTaskCmtBtn-modal" id="deleteTaskCmtBtn-modal" href="#deleteTaskCmtModal"><i class="feather icon-trash-2 mr-50"></i>삭제</a>' +
+										'</div>' +
+									'</div>' +
+								'</div>' +
+							'</div>' +
+							'<hr>' +
+							'<div>' +
+								taskCommentList[i].taskCmtContent + 
+							'</div>' +
+						'</div>' +
+					'</div>';
+	  }
+	  
+	  $('#taskCommentList').html(str);
+  });
+  
+  // 업무코멘트 수정
+  $(document).on("click", ".updateTaskCmtBtn-modal", function () {
+	
+    var taskCmtNo = $(this)
+      .closest(".dropdown-menu").attr("id");
+	console.log(taskCmtNo);
+	// 내용 가져오기
+  	/*$.ajax({
+		async : false,
+		type : 'GET',
+		data : { taskCmtNo :  },
+		url : '/member/taskCommentOne',
+		success : function(json){
+			// console.log("업무코멘트 수정");
+			console.log(json);
+			
+			taskCommentList = json;
+		}
+  	});*/
+  });
   
   // 칸반 보드 속성
   // ----------------------------------------------------------
@@ -1255,4 +1403,6 @@ $(document).ready(function () {
       .removeClass($(this).attr("class"))
       .addClass($(":selected", this).attr("class") + " form-control text-white");
   });
+  
+  
 });

@@ -5,3 +5,16 @@
     margin-top: -28px;
     margin-left: -14px;
 }
+#taskCmtCardContent{
+	overflow-y: auto;
+	height: 900px;
+}
+#taskCmtCardBody{
+	height: 200px;
+}
+#taskCmtContent{
+	resize: none;
+}
+#taskComment .card-content .dropdown-toggle::after{
+	margin-left: 3px;
+}

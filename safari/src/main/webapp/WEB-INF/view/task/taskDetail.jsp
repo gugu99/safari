@@ -148,4 +148,6 @@
 <%@ include file="/WEB-INF/view/task/updateTaskListLocationModal.jsp"%>
 <%@ include file="/WEB-INF/view/task/copyTaskListModal.jsp"%>
 <%@ include file="/WEB-INF/view/task/copyTaskModal.jsp"%>
+<%@ include file="/WEB-INF/view/task/deleteTaskCmtModal.jsp"%>
+<%@ include file="/WEB-INF/view/task/updateTaskCmtModal.jsp"%>
 <!--/ User Chat profile right area -->
