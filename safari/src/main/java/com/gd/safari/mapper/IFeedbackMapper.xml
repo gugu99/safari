@@ -70,7 +70,7 @@
 				f1.feedback_no = fr2.feedback_no
 			WHERE
 				(
-				f1.feedback_sender = #{workMemberEmail} 
+				f1.feedback_sender = #{workMemberEmail}
 				OR 
 				fr2.feedback_receiver = #{workMemberEmail}) 
 			AND 
@@ -102,8 +102,16 @@
 			task t
 		ON
 			f.task_no = t.task_no
+		INNER JOIN
+			task_list tl
+		ON
+			t.tasklist_no = tl.tasklist_no
+		INNER JOIN
+			project p
+		ON
+			tl.project_no = p.project_no
 		WHERE
-			f.work_no =#{workNo}
+			p.work_no = #{workNo}
 	</select>
 
 	<!-- 피드백 작성 -->
