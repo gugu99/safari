@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.gd.safari.vo.Task;
+
 @Mapper
 public interface IFileMapper {
 	
@@ -19,4 +21,7 @@ public interface IFileMapper {
 	
 	// 파일 정보상세보기
 	com.gd.safari.vo.File selectFileOne(int FileNo);
+	
+	// 리스트에 따른 파일 업무리스트 받아오기
+	List<Task>selectTaskList(int tasklistNo);
 }	

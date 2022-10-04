@@ -52,7 +52,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">프로젝트 전체 파일리스트</h4>
-                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                               
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
                                         <li><a data-action="collapse"><i class="feather icon-minus"></i></a></li>
@@ -61,7 +61,57 @@
                                         <li><a data-action="close"><i class="feather icon-x"></i></a></li>
                                     </ul>
                                 </div>
+                                 <a href="#" class="btn btn-sm btn-primary mr-25" data-toggle="modal" data-target="#inlineForm">파일올리기</a>
                             </div>
+                            <!--IMG Modal -->
+							<div class="col-lg-4 col-md-6 col-sm-12">
+						        <div class="form-group">
+						            <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+						                <div class="modal-dialog None" role="document">
+						                    <div class="modal-content">
+						                        <div class="modal-header">
+						                            <label class="modal-title text-text-bold-600" id="myModalLabel33">파일업로드</label>
+						                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						                                <span aria-hidden="true">&times;</span>
+						                            </button>
+						                        </div>
+						                        <form id="fileForm"  method="post" action="${pageContext.request.contextPath}/member/addFile" enctype="multipart/form-data">
+						                            <div class="modal-body">
+						                            	<label>업무리스트:</label>
+						                            	<select id="tasklistNo" name="tasklistNo">
+						                            	<option value="">업무리스트 선택</option>
+						                            	<c:forEach var="t" items="${taskList}">
+						                            	<option value="${t.tasklistNo}">${t.tasklistTitle}</option>
+						                            	</c:forEach>
+						                            	</select>
+						                            	<br>
+						                            	<label>업무선택:</label>
+						                            	<select name="taskNo" id="taskNo">
+														</select>
+									                    <div class="col-12 px-0 d-flex flex-sm-row flex-column justify-content-start">
+						                                    <input class="btn btn-sm btn-primary ml-50 file" name="file" type="file" id="file" onchange="checkFile(this)">
+						                                </div>
+						                                 <div id="fileSection">      
+     													 </div>
+						                                	<br>
+						                                <div class= "row"> 
+						                                  <div class="col-6">
+						                                    <input class="btn btn-sm btn-primary ml-50" id="addFile" name="" type="button" value="파일추가">
+						                                     <input class="btn btn-sm btn-primary ml-50" id="removeFile" name="" type="button" value="파일삭제">
+						                                </div>
+						                                </div>
+						                            </div>
+						                            <div class="modal-footer">
+						                                <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="닫기">
+						                                <input id="uploadButton" type="button" class="btn btn-outline-primary btn-lg" value="업로드">
+						                            </div>
+						                        </form>
+						                    </div>
+						                </div>
+						            </div>
+						        </div>
+						    </div>
+							<!-- IMG Modal END -->
                             <div class="card-content collapse show">
                                 <div class="table-responsive">
                                     <table class="table table-xl mb-0">
@@ -76,10 +126,16 @@
                                         <tbody>
                                         <c:forEach var="f" items="${fileList}">
                                             <tr>
-                                                <th scope="row">${ f.filename}</th>
+                                               <th scope="row" ><a href="${pageContext.request.contextPath}/resources/fileupload/${f.filename}${f.fileExt}"
+                                               download="${f.originName}">${ f.originName}</a></th>
+                                               
                                                 <td>${f.fileSize}</td>
                                                 <td>${f.createDate}</td>
-                                                <td>${f.uploader}</td>
+                                                <td>${f.uploader} 
+                                                <c:if test="${login eq f.uploader}">
+                                                <a href="${pageContext.request.contextPath}/member/removeFile?fileNo=${f.fileNo}"><button>파일삭제</button></a>
+                                                </c:if>
+                                                </td>
                                             </tr>
                                             </c:forEach>
                                         </tbody>
@@ -129,5 +185,118 @@
 
 </body>
 <!-- END: Body-->
+
+
+<script>
+$(document).ready(function(){
+   $('#removeFile').click(function(){
+      $('#fileSection').empty();
+   });
+   
+   $('#addFile').click(function(){
+      let isFileEmpty = false;
+      
+      let html = '<div class="col-12 px-0 d-flex flex-sm-row flex-column justify-content-start">'+
+          '<input class="btn btn-sm btn-primary ml-50 multiList file" value="" name="file" type="file" id="file" onchange="checkFile(this)">'+
+      '</div>';
+      $('.multiList').each(function(index, item){
+          // $(this) --> item
+          if($(item).val() == '') {
+             isFileEmpty = true;
+             alert('파일을 업로드하시고 추가해주세요.');
+          }
+       });
+      if(isFileEmpty == false) {
+      $('#fileSection').append(html);
+      }
+      
+      
+   });
+   
+});
+</script>
+
+<script>
+$(document).ready(function(){
+	$('#tasklistNo').change(function() {
+		if($('#tasklistNo').val() == '') {
+			alert('업무리스트를 선택하세요');
+		} else {
+			$('#taskNo').empty();
+			$('#taskNo').append('<option value="">::: 업무선택 :::</option>')
+			
+			$.ajax({
+				url : '/member/tasklist',
+				type : 'post',
+				data : {tasklistNo : $('#tasklistNo').val()},
+				success : function(json) {
+					$(json).each(function(index, item){
+						$('#taskNo').append('<option value="'+item.taskNo+'">'+item.taskTitle+'</option>')
+					});
+				}
+			});
+		}
+	});
+});
+
+</script>
+
+<script>
+$(document).ready(function(){
+	
+	var grpl = $('input[name=file]').length;
+	//배열 생성
+	var grparr = new Array(grpl);
+	$('#uploadButton').click(function() {
+		
+		for (var i = 0; i <= grpl; i++) {
+			if ($('#tasklistNo').val() == '') {
+				alert('업무리스트를 선택해주세요');
+				$('#tasklistNo').focus();
+				console.log(grpl);
+				return;
+			}else if($('#taskNo').val() == ''){
+				alert('업무를 선택해주세요');
+				$('#taskNo').focus();
+				return;
+			}
+			else if($("input[name='file']").eq(i).val() == ''){
+					alert('파일을 첨부해주세요');
+					i = grpl+1;
+					return;
+				}
+			else if(i == grpl){
+				$('#fileForm').submit();
+			}
+				
+		}			
+	});
+	
+
+});
+
+
+
+
+
+</script>
+
+<script>
+function checkFile(el){
+
+	// files 로 해당 파일 정보 얻기.
+	var file = el.files;
+
+	// file[0].size 는 파일 용량 정보입니다.
+	if(file[0].size > 1024 * 1024 * 1){
+		// 용량 초과시 경고후 해당 파일의 용량도 보여줌
+		alert('1MB 이하 파일만 등록할 수 있습니다.');
+		
+		$(el).val('');
+	}
+}
+
+</script>
+
 
 </html>

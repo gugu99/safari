@@ -40,7 +40,7 @@
 				, create_date
 				, update_date
 			) VALUES(
-				  #{task_no}
+				  #{taskNo}
 				, #{uploader}
 				, #{filename}
 				, #{fileExt}
@@ -54,7 +54,7 @@
 	
 	<!-- 파일 삭제메서드 -->
 	<delete id ="deleteFile" parameterType="int">
-		DELETE FROM File
+		DELETE FROM file
 		WHERE file_no = #{fileNo}
 	</delete>
 	
@@ -76,5 +76,13 @@
 		WHERE file_no= #{fileNo}
 	</select>
 	
+	<!-- 해당업무에 해당하는 업무 보여주기 -->
+	<select id="selectTaskList" parameterType="int" resultType="com.gd.safari.vo.Task">
+		SELECT
+			 task_no	   taskNo
+			,task_title    taskTitle
+		FROM task
+		WHERE tasklist_no = #{tasklistNo}
+	</select>
 	
 </mapper>
