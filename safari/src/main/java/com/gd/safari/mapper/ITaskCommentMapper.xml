@@ -50,6 +50,32 @@
 		AND 
 			tc.task_cmt_no = #{taskCmtNo}
 	</select>
+	<!-- 고정된 코멘트 있을 경우 가져오기 -->
+	<select id="selectFixTaskCommentByTaskNo">
+		SELECT 
+			tc.task_cmt_no			taskCmtNo
+			, tc.task_cmt_content	taskCmtContent
+			, tc.task_cmt_writer	taskCmtWriter
+			, tc.create_date		createDate
+			, tc.task_cmt_upper_no	taskCmtUpperNo
+			, wm.work_member_name	workMemberName
+		FROM 
+			task_comment tc INNER JOIN task t
+		ON 
+			tc.task_no = t.task_no 			INNER JOIN task_list tl
+		ON 
+			t.tasklist_no = tl.tasklist_no 	INNER JOIN project p 
+		ON 
+			tl.project_no = p.project_no 	INNER JOIN workspace_member wm
+		ON 
+			p.work_no = wm.work_no
+		WHERE 
+			wm.work_member_email = tc.task_cmt_writer
+		AND 
+			tc.task_no = #{taskNo}
+		AND 
+			tc.task_cmt_fix = 'Y'	
+	</select>
 	<!-- 업무 코멘트 생성 -->
 	<insert id="insertTaskComment" parameterType="com.gd.safari.vo.TaskComment">
 		INSERT INTO task_comment (
@@ -80,6 +106,22 @@
 			task_cmt_no = #{taskCmtNo}
 		AND
 			task_cmt_writer = #{taskCmtWriter}
+	</update>
+	<!-- 업무 코멘트 고정하기 -->
+	<update id="updateFixTaskComment" parameterType="int">
+		UPDATE task_comment
+		SET 
+			task_cmt_fix = 'Y'
+		WHERE 
+			task_cmt_no = #{taskCmtNo}
+	</update>
+	<!-- 업무 코멘트 해제하기 -->
+	<update id="updateUnfixedTaskComment" parameterType="int">
+		UPDATE task_comment
+		SET 
+			task_cmt_fix = 'N'
+		WHERE 
+			task_cmt_no != #{taskCmtNo}
 	</update>
 	<!-- 업무 코멘트 삭제 -->
 	<delete id="deleteTaskComment" parameterType="com.gd.safari.vo.TaskComment">

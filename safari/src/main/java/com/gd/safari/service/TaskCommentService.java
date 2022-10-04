@@ -32,7 +32,14 @@ public class TaskCommentService implements ITaskCommentService {
 		log.debug(TeamColor.CSH + this.getClass() + " 수정하기 위한 업무 코멘트 가져오기");
 		return taskCommentMapper.selectTaskCommentByTaskCmtNo(taskCmtNo);
 	}
-
+	
+	// 고정된 코멘트 있을 경우 가져오기
+	@Override
+	public Map<String, Object> getFixTaskCommentByTaskNo(int taskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 고정된 코멘트 있을 경우 가져오기");
+		return taskCommentMapper.selectFixTaskCommentByTaskNo(taskNo);
+	}
+	
 	// 업무 코멘트 생성
 	@Override
 	public int addTaskComment(TaskComment taskComment) {
@@ -45,6 +52,20 @@ public class TaskCommentService implements ITaskCommentService {
 	public int modifyTaskComment(TaskComment taskComment) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 수정");
 		return taskCommentMapper.updateTaskComment(taskComment);
+	}
+
+	// 업무 코멘트 고정하기
+	@Override
+	public int modifyFixTaskComment(int taskCmtNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 고정하기");
+		return taskCommentMapper.updateFixTaskComment(taskCmtNo);
+	}
+	
+	// 업무 코멘트 해제하기
+	@Override
+	public int modifyUnfixedTaskComment(int taskCmtNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 해제하기");
+		return taskCommentMapper.updateUnfixedTaskComment(taskCmtNo);
 	}
 	
 	// 업무 코멘트 삭제

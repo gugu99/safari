@@ -16,7 +16,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-outline-primary" id="updateTaskCmtBtn">수정</button>
+				<button type="button" class="btn btn-outline-primary" id="updateTaskCmtBtn">수정</button>
 				<input type="reset" class="btn btn-outline-secondary btn" data-dismiss="modal" value="닫기"> 
 			</div>
 		</div>

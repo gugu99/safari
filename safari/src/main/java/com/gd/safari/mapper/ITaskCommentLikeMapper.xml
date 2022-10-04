@@ -17,7 +17,15 @@
 	</select>
 	<!-- 좋아요를 눌렀는지 안눌렀는지 확인 -->
 	<select id="selectTaskCommentLikeCheck" parameterType="com.gd.safari.vo.TaskCommentLike" resultType="com.gd.safari.vo.TaskCommentLike">
-		
+		SELECT 
+			task_cmt_no			taskCmtNo
+			, member_email 		memberEmail
+		FROM 
+			task_comment_like
+		WHERE 
+			task_cmt_no = #{taskCmtNo}
+		AND 
+			member_email = #{memberEmail}
 	</select>
 	<!-- 업무코멘트 좋아요 생성 -->
 	<insert id="insertTaskCommentLike" parameterType="com.gd.safari.vo.TaskCommentLike">

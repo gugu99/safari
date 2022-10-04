@@ -27,6 +27,9 @@ public class RestTaskCommentController {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트리스트 가져오기");
 		List<Map<String, Object>> taskCommentList = taskCommentService.getTaskComment(taskNo);
 		
+		// 디버깅
+		log.debug(TeamColor.CSH + taskCommentList);
+		
 		return taskCommentList;
 	}
 	
@@ -35,10 +38,25 @@ public class RestTaskCommentController {
 	public Map<String, Object> taskCommentOne(int taskCmtNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 수정하기 위한 업무 코멘트 가져오기");
 		Map<String, Object> taskComment = taskCommentService.getTaskCommentByTaskCmtNo(taskCmtNo);
+
+		// 디버깅
+		log.debug(TeamColor.CSH + taskComment);
 		
 		return taskComment;
 	}
-	
+
+	// 고정된 코멘트 있을 경우 가져오기
+	@GetMapping("/member/fixedTaskComment")
+	public Map<String, Object> fixedTaskComment(int taskNo){
+		log.debug(TeamColor.CSH + this.getClass() + " 고정된 코멘트 있을 경우 가져오기");
+		Map<String, Object> fixedTaskComment = taskCommentService.getTaskCommentByTaskCmtNo(taskNo);
+
+		// 디버깅
+		log.debug(TeamColor.CSH + fixedTaskComment);
+		
+		return fixedTaskComment;
+	}
+
 	// 업무 코멘트 생성
 	@PostMapping("/member/insertTaskComment")
 	public String insertTaskComment(HttpSession session, int taskNo, String taskCmtContent) {
@@ -69,14 +87,14 @@ public class RestTaskCommentController {
 		
 		return jsonStr;
 	}
-
+	
 	// 업무 코멘트 수정
 	@PostMapping("/member/updateTaskComment")
 	public String updateTaskComment(HttpSession session, int taskCmtNo, String taskCmtContent) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 수정");
 		
 		// 디버깅
-		log.debug(TeamColor.CSH + "taskNo : " + taskCmtNo + " taskCmtContent : " + taskCmtContent);
+		log.debug(TeamColor.CSH + "taskCmtNo : " + taskCmtNo + " taskCmtContent : " + taskCmtContent);
 
 		// 세션의 이메일과 해당 코멘트 작성자가 같아야 수정 가능
 		// 파라미터 가공 (파싱)
@@ -102,6 +120,54 @@ public class RestTaskCommentController {
 		return jsonStr;
 	}
 	
+	// 업무 코멘트 고정하기
+	@PostMapping("/member/fixTaskComment")
+	public String fixTaskComment(int taskCmtNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 고정하기");
+		
+		// 디버깅
+		log.debug(TeamColor.CSH + "taskCmtNo : " + taskCmtNo);
+		
+		// 서비스호출
+		int row = taskCommentService.modifyFixTaskComment(taskCmtNo);
+		
+		// json으로 만들 변수 초기화
+		String jsonStr = "";
+		
+		// 메서드의 결과에 따라 json 분기
+		if(row != 0) { // 성공
+			jsonStr = "ok";
+		} else { // 실패
+			jsonStr = "not ok";
+		}
+		
+		return jsonStr;
+	}	
+	
+	// 업무 코멘트 해제하기
+	@PostMapping("/member/unfixedTaskComment")
+	public String unfixedTaskComment(int taskCmtNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 해제하기");
+		
+		// 디버깅
+		log.debug(TeamColor.CSH + "taskCmtNo : " + taskCmtNo);
+		
+		// 서비스호출
+		int row = taskCommentService.modifyUnfixedTaskComment(taskCmtNo);
+		
+		// json으로 만들 변수 초기화
+		String jsonStr = "";
+		
+		// 메서드의 결과에 따라 json 분기
+		if(row != 0) { // 성공
+			jsonStr = "ok";
+		} else { // 실패
+			jsonStr = "not ok";
+		}
+		
+		return jsonStr;
+	}	
+
 	// 업무 코멘트 삭제
 	@PostMapping("/member/deleteTaskComment")
 	public String deleteTaskComment(HttpSession session, int taskCmtNo) {

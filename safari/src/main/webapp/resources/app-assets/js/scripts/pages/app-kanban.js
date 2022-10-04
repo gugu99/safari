@@ -888,32 +888,35 @@ $(document).ready(function () {
   // 수정할 내용 가져오기
   $('#updateTaskCmtBtn').click(function(){
 	// console.log(taskCmtNo);
-
-	// 업무코멘트 수정
-	$.ajax({
-		async : false,
-		type : 'POST',
-		data : { 
-			taskCmtNo : taskCmtNo 
-			, taskCmtContent : $('#updateTaskCmtContent').val()
-		},
-		url : '/member/updateTaskComment',
-		success : function(json){
-			// console.log("업무코멘트 수정");
-			if(json != 'ok'){
-				alert('본인이 작성한 코멘트인지 확인해주시기 바랍니다.');
-				return;
-			} else {
-				alert('업무코멘트 수정을 성공했습니다.');
-				
-				// 리스트 띄우기
-				cmt_list();
-				
-				// Modal 닫기
-				$(".updateTaskCmtBtn-modal").click();
+	if($('#updateTaskCmtContent').val() == ''){
+		alert('수정할 업무코멘트 내용이 빈칸입니다.');
+	} else {
+		// 업무코멘트 수정
+		$.ajax({
+			async : false,
+			type : 'POST',
+			data : { 
+				taskCmtNo : taskCmtNo 
+				, taskCmtContent : $('#updateTaskCmtContent').val()
+			},
+			url : '/member/updateTaskComment',
+			success : function(json){
+				// console.log("업무코멘트 수정");
+				if(json != 'ok'){
+					alert('본인이 작성한 코멘트인지 확인해주시기 바랍니다.');
+					return;
+				} else {
+					alert('업무코멘트 수정을 성공했습니다.');
+					
+					// 리스트 띄우기
+					cmt_list();
+					
+					// Modal 닫기
+					$(".updateTaskCmtBtn-modal").click();
+				}
 			}
-		}
-  	});
+	  	});
+	}
   });
   
   
@@ -952,7 +955,7 @@ $(document).ready(function () {
   
   // 업무코멘트 좋아요
   // ----------------------------------------------------
-  // 업무코멘트 좋아요 생성
+  // 업무코멘트 좋아요 생성 / 삭제
   $(document).on("click", "#taskCmtLikeBtn", function () {
 	
 	var taskCmtNo = $(this)
@@ -960,21 +963,23 @@ $(document).ready(function () {
 	// console.log(taskCmtNo);
 	// alert(taskCmtNo);
 	
-	// 업무코멘트 좋아요 생성
+	// 업무코멘트 좋아요 생성 / 삭제
   	$.ajax({
 		async : false,
 		type : 'POST',
 		data : { 
 			taskCmtNo : taskCmtNo 
 		},
-		url : '/member/insertTaskCommentLike',
+		url : '/member/taskCommentLike',
 		success : function(json){
-			// console.log("업무코멘트 좋아요 생성");
-			if(json != 'ok'){
-				alert('업무코멘트 좋아요를 실패했습니다.');
+			// console.log("업무코멘트 좋아요 생성 / 삭제");
+			if(json == 'not ok'){
+				alert('좋아요를 실패했습니다.');
 				return;
-			} else {
+			} else if(json == 'insert ok') {
 				alert('업무코멘트 좋아요를 성공했습니다.');
+			} else if(json == 'delete ok') {
+				alert('업무코멘트 좋아요를 취소했습니다.');
 			}
 		}
   	});
@@ -1147,8 +1152,22 @@ $(document).ready(function () {
   // 업무코멘트 리스트 함수
   // ----------------------------------------------------------
   function cmt_list() {
+	// 변수
+	var memberEmail = "";
+	
 	// 초기화
 	taskCommentList = new Array();
+	
+	// 내가 쓴 코멘트만 수정/삭제 가능하게 세션에서 메일 받아오기
+	  $.ajax({
+			async : false,
+			type : 'GET',
+			url : '/member/memberEmail',
+			success : function(json){
+				memberEmail = json;
+				console.log(memberEmail);
+		    }
+	  }); 
 	
 	// 업무코멘트 좋아요 리스트 가져오기
       $.ajax({
@@ -1180,7 +1199,7 @@ $(document).ready(function () {
 					if(taskCommentLikeList[i].taskCmtNo == item.taskCmtNo){
 						temp = taskCommentLikeList[i].likeCnt;
 						
-						console.log(temp);
+						// console.log(temp);
 					}
 				}			
 				// 배열에 담는다	
@@ -1196,10 +1215,13 @@ $(document).ready(function () {
 		}
 	  });	
 	  
-	 console.log(taskCommentList);
+	// console.log(taskCommentList);
 	
 	// 업무코멘트 리스트 보여주기
 	  var str = "";
+	// 고정된 코멘트 먼저 넣어주기
+	  str += '<div class="mb-1"><a href="#"><i class="fa fa-thumb-tack"></i></a></div>'
+	// 리스트를 반복문으로 보여준다.
 	  for(var i = 0; i < taskCommentList.length; i++) {
 		 	let creatDate = dateFormat_show(new Date(taskCommentList[i].createDate));
 		 	
@@ -1212,8 +1234,9 @@ $(document).ready(function () {
 									'</div>' +
 									'<div class="small">' + creatDate + '</div>';
 									
+									// 좋아요가 있을 시에만 보이기
 									if(taskCommentList[i].likeCnt != 0){
-										str += '<div class="small mt-1"><i class="feather icon-thumbs-up small"></i>' + taskCommentList[i].likeCnt + '</div>';
+										str += '<div class="small mt-1 text-primary"><i class="feather icon-thumbs-up small"></i>' + taskCommentList[i].likeCnt + '</div>';
 									}
 									
 			str += 				'</div>' + 
@@ -1223,16 +1246,22 @@ $(document).ready(function () {
 									'</a>' +
 									'<a href="#" class="btn btn-sm" id="taskCmtLikeBtn">' +
 										'<i class="feather icon-thumbs-up small"></i>' +
-									'</a>' + 
+				 					'</a>' +
 									'<div class="dropdown">' +
 										'<div class="dropdown-toggle cursor-pointer mr-5" role="button" id="taskCmtMenuBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
 										'</div>' +
 										'<div class="dropdown-menu dropdown-menu-right" aria-labelledby="taskCmtMenuBtn"> ' +
 											'<a data-toggle="modal" class="dropdown-item taskCmtToTaskBtn-modal" id="taskCmtToTaskBtn-modal" href="#taskCmtToTaskModal"><i class="feather icon-file-plus mr-50"></i>업무로 만들기</a>' +
-											'<a data-toggle="modal" class="dropdown-item taskCmtFixBtn-modal" id="taskCmtFixBtn-modal" href="#taskCmtFixModal"><i class="feather icon-bookmark mr-50"></i>이 코멘트 고정하기</a>' +
-											'<a data-toggle="modal" class="dropdown-item updateTaskCmtBtn-modal" id="updateTaskCmtBtn-modal" href="#updateTaskCmtModal"><i class="feather icon-edit mr-50"></i>수정</a>' +
-											'<a href="#" class="dropdown-item deleteTaskCmtBtn" id="deleteTaskCmtBtn"><i class="feather icon-trash-2 mr-50"></i>삭제</a>' +
-										'</div>' +
+											'<a data-toggle="modal" class="dropdown-item taskCmtFixBtn-modal" id="taskCmtFixBtn-modal" href="#taskCmtFixModal"><i class="feather icon-bookmark mr-50"></i>이 코멘트 고정하기</a>';
+											
+											// 본인의 것에만 수정/삭제 버튼보이기
+						 					if(memberEmail == taskCommentList[i].taskCmtWriter){
+												str += '<a data-toggle="modal" class="dropdown-item updateTaskCmtBtn-modal" id="updateTaskCmtBtn-modal" href="#updateTaskCmtModal"><i class="feather icon-edit mr-50"></i>수정</a>' +
+													   '<a href="#" class="dropdown-item deleteTaskCmtBtn" id="deleteTaskCmtBtn"><i class="feather icon-trash-2 mr-50"></i>삭제</a>';
+											}
+				 					
+											
+			str += 						'</div>' +
 									'</div>' +
 								'</div>' +
 							'</div>' +
