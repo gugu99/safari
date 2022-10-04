@@ -24,9 +24,6 @@ public class TaskController {
 		// 디버깅
 		log.debug(TeamColor.CSH + task);
 		
-		// 프로젝트에 맞는 taskList로 넘기기
-		int projectNo = (int) session.getAttribute("projectNo");
-		
 		// 서비스 호출
 		int row = taskService.modifyTask(task);
 		
@@ -36,6 +33,10 @@ public class TaskController {
 		} else {
 			log.debug(TeamColor.CSH + "업무수정 실패");
 		}
+
+		// 프로젝트에 맞는 taskList로 넘기기
+		int projectNo = (int) session.getAttribute("projectNo");
+		log.debug(TeamColor.CSH + "프로젝트 번호 : " + session.getAttribute("projectNo"));
 		
 		return "redirect:/member/taskList?projectNo=" + projectNo;
 	}

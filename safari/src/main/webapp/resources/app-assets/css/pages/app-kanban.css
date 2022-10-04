@@ -122,19 +122,35 @@
     transform: translateX(9%) translateY(1px); }
   .kanban-sidebar .edit-kanban-item {
     height: calc(var(--vh, 1vh) * 100); }
+  .kanban-sidebar .comment-kanban-item {
+    height: calc(var(--vh, 1vh) * 100); }
     .kanban-sidebar .edit-kanban-item .card-content {
       height: calc(100% - 9rem); }
+    .kanban-sidebar .comment-kanban-item .card-content {
+      height: calc(100% - 9rem); }
       .kanban-sidebar .edit-kanban-item .card-content .form-group > label {
+        color: #bac0c7;
+        margin-bottom: 0.67rem; }
+      .kanban-sidebar .comment-kanban-item .card-content .form-group > label {
         color: #bac0c7;
         margin-bottom: 0.67rem; }
       .kanban-sidebar .edit-kanban-item .card-content .form-group select {
         border-radius: 0.25rem;
         display: block; }
+      .kanban-sidebar .comment-kanban-item .card-content .form-group select {
+        border-radius: 0.25rem;
+        display: block; }
       .kanban-sidebar .edit-kanban-item .card-content .custom-file .custom-file-label:after {
+        background-color: transparent; }
+      .kanban-sidebar .comment-kanban-item .card-content .custom-file .custom-file-label:after {
         background-color: transparent; }
     .kanban-sidebar .edit-kanban-item .card-footer .btn i {
       top: 0; }
+    .kanban-sidebar .comment-kanban-item .card-footer .btn i {
+      top: 0; }
     .kanban-sidebar .edit-kanban-item .picker {
+      position: relative; }
+    .kanban-sidebar .comment-kanban-item .picker {
       position: relative; }
   .kanban-sidebar .quill-wrapper .snow-container .ql-snow,
   .kanban-sidebar .quill-wrapper .snow-container .ql-toolbar {

@@ -145,7 +145,7 @@
 		                <i class="feather icon-x"></i>
 		            </button>
 		        </div>
-		        <form class="edit-kanban-item">
+		        <form class="comment-kanban-item">
 	        		<div class="card-content position-relative" id="taskCmtCardContent">
 			            <div class="card-body" id="taskCmtCardBody">
 				            <label>코멘트</label>
