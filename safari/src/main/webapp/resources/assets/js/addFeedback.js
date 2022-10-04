@@ -14,7 +14,7 @@ $(document).ready(function(){
 				success : function(json) {
 					
 					$(json).each(function(index, item){ 
-						if(item.workMemberEmail == $('#myEmail').val()){
+						if(item.workMemberEmail == $('#myEmail').text()){
 							$('#feedbackReceiver').append('<option value="'+item.workMemberEmail+'" selected>'+item.workMemberName+'</option>')
 						} else {
 							$('#feedbackReceiver').append('<option value="'+item.workMemberEmail+'">'+item.workMemberName+'</option>');

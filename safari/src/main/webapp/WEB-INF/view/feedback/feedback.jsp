@@ -34,9 +34,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/app-assets/css/core/menu/menu-types/vertical-menu-modern.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/app-assets/css/core/colors/palette-gradient.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/app-assets/css/pages/users.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/app-assets/css/pages/timeline.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/app-assets/css/plugins/forms/validation/form-validation.css">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/app-assets/css/plugins/pickers/daterange/daterange.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/app-assets/css/pages/app-chat.css">
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
@@ -61,23 +61,23 @@
 	<!-- BEGIN: Content-->
 	
     <div class="app-content content">
-        <div class="sidebar-left" id="sidebar">
-            <div class="sidebar">
+        <div class="sidebar-left mb-5" id="sidebar">
+            <div class="sidebar mb-5">
                 <!-- app chat sidebar start -->
-                <div class="chat-sidebar card">
-                    <div class="chat-sidebar-list-wrapper pt-2">
-                            <div class="card profile-card-with-cover">
-                                <div class="card-content">
+                <div class="chat-sidebar card mb-5">
+                    <div class="chat-sidebar-list-wrapper mb-5 pt-2">
+                            <div class="card profile-card-with-cover mb-5">
+                                <div class="card-content mb-5">
                                     <div class="card-img-top img-fluid bg-cover height-200" style="background: url('${pageContext.request.contextPath}/resources/app-assets/images/backgrounds/fb.jpg') 0 30%;"></div>
                                     <div class="card-profile-image">
                                     <c:choose>
 										<c:when test="${member.filename eq null}">
-											<div class="avatar avatar-offline bg-info m-0 mr-50">
-												<span class="fa fa-user"></span>
+											<div class="avatar height-100 width-100 bg-info m-0 mr-50">
+												<img src="${pageContext.request.contextPath}/resources/upload/nomalprofile.png" alt="" class="users-avatar-shadow rounded-circle">
 											</div>
 										</c:when>
 										<c:otherwise>
-											<div class="avatar avatar-sm rounded-circle">
+											<div class="avatar height-100 width-100 rounded-circle">
 												<img src="${pageContext.request.contextPath}/resources/upload/${member.filename}${member.fileExt}" alt="avatar">
 											</div>
 										</c:otherwise>
@@ -113,8 +113,8 @@
 	<!-- 여기로 -->
 	<div class="content-overlay"></div>
             	<div class="content-wrapper">
-		            <div class="content-header row pt-2 pl-2">
-		            	<div class="content-header">
+		            <div class="content-header row pt-2 pl-5">
+		            	<div class="content-header col-11">
 						<c:forEach var="fl" items="${feedbackList}">
 						<div class="timeline-card card border-grey border-lighten-2">
 							<div class="card-content">
