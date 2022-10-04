@@ -85,4 +85,30 @@
 		WHERE tasklist_no = #{tasklistNo}
 	</select>
 	
+	<!-- 업무번호에 따른 파일 리스트 -->
+	<select id="selectTaskNoFileList" parameterType="int" resultType="com.gd.safari.vo.File">
+		SELECT 
+				f.file_no		fileNo
+				,f.task_no		taskNo
+				,f.uploader		uploader
+				,f.filename		filename
+				,f.file_ext		fileExt
+				,f.origin_name	originName
+				,f.file_type	fileType
+				,f.file_size	fileSize
+				,f.create_date	createDate
+				,f.update_date	updateDate
+
+		FROM project p inner join task_list tl
+		
+		ON p.project_no = tl.project_no inner join task t
+			
+		ON tl.tasklist_no = t.tasklist_no inner join file f
+		
+		ON t.task_no = f.task_no
+		
+		WHERE f.task_no = #{taskNo}
+	
+	</select>
+	
 </mapper>

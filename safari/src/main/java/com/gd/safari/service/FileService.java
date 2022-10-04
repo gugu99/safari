@@ -113,6 +113,16 @@ public class FileService implements IFileService{
 		// 업무리스트 번호에따른 업무리스트
 		return fileMapper.selectTaskList(tasklistNo);
 	}
+	
+	// 업무 번호에 따른 업무리스
+	@Override
+	public List<com.gd.safari.vo.File> getTaskNoFileList(int taskNo) {
+		// tasklistNo 디버깅
+		log.debug(TeamColor.CJM +taskNo + "taskNo Service");
+		
+		// 업무 번호에 따른 업무리스
+		return fileMapper.selectTaskNoFileList(taskNo);
+	}
 
 	
 	

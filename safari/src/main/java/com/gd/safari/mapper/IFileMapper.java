@@ -24,4 +24,7 @@ public interface IFileMapper {
 	
 	// 리스트에 따른 파일 업무리스트 받아오기
 	List<Task>selectTaskList(int tasklistNo);
+	
+	// 업무 번호에 따른 리스트
+	List<com.gd.safari.vo.File>  selectTaskNoFileList (int taskNo);
 }	

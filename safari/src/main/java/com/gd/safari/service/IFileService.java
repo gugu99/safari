@@ -20,4 +20,7 @@ public interface IFileService {
 	
 	// 업무리스트번호에따른 업무 리스트
 	List<Task>getTaskList(int tasklistNo);
+	
+	// 업무번호에 따른 리스트
+	List<com.gd.safari.vo.File>  getTaskNoFileList (int taskNo);
 }

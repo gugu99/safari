@@ -55,6 +55,18 @@
                                
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
+                                   		 <li>
+	                                   		<select id="selectTasklistNo" name="tasklistNo" class="btn-info">
+			                            	<option value="">업무리스트 선택</option>
+			                            	<c:forEach var="t" items="${taskList}">
+			                            	<option value="${t.tasklistNo}">${t.tasklistTitle}</option>
+			                            	</c:forEach>
+			                            	</select>
+                                   		 </li>
+                                   		 <li>
+                                   		 <select name="taskNo" id="selectTaskNo" class="btn-info">
+										</select>
+                                   		 </li>
                                         <li><a data-action="collapse"><i class="feather icon-minus"></i></a></li>
                                         <li><a data-action="reload"><i class="feather icon-rotate-cw"></i></a></li>
                                         <li><a data-action="expand"><i class="feather icon-maximize"></i></a></li>
@@ -78,7 +90,7 @@
 						                        <form id="fileForm"  method="post" action="${pageContext.request.contextPath}/member/addFile" enctype="multipart/form-data">
 						                            <div class="modal-body">
 						                            	<label>업무리스트:</label>
-						                            	<select id="tasklistNo" name="tasklistNo">
+						                            	<select id="tasklistNo" name="tasklistNo" class="btn-info">
 						                            	<option value="">업무리스트 선택</option>
 						                            	<c:forEach var="t" items="${taskList}">
 						                            	<option value="${t.tasklistNo}">${t.tasklistTitle}</option>
@@ -86,7 +98,7 @@
 						                            	</select>
 						                            	<br>
 						                            	<label>업무선택:</label>
-						                            	<select name="taskNo" id="taskNo">
+						                            	<select name="taskNo" id="taskNo" class="btn-info">
 														</select>
 									                    <div class="col-12 px-0 d-flex flex-sm-row flex-column justify-content-start">
 						                                    <input class="btn btn-sm btn-primary ml-50 file" name="file" type="file" id="file" onchange="checkFile(this)">
@@ -123,9 +135,10 @@
                                                 <th>공유한사람</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                        <c:forEach var="f" items="${fileList}">
-                                            <tr>
+										                           
+                                        <tbody id="fileInfo">
+                                             <c:forEach var="f" items="${fileList}">
+                                             <tr>
                                                <th scope="row" ><a href="${pageContext.request.contextPath}/resources/fileupload/${f.filename}${f.fileExt}"
                                                download="${f.originName}">${ f.originName}</a></th>
                                                
@@ -136,8 +149,9 @@
                                                 <a href="${pageContext.request.contextPath}/member/removeFile?fileNo=${f.fileNo}"><button>파일삭제</button></a>
                                                 </c:if>
                                                 </td>
-                                            </tr>
-                                            </c:forEach>
+                                                 </tr>
+                                                 </c:forEach>
+                                            </tbody>
                                         </tbody>
                                     </table>
                                 </div>
@@ -218,6 +232,8 @@ $(document).ready(function(){
 
 <script>
 $(document).ready(function(){
+	
+	// 파일 업로드 업무 번호조회
 	$('#tasklistNo').change(function() {
 		if($('#tasklistNo').val() == '') {
 			alert('업무리스트를 선택하세요');
@@ -237,6 +253,75 @@ $(document).ready(function(){
 			});
 		}
 	});
+	
+	// 조회 업무 리스트 선택
+	$('#selectTasklistNo').change(function() {
+		if($('#selectTasklistNo').val() =='') { 
+			
+			alert('업무리스트를 선택하세요');
+		} else {
+			$('#selectTaskNo').empty();
+			$('#selectTaskNo').append('<option value="">::: 업무선택 :::</option>')
+			
+			$.ajax({
+				url : '/member/tasklist',
+				type : 'post',
+				data : {tasklistNo : $('#selectTasklistNo').val()},
+				success : function(json) {
+					$(json).each(function(index, item){
+						$('#selectTaskNo').append('<option value="'+item.taskNo+'">'+item.taskTitle+'</option>')
+					});
+				}
+			});
+		}
+	});
+	
+	// 업무 번호에 따른 리스트 조회
+	$('#selectTaskNo').change(function() {
+		$.ajax({
+			url : '/member/taskFileList',
+			type : 'post',
+			data : {taskNo : $('#selectTaskNo').val()},
+			success : function(json) {
+				$('#fileInfo').empty();
+				
+				$(json).each(function(index, item){
+					if(item.filename != '널'){
+					let html = '';
+					console.log(json);
+					html += "<tr><th scope='row'><a href='${pageContext.request.contextPath}/resources/fileupload/"+item.filename+item.fileExt+"'";
+					html += " download='"+item.originName+"'";
+					html += ">";
+					html += item.originName;
+					html += "</a></th>";
+					
+					html += "<td>"+item.fileSize+"</td>";
+					html += "<td>"+item.createDate+"</td>";
+					html += "<td>"+item.uploader + "    ";
+					html += "<a href='${pageContext.request.contextPath}/member/removeFile?fileNo="+item.fileNo+ "'>"+"<button>파일삭제</button></a>";
+					
+					html += "</td>"
+					html += "</tr>";
+					
+					
+					$('#fileInfo').append(html);
+					}else if (item.filename == '널'){
+						let html = '';
+						html += "<tr><th colspan='4'>파일이 없습니다.</th></tr>";
+						
+						$('#fileInfo').append(html);
+						
+					}
+					
+					
+					
+				});
+			}
+		});
+		
+	});
+	
+	
 });
 
 </script>

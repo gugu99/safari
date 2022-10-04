@@ -23,8 +23,10 @@
 <body class="vertical-layout vertical-menu-modern content-detached-right-sidebar   fixed-navbar" data-open="click" data-menu="vertical-menu-modern" data-col="content-detached-right-sidebar">
 
     <%@ include file="/WEB-INF/view/inc/header.jsp" %> <!-- header -->
+	
 	<%@ include file="/WEB-INF/view/inc/sidebar.jsp" %> <!-- sidebar -->
-
+	
+	<c:if test="${guest ==null }">
 	<!-- BEGIN: Content-->
     <div class="app-content content">
         <div class="content-overlay"></div>
@@ -145,7 +147,44 @@
             </div>
         </div>
     </div>
+    </c:if>
+    <!-- guest는 일반설정만 -->
+    <c:if test="${guest != null }">
+     <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <!-- users edit start -->
+                <section class="users-edit">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <ul class="nav nav-tabs mb-2" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link d-flex align-items-center active" id="account-tab" data-toggle="tab" href="#account" aria-controls="account" role="tab" aria-selected="true">
+                                            <i class="feather icon-user mr-25"></i><span class="d-none d-sm-block">일반설정</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="account" aria-labelledby="account-tab" role="tabpanel">
+                                         <%@ include file="/WEB-INF/view/account/information.jsp" %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- users edit ends -->
+            </div>
+        </div>
+    </div>
     <!-- END: Content-->
+    </c:if>
+     <!-- guest 일반설정 END -->
+    
      <!--IMG Modal -->
 	<div class="col-lg-4 col-md-6 col-sm-12">
         <div class="form-group">

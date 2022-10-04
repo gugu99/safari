@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IFileService;
+import com.gd.safari.vo.File;
 import com.gd.safari.vo.Task;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,7 @@ public class RestFileController {
 	@Autowired private IFileService fileService;
 	
 	
-	// 아이디에 맞는 Code 가져오기
+		// 아이디에 맞는 Code 가져오기
 		@PostMapping("/member/tasklist")
 		public @ResponseBody List<Task> TaskList(@RequestParam(value="tasklistNo") int tasklistNo) {
 			
@@ -32,6 +33,28 @@ public class RestFileController {
 			
 			// task 리턴 코드
 			return list;
+		}
+		
+		// 아이디에 맞는 Code 가져오기
+		@PostMapping("/member/taskFileList")
+		public @ResponseBody List<File> taskFileList(@RequestParam(value="taskNo") int taskNo) {
+			
+			// 업무리스트번호 디버깅
+			log.debug(TeamColor.CJM+taskNo +"tasklistNo RestController");
+			
+			// code 불러오기
+			List<File> list = fileService.getTaskNoFileList(taskNo);	  
+			
+			// task 리턴 코드
+			
+			if (list.size() == 0) {
+				File nullFile=new File();
+				nullFile.setFilename("널");
+				list.add(nullFile);
+				
+				return list;
+			}else {
+			return list;}
 		}
 
 }

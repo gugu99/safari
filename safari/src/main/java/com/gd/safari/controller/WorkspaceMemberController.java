@@ -86,6 +86,11 @@ public class WorkspaceMemberController {
 	public String getWorkspaceMemberOne (Model model,HttpSession session,
 										@RequestParam(value = "errorMsg" ,required = false)  String errorMsg) {
 		
+		
+		if(session.getAttribute("guest")!=null){
+			
+		}
+		else {
 		// 세션 워크멤버번호 담기
 		int workMemberNo = (int)session.getAttribute("workMemberNo");
 		
@@ -111,7 +116,7 @@ public class WorkspaceMemberController {
 		
 		 // 워크스페이스 멤버 리스트 디버깅
 		log.debug(TeamColor.CJM+model.getAttribute("profileImg") +"Controller profileImg");  
-		
+		}
 		// 워크스페이스멤버 상세보기 페이지 forward
 		return "workmember/workspaceMemberOne";  										      
 		
