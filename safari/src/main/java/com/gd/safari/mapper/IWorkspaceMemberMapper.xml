@@ -278,7 +278,7 @@
 				AND work_member_name LIKE CONCAT('%', #{search} ,'%')
 			</if>
 		</where>
-	
+		ORDER BY FIELD(active, 'Y', 'W', 'N')
 	</select>
 	
 	<!-- 멤버 승인 하는 메서드 (active Y으로) 바꾸는 메서드 -->

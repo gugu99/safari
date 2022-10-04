@@ -85,8 +85,11 @@ public class WorkspaceMemberController {
 	@GetMapping("/safari/workspaceMemberOne")
 	public String getWorkspaceMemberOne (Model model,HttpSession session,
 										@RequestParam(value = "errorMsg" ,required = false)  String errorMsg) {
+		
+		// 세션 워크멤버번호 담기
 		int workMemberNo = (int)session.getAttribute("workMemberNo");
 		
+		// 워크멤버 넘버 디버깅
 		log.debug(TeamColor.CJM+workMemberNo +"Controller workMemberNo");
 		
 		// 워크스페이스멤버 리스트 출력메서드

@@ -51,7 +51,7 @@
 			, w.admin_email adminEmail
 		FROM workspace_member wm  inner join workspace w
 		ON  wm.work_no = w.work_no
-		where  wm.work_member_email = #{workMemberEmail}
+		where  wm.work_member_email = #{workMemberEmail} AND wm.active != 'N'
 	
 	</select>
 	

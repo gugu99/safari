@@ -61,19 +61,11 @@ public class WorkspaceService implements IWorkspaceService {
 		// member 디버깅
 		log.debug(TeamColor.CJM + member + "Service member"); 					
 
-		// member 조회
-		Member resultMember = memberMapper.selectMemberByLogin(member); 		
+		// 워크 멤버 삭제
+		workspaceMemberMapper.deleteWorkspaceMember(workNo);
 		
-		// Service resultMember 디버깅
-		log.debug(TeamColor.CJM + resultMember + "Service resultMember");
-		
-		// member 삭제
-		if (resultMember != null) {
-			workspaceMemberMapper.deleteWorkspaceMember(workNo); 				
-			return workspaceMapper.deleteWorkspace(workNo);
-		} // 워크스페이스 삭제
-
-		return 0;
+		// 워크스페이스 삭제
+		return workspaceMapper.deleteWorkspace(workNo);
 
 	}
 

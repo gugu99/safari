@@ -152,10 +152,8 @@
 															action="${pageContext.request.contextPath}/safari/removeWorkspace">
 															<div class="modal-body">
 
-																<label>비밀번호</label>
 																<div class="form-group">
-																	<input name="memberPw" type="password" id="memberPw${i}"
-																		placeholder="Password" class="form-control">
+																정말 삭제하시겠습니까?
 																</div>
 															</div>
 															<div class="modal-footer">
@@ -231,7 +229,6 @@
 										<a
 											href="${pageContext.request.contextPath }/safari/addWorkspace"><button
 												type="button" class="btn btn-outline-success">
-
 												create workspace</button></a>
 									</div>
 								</div>

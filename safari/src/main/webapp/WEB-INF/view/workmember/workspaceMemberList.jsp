@@ -453,7 +453,7 @@
 																</div>
 															</td>
 															<c:if test="${workMemberLevel > 1 }">
-															<td><c:if test="${workMemberLevel eq 4 && r.active eq 'Y'}">
+															<td><c:if test="${workMemberLevel eq 4 && r.active eq 'Y' && r.workMemberLevel != 4}">
 																	<a data-toggle="modal"
 																		data-target="#workMemberLevelModal${i}"
 																		class="primary edit mr-1"><i class="fa fa-pencil"></i></a>
@@ -472,7 +472,7 @@
 																	class="fa fa-check-square-o"></i></a> 
 																</c:if>
 																
-																	
+																<c:if test="${r.workMemberLevel != 4}">	
 																<span class="dropdown"> <a id="btnSearchDrop2"
 																	data-toggle="dropdown" aria-haspopup="true"
 																	aria-expanded="true"
@@ -502,7 +502,9 @@
 																			class="fa fa-check-square-o"></i>멤버승인</a>
 																		</c:if>
 																</span>
-															</span></td>
+															</span>
+															</c:if>
+															</td>
 															</c:if>
 														</tr>
 													</c:forEach>
