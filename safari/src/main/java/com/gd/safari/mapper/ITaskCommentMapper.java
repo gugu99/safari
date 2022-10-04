@@ -18,5 +18,5 @@ public interface ITaskCommentMapper {
 	// 업무 코멘트 수정
 	int updateTaskComment(TaskComment taskComment);
 	// 업무 코멘트 삭제
-	int deleteTaskComment(int taskCmtNo);
+	int deleteTaskComment(TaskComment taskComment);
 }

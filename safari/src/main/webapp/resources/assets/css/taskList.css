@@ -7,10 +7,6 @@
 }
 #taskCmtCardContent{
 	overflow-y: auto;
-	height: 900px;
-}
-#taskCmtCardBody{
-	height: 200px;
 }
 #taskCmtContent{
 	resize: none;

@@ -15,5 +15,5 @@ public interface ITaskCommentService {
 	// 업무 코멘트 수정
 	int modifyTaskComment(TaskComment taskComment);
 	// 업무 코멘트 삭제
-	int removeTaskComment(int taskCmtNo);
+	int removeTaskComment(TaskComment taskComment);
 }

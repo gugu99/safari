@@ -72,17 +72,19 @@ public class RestTaskCommentController {
 
 	// 업무 코멘트 수정
 	@PostMapping("/member/updateTaskComment")
-	public String updateTaskComment(int taskCmtNo, String taskCmtContent) {
+	public String updateTaskComment(HttpSession session, int taskCmtNo, String taskCmtContent) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 수정");
 		
 		// 디버깅
 		log.debug(TeamColor.CSH + "taskNo : " + taskCmtNo + " taskCmtContent : " + taskCmtContent);
 
+		// 세션의 이메일과 해당 코멘트 작성자가 같아야 수정 가능
 		// 파라미터 가공 (파싱)
 		TaskComment taskCmt = new TaskComment();
 		// 작성자 
-		taskCmt.setTaskNo(taskCmtNo);
+		taskCmt.setTaskCmtNo(taskCmtNo);
 		taskCmt.setTaskCmtContent(taskCmtContent);
+		taskCmt.setTaskCmtWriter((String) session.getAttribute("login"));
 		
 		// 서비스호출
 		int row = taskCommentService.modifyTaskComment(taskCmt);
@@ -102,14 +104,21 @@ public class RestTaskCommentController {
 	
 	// 업무 코멘트 삭제
 	@PostMapping("/member/deleteTaskComment")
-	public String deleteTaskComment(int taskCmtNo) {
+	public String deleteTaskComment(HttpSession session, int taskCmtNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 삭제");
 		
 		// 디버깅
-		log.debug(TeamColor.CSH + "taskNo : " + taskCmtNo);
+		log.debug(TeamColor.CSH + "taskCmtNo : " + taskCmtNo);
+		
+		// 세션의 이메일과 해당 코멘트 작성자가 같아야 삭제 가능
+		// 파라미터 가공
+		TaskComment taskCmt = new TaskComment();
+		// 작성자 
+		taskCmt.setTaskCmtNo(taskCmtNo);
+		taskCmt.setTaskCmtWriter((String) session.getAttribute("login"));
 		
 		// 서비스호출
-		int row = taskCommentService.removeTaskComment(taskCmtNo);
+		int row = taskCommentService.removeTaskComment(taskCmt);
 		
 		// json으로 만들 변수 초기화
 		String jsonStr = "";

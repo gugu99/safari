@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.ITaskCommentLikeMapper">
+	<!-- 해당 업무번호에 따른 업무코멘트 좋아요 가져오기 -->
+	<select id="selectTaskCommentLike" parameterType="int" resultType="map">
+		SELECT 
+			tl.task_cmt_no				taskCmtNo
+			, COUNT(tl.task_cmt_no)		likeCnt
+		FROM 
+			task_comment_like tl INNER JOIN task_comment tc 
+		ON 
+			tl.task_cmt_no = tc.task_cmt_no 
+		WHERE 
+			tc.task_no = #{taskNo}
+		GROUP BY 
+			tl.task_cmt_no
+	</select>
+	<!-- 좋아요를 눌렀는지 안눌렀는지 확인 -->
+	<select id="selectTaskCommentLikeCheck" parameterType="com.gd.safari.vo.TaskCommentLike" resultType="com.gd.safari.vo.TaskCommentLike">
+		
+	</select>
+	<!-- 업무코멘트 좋아요 생성 -->
+	<insert id="insertTaskCommentLike" parameterType="com.gd.safari.vo.TaskCommentLike">
+		INSERT INTO task_comment_like (
+			task_cmt_no
+			, member_email
+			, create_date
+		) VALUES (
+			#{taskCmtNo}
+			, #{memberEmail}
+			, NOW()
+		)
+	</insert>
+	<!-- 업무코멘트 좋아요 삭제 -->
+	<delete id="deleteTaskCommentLike" parameterType="com.gd.safari.vo.TaskCommentLike">
+		DELETE FROM task_comment_like
+		WHERE
+			task_cmt_no = #{taskCmtNo}
+		AND
+			member_email = #{memberEmail}
+	</delete>
+</mapper>

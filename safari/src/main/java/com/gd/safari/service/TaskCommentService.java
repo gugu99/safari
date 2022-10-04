@@ -49,8 +49,8 @@ public class TaskCommentService implements ITaskCommentService {
 	
 	// 업무 코멘트 삭제
 	@Override
-	public int removeTaskComment(int taskCmtNo) {
+	public int removeTaskComment(TaskComment taskComment) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 삭제");
-		return taskCommentMapper.deleteTaskComment(taskCmtNo);
+		return taskCommentMapper.deleteTaskComment(taskComment);
 	}
 }

@@ -6,6 +6,7 @@
 		SELECT 
 			tc.task_cmt_no			taskCmtNo
 			, tc.task_cmt_content	taskCmtContent
+			, tc.task_cmt_writer	taskCmtWriter
 			, tc.create_date		createDate
 			, tc.task_cmt_upper_no	taskCmtUpperNo
 			, wm.work_member_name	workMemberName
@@ -77,11 +78,15 @@
 			, update_date = NOW()
 		WHERE
 			task_cmt_no = #{taskCmtNo}
+		AND
+			task_cmt_writer = #{taskCmtWriter}
 	</update>
 	<!-- 업무 코멘트 삭제 -->
-	<delete id="deleteTaskComment" parameterType="int">
+	<delete id="deleteTaskComment" parameterType="com.gd.safari.vo.TaskComment">
 		DELETE FROM task_comment
 		WHERE 
 			task_cmt_no = #{taskCmtNo}
+		AND
+			task_cmt_writer = #{taskCmtWriter}
 	</delete>
 </mapper>

@@ -12,11 +12,11 @@
 			<div class="modal-body">
 				<div class="form-group">
 					<label>업무코멘트 내용</label>
-					<input type="text" class="form-control text-dark" id="taskTitleByCopyTask">
+                    <textarea class="compose-editor form-control" id="updateTaskCmtContent" placeholder="댓글을 적어주세요."></textarea>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-outline-primary" id="copyTask">수정</button>
+				<button class="btn btn-outline-primary" id="updateTaskCmtBtn">수정</button>
 				<input type="reset" class="btn btn-outline-secondary btn" data-dismiss="modal" value="닫기"> 
 			</div>
 		</div>
