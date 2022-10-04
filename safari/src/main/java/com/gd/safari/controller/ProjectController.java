@@ -68,16 +68,7 @@ public class ProjectController {
 		return "redirect:/safari/project";
 	}
 	
-	// 전체 프로젝트 overview
-	@GetMapping("/member/projectSummary")
-	public String projectSummary(HttpSession session) {
-		int workNo = (int) session.getAttribute("workNo");
-		
-		projectService.getProjectSummary(workNo);
-		
-		return "project/projectSummary";
-	}
-	
+	// 프로젝트 수정 폼
 	@GetMapping("/member/modifyProject")
 	public String modifyProject(Model model, HttpSession session, int projectNo) {
 		log.debug(TeamColor.CSK + "프로젝트 수정 폼");
@@ -119,5 +110,23 @@ public class ProjectController {
 		
 		// 북마크에서 삭제된 경우 전체 프로젝트 페이지를 리턴
 		return "redirect:/safari/project";
+	}
+	
+	// 전체 프로젝트 overview
+	@GetMapping("/member/projectSummary")
+	public String projectSummary(HttpSession session, Model model) {
+		int workNo = (int)session.getAttribute("workNo");
+		
+		Map<String, Object> map = projectService.getProjectSummary(workNo);
+		log.debug(TeamColor.CSK + "projectSummary: " + map);
+		
+		model.addAttribute("workspaceOne", map.get("workspaceOne"));
+		model.addAttribute("workspaceMemberList", map.get("workspaceMemberList"));
+		model.addAttribute("taskData", map.get("taskData"));
+		model.addAttribute("projectData", map.get("projectData"));
+		model.addAttribute("taskPointStatistic", map.get("taskPointStatistic"));
+		model.addAttribute("taskPerDate", map.get("taskPerDate"));
+		
+		return "project/projectSummary";
 	}
 }

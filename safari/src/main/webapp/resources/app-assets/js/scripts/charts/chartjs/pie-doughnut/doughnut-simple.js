@@ -21,12 +21,15 @@ $(window).on("load", function(){
         responsiveAnimationDuration:500,
     };
 
+	// 도넛차트 ----------------------------------------------------------------
     // Chart Data
+    
+    console.log($('#taskPoint').val());
     var chartData = {
-        labels: ["January", "February", "March", "April", "May"],
+        labels: ["0", "1", "2", "3", "4"],
         datasets: [{
             label: "My First dataset",
-            data: [65, 35, 24, 45, 85],
+            data: [$('#taskPoint').val(), $('#taskPoint1').val(), $('#taskPoint2').val(), $('#taskPoint3').val(), $('#taskPoint4').val()],
             backgroundColor: ['#00A5A8', '#626E82', '#FF7D4D','#FF4558', '#16D39A'],
         }]
     };

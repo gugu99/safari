@@ -30,6 +30,9 @@ public interface IProjectMapper {
 	// 한 프로젝트의 정보를 반환 (수정폼에서 사용)
 	Project selectProjectDetailByProjectNo(int projectNo);
 	
+	// 프로젝트 완성률 반환 (Project Summary에서 사용)
+	Map<String, Object> selectProjectCompleteRateByWorkNo(int workNo);
+	
 	// 프로젝트 추가 메소드
 	int insertProject(ProjectForm projectForm);
 	

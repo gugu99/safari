@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IProjectSummaryMapper">
+	<select id="selectWorkspaceOne" parameterType="int" resultType="java.util.Map">
+		SELECT 
+			w.work_name workName
+			, DATE_FORMAT(w.create_date,'%Y-%m-%d') createDate
+			, w.admin_email adminEmail
+			, wm.work_member_name workMemberName
+		FROM 
+			workspace w
+		INNER JOIN
+			workspace_member wm
+		ON
+			w.work_no = wm.work_no
+			AND
+			w.admin_email = wm.work_member_email
+		WHERE
+			w.work_no = #{workNo}
+	</select>
+	
+	<select id="selectWorkspaceMemberListWithProfileImgByWorkNo" parameterType="int" resultType="java.util.Map">
+		SELECT
+			w.work_member_no workMemberNo
+			, w.work_member_name workMemberName
+			, w.work_member_pos workMemberPos
+			, w.work_member_email workMemberEmail
+			, v.filename
+			, v.file_ext fileExt
+		FROM
+			workspace_member w
+		INNER JOIN
+			v_workspace_member v
+		ON
+			w.work_member_no = v.work_member_no
+		WHERE
+			w.work_no = #{workMemberNo}
+		AND
+			active = 'Y'
+	</select>
+	
+	<select id="selectTaskCntAndTaskCompleteRateByWorkNo" parameterType="int" resultType="java.util.Map">
+		SELECT
+			count(*) taskCnt
+			, round(count(task_end) / count(*) * 100, 1) taskComplete
+		FROM 
+			task_list tl 
+		INNER JOIN 
+			task t 
+		ON 
+			t.tasklist_no = tl.tasklist_no 
+		INNER JOIN
+			project p
+		ON
+			tl.project_no = p.project_no
+		WHERE
+			p.work_no = #{workNo}
+	</select>
+
+	<select id="selectTaskCntPerTaskPointByWorkNo" parameterType="int" resultType="java.util.Map">
+		SELECT
+			t.task_point taskPoint
+			, COUNT(IFNULL(0, task_point)) taskPointCnt
+		FROM
+			task_list tl 
+		INNER JOIN 
+			task t 
+		ON 
+			t.tasklist_no = tl.tasklist_no 
+		INNER JOIN
+			project p
+		ON
+			tl.project_no = p.project_no
+		WHERE
+			p.work_no = #{workNo}
+		GROUP BY 
+			t.task_point
+	</select>
+	
+	<select id="selectFinishedTaskPerDate" parameterType="int" resultType="java.util.Map">
+		SELECT
+			DATE_FORMAT(task_end, '%Y-%m-%d') date
+			, COUNT(task_end) taskCnt
+		FROM
+			task_list tl 
+		INNER JOIN 
+			task t 
+		ON 
+			t.tasklist_no = tl.tasklist_no 
+		INNER JOIN
+			project p
+		ON
+			tl.project_no = p.project_no
+		WHERE
+			p.work_no = 6
+		GROUP BY
+			DATE_FORMAT(task_end, '%Y-%m-%d')
+		ORDER BY
+			task_end DESC;
+	</select>
+</mapper>

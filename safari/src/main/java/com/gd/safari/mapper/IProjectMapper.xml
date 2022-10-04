@@ -230,6 +230,17 @@
 			project_no = #{projectNo}
 	</select>
 	
+	<!-- 프로젝트 완성률 데이터 -->
+	<select id="selectProjectCompleteRateByWorkNo" resultType="java.util.Map" parameterType="int">
+		SELECT
+			count(*) projectCnt
+			, round(count(project_end) / count(*) * 100, 1) projectComplete
+		FROM
+			project p
+		WHERE
+			p.work_no = #{workNo}
+	</select>
+	
 	<!-- 프로젝트 추가 -->
 	<insert id="insertProject" parameterType="com.gd.safari.vo.ProjectForm">
 		<selectKey keyProperty="projectNo" resultType="int" order="AFTER">
@@ -253,7 +264,8 @@
 	
 	<!-- 프로젝트 수정 -->
 	<update id="updateProject" parameterType="java.util.Map">
-		UPDATE project
+		UPDATE 
+			project
 		<trim prefix="SET" suffixOverrides=","><!-- 동적으로 SET 키워드, 콤마 추가 -->
 			<!-- ORACLE에서 빈 문자열 == null, mysql에서 빈 문자열은 빈 문자열 -->
 			<if test="projectName != null and !projectName.equals('')">

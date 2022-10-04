@@ -11,6 +11,7 @@ import com.gd.safari.mapper.IProjectBookmarkMapper;
 import com.gd.safari.mapper.IProjectGroupMapper;
 import com.gd.safari.mapper.IProjectMapper;
 import com.gd.safari.mapper.IProjectMemberMapper;
+import com.gd.safari.mapper.IProjectSummaryMapper;
 import com.gd.safari.mapper.IWorkspaceGuestMapper;
 import com.gd.safari.mapper.IWorkspaceMemberMapper;
 import com.gd.safari.vo.Project;
@@ -36,6 +37,8 @@ public class ProjectService implements IProjectService {
 	private IProjectMemberMapper projectMemberMapper;
 	@Autowired
 	private IProjectBookmarkMapper projectBookmarkMapper;
+	@Autowired
+	private IProjectSummaryMapper projectSummaryMapper;
 
 	// project 메인 페이지 정보 제공 메소드
 	@Override
@@ -184,10 +187,14 @@ public class ProjectService implements IProjectService {
 	@Override
 	public Map<String, Object> getProjectSummary(int workNo) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("active", "Y");
-		map.put("workNo", workNo);
 		
-		workspaceMemberMapper.selectWorkspaceMemberListByActive(map);
-		return null;
+		// 해당 워크스페이스의 정보
+		map.put("workspaceOne", projectSummaryMapper.selectWorkspaceOne(workNo));
+		map.put("workspaceMemberList", projectSummaryMapper.selectWorkspaceMemberListWithProfileImgByWorkNo(workNo));
+		map.put("taskData", projectSummaryMapper.selectTaskCntAndTaskCompleteRateByWorkNo(workNo));
+		map.put("projectData", projectMapper.selectProjectCompleteRateByWorkNo(workNo));
+		map.put("taskPointStatistic", projectSummaryMapper.selectTaskCntPerTaskPointByWorkNo(workNo));
+		map.put("taskPerDate", projectSummaryMapper.selectFinishedTaskPerDate(workNo));
+		return map;
 	}
 }

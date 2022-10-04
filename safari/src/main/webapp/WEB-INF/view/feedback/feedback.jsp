@@ -149,7 +149,6 @@
 														src="${pageContext.request.contextPath}/resources/upload/${r.receiverFilename}${r.receiverFileExt}"
 														alt="avatar">
 												</div>
-												
 											</c:otherwise>
 										</c:choose>
 										<span class="text-bold-600 mr-1">${r.receiverName}</span>
@@ -172,11 +171,9 @@
 							</div>
 						</div>
 						</c:forEach>
-						</div>
-						</div>
-						</div>
-						
-                        
+					</div>
+				</div>
+			</div>
        </div><!-- app-content content -->
        
        <div class="sidenav-overlay"></div>

@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+
 <!DOCTYPE html>
 <html class="loading" lang="ko" data-textdirection="ltr">
 <!-- BEGIN: Head-->
@@ -7,9 +11,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>Project Summary</title>
-    <link rel="apple-touch-icon" href="${pageContext.request.contextPath }/resources/app-assets/images/ico/apple-icon-120.png">
-    <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath }/resources/app-assets/images/ico/favicon.ico">
+    <title>프로젝트 요약</title>
+    <link rel="apple-touch-icon" href="${pageContext.request.contextPath}/resources/app-assets/images/ico/apple-icon-120.png">
+    <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/app-assets/images/ico/favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
 
     <!-- BEGIN: Vendor CSS-->
@@ -26,7 +30,11 @@
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/app-assets/css/core/menu/menu-types/vertical-menu-modern.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/app-assets/css/pages/project.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/app-assets/css/core/colors/palette-gradient.css">
     <!-- END: Page CSS-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
 
 </head>
 <!-- END: Head-->
@@ -74,7 +82,7 @@
                             <div class="card">
                                 <div class="card-head">
                                     <div class="card-header">
-                                        <h4 class="card-title">iOS APP Development</h4>
+                                        <h4 class="card-title">${workspaceOne.workName}</h4>
                                         <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                                         <div class="heading-elements">
                                             <span class="badge badge-warning">Mobile</span>
@@ -84,10 +92,9 @@
                                     </div>
                                     <div class="px-1">
                                         <ul class="list-inline list-inline-pipe text-center p-1 border-bottom-grey border-bottom-lighten-3">
-                                            <li>Project Owner: <span class="text-muted">Margaret Govan</span></li>
-                                            <li>Start: <span class="text-muted">01/Feb/2016</span></li>
-                                            <li>Due on: <span class="text-muted">01/Oct/2016</span></li>
-                                            <li><a href="#" class="text-muted" data-toggle="tooltip" data-placement="bottom" title="Export as PDF"><i class="fa fa-file-pdf-o"></i></a></li>
+                                            <li>관리자: <span class="text-muted">${workspaceOne.workMemberName}</span></li>
+                                            <li>시작일: <span class="text-muted">${workspaceOne.createDate}</span></li>
+                                            <!-- 며칠 째인지 띄우기 -->
                                         </ul>
                                     </div>
                                 </div>
@@ -95,57 +102,57 @@
                                 <div id="project-info" class="card-body row">
                                     <div class="project-info-count col-lg-4 col-md-12">
                                         <div class="project-info-icon">
-                                            <h2>12</h2>
+                                            <h2>${fn:length(workspaceMemberList)}</h2>
                                             <div class="project-info-sub-icon">
                                                 <span class="fa fa-user-o"></span>
                                             </div>
                                         </div>
                                         <div class="project-info-text pt-1">
-                                            <h5>Project Users</h5>
+                                            <h5>프로젝트 멤버</h5>
                                         </div>
                                     </div>
                                     <div class="project-info-count col-lg-4 col-md-12">
                                         <div class="project-info-icon">
-                                            <h2>160</h2>
+                                            <h2>${taskData.taskCnt}</h2>
                                             <div class="project-info-sub-icon">
                                                 <span class="fa fa-calendar-check-o"></span>
                                             </div>
                                         </div>
                                         <div class="project-info-text pt-1">
-                                            <h5>Project Task</h5>
+                                            <h5>업무</h5>
                                         </div>
                                     </div>
                                     <div class="project-info-count col-lg-4 col-md-12">
                                         <div class="project-info-icon">
-                                            <h2>20</h2>
+                                            <h2>${projectData.projectCnt}</h2>
                                             <div class="project-info-sub-icon">
                                                 <span class="fa fa-bug"></span>
                                             </div>
                                         </div>
                                         <div class="project-info-text pt-1">
-                                            <h5>Project Bug</h5>
+                                            <h5>프로젝트</h5>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- project-info -->
                                 <div class="card-body">
                                     <div class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2 my-1">
-                                        <span>Egal's Eye View Of Project Status</span>
+                                        <span>전체 프로젝트 통계</span>
                                     </div>
                                     <div class="row py-2">
                                         <div class="col-lg-6 col-md-12">
                                             <div class="insights px-2">
-                                                <div><span class="text-info h3">82%</span> <span class="float-right">Tasks</span></div>
+                                                <div><span class="text-info h3">${taskData.taskComplete}%</span> <span class="float-right">업무 진행도</span></div>
                                                 <div class="progress progress-md mt-1 mb-0">
-                                                    <div class="progress-bar bg-info" role="progressbar" style="width: 82%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar bg-info" role="progressbar" style="width: ${taskData.taskComplete}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-12">
                                             <div class="insights px-2">
-                                                <div><span class="text-success h3">78%</span> <span class="float-right">TaskLists</span></div>
+                                                <div><span class="text-success h3">${projectData.projectComplete}%</span> <span class="float-right">프로젝트 완료도</span></div>
                                                 <div class="progress progress-md mt-1 mb-0">
-                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 78%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: ${projectData.projectComplete}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -153,7 +160,7 @@
                                     <div class="row py-2">
                                         <div class="col-lg-6 col-md-12">
                                             <div class="insights px-2">
-                                                <div><span class="text-warning h3">68%</span> <span class="float-right">Milestones</span></div>
+                                                <div><span class="text-warning h3">68%</span> <span class="float-right">전체 프로젝트 진행도 평균</span></div>
                                                 <div class="progress progress-md mt-1 mb-0">
                                                     <div class="progress-bar bg-warning" role="progressbar" style="width: 68%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
@@ -172,34 +179,41 @@
                             </div>
                         </div>
                     </section>
-                    <!-- Task Progress -->
+                    <!-- 포인트별 업무 -->
                     <section class="row">
                         <div class="col-xl-6 col-lg-12 col-md-12">
-                            <div class="card">
-                                <div class="card-head">
-                                    <div class="card-header">
-                                        <h4 class="card-title">Task Progress</h4>
-                                        <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                        <div class="heading-elements">
-                                            <ul class="list-inline mb-0">
-                                                <li><a data-action="reload"><i class="feather icon-rotate-cw"></i></a></li>
-                                            </ul>
+                           <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">포인트별 업무</h4>
+                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="feather icon-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="feather icon-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="feather icon-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="feather icon-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-content collapse show">
+                                    <div class="card-body">
+                                        <div class="height-400">
+                                        	<c:forEach  var="t" items="${taskPointStatistic}">
+                                        		<input type="hidden" id="taskPoint${t.taskPoint}" value="${t.taskPointCnt}"/>
+                                        	</c:forEach>
+                                            <canvas id="simple-doughnut-chart"></canvas>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-content">
-                                    <div class="card-body">
-                                        <div id="task-pie-chart" class="height-400"></div>
-                                    </div>
-                                </div>
                             </div>
+                            <!-- Simple Doughnut Chart -->
                         </div>
                         <!--/ Task Progress -->
                         <!-- Bug Progress -->
                         <div class="col-xl-6 col-lg-12 col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Bug Progress</h4>
+                                    <h4 class="card-title">일별 진행도</h4>
                                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                                     <div class="heading-elements">
                                         <ul class="list-inline mb-0">
@@ -294,7 +308,7 @@
                         <!-- 워크스페이스 멤버리스트 -->
                         <div class="card">
                             <div class="card-header mb-0">
-                                <h4 class="card-title">Project Users</h4>
+                                <h4 class="card-title">프로젝트 멤버</h4>
                                 <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
@@ -308,51 +322,31 @@
                                 <div class="card-content">
                                     <div class="card-body  py-0 px-0">
                                         <div class="list-group">
-                                            <a href="javascript:void(0)" class="list-group-item">
-                                                <div class="media">
-                                                    <div class="media-left pr-1"><span class="avatar avatar-sm avatar-online rounded-circle"><img src="${pageContext.request.contextPath }/resources/app-assets/images/portrait/small/avatar-s-1.png" alt="avatar"><i></i></span></div>
-                                                    <div class="media-body w-100">
-                                                        <h6 class="media-heading mb-0">Margaret Govan</h6>
-                                                        <p class="font-small-2 mb-0 text-muted">Project Owner</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="javascript:void(0)" class="list-group-item">
-                                                <div class="media">
-                                                    <div class="media-left pr-1"><span class="avatar avatar-sm avatar-busy rounded-circle"><img src="${pageContext.request.contextPath }/resources/app-assets/images/portrait/small/avatar-s-2.png" alt="avatar"><i></i></span></div>
-                                                    <div class="media-body w-100">
-                                                        <h6 class="media-heading mb-0">Bret Lezama</h6>
-                                                        <p class="font-small-2 mb-0 text-muted">Project Manager</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="javascript:void(0)" class="list-group-item">
-                                                <div class="media">
-                                                    <div class="media-left pr-1"><span class="avatar avatar-sm avatar-online rounded-circle"><img src="${pageContext.request.contextPath }/resources/app-assets/images/portrait/small/avatar-s-3.png" alt="avatar"><i></i></span></div>
-                                                    <div class="media-body w-100">
-                                                        <h6 class="media-heading mb-0">Carie Berra</h6>
-                                                        <p class="font-small-2 mb-0 text-muted">Senior Developer</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="javascript:void(0)" class="list-group-item">
-                                                <div class="media">
-                                                    <div class="media-left pr-1"><span class="avatar avatar-sm avatar-away rounded-circle"><img src="${pageContext.request.contextPath }/resources/app-assets/images/portrait/small/avatar-s-6.png" alt="avatar"><i></i></span></div>
-                                                    <div class="media-body w-100">
-                                                        <h6 class="media-heading mb-0">Eric Alsobrook</h6>
-                                                        <p class="font-small-2 mb-0 text-muted">UI Developer</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="javascript:void(0)" class="list-group-item">
-                                                <div class="media">
-                                                    <div class="media-left pr-1"><span class="avatar avatar-sm avatar-busy rounded-circle"><img src="${pageContext.request.contextPath }/resources/app-assets/images/portrait/small/avatar-s-7.png" alt="avatar"><i></i></span></div>
-                                                    <div class="media-body w-100">
-                                                        <h6 class="media-heading mb-0">Berra Eric</h6>
-                                                        <p class="font-small-2 mb-0 text-muted">UI Developer</p>
-                                                    </div>
-                                                </div>
-                                            </a>
+                                        	<c:forEach var="wm" items="${workspaceMemberList}">
+	                                            <a href="${pageContext.request.contextPath}/member/feedback?workMemberNo=${wm.workMemberNo}" class="list-group-item">
+	                                                <div class="media">
+	                                                	<div class="media-left pr-1">
+	                                                		<!-- 이미지 -->
+			                                                <c:choose>
+																<c:when test="${wm.filename eq null}">
+																	<div class="avatar avatar-offline bg-info m-0 mr-50">
+																		<span class="fa fa-user"></span>
+																	</div>
+																</c:when>
+																<c:otherwise>
+																	<div class="avatar avatar-online rounded-circle m-0 mr-50">
+																		<img src="${pageContext.request.contextPath}/resources/upload/${wm.filename}${wm.fileExt}" alt="avatar">
+																	</div>
+																</c:otherwise>
+															</c:choose>
+														</div>
+	                                                    <div class="media-body w-100">
+	                                                        <h6 class="media-heading mb-0">${wm.workMemberName}</h6>
+	                                                        <p class="font-small-2 mb-0 text-muted">${wm.workMemberEmail}</p>
+	                                                    </div>
+	                                                </div>
+	                                            </a>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                 </div>
@@ -374,21 +368,25 @@
 
 
     <!-- BEGIN: Vendor JS-->
-    <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/vendors.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/app-assets/vendors/js/vendors.min.js"></script>
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
-    <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/charts/apexcharts/apexcharts.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/app-assets/vendors/js/charts/chart.min.js"></script>
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
-    <script src="${pageContext.request.contextPath }/resources/app-assets/js/core/app-menu.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/app-assets/js/core/app.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/app-assets/js/core/app-menu.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/app-assets/js/core/app.js"></script>
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
-    <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/pages/project-summary.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/app-assets/js/scripts/pages/project-summary.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/app-assets/js/scripts/charts/chartjs/pie-doughnut/pie-simple.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/app-assets/js/scripts/charts/chartjs/pie-doughnut/doughnut.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/app-assets/js/scripts/charts/chartjs/pie-doughnut/doughnut-simple.js"></script>
     <!-- END: Page JS-->
+
 
 </body>
 <!-- END: Body-->
