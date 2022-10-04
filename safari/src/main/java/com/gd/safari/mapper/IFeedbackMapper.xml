@@ -157,9 +157,23 @@
 		SELECT 
 			count(feedback_sender) sendingFeedback 
 		FROM 
-			feedback 
+			feedback f
+		INNER JOIN
+			task t
+		ON
+			t.task_no = f.task_no
+		INNER JOIN
+			task_list tl
+		ON
+			tl.tasklist_no = t.tasklist_no
+		INNER JOIN
+			project p
+		ON 
+			tl.project_no = p.project_no
 		WHERE 
 			feedback_sender = #{workMemberEmail}
+		AND
+			p.work_no = #{workNo}
 	</select>
 	
 	<!-- 피드백 수정하기 -->

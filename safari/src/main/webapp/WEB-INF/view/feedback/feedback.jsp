@@ -91,7 +91,7 @@
                                                     <h2 class="block">${member.receivedFeedback}</h2> 받은 피드백
                                                 </li>
                                                 <li class="">
-                                                    <h2 class="block">${member.receivedFeedback}</h2> 보낸 피드백
+                                                    <h2 class="block">${member.sendingFeedback}</h2> 보낸 피드백
                                                 </li>
                                             </ul>
                                             <span id="myEmail">${member.workMemberEmail}</span>
