@@ -9,7 +9,7 @@ import com.gd.safari.vo.TaskList;
 
 public interface ITaskService {
 	// 캘린더에서 사용할 메서드
-	List<Task> getTaskListForCalendar(Map<String, Object> m);
+	List<Map<String, Object>> getTaskListForCalendar(int workMemberNo);
 	////////////////////////////////////////////////////////////// END : 조원을 위한 메서드 
 	
 	

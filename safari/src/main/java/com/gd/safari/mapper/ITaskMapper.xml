@@ -75,11 +75,11 @@
 			t.task_end IS NOT NULL
 	</select>
 	<!-- 캘린더에서 사용할 메서드 -->
-	<select id="selectTaskListForCalendar" parameterType="map" resultType="com.gd.safari.vo.Task">
+	<select id="selectTaskListForCalendar" parameterType="int" resultType="map">
 		SELECT
-			t.task_title			taskTitle
-			, t.task_start			taskStart
-			, t.task_deadline		taskDeadline
+			t.task_title			title
+			, t.task_start			start
+			, t.task_deadline		end
 		FROM
 			task t
 		INNER JOIN
@@ -93,15 +93,7 @@
 		WHERE
 			t.task_start IS NOT NULL
 		AND
-			pm.work_member_no = #{workNo}
-		AND
-		<if test="month == null">
-			MONTH(t.task_start) = MONTH(CURRENT_DATE)
-		</if>
-			 
-		<if test="month != null">
-			MONTH(t.task_start #{mp} INTERVAL #{month} MONTH)
-		</if>
+			pm.work_member_no = #{workMemberNo}
 	</select>
 	<!-- END : 조원을 위한 메서드 -->
 	

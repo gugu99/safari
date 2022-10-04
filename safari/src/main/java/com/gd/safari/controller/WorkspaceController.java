@@ -259,5 +259,12 @@ public class WorkspaceController {
 		return "redirect:/member/workspaceMemberList"; 
 
 	}
+	
+	// 워크스페이스 캘린더 페이지
+	@GetMapping("/member/calendar")
+	public String calendar() {
+		
+		return "workspace/calendar";
+	}
 
 }

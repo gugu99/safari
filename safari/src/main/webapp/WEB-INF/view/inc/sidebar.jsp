@@ -6,15 +6,11 @@
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
             <li class=" navigation-header"><span>General</span><i class=" feather icon-minus" data-toggle="tooltip" data-placement="right" data-original-title="General"></i>
             </li>
-            <li class=" nav-item"><a href="${pageContext.request.contextPath }/index"><i class="feather icon-home"></i><span class="menu-title" data-i18n="Dashboard">Dashboard</span><span class="badge badge badge-primary badge-pill float-right mr-2">3</span></a>
+            <li class=" nav-item"><a href="${pageContext.request.contextPath }/index"><i class="feather icon-home"></i><span class="menu-title" data-i18n="Dashboard">Dashboard</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="dashboard-ecommerce.html" data-i18n="eCommerce">eCommerce</a>
+                    <li><a class="menu-item" href="${pageContext.request.contextPath}/member/calendar" data-i18n="eCommerce"><i class="feather icon-calendar"></i>Calendar</a>
                     </li>
-                    <li><a class="menu-item" href="dashboard-analytics.html" data-i18n="Analytics">Analytics</a>
-                    </li>
-                    <li><a class="menu-item" href="dashboard-fitness.html" data-i18n="Fitness">Fitness</a>
-                    </li>
-                    <li><a class="menu-item" href="dashboard-crm.html" data-i18n="CRM">CRM</a>
+                    <li><a class="menu-item" href="${pageContext.request.contextPath}/member/projectSummary" data-i18n="eCommerce"><i class="feather icon-bar-chart-2"></i>Project Summary</a>
                     </li>
                 </ul>
             </li>

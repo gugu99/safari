@@ -14,7 +14,7 @@ public interface ITaskMapper {
 	// 피드백 sender가 워크스페이스 관리자일 때 receiver의 완료된 업무들 조회 - 피드백에서 사용할 메서드
 	List<Map<String, Object>> selectCompleteTaskListByReceiverNo(int feedbackReceiverNo);
 	// 캘린더에서 사용할 메서드
-	List<Task> selectTaskListForCalendar(Map<String, Object> m);
+	List<Map<String, Object>> selectTaskListForCalendar(int workMemberNo);
 	////////////////////////////////////////////////////////////// END : 조원을 위한 메서드 
 	
 	

@@ -31,9 +31,22 @@ public class TaskService implements ITaskService {
 
 	// 캘린더에서 사용할 메서드
 	@Override
-	public List<Task> getTaskListForCalendar(Map<String, Object> m) {
+	public List<Map<String, Object>> getTaskListForCalendar(int workMemberNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 캘린더에서 사용할 메서드 - 업무 조회");
-		return taskMapper.selectTaskListForCalendar(m);
+		// 업무 별 랜덤 컬러 배열
+		String[] colors = {"#967ADC", "#37BC9B", "#F6BB42", "#DA4453", "#3BAFDA"};
+		List<Map<String, Object>> list = taskMapper.selectTaskListForCalendar(workMemberNo);
+		
+		// 업무 별 랜덤 색으로 나타낸다.
+		for (Map<String, Object> map : list) {
+			int tmp = (int)(Math.random() * colors.length);
+			map.put("color", colors[tmp]);
+		}
+		
+		log.debug(TeamColor.GDE + list);
+
+		
+		return list;
 	}
 	////////////////////////////////////////////////////////////// END : 조원을 위한 메서드 
 	

@@ -27,6 +27,21 @@ import lombok.extern.slf4j.Slf4j;
 public class RestTaskController {
 	@Autowired private ITaskService taskService;
 	
+	// 캘린더에서 기한이 지정된 업무 보기
+	@GetMapping("/member/restCalendar")
+	public List<Map<String, Object>> calendar(HttpSession session) {
+		// 세션에 저장된 workMemberNo 가져오기
+		int workMemberNo = (int)session.getAttribute("workMemberNo");
+		log.debug(TeamColor.GDE + "workMemberNo --- " + workMemberNo);
+		
+		
+		List<Map<String, Object>> list = taskService.getTaskListForCalendar(workMemberNo);
+		
+		log.debug(TeamColor.GDE + "list --- " + list);
+		
+		return list;
+	}
+	
 	// 업무 조회
 	@PostMapping("/safari/task")
 	public List<Task> task(HttpSession session, String sort, String search, boolean check) {
