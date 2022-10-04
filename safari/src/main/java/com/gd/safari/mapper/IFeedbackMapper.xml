@@ -152,6 +152,16 @@
 			feedback_no = #{feedbackNo} 
 	</select>
 	
+	<!-- 해당 유저가 쓴 피드백 개수 조회 -->
+	<select id="selectSendFeedbackCntByMemberEmail" parameterType="java.util.Map" resultType="int">
+		SELECT 
+			count(feedback_sender) sendingFeedback 
+		FROM 
+			feedback 
+		WHERE 
+			feedback_sender = #{workMemberEmail}
+	</select>
+	
 	<!-- 피드백 수정하기 -->
 	<update id="updateFeedback" parameterType="map">
 		UPDATE

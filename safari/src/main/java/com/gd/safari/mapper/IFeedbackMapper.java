@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.gd.safari.vo.Feedback;
 import com.gd.safari.vo.FeedbackList;
 import com.gd.safari.vo.WorkspaceMember;
 
@@ -16,6 +15,9 @@ public interface IFeedbackMapper {
 	
 	// 피드백 리스트 조회
 	List<FeedbackList> selectFeedbackByWorkspaceMember(WorkspaceMember workspaceMember);
+	
+	// 해당 유저가 쓴 피드백 개수 조회
+	int selectSendFeedbackCntByMemberEmail(Map<String, Object> map);
 	
 	// 피드백 수정을 위한 피드백 한개 조회
 	Map<String, Object> selectFeedbackOne(int feedbackNo);

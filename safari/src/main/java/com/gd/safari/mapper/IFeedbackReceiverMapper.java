@@ -16,6 +16,9 @@ public interface IFeedbackReceiverMapper {
 	// 기존 수신자와 해당 피드백의 업무 멤버 조회
 	List<Map<String, Object>> selectFeedbackReceiverAndtaskMember(int feedbackNo, int taskNo);
 	
+	// 받은 피드백 개수 조회
+	int selectReceivedFeedbackCntByMemberEmail(Map<String, Object> map);
+	
 	// 피드백 수신자 삭제
 	int deleteFeedbackReceiverByFeedbackNoAndEmail(Map<String, Object> map);
 }
