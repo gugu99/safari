@@ -29,6 +29,15 @@ public class TaskService implements ITaskService {
 	@Autowired private ITaskListMapper taskListMapper;
 	@Autowired private IProjectMapper projectMapper;
 
+	// 캘린더에서 사용할 메서드
+	@Override
+	public List<Task> getTaskListForCalendar(Map<String, Object> m) {
+		log.debug(TeamColor.CSH + this.getClass() + " 캘린더에서 사용할 메서드 - 업무 조회");
+		return taskMapper.selectTaskListForCalendar(m);
+	}
+	////////////////////////////////////////////////////////////// END : 조원을 위한 메서드 
+	
+	
 	// 프로젝트 번호에 맞는 업무 조회
 	@Override
 	public List<Task> getTaskByProjectNo(Map<String, Object> m) {

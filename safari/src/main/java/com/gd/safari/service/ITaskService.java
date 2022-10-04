@@ -8,6 +8,11 @@ import com.gd.safari.vo.Task;
 import com.gd.safari.vo.TaskList;
 
 public interface ITaskService {
+	// 캘린더에서 사용할 메서드
+	List<Task> getTaskListForCalendar(Map<String, Object> m);
+	////////////////////////////////////////////////////////////// END : 조원을 위한 메서드 
+	
+	
 	// 프로젝트 번호에 맞는 업무 조회
 	List<Task> getTaskByProjectNo(Map<String, Object> m);
 	// 상세 보기

@@ -74,7 +74,36 @@
 		AND
 			t.task_end IS NOT NULL
 	</select>
-	
+	<!-- 캘린더에서 사용할 메서드 -->
+	<select id="selectTaskListForCalendar" parameterType="map" resultType="com.gd.safari.vo.Task">
+		SELECT
+			t.task_title			taskTitle
+			, t.task_start			taskStart
+			, t.task_deadline		taskDeadline
+		FROM
+			task t
+		INNER JOIN
+			task_member tm
+		ON
+			t.task_no = tm.task_no
+		INNER JOIN
+			project_member pm
+		ON
+			tm.project_member_no = pm.project_member_no
+		WHERE
+			t.task_start IS NOT NULL
+		AND
+			pm.work_member_no = #{workNo}
+		AND
+		<if test="month == null">
+			MONTH(t.task_start) = MONTH(CURRENT_DATE)
+		</if>
+			 
+		<if test="month != null">
+			MONTH(t.task_start #{mp} INTERVAL #{month} MONTH)
+		</if>
+	</select>
+	<!-- END : 조원을 위한 메서드 -->
 	
 	
 	<!-- 프로젝트 번호에 맞는 업무 조회 -->
