@@ -332,4 +332,28 @@
 			work_member_email= #{memberEmail}
 	</update>
 	
+	<!-- 워크스페이스멤버 정보 및 프로필이미지가져오기 -->
+	<select id="selectWorkspaceMemberAndProfileImg" resultType="map" parameterType="com.gd.safari.vo.WorkspaceMember">
+		SELECT  
+			  w.work_member_no workMemberNo
+			, w.work_member_name workMemberName
+			, w.work_member_dept workMemberDept
+			, w.work_member_pos workMemberPos
+			, w.active active
+			, w.work_no workNo
+			, w.work_member_email workMemberEmail
+			, v.filename filename
+			, v.file_ext fileExt
+		FROM 
+			workspace_member w
+		INNER JOIN
+			v_workspace_member v
+		ON
+			w.work_member_no = v.work_member_no
+		WHERE 
+			w.work_member_no = #{workMemberNo}
+	
+	</select>
+	
+	
 </mapper>
