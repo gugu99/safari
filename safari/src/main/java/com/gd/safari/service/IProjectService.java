@@ -29,4 +29,7 @@ public interface IProjectService {
 	
 	// 프로젝트 요약 페이지를 띄우는 용도
 	Map<String, Object> getProjectSummary(int workNo);
+	
+	// RestController에서 프로젝트 요약페이지에 쓸 정보 반환
+	Map<String, Object> getProjectSummaryChart(int workNo);
 }
