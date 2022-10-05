@@ -194,7 +194,18 @@ public class ProjectService implements IProjectService {
 		map.put("taskData", projectSummaryMapper.selectTaskCntAndTaskCompleteRateByWorkNo(workNo));
 		map.put("projectData", projectMapper.selectProjectCompleteRateByWorkNo(workNo));
 		map.put("taskPointStatistic", projectSummaryMapper.selectTaskCntPerTaskPointByWorkNo(workNo));
-		map.put("taskPerDate", projectSummaryMapper.selectFinishedTaskPerDate(workNo));
+		
+		return map;
+	}
+	
+	@Override
+	public Map<String, Object> getProjectSummaryChart(int workNo) {
+		Map<String, Object> map = new HashMap<>();
+
+		List<Map<String, Object>> list = projectSummaryMapper.selectFinishedTaskPerDate(workNo);
+		
+		map.put("taskPerDate", list);
+		
 		return map;
 	}
 }

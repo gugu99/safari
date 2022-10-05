@@ -34,8 +34,6 @@
     <!-- END: Page CSS-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
-
 </head>
 <!-- END: Head-->
 
@@ -221,17 +219,23 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="card-content">
+                                <div class="card-content collapse show">
                                     <div class="card-body">
-                                        <div id="bug-pie-chart" class="height-400"></div>
-                                    </div>
-                                </div>
+                                        <div class="height-400">
+	                                        <div class="height-400">
+	                                            <canvas id="line-logarithmic"></canvas>
+	                                        </div>
+		                                </div>
+                               		</div>
+                            	</div>
                             </div>
-                        </div>
-                        <!--/ Bug Progress -->
+                       	</div>
                     </section>
-                </div>
+            	</div>
             </div>
+            
+            <!-- sidebar 시작! -->
+            
             <div class="sidebar-detached sidebar-right">
                 <div class="sidebar">
                     <div class="project-sidebar-content">
@@ -385,6 +389,7 @@
     <script src="${pageContext.request.contextPath}/resources/app-assets/js/scripts/charts/chartjs/pie-doughnut/pie-simple.js"></script>
     <script src="${pageContext.request.contextPath}/resources/app-assets/js/scripts/charts/chartjs/pie-doughnut/doughnut.js"></script>
     <script src="${pageContext.request.contextPath}/resources/app-assets/js/scripts/charts/chartjs/pie-doughnut/doughnut-simple.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/app-assets/js/scripts/charts/chartjs/line/line-logarithmic.js"></script>
     <!-- END: Page JS-->
 
 

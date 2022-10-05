@@ -51,4 +51,11 @@ public class RestProjectController {
 		
 		return projectMemberService.modifyProjectMember(workNo, projectMember);
 	}
+	
+	@GetMapping("/member/projectSummaryChart")
+	public Map<String, Object> projectSummaryChart(HttpSession session){
+		int workNo = (int)session.getAttribute("workNo");
+		
+		return projectService.getProjectSummaryChart(workNo);
+	}
 }

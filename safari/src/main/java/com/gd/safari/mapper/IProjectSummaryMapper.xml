@@ -79,8 +79,9 @@
 	
 	<select id="selectFinishedTaskPerDate" parameterType="int" resultType="java.util.Map">
 		SELECT
-			DATE_FORMAT(task_end, '%Y-%m-%d') date
-			, COUNT(task_end) taskCnt
+			DATE_FORMAT(t.task_start, '%Y-%m-%d') date
+			, COUNT(task_end) finishedTaskCnt
+			, COUNT(*) taskCnt 
 		FROM
 			task_list tl 
 		INNER JOIN 
@@ -92,10 +93,12 @@
 		ON
 			tl.project_no = p.project_no
 		WHERE
-			p.work_no = 6
+			p.work_no = #{workNo}
 		GROUP BY
-			DATE_FORMAT(task_end, '%Y-%m-%d')
+			DATE_FORMAT(t.task_start, '%Y-%m-%d')
 		ORDER BY
-			task_end DESC;
+			task_end ASC
+		LIMIT
+			7
 	</select>
 </mapper>
