@@ -25,7 +25,22 @@ $(document).ready(function(){
 	
 	// 프로젝트 추가 빈칸검사
 	$('#projectBtn').click(function(){
-		if($('#projectName').val() == ""){
+		
+		console.log(typeof $('#projectMemberList').val());
+		console.log($('#projectMemberList').val());
+		
+		let hasMe = false;
+		
+		// 본인 검증
+		for(let i = 0; i < $('#projectMemberList').val().length; i++){
+			if($('#projManagerNo').val() == $('#projectMemberList').val()[i]){
+				hasMe = true;
+			}
+		}
+		
+		if(!hasMe){
+			alert("프로젝트 생성자가 멤버로 포함되어야 합니다.");
+		} else if($('#projectName').val() == ""){
 			alert("프로젝트 이름을 입력해주세요.");
 			$("#projectName").focus();
 			return false;

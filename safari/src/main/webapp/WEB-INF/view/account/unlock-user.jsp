@@ -63,7 +63,7 @@
                                 <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2"><span>휴면계정 활성화</span></p>
                                 <!-- BEGIN: 에러메세지 -->
                                	<p class="card-subtitle text-muted text-center font-small-3 mx-2">
-                               		<c:if test="${errorMsg != null}"><strong class="text-center">${errorMsg}</strong></c:if>
+                               		<c:if test="${errorMsg != null}"><strong class="text-center text-danger">${errorMsg}</strong></c:if>
                                	</p>
                                	<!-- END: 에러메세지 -->
                                 <div class="card-content">
@@ -141,7 +141,7 @@
 					} else {
 						$.ajax({
 							type : 'POST',
-							url : '/account/mailConfirm',
+							url : '/account/mailConfirmForUnlockUser',
 							data : {email : $('#memberEmail').val()},
 							success : function(data){
 								alert('해당 이메일로 인증번호 발송이 완료되었습니다. 확인부탁드립니다.');

@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="mt-5">
+	<!-- BEGIN: 에러메세지 -->
+   	<p class="card-subtitle text-muted text-center font-small-3 mx-2">
+   		<c:if test="${errorMsg != null}"><strong class="text-center text-danger">${errorMsg}</strong></c:if>
+   	</p>
+   	<!-- END: 에러메세지 -->
 	<h3 class="pass-dropdown">비밀번호 변경<i class="feather icon-chevron-down"></i></h3>
   	<div class="card border-grey border-lighten-3 px-2 py-2 m-0">
   		<div class="card-content">

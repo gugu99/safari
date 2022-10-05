@@ -25,7 +25,7 @@
                       </div>
                      <div class="form-group col-12 mb-2">
 	                	 <div class="form-group">
-	                         <label>프로젝트 관리자</label>
+	                         <label>프로젝트 멤버</label>
 	                         <select class="form-control select2" multiple="multiple" id="projectMemberList" name="projectMemberList">
 	                           <c:forEach var="wm" items="${workspaceMemberList}">
 	                           		<c:if test="${workMemberNo eq wm.workMemberNo}">
@@ -40,7 +40,7 @@
 	               </div>
 	               
 	               <input type="hidden" value="${sessionScope.workNo}" name="workNo">
-	               <input type="hidden" value="${sessionScope.workMemberNo}" name="projManagerNo">
+	               <input type="hidden" value="${sessionScope.workMemberNo}" id="projManagerNo" name="projManagerNo">
 	               
                    <div class="modal-footer">
                        <button type="button" class="projectForm btn btn-outline-secondary btn-lg" id="hideBtn">닫기</button>

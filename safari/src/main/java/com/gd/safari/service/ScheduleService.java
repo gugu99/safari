@@ -41,8 +41,11 @@ public class ScheduleService implements IScheduleService {
 		// 프로젝트 멤버리스트
 		List<Map<String, Object>> projectMemberList = projectMemberMapper.selectProjectMemberList((int)paramMap.get("projectNo"));
 		// 프로젝트 관리자인지 조회
-		Integer managerNo = projectMemberMapper.selectProjectManager((int)paramMap.get("projectNo"), (int)paramMap.get("workMemberNo"));
-		boolean manager = (managerNo == null) ? false : true;
+		if (paramMap.get("workMemberNo") != null) { // 게스트가 아니면 workMemberNo가 존재한다.
+			Integer managerNo = projectMemberMapper.selectProjectManager((int)paramMap.get("projectNo"), (int)paramMap.get("workMemberNo"));
+			boolean manager = (managerNo == null) ? false : true;
+			map.put("manager", manager);
+		}
 		// 일정 리스트
 		List<ScheduleList> scheduleList = scheduleMapper.selectScheduleList(paramMap);
 		
@@ -77,7 +80,7 @@ public class ScheduleService implements IScheduleService {
 		
 		map.put("projectMemberList", projectMemberList);
 		map.put("scheduleList", scheduleList);
-		map.put("manager", manager);
+		
 		
 		return map;
 	}

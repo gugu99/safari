@@ -124,11 +124,12 @@ public class AccountController {
                 if(result) {
                 	changePasswordWithGoogle(member);
                 	login(session, member);
+                	
+                	return "redirect:/safari/index";
+                	
                 } else {
                 	register(member);
                 }
-
-                return "redirect:/safari/index";
             } else {
                 throw new Exception("Google OAuth failed!");
             }

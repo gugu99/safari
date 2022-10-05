@@ -65,25 +65,21 @@
                                     </p>
                                     <!-- BEGIN: 에러메세지 -->
                                 	<p class="card-subtitle text-muted text-center font-small-3 mx-2">
-                                		<c:if test="${errorMsg != null}"><strong class="text-center">${errorMsg}</strong></c:if>
+                                		<c:if test="${errorMsg != null}"><strong class="text-center text-danger">${errorMsg}</strong></c:if>
                                 	</p>
                                 	<!-- END: 에러메세지 -->
                                     <div class="card-body pt-2">
                                         <form class="form-horizontal" action="${pageContext.request.contextPath }/account/login" method="post" id="form">
                                             <fieldset class="form-group floating-label-form-group">
                                                 <label for="memberEmail">이메일</label>
-                                                <input type="text" class="form-control" placeholder="이메일을 입력해주세요" value="admin@admin.com" name="memberEmail" id="memberEmail">
+                                                <input type="text" class="form-control" placeholder="이메일을 입력해주세요" value="guest@safari.com" name="memberEmail" id="memberEmail">
                                             </fieldset>
                                             <fieldset class="form-group floating-label-form-group mb-1">
                                                 <label for="memberPw">비밀번호</label>
-                                                <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요" value="1234" name="memberPw" id="memberPw">
+                                                <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요" value="Asdf1234!" name="memberPw" id="memberPw">
                                             </fieldset>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-12 text-center text-sm-left">
-                                                    <fieldset>
-                                                        <input type="checkbox" id="remember-me" class="chk-remember">
-                                                        <label for="remember-me"> 계정 유지하기</label>
-                                                    </fieldset>
                                                 </div>
                                                 <div class="col-sm-6 col-12 float-sm-left text-center text-sm-right"><a href="${pageContext.request.contextPath }/account/recover-password" class="card-link">비밀번호 찾기</a></div>
                                             </div>

@@ -55,18 +55,16 @@ public class TaskCommentService implements ITaskCommentService {
 	}
 
 	// 업무 코멘트 고정하기
+	@Transactional
 	@Override
 	public int modifyFixTaskComment(int taskCmtNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 고정하기");
+		// 지정한 업무 코멘트 외의 것은 업무코멘트 해제하기 (하나만 고정가능)
+		taskCommentMapper.updateUnfixedTaskComment(taskCmtNo);
+		// 해제한 후 고정하기
 		return taskCommentMapper.updateFixTaskComment(taskCmtNo);
 	}
 	
-	// 업무 코멘트 해제하기
-	@Override
-	public int modifyUnfixedTaskComment(int taskCmtNo) {
-		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 해제하기");
-		return taskCommentMapper.updateUnfixedTaskComment(taskCmtNo);
-	}
 	
 	// 업무 코멘트 삭제
 	@Override

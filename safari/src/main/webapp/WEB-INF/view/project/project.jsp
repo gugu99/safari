@@ -282,9 +282,6 @@
     <script src="${pageContext.request.contextPath }/resources/app-assets/vendors/js/forms/icheck/icheck.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/forms/checkbox-radio.js"></script>
 
-
-    
-
     <!-- BEGIN: 내가 만든 JS-->
     <script src="${pageContext.request.contextPath }/resources/assets/js/project.js"></script>
     <!-- END: 내가 만든 JS-->

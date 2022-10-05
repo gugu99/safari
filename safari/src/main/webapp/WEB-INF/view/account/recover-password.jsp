@@ -55,7 +55,7 @@
                                 </div>
                                 <!-- BEGIN: 에러메세지 -->
                                	<p class="card-subtitle text-muted text-center font-small-3 mx-2">
-                               		<c:if test="${errorMsg != null}"><strong class="text-center">${errorMsg}</strong></c:if>
+                               		<c:if test="${errorMsg != null}"><strong class="text-center text-danger">${errorMsg}</strong></c:if>
                                	</p>
                                	<!-- END: 에러메세지 -->
                                 <div class="card-content">
@@ -126,7 +126,7 @@
 					} else {
 						$.ajax({
 							type : 'POST',
-							url : '/account/mailConfirm',
+							url : '/account/mailConfirmForRecoverPw',
 							data : {email : $('#memberEmail').val()},
 							success : function(data){
 								alert('해당 이메일로 인증번호 발송이 완료되었습니다. 확인부탁드립니다.');
