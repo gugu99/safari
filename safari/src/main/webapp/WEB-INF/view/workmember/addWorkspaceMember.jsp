@@ -59,31 +59,12 @@
 		<div class="content-wrapper">
 			<div class="content-header row">
 				<div class="content-header-left col-md-6 col-12 mb-2">
-					<div class="row breadcrumbs-top">
-						<div class="breadcrumb-wrapper col-12">
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-								<li class="breadcrumb-item"><a href="#">Page</a></li>
-							</ol>
-						</div>
-					</div>
 					<h3 class="content-header-title mb-0">워크스페이스 멤버가입</h3>
 				</div>
 				<div class="content-header-right col-md-6 col-12">
 					<div class="btn-group float-md-right" role="group"
 						aria-label="Button group with nested dropdown">
 						<div class="btn-group" role="group">
-							<button
-								class="btn btn-outline-primary dropdown-toggle dropdown-menu-right"
-								id="btnGroupDrop1" type="button" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false">
-								<i class="feather icon-settings icon-left"></i> Settings
-							</button>
-							<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-								<a class="dropdown-item" href="card-bootstrap.html">Bootstrap
-									Cards</a><a class="dropdown-item"
-									href="component-buttons-extended.html">Buttons Extended</a>
-							</div>
 						</div>
 						<a class="btn btn-outline-primary" href="full-calender-basic.html"><i
 							class="feather icon-mail"></i></a><a class="btn btn-outline-primary"
@@ -102,15 +83,6 @@
 									<a class="heading-elements-toggle"><i
 										class="fa fa-ellipsis-h font-medium-3"></i></a>
 									<div class="heading-elements">
-										<ul class="list-inline mb-0">
-											<li><a data-action="collapse"><i
-													class="feather icon-minus"></i></a></li>
-											<li><a data-action="reload"><i
-													class="feather icon-rotate-cw"></i></a></li>
-											<li><a data-action="expand"><i
-													class="feather icon-maximize"></i></a></li>
-											<li><a data-action="close"><i class="feather icon-x"></i></a></li>
-										</ul>
 									</div>
 								</div>
 								<div class="card-content collapse show">

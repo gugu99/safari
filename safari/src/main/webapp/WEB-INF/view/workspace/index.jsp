@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html class="loading" lang="ko" data-textdirection="ltr">
 <!-- BEGIN: Head-->
@@ -49,17 +51,9 @@
  
  
  <div>
- <ul class="nav nav-pills">
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="menu">프로필</a>
-    <div class="dropdown-menu">
       <a id="logout" href="${pageContext.request.contextPath }/safari/logout" class="navbar-brand nav-link"><i class="feather icon-log-out">로그아웃</i></a>
-      <a id="logout" href="${pageContext.request.contextPath }/safari/logout" class="navbar-brand nav-link"> <i class="feather icon-log-out">일반설정</i></a>
     </div>
-  </li>
-  </ul>
  </div>
-</div>
 </div>
 </nav>
 	<!-- BEGIN: Content-->
@@ -78,11 +72,14 @@
 						<!-- Add Modal -->
 					</div>
 				</div>
-				${errorMsg }
+              	<p class="card-subtitle text-muted text-center font-small-3 mx-2">
+              		<c:if test="${errorMsg != null}"><strong class="text-center text-danger">${errorMsg}</strong></c:if>
+              	</p>
 				<div class="container">
 					<div class="row">
 						<!-- 워크스페이스 목록-->
 						<c:forEach var="r" items="${workspaceList}">
+							
 							<c:set var="i" value="${i+1 }" />
 							<div class="col-lg-4 col-md-4">
 								<div class="card text-center">
@@ -90,6 +87,7 @@
 										<div class="card-body">
 											<!--  modal -->
 											<!-- 아이콘 -->
+											
 											<c:if test="${login eq r.adminEmail }">
 											<div class="col-md-12 col-sm-12 col-12 fonticon-container">
 												<ul class="list-inline" class="align-end">
@@ -221,7 +219,7 @@
 								</div>
 							</div>
 						</c:forEach>
-
+						
 						<!--워크스페이스 추가 폼  -->
 						<div class="col-lg-4 col-md-4">
 							<div class="card text-center">
@@ -244,6 +242,9 @@
 							</div>
 						</div>
 					</div>
+					<c:if test="${fn:length(workspaceList) < 1} ">
+					ddd
+					</c:if>
 					<div class="content-body"></div>
 				</div>
 			</div>

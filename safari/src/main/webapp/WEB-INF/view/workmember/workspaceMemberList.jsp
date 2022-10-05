@@ -436,15 +436,25 @@
 
 														<tr>
 															<td class="text-center">${r.workMemberPos }</td>
+															<c:if test="${r.workMemberName eq 'null' }">
+															<td>
+																승인대기중
+															</td>
+															</c:if>
+															<c:if test="${r.workMemberName != 'null' }"> 
 															<td>
 																<div class="media">
 																	<div class="media-body media-middle">
 																		<a href="${pageContext.request.contextPath }/member/feedback?workMemberNo=${r.workMemberNo}">${r.workMemberName }</a></div>
 																</div>
 															</td>
+															</c:if>
+															
 															<td class="text-center"><a class="email"
 																href="mailto:email@example.com">${r.workMemberEmail }</a>
 															</td>
+															
+															
 															<td class="phone">${r.workMemberPhone }</td>
 															<td class="text-center">
 																<div class="media-body media-middle">${r.active }

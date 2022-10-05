@@ -203,9 +203,6 @@
 								<div class="card-content">
 									<div class="card-body">
 										<!-- Task List table -->
-										<button type="button"
-											class="btn btn-danger btn-sm delete-all mb-1">Delete
-											All</button>
 										<div class="table-responsive">
 											<table id="users-contacts"
 												class="table table-white-space table-bordered row-grouping display no-wrap icheck table-middle text-center">
@@ -325,8 +322,12 @@
 																	</div>
 																</div>
 															</td>
-															<td class="text-center"><a class="email"
-																href="mailto:email@example.com">${r.active }</a>
+															<td class="text-center">
+															
+																${r.active }
+																<c:if test="${r.workGuestCode == null}">(코드인증확인)</c:if>
+																<c:if test="${r.workGuestCode != null}">(코드인증안됨)</c:if>
+																
 															</td>
 															<td class="phone">${r.createDate }</td>
 															<c:if test="${workMemberLevel > 2 }">

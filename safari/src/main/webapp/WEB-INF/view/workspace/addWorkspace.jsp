@@ -24,7 +24,8 @@
 <!-- css -->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/assets/css/addWorkspace.css">
-
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/assets/css/index.css">
 
 </head>
 <!-- END: Head-->
@@ -32,12 +33,25 @@
 <!-- BEGIN: Body-->
 
 <body
-	class="vertical-layout vertical-menu-modern content-detached-right-sidebar   fixed-navbar"
+	
 	data-open="click" data-menu="vertical-menu-modern"
 	data-col="content-detached-right-sidebar">
 
 	<!-- header -->
-
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top" id="navbar">
+	  <ul class="navbar-nav">
+	  <li><a class="navbar-brand" id="logo" href="${pageContext.request.contextPath }/safari/index" class="navbar-brand nav-link"><img src="${pageContext.request.contextPath }/resources/app-assets/images/logo/stack-logo-light.png" alt="branding logo"> Safari</a>
+	  </li>
+	  </ul>
+	  <div id="logtap" class="row">
+	 <h4 id="textEmail">${login }님</h4>
+	 <div id="logout">
+	 <div>
+	      <a id="logout" href="${pageContext.request.contextPath }/safari/logout" class="navbar-brand nav-link"><i class="feather icon-log-out">로그아웃</i></a>
+	    </div>
+	 </div>
+	</div>
+	</nav>
 
 
 	<!-- BEGIN: Content-->
@@ -49,10 +63,6 @@
 				<div class="content-header-left col-md-6 col-12 mb-2">
 					<div class="row breadcrumbs-top">
 						<div class="breadcrumb-wrapper col-12">
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-								<li class="breadcrumb-item"><a href="#">Page</a></li>
-							</ol>
 						</div>
 					</div>
 					<h3 class="content-header-title mb-0">워크스페이스 멤버가입</h3>
@@ -60,22 +70,6 @@
 				<div class="content-header-right col-md-6 col-12">
 					<div class="btn-group float-md-right" role="group"
 						aria-label="Button group with nested dropdown">
-						<div class="btn-group" role="group">
-							<button
-								class="btn btn-outline-primary dropdown-toggle dropdown-menu-right"
-								id="btnGroupDrop1" type="button" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false">
-								<i class="feather icon-settings icon-left"></i> Settings
-							</button>
-							<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-								<a class="dropdown-item" href="card-bootstrap.html">Bootstrap
-									Cards</a><a class="dropdown-item"
-									href="component-buttons-extended.html">Buttons Extended</a>
-							</div>
-						</div>
-						<a class="btn btn-outline-primary" href="full-calender-basic.html"><i
-							class="feather icon-mail"></i></a><a class="btn btn-outline-primary"
-							href="timeline-center.html"><i class="feather icon-pie-chart"></i></a>
 					</div>
 				</div>
 			</div>
@@ -89,17 +83,6 @@
 									<h4 class="card-title">워크스페이스멤버 가입폼</h4>
 									<a class="heading-elements-toggle"><i
 										class="fa fa-ellipsis-h font-medium-3"></i></a>
-									<div class="heading-elements">
-										<ul class="list-inline mb-0">
-											<li><a data-action="collapse"><i
-													class="feather icon-minus"></i></a></li>
-											<li><a data-action="reload"><i
-													class="feather icon-rotate-cw"></i></a></li>
-											<li><a data-action="expand"><i
-													class="feather icon-maximize"></i></a></li>
-											<li><a data-action="close"><i class="feather icon-x"></i></a></li>
-										</ul>
-									</div>
 								</div>
 								<div class="card-content collapse show">
 									<div class="card-body">
@@ -197,7 +180,7 @@
 														<label for="meetingName1">멤버추가</label>
 														 <input value="추가" type="button" class="btn btn danger form-control" id="btn_add">
 														</div>
-											        
+											        	<input id="workEmail" type="hidden" value="${login }">
 													</div>
 												</div>
 											</fieldset>

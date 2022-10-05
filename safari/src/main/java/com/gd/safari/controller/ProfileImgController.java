@@ -52,7 +52,7 @@ public class ProfileImgController {
 			profileImgService.addProfileImg(map);
 			
 			// redirect 워크스페이스멤버 상세보기로
-			return "redirect:/member/workspaceMemberOne";											  
+			return "redirect:/safari/workspaceMemberOne";											  
 		}
 		@GetMapping("/member/removeProfileImg")
 		public String removeWorkspace (	HttpSession session) {
@@ -68,6 +68,6 @@ public class ProfileImgController {
 			profileImgService.removeProfileImg(workMemberNo,path);
 			
 			 // redirect 워크스페이스멤버 상세보기로
-			return "redirect:/member/workspaceMemberOne";									 
+			return "redirect:/safari/workspaceMemberOne";									 
 		}
 }

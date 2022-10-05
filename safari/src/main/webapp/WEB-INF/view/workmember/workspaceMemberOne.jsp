@@ -14,7 +14,8 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/css/pages/page-users.css">
     <%@ include file="/WEB-INF/view/inc/common-css.jsp" %> <!-- css -->
-
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/assets/css/index.css">
 </head>
 <!-- END: Head-->
 
@@ -79,6 +80,9 @@
                                                 <div class="col-12 col-sm-6">
                                                     <div class="form-group">
                                                         <div class="controls">
+						                                	<p class="card-subtitle text-muted text-center font-small-3 mx-2">
+						                                		<c:if test="${errorMsg != null}"><strong class="text-center text-danger">${errorMsg}</strong></c:if>
+						                                	</p>
                                                             <label>멤버이름</label>
                                                             <input type="text" class="form-control" readonly placeholder="Username" value="${workspaceMemberOne.workMemberName}" required data-validation-required-message="This username field is required">
                                                         </div>

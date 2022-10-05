@@ -43,7 +43,15 @@ $(".number-tab-steps").steps({
 					console.log($("input[name='workMemberEmail']").eq(i).val());
 					i = grpl+1;
 					return;
-				} else if ($("input[name='workMemberEmail']").val() != '') {
+				}else if (($("input[name='workMemberEmail']").eq(i).val()) == $('#workEmail').val() ) {
+					alert('자기자신은 초대할수없습니다.');
+					i = grpl+1;
+					return;
+				} 
+				
+				
+				
+				else if ($("input[name='workMemberEmail']").val() != '') {
 					$.ajax({
 						async: false,
 						url: '/member/existEmail',
