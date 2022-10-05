@@ -26,10 +26,10 @@ public class MailService implements IMailService {
 	// 인증번호 생성 -> createKey() 메서드로 생성된다.
 	private final String ePw = createKey();
 	
-	// 메일내용 작성
+	// 회원가입 메일내용 작성
 	@Override
-	public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
-		log.debug(TeamColor.CSH + this.getClass() + " createMessage (메일내용 작성)");
+	public MimeMessage createMessageForRegister(String to) throws MessagingException, UnsupportedEncodingException {
+		log.debug(TeamColor.CSH + this.getClass() + " createMessage (회원가입 메일내용 작성)");
 		MimeMessage message = emailsender.createMimeMessage();
 		
 		// 보내는 대상
@@ -62,6 +62,78 @@ public class MailService implements IMailService {
 		return message;
 	}
 	
+	// 휴면계정 활성화 메일내용 작성
+	@Override
+	public MimeMessage createMessageForUnlockUser(String to) throws MessagingException, UnsupportedEncodingException {
+		log.debug(TeamColor.CSH + this.getClass() + " createMessage (휴면계정 활성화 메일내용 작성)");
+		MimeMessage message = emailsender.createMimeMessage();
+		
+		// 보내는 대상
+		message.addRecipients(RecipientType.TO, to);
+		// 메일 제목
+		message.setSubject("Safari 휴면계정 활성화 이메일 인증");
+		
+		// 메일 내용
+		String msg = "";
+		msg += "<div stype='margin:100px;'>";
+		msg += "<h1>Safari</h1>";
+		msg += "<h2>협업사이트 Safari입니다.</h2>";
+		msg += "<br>";
+		msg += "<p>아래 코드를 휴면계정 활성화 창으로 돌아가 입력해주세요.</p>";
+		msg += "<br>";
+		msg += "<p>감사합니다.</p>";
+		msg += "<br>";
+		msg += "<div align='center' style='border:1px solid black; font-family:verdana;'>";
+		msg += "<h3 style='color:blue;'>휴면계정 활성화 인증 코드입니다.</h3>";	
+		msg += "<div style='font-size:130%;'>";
+		msg += "CODE : <strong>";
+		// 인증번호 넣기
+		msg += ePw + "</strong></div><br>";
+		msg += "</div>";
+		// 내용, charset 타입, subtype
+		message.setText(msg, "utf-8", "html");
+		// 보내는 사람의 메일 주소, 보내는 사람 이름
+		message.setFrom(new InternetAddress("choseunghyun33@naver.com", "Safari_Admin"));
+		
+		return message;
+	}
+
+	// 비밀번호 복구 메일내용 작성
+	@Override
+	public MimeMessage createMessageForRecoverPw(String to) throws MessagingException, UnsupportedEncodingException {
+		log.debug(TeamColor.CSH + this.getClass() + " createMessage (비밀번호 복구 메일내용 작성)");
+		MimeMessage message = emailsender.createMimeMessage();
+		
+		// 보내는 대상
+		message.addRecipients(RecipientType.TO, to);
+		// 메일 제목
+		message.setSubject("Safari 비밀번호 복구 이메일 인증");
+		
+		// 메일 내용
+		String msg = "";
+		msg += "<div stype='margin:100px;'>";
+		msg += "<h1>Safari</h1>";
+		msg += "<h2>협업사이트 Safari입니다.</h2>";
+		msg += "<br>";
+		msg += "<p>아래 코드를 비밀번호 복구 창으로 돌아가 입력해주세요.</p>";
+		msg += "<br>";
+		msg += "<p>감사합니다.</p>";
+		msg += "<br>";
+		msg += "<div align='center' style='border:1px solid black; font-family:verdana;'>";
+		msg += "<h3 style='color:blue;'>비밀번호 복구 인증 코드입니다.</h3>";	
+		msg += "<div style='font-size:130%;'>";
+		msg += "CODE : <strong>";
+		// 인증번호 넣기
+		msg += ePw + "</strong></div><br>";
+		msg += "</div>";
+		// 내용, charset 타입, subtype
+		message.setText(msg, "utf-8", "html");
+		// 보내는 사람의 메일 주소, 보내는 사람 이름
+		message.setFrom(new InternetAddress("choseunghyun33@naver.com", "Safari_Admin"));
+		
+		return message;
+	}
+
 	// 인증번호 생성
 	@Override
 	public String createKey() {
@@ -93,14 +165,44 @@ public class MailService implements IMailService {
 		return key.toString();
 	}
 	
-	// 메일 발송
+	// 회원가입 메일 발송
 	// sendSimpleMessage의 매개변수로 들어온 to는 이메일을 받을 주소이다.
 	// MimeMessage 객체 안에 내가 전송할 메일의 내용을 담는다.
 	// 그리고 bean으로 등록해둔 javaMail 객체를 사용해서 보낸다.
 	@Override
-	public String sendSimpleMessage(String to) throws Exception {
-		log.debug(TeamColor.CSH + this.getClass() + " sendSimpleMessage (메일 발송)");
-		MimeMessage message = createMessage(to);
+	public String sendSimpleMessageForRegister(String to) throws Exception {
+		log.debug(TeamColor.CSH + this.getClass() + " sendSimpleMessage (회원가입 메일 발송)");
+		MimeMessage message = createMessageForRegister(to);
+		
+		emailsender.send(message);
+		
+		// 메일로 보냈던 인증 코드를 서버로 반환
+		return ePw;
+	}
+	
+	// 휴면계정 활성화 메일 발송
+	// sendSimpleMessage의 매개변수로 들어온 to는 이메일을 받을 주소이다.
+	// MimeMessage 객체 안에 내가 전송할 메일의 내용을 담는다.
+	// 그리고 bean으로 등록해둔 javaMail 객체를 사용해서 보낸다.
+	@Override
+	public String sendSimpleMessageForUnlockUser(String to) throws Exception {
+		log.debug(TeamColor.CSH + this.getClass() + " sendSimpleMessage (휴면계정 활성화 메일 발송)");
+		MimeMessage message = createMessageForUnlockUser(to);
+		
+		emailsender.send(message);
+		
+		// 메일로 보냈던 인증 코드를 서버로 반환
+		return ePw;
+	}
+	
+	// 비밀번호 복구 메일 발송
+	// sendSimpleMessage의 매개변수로 들어온 to는 이메일을 받을 주소이다.
+	// MimeMessage 객체 안에 내가 전송할 메일의 내용을 담는다.
+	// 그리고 bean으로 등록해둔 javaMail 객체를 사용해서 보낸다.
+	@Override
+	public String sendSimpleMessageForRecoverPw(String to) throws Exception {
+		log.debug(TeamColor.CSH + this.getClass() + " sendSimpleMessage (비밀번호 복구 메일 발송)");
+		MimeMessage message = createMessageForRecoverPw(to);
 		
 		emailsender.send(message);
 		

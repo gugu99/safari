@@ -144,30 +144,6 @@ public class RestTaskCommentController {
 		return jsonStr;
 	}	
 	
-	// 업무 코멘트 해제하기
-	@PostMapping("/member/unfixedTaskComment")
-	public String unfixedTaskComment(int taskCmtNo) {
-		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 해제하기");
-		
-		// 디버깅
-		log.debug(TeamColor.CSH + "taskCmtNo : " + taskCmtNo);
-		
-		// 서비스호출
-		int row = taskCommentService.modifyUnfixedTaskComment(taskCmtNo);
-		
-		// json으로 만들 변수 초기화
-		String jsonStr = "";
-		
-		// 메서드의 결과에 따라 json 분기
-		if(row != 0) { // 성공
-			jsonStr = "ok";
-		} else { // 실패
-			jsonStr = "not ok";
-		}
-		
-		return jsonStr;
-	}	
-
 	// 업무 코멘트 삭제
 	@PostMapping("/member/deleteTaskComment")
 	public String deleteTaskComment(HttpSession session, int taskCmtNo) {

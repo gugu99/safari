@@ -30,14 +30,50 @@ public class RestAccountController {
 	@Autowired private IWorkspaceService workSpaceService;
 	@Autowired private ConfigUtils configUtils;
 	
-	// 메일 확인
-	@PostMapping("/account/mailConfirm")
-	public String mailConfirm(@RequestParam(value = "email") String email) {
-		log.debug(TeamColor.CSH + this.getClass() + " 로그인 페이지");
+	// 회원가입 메일 확인
+	@PostMapping("/account/mailConfirmForRegister")
+	public String mailConfirmForRegister(@RequestParam(value = "email") String email) {
+		log.debug(TeamColor.CSH + this.getClass() + " 회원가입 메일 확인");
 		String code;
 		// 꼭 예외처리를 하지 않아도 되는 익셉션을 발생시킨다.
 		try {
-			code = mailService.sendSimpleMessage(email);
+			code = mailService.sendSimpleMessageForRegister(email);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+		
+		log.debug(TeamColor.CSH + "인증코드 : " + code);
+		
+		return code;
+	}
+	
+	// 휴면계정 활성화 메일 확인
+	@PostMapping("/account/mailConfirmForUnlockUser")
+	public String mailConfirmForUnlockUser(@RequestParam(value = "email") String email) {
+		log.debug(TeamColor.CSH + this.getClass() + " 휴면계정 활성화 메일 확인");
+		String code;
+		// 꼭 예외처리를 하지 않아도 되는 익셉션을 발생시킨다.
+		try {
+			code = mailService.sendSimpleMessageForUnlockUser(email);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		}
+		
+		log.debug(TeamColor.CSH + "인증코드 : " + code);
+		
+		return code;
+	}
+
+	// 비밀번호 복구 메일 확인
+	@PostMapping("/account/mailConfirmForRecoverPw")
+	public String mailConfirmForRecoverPw(@RequestParam(value = "email") String email) {
+		log.debug(TeamColor.CSH + this.getClass() + " 비밀번호 복구 메일 확인");
+		String code;
+		// 꼭 예외처리를 하지 않아도 되는 익셉션을 발생시킨다.
+		try {
+			code = mailService.sendSimpleMessageForRecoverPw(email);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException();
