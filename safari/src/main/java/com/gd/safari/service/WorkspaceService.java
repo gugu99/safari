@@ -122,11 +122,21 @@ public class WorkspaceService implements IWorkspaceService {
 		@Override
 		public List<Workspace> getMyWorkspaceByMemberEmail(String memberEmail) {
 			
-			// 디버깅
+			// 멤버 이메일디버깅
 			log.debug(TeamColor.CJM + memberEmail + "Service memberEmail");
 			
 			// 워크스페이스 내가 관리자인 리스트
 			return workspaceMapper.selectMyWorkspaceByMemberEmail(memberEmail);
+		}
+		
+		// 워크스페이스 명가져오기
+		@Override
+		public Workspace getMyWorkspaceByWorkNo(int workNo) {
+			// 디버깅
+			log.debug(TeamColor.CJM + workNo + "Service workNo");
+			
+			// 워크스페이스 명가져오기
+			return workspaceMapper.selectMyWorkspaceByWorkNo(workNo);
 		}
 
 		

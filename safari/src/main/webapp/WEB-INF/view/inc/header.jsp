@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/assets/css/workspaceMemberOne.css">
  <!-- BEGIN: Header-->
     <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu fixed-top navbar-semi-dark navbar-shadow">
         <div class="navbar-wrapper">
@@ -169,7 +171,7 @@
                                         </div>
                                     </a><a href="javascript:void(0)">
                                         <div class="media">
-                                            <div class="media-left"><span class="avatar avatar-sm avatar-away rounded-circle"><img src="${pageContext.request.contextPath }/resources/app-assets/images/portrait/small/avatar-s-6.png" alt="avatar"><i></i></span></div>
+s                                            <div class="media-left"><span class="avatar avatar-sm avatar-away rounded-circle"><img src="${pageContext.request.contextPath }/resources/app-assets/images/portrait/small/avatar-s-6.png" alt="avatar"><i></i></span></div>
                                             <div class="media-body">
                                                 <h6 class="media-heading">Eric Alsobrook</h6>
                                                 <p class="notification-text font-small-3 text-muted">We have project party this saturday.</p><small>
@@ -180,18 +182,27 @@
                                 <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center" href="javascript:void(0)">Read all messages</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
-                                <div class="avatar avatar-offline bg-info m-0 mr-50">
+                        <li class="dropdown dropdown-user nav-item" ><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown" >
+                                
                                 
 								<c:if test="${profileImg.filename==null }">
+								<div class="avatar avatar-offline bg-info m-0 mr-50">
                                		<img src="${pageContext.request.contextPath}/resources/upload/nomalprofile.png" alt="" class="users-avatar-shadow rounded-circle" height="64" width="64">
+                               		</div>
                                 </c:if>	
+                                
                                 <c:if test="${profileImg.filename!=null }">
-                              	 	<img src="${pageContext.request.contextPath}/resources/upload/${profileImg.filename}${profileImg.fileExt}" alt="" class="users-avatar-shadow rounded-circle" height="64" width="64">
+                                <div class="avatar avatar-offline bg-info m-0 mr-50">
+                              	 	<img src="${pageContext.request.contextPath}/resources/upload/${profileImg.filename}${profileImg.fileExt}" alt="" class="brand-logo" >
+                              	 	</div>
+                              	 	
+                                </c:if>
+                                <c:if test="${guest !=null }">
+                                <span class="user-name">게스트</span>
                                 </c:if>	
-                                </div><span class="user-name">${workMemberName}</span>
+                                <span class="user-name">${workMemberName}</span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="${pageContext.request.contextPath }/safari/workspaceMemberOne"><i class="feather icon-user"></i>프로필 설정</a><a class="dropdown-item" href="app-email.html"><i class="feather icon-mail"></i> My Inbox</a><a class="dropdown-item" href="user-cards.html"><i class="feather icon-check-square"></i>업무</a><a class="dropdown-item" href="app-chat.html"><i class="feather icon-message-square"></i> Chats</a>
+                            <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="${pageContext.request.contextPath }/safari/workspaceMemberOne"><i class="feather icon-user"></i>프로필 설정</a>
                                 <div class="dropdown-divider"></div><a class="dropdown-item" href="${pageContext.request.contextPath }/safari/logout"><i class="feather icon-power"></i>로그아웃</a>
                             </div>
                         </li>

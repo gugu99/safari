@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html class="loading" lang="ko" data-textdirection="ltr">
 <!-- BEGIN: Head-->
@@ -202,7 +203,7 @@
 									<div class="card-content">
 										<div class="card-body">
 											
-											<h4 class="card-title success">${g.workName }</h4>
+											<h4 class="card-title warning">${g.workName }</h4>
 
 											<p class="card-text"></p>
 											<p class="card-text">${g.createDate }</p>
@@ -210,7 +211,7 @@
 
 											<a
 												href="${pageContext.request.contextPath }/safari/workspaceGuestMain?workNo=${g.workNo}">
-												<button type="button" class="btn btn-outline-success"
+												<button type="button" class="btn btn-outline-warning"
 													data-toggle="modal" data-target="#iconForm">show
 													GuestWorkspace</button>
 											</a>
@@ -241,10 +242,34 @@
 								</div>
 							</div>
 						</div>
+						<!-- 워크스페이스 삭제 버튼 -->
+						<c:set var="wo" value="${ fn:length(workspaceList)}" />
+						<c:if test="${wo < 1}">
+						<div class="col-lg-4 col-md-4">
+							<div class="card text-center">
+								<div class="card-content">
+									<div class="card-body">
+										<h4 class="card-title danger">회원탈퇴</h4>
+										<p class="card-text">
+										<div class="col-md-12 col-sm-12 col-12 fonticon-container">
+											<div class="fonticon-wrap">
+												<i class="fa fa-minus"></i>
+											</div>
+										</div>
+										<!-- Button trigger modal -->
+										<a
+											href="${pageContext.request.contextPath }/safari/getIndexWorkspaceMemberOne"><button
+												type="button" class="btn btn-outline-danger">
+												사파리 회원탈퇴</button></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						</c:if>
+						
+						
 					</div>
-					<c:if test="${fn:length(workspaceList) < 1} ">
-					ddd
-					</c:if>
+					
 					<div class="content-body"></div>
 				</div>
 			</div>

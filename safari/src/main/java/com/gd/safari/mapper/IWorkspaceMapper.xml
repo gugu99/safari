@@ -80,7 +80,7 @@
 	</select>
 	
 	
-	
+	<!-- 워크스페이스 넘버 이름 가져오기 -->
 	<select id="selectMyWorkspaceByMemberEmail" parameterType="String" resultType="com.gd.safari.vo.Workspace">
 		SELECT 
 			   work_no   workNo
@@ -88,6 +88,15 @@
 		FROM  workspace 
 		WHERE admin_email = #{memberEmail}
 	</select>
+	
+	<!-- 워크스페이스 이름가져오기 -->
+	<select id="selectMyWorkspaceByWorkNo" parameterType="int" resultType="com.gd.safari.vo.Workspace">
+		SELECT 
+			  work_name workName
+		FROM  workspace 
+		WHERE work_no = #{workNo}
+	</select>
+	
 	
 	
 </mapper>

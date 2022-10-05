@@ -27,6 +27,9 @@ public interface IWorkspaceService {
 	// 워크스페이스 내가 관리자인 리스트
 	List<Workspace> getMyWorkspaceByMemberEmail(String memberEmail);
 	
+	// 워크스페이스 이름가져오기
+	Workspace getMyWorkspaceByWorkNo(int workNo);
+	
 	
 	
 }

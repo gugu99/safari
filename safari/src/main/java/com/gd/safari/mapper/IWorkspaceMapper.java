@@ -30,5 +30,8 @@ public interface IWorkspaceMapper {
 	
 	// 워크스페이스 내가 관리자인 리스트
 	List<Workspace> selectMyWorkspaceByMemberEmail(String memberEmail);
+	
+	// 워크스페이스명 가져오기
+	Workspace selectMyWorkspaceByWorkNo(int workNo);
 
 }

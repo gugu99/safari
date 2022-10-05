@@ -475,7 +475,7 @@
 																		data-target="#updateWorkMemberAdmin${i }"
 																		class="fa fa-refresh"></i></a>
 																</c:if>
-																<c:if test="${workMemberLevel > 1 && r.active eq 'W'}">
+																<c:if test="${workMemberLevel > 1 && r.active eq 'W' && r.workMemberCode == null}">
 																 <a class="danger delete mr-1"> <i
 																	data-toggle="modal"
 																	data-target="#updateWorkMemberApprove${i }"
@@ -505,7 +505,7 @@
 																				class="feather icon-refresh-ccw"></i>관리자양도
 																			</a>
 																		</c:if> 
-																		<c:if test="${r.active eq 'W' }">
+																		<c:if test="${r.active eq 'W' && r.workMemberCode == null }">
 																		<a data-toggle="modal"
 																		data-target="#updateWorkMemberApprove${i }"
 																		class="dropdown-item"><i

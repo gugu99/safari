@@ -72,6 +72,9 @@ public class WorkspaceController {
 		// 워크스페이스 생성 메서드
 		int workNo = workspaceService.addWorkspace(workspace, workspaceMember); 			
 		
+		// 워크스페이스 제목 가져오기
+		String workName=workspace.getWorkName();
+		
 		// workspace workMemberEmail배열 디버깅
 		log.debug(TeamColor.CJM + Arrays.toString(workMemberEmail) + "workMemberEmail workspace");
 		
@@ -83,7 +86,7 @@ public class WorkspaceController {
 			log.debug(TeamColor.CJM + this.getClass() + " 로그인 페이지");
 			String code;
 			// 꼭 예외처리를 하지 않아도 되는 익셉션을 발생시킨다.
-			code = memberMailService.sendSimpleMessage(workMemberEmail);
+			code = memberMailService.sendSimpleMessage(workMemberEmail,workName);
 			log.debug(TeamColor.CJM + "인증코드 : " + code);
 			workspaceMember.setWorkMemberNo(workNo);
 			workspaceMember.setWorkMemberCode(code);

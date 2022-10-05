@@ -53,76 +53,57 @@
         <div class="content-overlay"></div>
         <div class="content-wrapper">
             <div class="content-header row">
-                <div class="content-header-left col-md-2 mb-2 mt-1">
-                    <h2 class="content-header-title ml-5 mb-0">Schedule</h2>
-                </div>
-                <div class="content-header-left col-md-10 col-12 mb-2 mt-1">
-                    <button class="btn btn-outline-primary" id="btnGroupDrop1" type="button"><i class="feather icon-plus icon-left"></i> 일정 추가하기</button>
-                </div>
+                
             </div>
-            <div class="content-body justify-content-center row mt-2">
-                <section id="timeline" class="timeline-center col-md-8">
-                    <div class="timeline-card card border-grey border-lighten-2">
-                        <div class="card-content">
-                        	 <div class="px-0 py-0 ml-1 mt-1">
-	                       	 	<div class="avatar avatar-offline bg-info m-0 mr-50"></div>
-	                             <span class="text-bold-600 mr-1">작성자</span>
-	                             <span class="blue-grey date">2022-09-14 00:00:00</span>
-	                       	 	<h3 class="card-text mt-2 mb-1 ml-1">일정 제목</h3>
-                        	 </div>
-                        	 	
-                            
-                            <div class="card-footer px-0 py-0">
-                             <div class="card-content">
-                                 <div class="card-body">
-                                     <p class="card-text">가나다라마바사아자차카타파</p>
-                                     <ul class="list-inline mb-0">
-                                         <li class="pr-1"><a href="#" class=""><span class="fa fa-thumbs-o-up"></span> Like</a></li>
-                                         <li class="pr-1"><a href="#" class=""><span class="fa fa-commenting-o"></span> Comment</a></li>
-                                     </ul>
-                                 </div>
-                             </div>
-                            </div>
-                            
-                            <!-- 댓글 -->
-                            <div class="card-footer px-0 py-0">
-                                <div class="card-body">
-                                    <div class="media">
-                                    	<!-- 프로필 이미지 -->
-                                        <div class="media-left">
-                                            <div class="avatar avatar-offline bg-info m-0 mr-50"></div>
-                                        </div>
-                                        
-                                        <div class="media-body ml-1">
-                                            <p class="text-bold-600 mb-0">Jason Ansley 
-                                            	<a href="#" class=""><span class="fa fa-thumbs-o-up"></span> Like</a>
-                                            </p>
-                                            <p class="m-0">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
-                                                sollicitudin commodo.</p>
-                                        </div>
-                                    </div>
+            <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">게시판</h4>
+                                
+                                <div class="heading-elements">
+				                    <button class="btn btn-outline-primary" id="btnGroupDrop1" type="button"><i class="feather icon-plus icon-left"></i>게시판추가하기</button>
                                 </div>
                             </div>
-                            
-                            <!-- comment input -->
-                            <div class="card-footer px-0 py-0">
-                             <div class="card-body">
-                                 <fieldset class="form-group position-relative has-icon-left mb-0">
-	                                <form action="#" method="post" id="commentForm">
-	                                     <input type="text" class="form-control" name="scheduleComment" id="comment" onkeyup="insertComment()" placeholder="입력 Enter입니다.">
-	                                     <div class="form-control-position">
-	                                         <i class="fa fa-dashcube"></i>
-	                                     </div>
-	                                 </form>
-                                 </fieldset>
-                             </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body">
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class="bg-primary">
+                                            <tr>
+                                                <th scope="col">번호</th>
+                                                <th scope="col">First Name</th>
+                                                <th scope="col">Last Name</th>
+                                                <th scope="col">Username</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                                <td>@twitter</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <!-- comment input end -->
                         </div>
                     </div>
-                    
-                </section>
-            </div>
+                </div>
         </div>
     </div>
     <!-- END: Content-->

@@ -120,11 +120,42 @@
 		UPDATE workspace_member
 		SET 
 			work_member_name = #{workMemberName}
-			,work_member_addr = #{workMemberAddr}
-			,work_member_birth = #{workMemberBirth}
-			,work_member_phone = #{workMemberPhone}
-			,work_member_dept = #{workMemberDept}
-			,work_member_pos = #{workMemberPos}
+			
+			,
+			<if test="workMemberAddr == ''">
+				 work_member_addr = null
+			</if>
+			<if test="workMemberAddr != ''">
+				 work_member_addr = #{workMemberAddr}
+			</if>
+			,
+			<if test="workMemberBirth == ''">
+				 work_member_birth = null
+			</if>
+			<if test="workMemberBirth != ''">
+				 work_member_birth = #{workMemberBirth}
+			</if>
+			,
+			<if test="workMemberPhone == ''">
+			work_member_phone = null
+			</if>
+			<if test="workMemberPhone != ''">
+			work_member_phone = #{workMemberPhone}
+			</if>
+			,<if test="workMemberDept == ''">
+			work_member_dept = null
+			</if>
+			<if test="workMemberDept != ''">
+			work_member_dept = #{workMemberDept}
+			</if>
+			,
+			<if test="workMemberPos == ''">
+			work_member_pos = null
+			</if>
+			<if test="workMemberPos != ''">
+			work_member_pos = #{workMemberPos}
+			</if>
+			
 		WHERE
 			work_member_no = #{workMemberNo}
 	
@@ -187,11 +218,40 @@
 		UPDATE workspace_member
 		SET 
 			work_member_name = #{workMemberName}
-			,work_member_addr = #{workMemberAddr}
-			,work_member_birth = #{workMemberBirth}
-			,work_member_phone = #{workMemberPhone}
-			,work_member_dept = #{workMemberDept}
-			,work_member_pos = #{workMemberPos}
+			,
+			<if test="workMemberAddr == ''">
+				 work_member_addr = null
+			</if>
+			<if test="workMemberAddr != ''">
+				 work_member_addr = #{workMemberAddr}
+			</if>
+			,
+			<if test="workMemberBirth == ''">
+				 work_member_birth = null
+			</if>
+			<if test="workMemberBirth != ''">
+				 work_member_birth = #{workMemberBirth}
+			</if>
+			,
+			<if test="workMemberPhone == ''">
+			work_member_phone = null
+			</if>
+			<if test="workMemberPhone != ''">
+			work_member_phone = #{workMemberPhone}
+			</if>
+			,<if test="workMemberDept == ''">
+			work_member_dept = null
+			</if>
+			<if test="workMemberDept != ''">
+			work_member_dept = #{workMemberDept}
+			</if>
+			,
+			<if test="workMemberPos == ''">
+			work_member_pos = null
+			</if>
+			<if test="workMemberPos != ''">
+			work_member_pos = #{workMemberPos}
+			</if>
 			,work_member_code= null
 			,create_date = now()
 			,update_date = now()
@@ -278,7 +338,8 @@
 				AND work_member_name LIKE CONCAT('%', #{search} ,'%')
 			</if>
 		</where>
-		ORDER BY FIELD(active, 'Y', 'W', 'N')
+		ORDER BY work_member_level DESC, 
+		FIELD(active, 'Y', 'W', 'N')
 	</select>
 	
 	<!-- 멤버 승인 하는 메서드 (active Y으로) 바꾸는 메서드 -->

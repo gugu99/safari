@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IMemberMailService;
 import com.gd.safari.service.IWorkspaceGuestService;
+import com.gd.safari.service.IWorkspaceService;
+import com.gd.safari.vo.Workspace;
 import com.gd.safari.vo.WorkspaceGuest;
 import com.gd.safari.vo.WorkspaceMember;
 
@@ -25,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class WorkspaceGuestController {
+	@Autowired private IWorkspaceService workspaceService;
 	@Autowired private IWorkspaceGuestService workspaceGuestService;
 	@Autowired private IMemberMailService memberMailService;
 	
@@ -41,13 +44,16 @@ public class WorkspaceGuestController {
 
 		// workMemberEmail null 배열 확인
 		int emailLength = memberEmail1.length;
-
+		
+		// 워크스페이스 명 가져오기
+		Workspace workspace = workspaceService.getMyWorkspaceByWorkNo(workspaceGuest.getWorkNo());
+		
 		// 메일 전송하는 메서드
 		if (emailLength != 0) {
 			log.debug(TeamColor.CJM + this.getClass() + " 로그인 페이지");
 			String code;
 			// 꼭 예외처리를 하지 않아도 되는 익셉션을 발생시킨다.
-			code = memberMailService.sendSimpleMessage(memberEmail1);
+			code = memberMailService.sendSimpleMessage(memberEmail1,workspace.getWorkName());
 			log.debug(TeamColor.CJM + "인증코드 : " + code);
 			workspaceGuest.setWorkGuestCode(code);
 			workspaceGuestService.addWorkspaceGuestByInvite(workspaceGuest, memberEmail1);

@@ -18,6 +18,9 @@ import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IMemberMailService;
 import com.gd.safari.service.IProfileImgService;
 import com.gd.safari.service.IWorkspaceMemberService;
+import com.gd.safari.service.IWorkspaceService;
+import com.gd.safari.service.WorkspaceService;
+import com.gd.safari.vo.Workspace;
 import com.gd.safari.vo.WorkspaceMember;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +31,7 @@ public class WorkspaceMemberController {
 	@Autowired private IWorkspaceMemberService workspaceMemberService;
 	@Autowired private IProfileImgService profileImgService;
 	@Autowired private IMemberMailService memberMailService;
+	@Autowired private IWorkspaceService workspaceService;
 	
 
 	
@@ -247,12 +251,15 @@ public class WorkspaceMemberController {
 			// workMemberEmail null 배열 확인
 			int emailLength =workMemberEmail.length;
 			
+			// 워크스페이스 명 가져오기
+			Workspace workspace = workspaceService.getMyWorkspaceByWorkNo(workspaceMember.getWorkNo());
+			
 			// 메일 전송하는 메서드
 			if (emailLength!=0) {
 				log.debug(TeamColor.CJM + this.getClass() + " 로그인 페이지");
 				String code;
 				// 꼭 예외처리를 하지 않아도 되는 익셉션을 발생시킨다.
-				code = memberMailService.sendSimpleMessage(workMemberEmail);
+				code = memberMailService.sendSimpleMessage(workMemberEmail,workspace.getWorkName());
 				log.debug(TeamColor.CJM + "인증코드 : " + code);
 				workspaceMember.setWorkMemberCode(code);
 				workspaceMemberService.inviteAddWorkspaceMember(workspaceMember,workMemberEmail);
@@ -277,6 +284,24 @@ public class WorkspaceMemberController {
 			return "redirect:/member/workspaceMemberList";  										    
 			
 		}
-	
+		// index에서 회원탈퇴 보내기
+		@GetMapping("/safari/getIndexWorkspaceMemberOne")
+		public String getIndexWorkspaceMemberOne (Model model,HttpSession session,
+											@RequestParam(value = "errorMsg" ,required = false)  String errorMsg) {
+			
+			// session에서 멤버이메일 닮기
+			String memberEmail = ((String) session.getAttribute("login"));
+			
+			// session으로 guest값주기
+			session.setAttribute("guest",memberEmail);
+			
+			// session으로 프로젝트 사이드바 감추기
+			session.setAttribute("guestSidebar",memberEmail);
+			
+			// 워크스페이스멤버 상세보기 페이지 forward
+			return "redirect:/safari/workspaceMemberOne";  									      
+			
+		}
+		
 	
 }
