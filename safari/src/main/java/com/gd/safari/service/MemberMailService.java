@@ -28,7 +28,7 @@ public class MemberMailService implements IMemberMailService{
 		
 		// 메일내용 작성
 		@Override
-		public MimeMessage createMessage(String[] to) throws MessagingException, UnsupportedEncodingException {
+		public MimeMessage createMessage(String[] to,String workName) throws MessagingException, UnsupportedEncodingException {
 			log.debug(TeamColor.CJM + this.getClass() + " createMessage (메일내용 작성)");
 			MimeMessage message = emailsender.createMimeMessage();
 			
@@ -37,7 +37,7 @@ public class MemberMailService implements IMemberMailService{
 			message.addRecipients(RecipientType.TO, to[i]);}
 			
 			// 메일 제목
-			message.setSubject("Safari 워크스페이스 코드 인증 번호입니다");
+			message.setSubject("Safari "+workName+" 워크스페이스 코드 인증 번호입니다");
 			
 			// 메일 내용
 			String msg = "";
@@ -46,6 +46,7 @@ public class MemberMailService implements IMemberMailService{
 			msg += "<h2>협업사이트 Safari입니다.</h2>";
 			msg += "<h4>홈페이지 링크</h4>";
 			msg += "<br>";
+			msg += workName +"에서 초대를 요청하셨습니다.";
 			msg += "<p>아래 코드를 워크스페이스 가입창에 입력해주세요.</p>";
 			msg += "<br>";
 			msg += "<p>감사합니다.</p>";
@@ -101,11 +102,11 @@ public class MemberMailService implements IMemberMailService{
 		// MimeMessage 객체 안에 내가 전송할 메일의 내용을 담는다.
 		// 그리고 bean으로 등록해둔 javaMail 객체를 사용해서 보낸다.
 		@Override
-		public String sendSimpleMessage(String[] to) {
+		public String sendSimpleMessage(String[] to,String workName) {
 			log.debug(TeamColor.CJM + this.getClass() + " sendSimpleMessage (메일 발송)");
 			MimeMessage message = null;
 			try {
-				message = createMessage(to);
+				message = createMessage(to,workName);
 			} catch (UnsupportedEncodingException e1) {
 				e1.printStackTrace();
 			} catch (MessagingException e1) {
