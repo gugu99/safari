@@ -40,14 +40,14 @@ public class ScheduleController {
 		log.debug(TeamColor.GDE + "workNo --- " + workNo);
 		
 		// 세션에 저장된 workMemberNo 가져오기
-		int workMemberNo = (int)session.getAttribute("workMemberNo");
-		log.debug(TeamColor.GDE + "workMemberNo --- " + workMemberNo);
-		
+		if (session.getAttribute("guest") == null) {
+			int workMemberNo = (int)session.getAttribute("workMemberNo");
+			log.debug(TeamColor.GDE + "workMemberNo --- " + workMemberNo);
+			paramMap.put("workNo", workNo);
+		}
 		// map에 담아 준다.
 		paramMap.put("search", search);
 		paramMap.put("projectNo", projectNo);
-		paramMap.put("workNo", workNo);
-		paramMap.put("workMemberNo", workMemberNo);
 		log.debug(TeamColor.GDE + "paramMap --- " + paramMap);
 		
 		// 일정 리스트 가져오기
