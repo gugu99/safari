@@ -107,15 +107,22 @@ public class LogService implements ILogService {
 
 	@Override
 	public int getLogCount(Map<String,Object> map) {
-
 		
+		// 프로젝트 넘버 디버깅
+		LogService.log.debug(TeamColor.CJM + map.get("projectNo") + "Service projectNo");
+		
+		// 해당 프로젝트의 로그 총 열수 구하기 
 		return logMapper.selectLogCount(map);
 	}
-
+	
 	@Override
-	public List<Log> getLogMemberList(int projectNo) {
-		LogService.log.debug(TeamColor.CJM + projectNo + "Service projectNo");
+	public int addLog(Map<String, Object> map) {
 		
-		return logMapper.selectLogMemberList(projectNo);
+		// 프로젝트 넘버 디버깅
+		LogService.log.debug(TeamColor.CJM + map.get("projectNo") + "Service projectNo");
+		
+		// 로그 인서
+		return logMapper.insertLog(map);
 	}
+
 }

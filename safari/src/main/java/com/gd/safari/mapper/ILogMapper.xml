@@ -2,153 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.ILogMapper">
 	
-	<!-- 업무리스트 추가 로그 -->
-	<insert id="insertTaskListLog" parameterType ="com.gd.safari.vo.Log">
+	<!-- 로그 추가메서드 -->
+	<insert id="insertLog" parameterType ="map">
 		INSERT INTO log (
-			  log_no
-			, task_no
-			, log_member
-			, log_content
+			 log_content
 			, create_date
 			, project_no
 		)VALUES(
-			  #{logNo}
-			, #{taskNo}
-			, #{logMember}
-			, '님이 업무리스트를 추가하셨습니다'
+			 #{logContent}
 			, NOW()
 			, #{projectNo}
-			
 		)	
-		
-	
 	</insert>
 	
-	<!-- 업무 추가 로그 -->
-	<insert id="insertTaskLog" parameterType ="com.gd.safari.vo.Log">
-		INSERT INTO log (
-			  log_no
-			, task_no
-			, log_member
-			, log_content
-			, create_date
-			, project_no
-		)VALUES(
-			  #{logNo}
-			, #{taskNo}
-			, #{logMember}
-			, '님이 업무를 추가하셨습니다'
-			, NOW()
-			, #{projectNo}
-			
-		)	
 	
-	</insert>
-	
-	<!-- 업무리스트 수정 로그 -->
-	<insert id="insertUpdateTaskListLog" parameterType ="com.gd.safari.vo.Log">
-		INSERT INTO log (
-			  log_no
-			, task_no
-			, log_member
-			, log_content
-			, create_date
-			, project_no
-		)VALUES(
-			  #{logNo}
-			, #{taskNo}
-			, #{logMember}
-			, '님이 업무리스트를 수정하셨습니다'
-			, NOW()
-			, #{projectNo}
-			
-		)	
-	
-	</insert>
-	
-	<!-- 업무 수정 로그 -->
-	<insert id="insertUpdateTaskLog" parameterType ="com.gd.safari.vo.Log">
-		INSERT INTO log (
-			  log_no
-			, task_no
-			, log_member
-			, log_content
-			, create_date
-			, project_no
-		)VALUES(
-			  #{logNo}
-			, #{taskNo}
-			, #{logMember}
-			, '님이 업무를 수정하셨습니다'
-			, NOW()
-			, #{projectNo}
-			
-		)	
-	
-	</insert>
-	
-	<!-- 업무리스트 삭제 로그 -->
-	<insert id="insertDeleteTaskListLog" parameterType ="com.gd.safari.vo.Log">
-		INSERT INTO log (
-			  log_no
-			, task_no
-			, log_member
-			, log_content
-			, create_date
-			, project_no
-		)VALUES(
-			  #{logNo}
-			, #{taskNo}
-			, #{logMember}
-			, '님이 업무리스트를 삭제하셨습니다'
-			, NOW()
-			, #{projectNo}
-			
-		)	
-	
-	</insert>
-	
-	<!-- 업무 삭제 로그 -->
-	<insert id="insertDeleteTaskLog" parameterType ="com.gd.safari.vo.Log">
-		INSERT INTO log (
-			  log_no
-			, task_no
-			, log_member
-			, log_content
-			, create_date
-			, project_no
-		)VALUES(
-			  #{logNo}
-			, #{taskNo}
-			, #{logMember}
-			, '님이 업무를 삭제하셨습니다'
-			, NOW()
-			, #{projectNo}
-			
-		)	
-	
-	</insert>
-	
-	<!-- 업무리스트 보여주기 -->
+	<!-- 로그리스트 보여주기 -->
 	<select id="selectLogList" parameterType="map" resultType="com.gd.safari.vo.Log">
 		SELECT 
 				  log_no		logNo			
-				, task_no		taskNo
-				, log_member	logMember
 				, log_content	logContent
 				, create_date	createDate
 				, project_no	projectNo
 				
 		FROM	log
-		<where>
-			<if test="logMember == null">
-				project_no = #{projectNo}
-			</if>
-			<if test="logMember != null">
-				  project_no = #{projectNo} AND log_member = #{logMember}
-			</if>
-			
-		</where>
+		WHERE project_no = #{projectNo} 
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	
@@ -157,24 +34,10 @@
 		SELECT 
 			COUNT(*) count
 		FROM log
-		<where>
-			<if test="logMember == null">
-				project_no = #{projectNo}
-			</if>
-			<if test="logMember != null">
-				  project_no = #{projectNo} AND log_member = #{logMember}
-			</if>
-			
-		</where>
+		WHERE project_no = #{projectNo}
 	</select>
 	
-	<!-- 로그에 올라간 사람 리스트 -->
-	<select id="selectLogMemberList" parameterType="int" resultType="com.gd.safari.vo.Log">
-		SELECT distinct
-			log_member logMember
-			FROM log
-		WHERE  project_no = #{projectNo}
-	</select>
+	
 
 
 </mapper>

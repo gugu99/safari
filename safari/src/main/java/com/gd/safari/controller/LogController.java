@@ -28,14 +28,6 @@ public class LogController {
 			@RequestParam(value = "currentPage", required = false) Integer currentPage,
 			@RequestParam Map<String, Object> map) {
 		
-		// logMember 가 "" 이며 null로 보내
-		if (map.get("logMember") != null) {
-			if (map.get("logMember").equals("")) {
-				map.put("logMember", null);
-			}
-			// logMember 매핑해주기
-			model.addAttribute("logMember", map.get("logMember"));
-		}
 		// currentPage 가 null 이면 1로설정
 		if (currentPage == null) {
 			currentPage = 1;
@@ -88,8 +80,12 @@ public class LogController {
 		// LogList 디버깅
 		log.debug(TeamColor.CJM + "noticeList" + list);
 
-		// 로그에 있는 사원별 이메일 가져오기
-		List<Log> logMemberList = logService.getLogMemberList(projectNo);
+		
+		log.debug(TeamColor.CJM + "lastPage" + lastPage);
+		log.debug(TeamColor.CJM + "pageBegin" + pageBegin);
+		log.debug(TeamColor.CJM + "pageEnd" + pageEnd);
+		log.debug(TeamColor.CJM + "rowPerPage" + rowPerPage);
+		log.debug(TeamColor.CJM + "currentPage" + currentPage);
 
 		// model에 LogList page 매핑
 		model.addAttribute("logList", list);
@@ -98,9 +94,6 @@ public class LogController {
 		model.addAttribute("pageEnd", pageEnd);
 		model.addAttribute("rowPerPage", rowPerPage);
 		model.addAttribute("currentPage", currentPage);
-
-		// 로그에 있는 사원별 이메일 매핑
-		model.addAttribute("logMemberList", logMemberList);
 
 		// forward logList로
 		return "log/logList";
