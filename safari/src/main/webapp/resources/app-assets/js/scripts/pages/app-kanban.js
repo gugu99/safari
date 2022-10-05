@@ -93,7 +93,7 @@ $(document).ready(function () {
 		type : 'GET',
 		url : '/safari/taskMember',
 		success : function(json){
-			console.log(json);
+			// console.log(json);
 			user = json;
 		}
 	});
@@ -123,7 +123,7 @@ $(document).ready(function () {
 					if(user[i].taskNo == item.taskNo){
 						temp.push(user[i].workMemberName);
 						
-						console.log(temp);
+						// console.log(temp);
 					}
 				}				
 				task_list.push({
@@ -483,8 +483,8 @@ $(document).ready(function () {
 		url : '/safari/taskDetail',
 		success : function(json){
 			// 디버깅
-			console.log("json");
-			console.log(json);
+			// console.log("json");
+			// console.log(json);
 			// console.log(task_list);
 			
 			// 날짜와 시간을 데이터베이스에 있는 시간에 맞게 맞추기	
@@ -988,6 +988,146 @@ $(document).ready(function () {
 	cmt_list();
   });
   
+  
+  // 업무코멘트 고정
+  // ----------------------------------------------------------
+  // taskCmtFixBtn
+  $(document).on("click", "#taskCmtFixBtn", function () {
+	var taskCmtNo = $(this)
+      .closest(".snow-container").attr("id");
+	// 고정메서드 실행
+	$.ajax({
+		async : false,
+		type : 'POST',
+		data : { 
+			taskCmtNo : taskCmtNo 
+		},
+		url : '/member/fixTaskComment',
+		success : function(json){
+			// console.log("업무코멘트 고정");
+			if(json == 'not ok'){
+				alert('업무코멘트 고정을 실패했습니다.');
+				return;
+			} else {
+				alert('업무코멘트 고정을 성공했습니다.');
+			} 
+		}		
+	});
+	
+  	// 업무코멘트 리스트 보여주기
+	cmt_list();
+  });
+  
+  
+  
+  	// 업무코멘트 업무로 만들기
+	// ---------------------------------------- 
+	
+	
+	$(document).on("click", ".taskCmtToTaskBtn-modal", function () {
+		// 현재 위치한 업무코멘트 내용 받아오기
+		taskCmtNo = $(this)
+	      .closest(".snow-container").attr("id");
+	      
+		// 내용 가져오기
+	  	$.ajax({
+			async : false,
+			type : 'GET',
+			data : { 
+				taskCmtNo : taskCmtNo
+			},
+			url : '/member/taskCommentContent',
+			success : function(json){
+	  			$('#taskTitleByTaskCmtToTask').val(json);
+			}
+	  	});
+		
+		// 프로젝트 선택
+		$.ajax({
+			async : false,
+			type : 'POST',
+			url : '/safari/projectListByTask',
+			success : function(json){
+				var str = "<option value=''></option>";
+				// console.log(json);
+				// html로 가공
+				for(var i = 0; i < json.length; i++){
+					str += '<option value="' + json[i].projectNo + '" class="bg-info">' + json[i].projectName + '</option>';
+				}
+				
+				$('#selectProjectByTaskCmtToTask').html(str);
+				
+			}
+	    });
+	    
+	    // 선택된 프로젝트 번호에 맞는 업무리스트 가져오기 
+	    $('#selectProjectByTaskCmtToTask').on("change",function(){
+			var value_str = document.getElementById('selectProjectByTaskCmtToTask');
+			// console.log(value_str.options[value_str.selectedIndex].value);
+			// tasklist를 select 만들기
+			$.ajax({
+				async : false,
+				type : 'POST',
+				data : {
+					projectNo : value_str.options[value_str.selectedIndex].value,
+					tasklistNo : $('.edit-kanban-item-tasklistNo').val()
+				},
+				url : '/safari/taskListByTask',
+				success : function(json){
+					var str = "<option value=''></option>";
+					// console.log(json);
+					// html로 가공
+					for(var i = 0; i < json.length; i++){
+						str += '<option value="' + json[i].tasklistNo + '" class="bg-info">' + json[i].tasklistTitle + '</option>';
+					}
+					$('#selectTaskListByTaskCmtToTask').html(str);
+				}	
+			});	
+		});
+	});
+	
+	// 업무로 만들기버튼 누를시
+	$('#taskCmtToTaskBtn').click(function(){
+		// 선택된 값을 가져온다
+		var value_str = document.getElementById('selectTaskListByTaskCmtToTask');
+		var project_str = document.getElementById('selectProjectByTaskCmtToTask');
+		var projectNo = project_str.options[project_str.selectedIndex].value;
+		// 변수
+		var task = new Map();
+				
+		if(projectNo == ''){
+			$('#selectProjectByTaskCmtToTask').focus();
+			return;
+		} else if(value_str.options[value_str.selectedIndex].value == '') {
+			$('#selectTaskListByTaskCmtToTask').focus();
+			return;
+		}
+		
+		// 업무 생성하기
+		$.ajax({
+			async : false,
+			type : 'POST',
+			url : '/member/insertTask',
+			data : {
+				taskTitle : $('#taskTitleByTaskCmtToTask').val(),
+				tasklistNo : value_str.options[value_str.selectedIndex].value
+			},
+			success : function(json){
+				if(json != 'ok'){
+					alert('업무로 만들기를 실패했습니다.');
+					return;
+				} else {
+					alert('업무로 만들기를 성공했습니다.');
+				}
+			}
+	    });
+	    
+	    // 프로젝트 번호에 알맞게 페이지 이동
+	    window.location.replace('/member/taskList?projectNo=' + projectNo);
+	});
+  
+  
+  
   // 칸반 보드 속성
   // ----------------------------------------------------------
   // Kanban 항목에 사용자 정의 데이터 속성에 대한 html 추가
@@ -1149,6 +1289,9 @@ $(document).ready(function () {
   });
 
 
+
+
+
   // 업무코멘트 리스트 함수
   // ----------------------------------------------------------
   function cmt_list() {
@@ -1215,15 +1358,56 @@ $(document).ready(function () {
 		}
 	  });	
 	  
-	// console.log(taskCommentList);
+	  
 	
 	// 업무코멘트 리스트 보여주기
 	  var str = "";
-	// 고정된 코멘트 먼저 넣어주기
-	  str += '<div class="mb-1"><a href="#"><i class="fa fa-thumb-tack"></i></a></div>'
+	    
+	// 고정된 코멘트 있을 경우 가져오기 
+	  $.ajax({
+			async : false,
+			type : 'GET',
+			data : { 
+				taskNo : $('.edit-kanban-item-id').val()
+			},
+			url : '/member/fixedTaskComment',
+			success : function(json){
+	 			if(json != ''){
+		
+	 				console.log(json);
+	 				// 고정된 코멘트 먼저 넣어주기
+					  str += '<div class="dropdown">' +
+					  			'<div class="dropdown-toggle cursor-pointer mr-5 mb-2" role="button" id="fixTaskCmtDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+					  				'<a href="#"><i class="fa fa-thumb-tack mr-1"></i>고정 코멘트</a>' +
+								'</div>' +
+								'<div class="dropdown-menu dropdown-menu-right" aria-labelledby="taskCmtMenuBtn"> ';
+					  str += 		'<div class="snow-container rounded p-1 mb-1" id="' + json.taskCmtNo + '">' +
+										'<div class="compose-editor">' +
+											'<div class="row">' +
+												'<div class="col-10">' +
+													'<div class="font-weight-bold">' +
+														json.workMemberName + 
+													'</div>' +
+													'<div class="small">' + dateFormat_show(new Date(json.createDate)) + '</div>';
+									
+						str += 					'</div>' + 
+											'</div>' +
+											'<hr>' +
+											'<div>' +
+												json.taskCmtContent + 
+											'</div>' +
+										'</div>' +
+									'</div>' +
+								'</div>' +
+					  		 '</div>';
+				}
+		    }
+	  }); 
+	
+	
 	// 리스트를 반복문으로 보여준다.
 	  for(var i = 0; i < taskCommentList.length; i++) {
-		 	let creatDate = dateFormat_show(new Date(taskCommentList[i].createDate));
+		 	let createDate = dateFormat_show(new Date(taskCommentList[i].createDate));
 		 	
 			str += '<div class="snow-container border rounded p-1 mb-1" id="' + taskCommentList[i].taskCmtNo + '">' +
 						'<div class="compose-editor">' +
@@ -1232,7 +1416,7 @@ $(document).ready(function () {
 									'<div class="font-weight-bold">' +
 										taskCommentList[i].workMemberName + 
 									'</div>' +
-									'<div class="small">' + creatDate + '</div>';
+									'<div class="small">' + createDate + '</div>';
 									
 									// 좋아요가 있을 시에만 보이기
 									if(taskCommentList[i].likeCnt != 0){
@@ -1241,7 +1425,7 @@ $(document).ready(function () {
 									
 			str += 				'</div>' + 
 								'<div class="col-2">' + 
-									'<a href="/member/taskCmtReply" class="btn btn-sm" id="taskCmtReplyBtn">' +
+									'<a href="#" class="btn btn-sm" id="taskCmtReplyBtn">' +
 										'<i class="feather icon-corner-up-left small"></i>' +
 									'</a>' +
 									'<a href="#" class="btn btn-sm" id="taskCmtLikeBtn">' +
@@ -1252,7 +1436,7 @@ $(document).ready(function () {
 										'</div>' +
 										'<div class="dropdown-menu dropdown-menu-right" aria-labelledby="taskCmtMenuBtn"> ' +
 											'<a data-toggle="modal" class="dropdown-item taskCmtToTaskBtn-modal" id="taskCmtToTaskBtn-modal" href="#taskCmtToTaskModal"><i class="feather icon-file-plus mr-50"></i>업무로 만들기</a>' +
-											'<a data-toggle="modal" class="dropdown-item taskCmtFixBtn-modal" id="taskCmtFixBtn-modal" href="#taskCmtFixModal"><i class="feather icon-bookmark mr-50"></i>이 코멘트 고정하기</a>';
+											'<a href="#" class="dropdown-item" id="taskCmtFixBtn"><i class="feather icon-bookmark mr-50"></i>이 코멘트 고정하기</a>';
 											
 											// 본인의 것에만 수정/삭제 버튼보이기
 						 					if(memberEmail == taskCommentList[i].taskCmtWriter){

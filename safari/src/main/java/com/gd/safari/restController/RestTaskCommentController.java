@@ -49,14 +49,28 @@ public class RestTaskCommentController {
 	@GetMapping("/member/fixedTaskComment")
 	public Map<String, Object> fixedTaskComment(int taskNo){
 		log.debug(TeamColor.CSH + this.getClass() + " 고정된 코멘트 있을 경우 가져오기");
-		Map<String, Object> fixedTaskComment = taskCommentService.getTaskCommentByTaskCmtNo(taskNo);
+		Map<String, Object> fixedTaskComment = taskCommentService.getFixTaskCommentByTaskNo(taskNo);
 
 		// 디버깅
 		log.debug(TeamColor.CSH + fixedTaskComment);
 		
 		return fixedTaskComment;
 	}
-
+	
+	// 업무 코멘트를 업무로 만들기 위해 내용 가져오기
+	@GetMapping("/member/taskCommentContent")
+	public String taskCommentContent(int taskCmtNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 생성");
+		
+		// 디버깅
+		log.debug(TeamColor.CSH + "taskCmtNo : " + taskCmtNo);
+		
+		// 서비스호출
+		String taskCommentContent = taskCommentService.getTaskCommentToTask(taskCmtNo);
+		
+		return taskCommentContent;
+	}
+	
 	// 업무 코멘트 생성
 	@PostMapping("/member/insertTaskComment")
 	public String insertTaskComment(HttpSession session, int taskNo, String taskCmtContent) {

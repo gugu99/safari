@@ -12,6 +12,8 @@ public interface ITaskCommentService {
 	Map<String, Object> getTaskCommentByTaskCmtNo(int taskCmtNo);
 	// 고정된 코멘트 있을 경우 가져오기
 	Map<String, Object> getFixTaskCommentByTaskNo(int taskNo);
+	// 업무 코멘트를 업무로 만들기 위해 내용 가져오기
+	String getTaskCommentToTask(int taskCmtNo);
 	// 업무 코멘트 생성
 	int addTaskComment(TaskComment taskComment);
 	// 업무 코멘트 수정

@@ -51,7 +51,7 @@
 			tc.task_cmt_no = #{taskCmtNo}
 	</select>
 	<!-- 고정된 코멘트 있을 경우 가져오기 -->
-	<select id="selectFixTaskCommentByTaskNo">
+	<select id="selectFixTaskCommentByTaskNo" parameterType="int" resultType="map">
 		SELECT 
 			tc.task_cmt_no			taskCmtNo
 			, tc.task_cmt_content	taskCmtContent
@@ -75,6 +75,15 @@
 			tc.task_no = #{taskNo}
 		AND 
 			tc.task_cmt_fix = 'Y'	
+	</select>
+	<!-- 업무 코멘트를 업무로 만들기 위해 내용 가져오기 -->
+	<select id="selectTaskCommentToTask" parameterType="int" resultType="string">
+		SELECT 
+			task_cmt_content		taskCmtContent
+		FROM
+			task_comment
+		WHERE
+			task_cmt_no = #{taskCmtNo}
 	</select>
 	<!-- 업무 코멘트 생성 -->
 	<insert id="insertTaskComment" parameterType="com.gd.safari.vo.TaskComment">

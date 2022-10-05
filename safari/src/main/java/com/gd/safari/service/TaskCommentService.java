@@ -40,6 +40,13 @@ public class TaskCommentService implements ITaskCommentService {
 		return taskCommentMapper.selectFixTaskCommentByTaskNo(taskNo);
 	}
 	
+	// 업무 코멘트를 업무로 만들기 위해 내용 가져오기
+	@Override
+	public String getTaskCommentToTask(int taskCmtNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트를 업무로 만들기 위해 내용 가져오기");
+		return taskCommentMapper.selectTaskCommentToTask(taskCmtNo);
+	}
+	
 	// 업무 코멘트 생성
 	@Override
 	public int addTaskComment(TaskComment taskComment) {
@@ -64,7 +71,6 @@ public class TaskCommentService implements ITaskCommentService {
 		// 해제한 후 고정하기
 		return taskCommentMapper.updateFixTaskComment(taskCmtNo);
 	}
-	
 	
 	// 업무 코멘트 삭제
 	@Override
