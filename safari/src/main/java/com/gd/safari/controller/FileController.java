@@ -28,6 +28,7 @@ public class FileController {
 	@Autowired private ITaskListService taskListService;
 	
 	
+	// 파일 리스트
 	@GetMapping("/member/fileList")
 	public String index(HttpSession session ,Model model) {
 		
@@ -56,6 +57,7 @@ public class FileController {
 		return "file/ProjectFileList"; 														
 	}
 	
+	// 파일추가
 	@PostMapping("/member/addFile")
 	public String addWorkspace (@RequestParam("file") List<MultipartFile> file, 
 								@RequestParam Map<String,Object> map,
@@ -86,6 +88,7 @@ public class FileController {
 		return "redirect:/member/fileList";											  
 	}
 
+	// 파일제거
 	@GetMapping("/member/removeFile")
 	public String addWorkspace (@RequestParam("fileNo") int fileNo, 
 								HttpSession session) {

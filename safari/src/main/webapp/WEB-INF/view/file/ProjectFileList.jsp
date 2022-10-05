@@ -51,12 +51,12 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">프로젝트 전체 파일리스트</h4>
-                               
+                                <h4 class="card-title">프로젝트 파일리스트</h4>
+                               	<a href="${pageContext.request.contextPath}/member/fileList" class="btn btn-sm btn-primary mr-25">전체목록</a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
                                    		 <li>
-	                                   		<select id="selectTasklistNo" name="tasklistNo" class="btn-info">
+	                                   		<select id="selectTasklistNo" name="tasklistNo" class="btn btn-sm btn-primary mr-25">
 			                            	<option value="">업무리스트 선택</option>
 			                            	<c:forEach var="t" items="${taskList}">
 			                            	<option value="${t.tasklistNo}">${t.tasklistTitle}</option>
@@ -64,7 +64,7 @@
 			                            	</select>
                                    		 </li>
                                    		 <li>
-                                   		 <select name="taskNo" id="selectTaskNo" class="btn-info">
+                                   		 <select name="taskNo" id="selectTaskNo" class="btn btn-sm btn-primary mr-25">
 										</select>
                                    		 </li>
                                         <li><a data-action="collapse"><i class="feather icon-minus"></i></a></li>
@@ -90,7 +90,7 @@
 						                        <form id="fileForm"  method="post" action="${pageContext.request.contextPath}/member/addFile" enctype="multipart/form-data">
 						                            <div class="modal-body">
 						                            	<label>업무리스트:</label>
-						                            	<select id="tasklistNo" name="tasklistNo" class="btn-info">
+						                            	<select id="tasklistNo" name="tasklistNo"class="btn btn-sm btn-primary mr-25">
 						                            	<option value="">업무리스트 선택</option>
 						                            	<c:forEach var="t" items="${taskList}">
 						                            	<option value="${t.tasklistNo}">${t.tasklistTitle}</option>
@@ -98,7 +98,7 @@
 						                            	</select>
 						                            	<br>
 						                            	<label>업무선택:</label>
-						                            	<select name="taskNo" id="taskNo" class="btn-info">
+						                            	<select name="taskNo" id="taskNo" class="btn btn-sm btn-primary mr-25">
 														</select>
 									                    <div class="col-12 px-0 d-flex flex-sm-row flex-column justify-content-start">
 						                                    <input class="btn btn-sm btn-primary ml-50 file" name="file" type="file" id="file" onchange="checkFile(this)">
@@ -273,6 +273,44 @@ $(document).ready(function(){
 					});
 				}
 			});
+			$.ajax({
+				url : '/member/tasklistNoFileList',
+				type : 'post',
+				data : {tasklistNo : $('#selectTasklistNo').val()},
+				success : function(json) {
+					$('#fileInfo').empty();
+					$(json).each(function(index, item){
+						if(item.filename != '널'){
+							let html = '';
+							console.log(json);
+							html += "<tr><th scope='row'><a href='${pageContext.request.contextPath}/resources/fileupload/"+item.filename+item.fileExt+"'";
+							html += " download='"+item.originName+"'";
+							html += ">";
+							html += item.originName;
+							html += "</a></th>";
+							
+							html += "<td>"+item.fileSize+"</td>";
+							html += "<td>"+item.createDate+"</td>";
+							html += "<td>"+item.uploader + "    ";
+							html += "<a href='${pageContext.request.contextPath}/member/removeFile?fileNo="+item.fileNo+ "'>"+"<button>파일삭제</button></a>";
+							
+							html += "</td>"
+							html += "</tr>";
+							
+							
+							$('#fileInfo').append(html);
+							}else if (item.filename == '널'){
+								let html = '';
+								html += "<tr><th colspan='4'>파일이 없습니다.</th></tr>";
+								
+								$('#fileInfo').append(html);
+								
+							}
+					});
+				}
+			});
+			
+			
 		}
 	});
 	

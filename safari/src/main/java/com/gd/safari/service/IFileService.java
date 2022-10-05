@@ -23,4 +23,7 @@ public interface IFileService {
 	
 	// 업무번호에 따른 리스트
 	List<com.gd.safari.vo.File>  getTaskNoFileList (int taskNo);
+	
+	// 업무리스트번호에 따른 리스트
+	List<com.gd.safari.vo.File> getTasklistNoFileList(int tasklistNo);
 }

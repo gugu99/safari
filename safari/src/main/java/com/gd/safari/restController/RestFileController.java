@@ -40,7 +40,7 @@ public class RestFileController {
 		public @ResponseBody List<File> taskFileList(@RequestParam(value="taskNo") int taskNo) {
 			
 			// 업무리스트번호 디버깅
-			log.debug(TeamColor.CJM+taskNo +"tasklistNo RestController");
+			log.debug(TeamColor.CJM+taskNo +"taskNo RestController");
 			
 			// code 불러오기
 			List<File> list = fileService.getTaskNoFileList(taskNo);	  
@@ -56,5 +56,28 @@ public class RestFileController {
 			}else {
 			return list;}
 		}
+		
+		// 아이디에 맞는 Code 가져오기
+		@PostMapping("/member/tasklistNoFileList")
+		public @ResponseBody List<File> tasklistNoFileList(@RequestParam(value="tasklistNo") int tasklistNo) {
+			
+			// 업무리스트번호 디버깅
+			log.debug(TeamColor.CJM+tasklistNo +"tasklistNo RestController");
+			
+			// code 불러오기
+			List<File> list = fileService.getTasklistNoFileList(tasklistNo);	  
+			
+			// task 리턴 코드
+			
+			if (list.size() == 0) {
+				File nullFile=new File();
+				nullFile.setFilename("널");
+				list.add(nullFile);
+				
+				return list;
+			}else {
+			return list;}
+		}
+
 
 }

@@ -117,11 +117,19 @@ public class FileService implements IFileService{
 	// 업무 번호에 따른 업무리스
 	@Override
 	public List<com.gd.safari.vo.File> getTaskNoFileList(int taskNo) {
-		// tasklistNo 디버깅
+		// taskNo 디버깅
 		log.debug(TeamColor.CJM +taskNo + "taskNo Service");
 		
 		// 업무 번호에 따른 업무리스
 		return fileMapper.selectTaskNoFileList(taskNo);
+	}
+
+	@Override
+	public List<com.gd.safari.vo.File> getTasklistNoFileList(int tasklistNo) {
+		// tasklistNo 디버깅
+		log.debug(TeamColor.CJM +tasklistNo + "tasklistNo Service");
+		
+		return fileMapper.selectTasklistNoFileList(tasklistNo);
 	}
 
 	

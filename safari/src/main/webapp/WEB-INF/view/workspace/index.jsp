@@ -48,7 +48,16 @@
  <div id="logout">
  
  
- <div><span><a id="logo" href="${pageContext.request.contextPath }/safari/logout" class="navbar-brand nav-link"> <i class="feather icon-log-out">로그아웃</i></a></span>
+ <div>
+ <ul class="nav nav-pills">
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="menu">프로필</a>
+    <div class="dropdown-menu">
+      <a id="logout" href="${pageContext.request.contextPath }/safari/logout" class="navbar-brand nav-link"><i class="feather icon-log-out">로그아웃</i></a>
+      <a id="logout" href="${pageContext.request.contextPath }/safari/logout" class="navbar-brand nav-link"> <i class="feather icon-log-out">일반설정</i></a>
+    </div>
+  </li>
+  </ul>
  </div>
 </div>
 </div>
