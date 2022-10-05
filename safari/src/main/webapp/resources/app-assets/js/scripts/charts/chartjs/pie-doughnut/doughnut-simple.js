@@ -26,11 +26,11 @@ $(window).on("load", function(){
     
     console.log($('#taskPoint').val());
     var chartData = {
-        labels: ["0", "1", "2", "3", "4"],
+        labels: ["0", "1", "2", "3", "4", "5"],
         datasets: [{
             label: "My First dataset",
-            data: [$('#taskPoint').val(), $('#taskPoint1').val(), $('#taskPoint2').val(), $('#taskPoint3').val(), $('#taskPoint4').val()],
-            backgroundColor: ['#00A5A8', '#626E82', '#FF7D4D','#FF4558', '#16D39A'],
+            data: [$('#taskPoint').val(), $('#taskPoint1').val(), $('#taskPoint2').val(), $('#taskPoint3').val(), $('#taskPoint4').val(), $('#taskPoint5').val()],
+            backgroundColor: ['#00A5A8', '#626E82', '#FF7D4D','#FF4558', '#16D39A', '#FFA500'],
         }]
     };
 

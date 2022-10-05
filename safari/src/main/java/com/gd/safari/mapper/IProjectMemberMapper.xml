@@ -42,6 +42,8 @@
 			w.work_member_no = m.work_member_no
 		WHERE 
 			w.work_no = #{workNo}
+		AND
+			w.active = 'Y'
 	</select>
 	
 	<!-- 해당 프로젝트에 속한 멤버와 관리자, email을 반환 / 조원들의 기능구현에 사용 -->
@@ -51,7 +53,7 @@
 			, pm.work_member_no workMemberNo
 			, pm.project_member_auth projectMemberAuth
 			, pm.active
-			, wm.work_member_name workMemberName
+ 			, wm.work_member_name workMemberName
 			, wm.work_member_email workMemberEmail
 		FROM 
 			project_member pm
@@ -60,7 +62,7 @@
 		ON 
 			pm.work_member_no = wm.work_member_no
 		WHERE 
-			pm.project_no = #{projectNo} AND pm.active = 'Y'
+			pm.project_no = #{projectNo} AND pm.active = 'Y' AND wm.active = 'Y'
 	</select>
 	
 	<!-- 관리자인지 아닌지를 리턴 / null이면 관리자가 아님 -->

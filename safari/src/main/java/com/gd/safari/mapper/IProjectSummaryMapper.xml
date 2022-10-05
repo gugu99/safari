@@ -97,7 +97,7 @@
 		GROUP BY
 			DATE_FORMAT(t.task_start, '%Y-%m-%d')
 		ORDER BY
-			task_end ASC
+			task_start DESC
 		LIMIT
 			7
 	</select>
