@@ -46,6 +46,7 @@ public class FeedbackController {
 		model.addAttribute("member", map.get("member")); // 해당 회원의 정보
 		model.addAttribute("feedbackList", map.get("feedbackList")); // 해당 회원의 피드백 리스트
 		model.addAttribute("taskList", map.get("taskList")); // 해당 회원에게 피드백 줄 수 있는 업무리스트
+		model.addAttribute("login", session.getAttribute("login")); // 수정, 삭제 권한 체크를 위해
 		
 		return "feedback/feedback";
 	}
@@ -62,7 +63,7 @@ public class FeedbackController {
 		// 피드백 작성
 		feedbackService.addFeedback(map);
 		
-		return "redirect:/safari/feedback?workMemberNo=" + map.get("workMemberNo");
+		return "redirect:/member/feedback?workMemberNo=" + map.get("workMemberNo");
 	}
 	
 	// 피드백 수정 폼
@@ -90,6 +91,16 @@ public class FeedbackController {
 		// 피드백 수정하기 - 피드백 수신자, 피드백 내용, 공개권한
 		feedbackService.modifyFeedback(map);
 		
-		return "redirect:/safari/feedback?workMemberNo=" + map.get("workMemberNo");
+		return "redirect:/member/feedback?workMemberNo=" + map.get("workMemberNo");
+	}
+	
+	@GetMapping("/member/removeFeedback")
+	public String removeFeedback(HttpSession session, @RequestParam Map<String, Object> map) {
+		map.put("feedbackSender", (String)session.getAttribute("login"));
+		log.debug(TeamColor.CSK + "map: " + map);
+		
+		feedbackService.removeFeedback(map);
+		
+		return "redirect:/member/feedback?workMemberNo=" + map.get("workMemberNo");
 	}
 }

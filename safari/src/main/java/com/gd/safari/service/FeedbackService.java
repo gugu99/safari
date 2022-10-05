@@ -84,8 +84,7 @@ public class FeedbackService implements IFeedbackService {
 		log.debug(TeamColor.GDE + "taskList --- " + taskList);
 		
 		// 해당 회원의 정보
-		// TODO 새 메소드로 바꿀 자리 
-		Map<String, Object> member = workspaceMemberMapper.selectWorkspaceMemberOne(workspaceMember.getWorkMemberNo());
+		Map<String, Object> member = workspaceMemberMapper.selectWorkspaceMemberAndProfileImg(workspaceMember);
 		workspaceMember.setWorkMemberEmail((String)member.get("workMemberEmail"));
 		log.debug(TeamColor.CSK + ">>> member: " + member);
 
@@ -175,5 +174,12 @@ public class FeedbackService implements IFeedbackService {
 			map.put("feedbackReceiver", deleteReceiverEmail);
 			feedbackReceiverMapper.deleteFeedbackReceiverByFeedbackNoAndEmail(map);
 		}
+	}
+	
+	@Transactional
+	@Override
+	public void removeFeedback(Map<String, Object> map) {
+		int result = feedbackMapper.deleteFeedback(map);
+		log.debug(TeamColor.CSK + (result == 1 ? "피드백 삭제 성공" : "피드백 삭제 실패"));
 	}
 }

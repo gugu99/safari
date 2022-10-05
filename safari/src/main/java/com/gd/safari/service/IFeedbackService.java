@@ -16,4 +16,7 @@ public interface IFeedbackService {
 	
 	// 피드백 수정하기 - 피드백 수신자, 피드백 내용, 공개권한
 	void modifyFeedback(Map<String, Object> map);
+	
+	// 피드백 삭제
+	void removeFeedback(Map<String, Object> map);
 }

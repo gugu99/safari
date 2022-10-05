@@ -53,11 +53,6 @@
 	<!-- header -->
 	<%@ include file="/WEB-INF/view/inc/sidebar.jsp"%>
 	<!-- sidebar -->
-	
-	<!-- hidden이니까 나중에 지우기 -->
-	<!-- 
-	<input type="hidden" id="myEmail" value="${member.workMemberEmail}"/>
-	 -->
 	<!-- BEGIN: Content-->
 	
     <div class="app-content content">
@@ -78,7 +73,7 @@
 										</c:when>
 										<c:otherwise>
 											<div class="avatar height-100 width-100 rounded-circle">
-												<img src="${pageContext.request.contextPath}/resources/upload/${member.filename}${member.fileExt}" alt="avatar">
+												<img src="${pageContext.request.contextPath}/resources/upload/${member.filename}${member.fileExt}" alt="avatar" class="height-100 width-100">
 											</div>
 										</c:otherwise>
 									</c:choose>
@@ -128,13 +123,14 @@
 										</c:when>
 										<c:otherwise>
 											<div class="avatar avatar-sm rounded-circle">
-												<img src="${pageContext.request.contextPath}/resources/upload/${fl.senderFilename}${fl.senderFileExt}" alt="avatar">
+												<img src="${pageContext.request.contextPath}/resources/upload/${fl.senderFilename}${fl.senderFileExt}" alt="avatar" class="height-35 width-35">
 											</div>
 										</c:otherwise>
 									</c:choose>
 									<span class="text-bold-600 mr-1">${fl.senderName}</span>
 									<!-- 작성자 -->
 									<span class="fa fa-caret-right mr-1"></span>
+									
 									<!-- 피드백 받은사람 리스트 -->
 									<c:forEach var="r" items="${fl.feedbackReceivers}">
 										<c:choose>
@@ -147,7 +143,7 @@
 												<div class="avatar avatar-sm rounded-circle">
 													<img
 														src="${pageContext.request.contextPath}/resources/upload/${r.receiverFilename}${r.receiverFileExt}"
-														alt="avatar">
+														alt="avatar" class="height-35 width-35">
 												</div>
 											</c:otherwise>
 										</c:choose>
@@ -156,8 +152,11 @@
 
 									<span class="blue-grey date ml-1">${fl.createDate}</span>
 									<!-- 수정 삭제 버튼 -->
-									<a href="${pageContext.request.contextPath}/member/modifyFeedback?feedbackNo=${fl.feedbackNo}&workMemberNo=${member.workMemberNo}" class="addr"><span class="fa fa-pencil-square-o ml-2"></span> 수정</a> 
-									<a href="${pageContext.request.contextPath}/" class="addr"><span class="fa fa-trash-o ml-2"></span> 삭제</a>
+									<!-- 피드백 작성자만 수정, 삭제 가능 -->
+									<c:if test="${fl.feedbackSender eq login}">
+										<a href="${pageContext.request.contextPath}/member/modifyFeedback?feedbackNo=${fl.feedbackNo}&workMemberNo=${member.workMemberNo}" class="addr"><span class="fa fa-pencil-square-o ml-2"></span> 수정</a> 
+										<a href="${pageContext.request.contextPath}/member/removeFeedback?feedbackNo=${fl.feedbackNo}&workMemberNo=${member.workMemberNo}" class="addr"><span class="fa fa-trash-o ml-2"></span> 삭제</a>
+									</c:if>
 								</div>
 
 								<div class="card-footer px-0 py-0">

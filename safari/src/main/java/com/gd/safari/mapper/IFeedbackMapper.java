@@ -24,5 +24,7 @@ public interface IFeedbackMapper {
 	
 	// 피드백 수정하기
 	int updateFeedback(Map<String, Object> map);
-		
+	
+	// 피드백 삭제
+	int deleteFeedback(Map<String, Object> map);
 }

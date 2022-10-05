@@ -892,6 +892,12 @@ body.vertical-layout.vertical-menu.menu-expanded .main-menu-footer .content {
 
 .full-height {
   height: 100% !important; }
+  
+.width-30 {
+  width: 30px !important; }
+  
+.width-35 {
+  width: 35px !important; }
 
 .width-50 {
   width: 50px !important; }
@@ -994,6 +1000,12 @@ body.vertical-layout.vertical-menu.menu-expanded .main-menu-footer .content {
 
 .width-95-per {
   width: 95% !important; }
+
+.height-30 {
+  height: 30px !important; }
+
+.height-35 {
+  height: 35px !important; }
 
 .height-50 {
   height: 50px !important; }

@@ -195,4 +195,9 @@
 		WHERE
 			feedback_no = #{feedbackNo}
 	</update>
+	
+	<!-- 피드백 삭제 -->
+	<delete id="deleteFeedback" parameterType="java.util.Map">
+		DELETE FROM feedback WHERE feedback_no = #{feedbackNo} AND feedback_sender = #{feedbackSender}
+	</delete>
 </mapper>
