@@ -83,7 +83,7 @@ public interface IWorkspaceMemberMapper {
 	int updateWorkspaceMemberAllActvieN(String workMemberEmail);
 	
 	// 워크스페이스멤버 정보 및 프로필이미지가져오기
-	List<Map<String,Object>>selectWorkspaceMemberAndProfileImg(WorkspaceMember workspaceMember);
+	Map<String,Object> selectWorkspaceMemberAndProfileImg(WorkspaceMember workspaceMember);
 	
 	
 	
