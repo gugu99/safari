@@ -1,5 +1,8 @@
 package com.gd.safari.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +27,14 @@ public class TaskController {
 		// 디버깅
 		log.debug(TeamColor.CSH + task);
 		
+		// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("task", task);
+		m.put("projectNo", session.getAttribute("projectNo"));
+		m.put("workMemberName", session.getAttribute("workMemberName"));
+		
 		// 서비스 호출
-		int row = taskService.modifyTask(task);
+		int row = taskService.modifyTask(m);
 		
 		// 서비스메서드의 리턴값이 1이라면 성공
 		if(row == 1) {

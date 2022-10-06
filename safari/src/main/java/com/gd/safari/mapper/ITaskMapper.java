@@ -24,6 +24,8 @@ public interface ITaskMapper {
 	Map<String, Object> selectTaskByTaskNo(int taskNo);
 	// 업무 복사를 위한 객체 받기
 	Task selectTaskForCopy(int taskNo);
+	// 업무 이름 가져오기 (로그를 위해)
+	String selectTaskTitleForLog(int taskNo);
 	// 업무 복사
 	int insertTaskForCopy(Task task);
 	// 업무 생성
@@ -31,7 +33,7 @@ public interface ITaskMapper {
 	// 업무 수정
 	int updateTask(Task task);
 	// 업무 위치변경
-	int updateTaskLocation(Map<String, Integer> m);
+	int updateTaskLocation(Map<String, Object> m);
 	// 업무 완료
 	int updateCompleteTask(int taskNo);
 	// 업무 완료취소

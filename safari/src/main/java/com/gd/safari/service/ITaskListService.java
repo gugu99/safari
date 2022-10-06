@@ -1,6 +1,7 @@
 package com.gd.safari.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.gd.safari.vo.CopyTaskList;
 import com.gd.safari.vo.TaskList;
@@ -15,13 +16,13 @@ public interface ITaskListService {
 	// 업무리스트 복사
 	CopyTaskList getTaskListAndTaskForCopy(int tasklistNo);
 	// 업무리스트 복사생성
-	int addCopyTaskList(CopyTaskList copyTaskList);
+	int addCopyTaskList(Map<String, Object> m);
 	// 업무리스트 생성
-	int addTaskList(TaskList tasklist);
+	int addTaskList(Map<String, Object> m);
 	// 업무리스트 수정
-	int modifyTaskList(TaskList tasklist);
+	int modifyTaskList(Map<String, Object> m);
 	// 업무리스트 위치변경 - tasklistNo, projectNo가 필요하다
-	int modifyTaskListLocation(int projectNo, int tasklistNo);
+	int modifyTaskListLocation(Map<String, Object> m);
 	// 업무리스트 삭제
-	int removeTaskList(int tasklistNo);
+	int removeTaskList(Map<String, Object> m);
 }

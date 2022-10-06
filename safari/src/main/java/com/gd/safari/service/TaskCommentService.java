@@ -1,5 +1,6 @@
 package com.gd.safari.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
+import com.gd.safari.mapper.ILogMapper;
 import com.gd.safari.mapper.ITaskCommentMapper;
 import com.gd.safari.vo.TaskComment;
 
@@ -18,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class TaskCommentService implements ITaskCommentService {
 	@Autowired private ITaskCommentMapper taskCommentMapper;
+	@Autowired private ILogMapper logMapper;
 	
 	// 업무 코멘트리스트 가져오기
 	@Override
@@ -64,12 +67,24 @@ public class TaskCommentService implements ITaskCommentService {
 	// 업무 코멘트 고정하기
 	@Transactional
 	@Override
-	public int modifyFixTaskComment(int taskCmtNo) {
+	public int modifyFixTaskComment(Map<String, Object> m) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 고정하기");
+		
+		// 로그 파라미터 만들기
+		Map<String, Object> logM = new HashMap<>();
+		logM.put("logContent", m.get("workMemberName") + " 님이 '" + taskCommentMapper.selectTaskCommentToTask((int) m.get("taskCmtNo")) + "' 코멘트를 고정했습니다.");
+		logM.put("projectNo", m.get("projectNo"));
+		
+		// 디버깅
+		log.debug(TeamColor.CSH + logM);
+		// 로그 처리하기
+		logMapper.insertLog(logM);
+
+		
 		// 지정한 업무 코멘트 외의 것은 업무코멘트 해제하기 (하나만 고정가능)
-		taskCommentMapper.updateUnfixedTaskComment(taskCmtNo);
+		taskCommentMapper.updateUnfixedTaskComment((int) m.get("taskCmtNo"));
 		// 해제한 후 고정하기
-		return taskCommentMapper.updateFixTaskComment(taskCmtNo);
+		return taskCommentMapper.updateFixTaskComment((int) m.get("taskCmtNo"));
 	}
 	
 	// 업무 코멘트 삭제

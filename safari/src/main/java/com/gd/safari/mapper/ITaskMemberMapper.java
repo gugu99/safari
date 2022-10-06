@@ -23,6 +23,8 @@ public interface ITaskMemberMapper {
 	List<TaskMember> selectTaskMemberByTaskNo(int taskNo);
 	// 탈퇴를 위한 업무멤버 가져오기
 	List<TaskMember> selectTaskMemberByMemberEmail(String memberEmail);
+	// 로그를 위한 업무멤버 이름 가져오기
+	String selectTaskMemberForLog(TaskMember taskMember);
 	// 업무멤버 생성
 	int insertTaskMember(TaskMember taskMember);
 	// 업무멤버 삭제

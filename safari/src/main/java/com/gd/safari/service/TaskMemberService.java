@@ -1,6 +1,7 @@
 package com.gd.safari.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
+import com.gd.safari.mapper.ILogMapper;
+import com.gd.safari.mapper.ITaskMapper;
 import com.gd.safari.mapper.ITaskMemberMapper;
 import com.gd.safari.vo.TaskMember;
 
@@ -18,7 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional
 public class TaskMemberService implements ITaskMemberService {
+	@Autowired private ITaskMapper taskMapper;
 	@Autowired private ITaskMemberMapper taskMemberMapper;
+	@Autowired private ILogMapper logMapper;
 	
 	// 해당 업무의 업무 멤버리스트 조회 - email, name - 피드백에서 사용할 메서드
 	@Override
@@ -85,15 +90,46 @@ public class TaskMemberService implements ITaskMemberService {
 	
 	// 업무멤버 생성
 	@Override
-	public int addTaskMember(TaskMember taskMember) {
+	public int addTaskMember(Map<String, Object> m) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무멤버 생성");
-		return taskMemberMapper.insertTaskMember(taskMember);
+		
+		// 파라미터 해체하기
+		TaskMember taskMember = (TaskMember) m.get("taskMember");
+
+		// 메서드 먼저 실행
+		int row = taskMemberMapper.insertTaskMember(taskMember);
+		
+		// 로그 파라미터 만들기
+		Map<String, Object> logM = new HashMap<>();
+		logM.put("logContent", m.get("workMemberName") + " 님이 '" + taskMemberMapper.selectTaskMemberForLog(taskMember) + "' 님을 '" + taskMapper.selectTaskTitleForLog(taskMember.getTaskNo()) + "' 업무에 배정했습니다.");
+		logM.put("projectNo", m.get("projectNo"));
+		
+		// 디버깅
+		log.debug(TeamColor.CSH + logM);
+		// 로그 처리하기
+		logMapper.insertLog(logM);
+		
+		return row;
 	}
 	
 	// 업무멤버 삭제
 	@Override
-	public int removeTaskMember(TaskMember taskMember) {
+	public int removeTaskMember(Map<String, Object> m) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무멤버 삭제");
+		
+		// 파라미터 해체하기
+		TaskMember taskMember = (TaskMember) m.get("taskMember");
+
+		// 로그 파라미터 만들기
+		Map<String, Object> logM = new HashMap<>();
+		logM.put("logContent", m.get("workMemberName") + " 님이 '" + taskMemberMapper.selectTaskMemberForLog(taskMember) + "' 님을 '" + taskMapper.selectTaskTitleForLog(taskMember.getTaskNo()) + "' 업무에서 제거했습니다.");
+		logM.put("projectNo", m.get("projectNo"));
+		
+		// 디버깅
+		log.debug(TeamColor.CSH + logM);
+		// 로그 처리하기
+		logMapper.insertLog(logM);
+		
 		return taskMemberMapper.deleteTaskMember(taskMember);
 	}
 }

@@ -1,5 +1,6 @@
 package com.gd.safari.restController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -128,14 +129,19 @@ public class RestTaskCommentController {
 	
 	// 업무 코멘트 고정하기
 	@PostMapping("/member/fixTaskComment")
-	public String fixTaskComment(int taskCmtNo) {
+	public String fixTaskComment(HttpSession session, int taskCmtNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 고정하기");
 		
 		// 디버깅
 		log.debug(TeamColor.CSH + "taskCmtNo : " + taskCmtNo);
+			// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("taskCmtNo", taskCmtNo);
+		m.put("projectNo", session.getAttribute("projectNo"));
+		m.put("workMemberName", session.getAttribute("workMemberName"));
 		
 		// 서비스호출
-		int row = taskCommentService.modifyFixTaskComment(taskCmtNo);
+		int row = taskCommentService.modifyFixTaskComment(m);
 		
 		// json으로 만들 변수 초기화
 		String jsonStr = "";

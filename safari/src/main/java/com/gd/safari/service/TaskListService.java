@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
+import com.gd.safari.mapper.ILogMapper;
 import com.gd.safari.mapper.IProjectMapper;
 import com.gd.safari.mapper.ITaskListMapper;
 import com.gd.safari.mapper.ITaskMapper;
@@ -29,6 +30,7 @@ public class TaskListService implements ITaskListService {
 	@Autowired private ITaskMapper taskMapper;
 	@Autowired private ITaskMemberMapper taskMemberMapper;
 	@Autowired private IProjectMapper projectMapper;
+	@Autowired private ILogMapper logMapper;
 	
 	// 업무리스트 조회
 	@Override
@@ -67,9 +69,12 @@ public class TaskListService implements ITaskListService {
 	
 	// 업무리스트 복사생성
 	@Override
-	@Transactional
-	public int addCopyTaskList(CopyTaskList copyTaskList) {
+	public int addCopyTaskList(Map<String, Object> m) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 복사생성");
+		
+		// 파라미터 해체
+		CopyTaskList copyTaskList = (CopyTaskList) m.get("copyTaskList");
+		
 		// 업무리스트와 업무로 나누기
 		// 업무리스트
 		TaskList taskList = new TaskList();
@@ -78,6 +83,17 @@ public class TaskListService implements ITaskListService {
 		// 업무
 		List<Task> task = copyTaskList.getTask();
 		
+		// 로그 파라미터 만들기
+		Map<String, Object> logM = new HashMap<>();
+		logM.put("logContent", m.get("workMemberName") + " 님이 '" + taskList.getTasklistTitle() + "' 업무리스트를 새로 생성했습니다.");
+		logM.put("projectNo", taskList.getProjectNo());
+		
+		// 디버깅
+		log.debug(TeamColor.CSH + logM);
+		// 1. 로그 처리하기
+		logMapper.insertLog(logM);
+		
+		// 2. 서비스 처리하기
 		// 업무리스트 먼저 만들기
 		int row = taskListMapper.insertTaskList(taskList);
 		
@@ -100,48 +116,102 @@ public class TaskListService implements ITaskListService {
 	
 	// 업무리스트 생성
 	@Override
-	public int addTaskList(TaskList taskList) {
+	public int addTaskList(Map<String, Object> m) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 생성");
+		
+		// 파라미터 해체
+		TaskList taskList = (TaskList) m.get("taskList");
+		
+		// 로그 파라미터 만들기
+		Map<String, Object> logM = new HashMap<>();
+		logM.put("logContent", m.get("workMemberName") + " 님이 '" + taskList.getTasklistTitle() + "' 업무리스트를 새로 생성했습니다.");
+		logM.put("projectNo", taskList.getProjectNo());
+		
+		// 디버깅
+		log.debug(TeamColor.CSH + logM);
+		// 로그 처리하기
+		logMapper.insertLog(logM);
+		
+		// 서비스 처리하기
 		return taskListMapper.insertTaskList(taskList);
 	}
 
 	// 업무리스트 수정
 	@Override
-	public int modifyTaskList(TaskList taskList) {
+	public int modifyTaskList(Map<String, Object> m) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 수정");
+		
+		// 파라미터 해체
+		TaskList taskList = (TaskList) m.get("taskList");
 		
 		// 저장을 위해 엔터를 누르는데, 엔터로 넘어온 <div><br></div>값은 없애고 객체에 저장하기
 		taskList.setTasklistTitle(taskList.getTasklistTitle().replaceAll("<div><br></div>", ""));
 		
+		// 로그 파라미터 만들기
+		Map<String, Object> logM = new HashMap<>();
+		logM.put("logContent", m.get("workMemberName") + " 님이 업무리스트 이름을 '" + taskList.getTasklistTitle() + "'(으)로 수정했습니다.");
+		logM.put("projectNo", taskList.getProjectNo());
+		
+		// 디버깅
+		log.debug(TeamColor.CSH + logM);
+		// 로그 처리하기
+		logMapper.insertLog(logM);
+
+		// 서비스 처리하기
 		return taskListMapper.updateTaskList(taskList);
 	}
 
 	// 업무리스트 위치변경 - tasklistNo, projectNo가 필요하다
 	@Override
-	@Transactional
-	public int modifyTaskListLocation(int projectNo, int tasklistNo) {
+	public int modifyTaskListLocation(Map<String, Object> m) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 위치변경");
 		
 		// 현재 업무리스트에 있는 멤버 찾기
-		List<TaskMember> taskMember = taskMemberMapper.selectTaskMemberByTaskListNo(tasklistNo);
+		List<TaskMember> taskMember = taskMemberMapper.selectTaskMemberByTaskListNo((int) m.get("tasklistNo"));
 		
 		// 멤버 삭제 후
 		for(TaskMember tm : taskMember) {
 			taskMemberMapper.deleteTaskMember(tm);
 		}
-		// 파라미터 값 가공
-		Map<String, Integer> m = new HashMap<>();
-		m.put("projectNo", projectNo);
-		m.put("tasklistNo", tasklistNo);
 		
-				
+		// 로그 파라미터 만들기
+		Map<String, Object> logM = new HashMap<>();
+		// 1. 이전 로그에 남기기 (프로젝트 변경)
+		logM.put("logContent", m.get("workMemberName") + " 님이 '" + taskListMapper.selectTaskListTitleForLog((int) m.get("tasklistNo")) + "' 업무리스트를 이동시켰습니다.");
+		logM.put("projectNo", m.get("oldProjectNo"));
+		
+		// 디버깅
+		log.debug(TeamColor.CSH + logM);
+		
+		logMapper.insertLog(logM);
+		
+		// 2. 이후 로그에 남기기 (프로젝트 변경)
+		logM.put("projectNo", m.get("projectNo"));
+		
+		// 디버깅
+		log.debug(TeamColor.CSH + logM);
+
+		logMapper.insertLog(logM);	
+		
+		// 3. 서비스 처리하기
 		return taskListMapper.updateTaskListLocation(m);
 	}
 
 	// 업무리스트 삭제
 	@Override
-	public int removeTaskList(int tasklistNo) {
+	public int removeTaskList(Map<String, Object> m) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 삭제");
-		return taskListMapper.deleteTaskList(tasklistNo);
+		
+		// 로그 파라미터 만들기
+		Map<String, Object> logM = new HashMap<>();
+		logM.put("logContent", m.get("workMemberName") + " 님이 '" + taskListMapper.selectTaskListTitleForLog((int) m.get("tasklistNo")) + "' 업무리스트를 삭제했습니다.");
+		logM.put("projectNo", m.get("projectNo"));
+
+		// 디버깅
+		log.debug(TeamColor.CSH + logM);
+		// 로그 처리하기
+		logMapper.insertLog(logM);
+		
+		return taskListMapper.deleteTaskList((int) m.get("tasklistNo"));
 	}
 }

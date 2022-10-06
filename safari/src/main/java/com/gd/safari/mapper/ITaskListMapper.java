@@ -20,12 +20,14 @@ public interface ITaskListMapper {
 	CopyTaskList selectTaskListAndTaskForCopy(int tasklistNo);
 	// 업무리스트 복사 - 업무가 없을 경우
 	CopyTaskList selectTaskListForCopy(int tasklistNo);
+	// 업무리스트 번호로 이름 조회하기 (로그를 위해)
+	String selectTaskListTitleForLog(int tasklistNo);
 	// 업무리스트 생성
 	int insertTaskList(TaskList tasklist);
 	// 업무리스트 수정
 	int updateTaskList(TaskList tasklist);
 	// 업무리스트 위치변경 - tasklistNo, projectNo가 필요하다
-	int updateTaskListLocation(Map<String, Integer> m);
+	int updateTaskListLocation(Map<String, Object> m);
 	// 업무리스트 삭제
 	int deleteTaskList(int tasklistNo);
 }

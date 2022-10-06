@@ -197,6 +197,15 @@
 		WHERE 
 			task_no 			= #{taskNo}
 	</select>
+	<!-- 업무 이름 가져오기 (로그를 위해) -->
+	<select id="selectTaskTitleForLog" parameterType="int" resultType="string">
+		SELECT
+			task_title 			taskTitle
+		FROM 
+			task 
+		WHERE 
+			task_no 			= #{taskNo}
+	</select>
 	<!-- 업무 복사 -->
 	<insert id="insertTaskForCopy" parameterType="com.gd.safari.vo.Task">
 		INSERT INTO task (

@@ -76,14 +76,20 @@ public class RestTaskMemberController {
 	
 	// 업무멤버 생성
 	@PostMapping("/member/insertTaskMember")
-	public String insertTaskMember(TaskMember taskMember) {
+	public String insertTaskMember(HttpSession session, TaskMember taskMember) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무멤버 생성");
 		// 디버깅
 		log.debug(TeamColor.CSH + taskMember);
-		
+
+		// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("taskMember", taskMember);
+		m.put("projectNo", session.getAttribute("projectNo"));
+		m.put("workMemberName", session.getAttribute("workMemberName"));
+				
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = taskMemberService.addTaskMember(taskMember);
+		int row = taskMemberService.addTaskMember(m);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		
@@ -99,14 +105,20 @@ public class RestTaskMemberController {
 	
 	// 업무멤버 삭제
 	@PostMapping("/member/deleteTaskMember")
-	public String deleteTaskMember(TaskMember taskMember) {
+	public String deleteTaskMember(HttpSession session, TaskMember taskMember) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무멤버 삭제");
 		// 디버깅
 		log.debug(TeamColor.CSH + taskMember);
 		
+		// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("taskMember", taskMember);
+		m.put("projectNo", session.getAttribute("projectNo"));
+		m.put("workMemberName", session.getAttribute("workMemberName"));
+		
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = taskMemberService.removeTaskMember(taskMember);
+		int row = taskMemberService.removeTaskMember(m);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		

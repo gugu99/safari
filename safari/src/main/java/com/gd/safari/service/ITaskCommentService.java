@@ -20,7 +20,7 @@ public interface ITaskCommentService {
 	int modifyTaskComment(TaskComment taskComment);
 	// 고정은 하나밖에 안되기 때문에 설정과 동시에 나머지는 해제를 해야한다.
 	// 업무 코멘트 고정하기 // 업무 코멘트 해제하기 동시진행
-	int modifyFixTaskComment(int taskCmtNo);
+	int modifyFixTaskComment(Map<String, Object> m);
 	// 업무 코멘트 삭제
 	int removeTaskComment(TaskComment taskComment);
 }

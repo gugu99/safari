@@ -54,11 +54,15 @@ public class RestTaskController {
 		// 파라미터값 가공
 		Map<String, Object> m = new HashMap<>();
 		m.put("projectNo", (int)session.getAttribute("projectNo"));
-		m.put("workMemberNo", (int)session.getAttribute("workMemberNo"));
 		m.put("taskWriter", (String)session.getAttribute("login"));
 		m.put("sort", sort);
 		m.put("search", search);
 		m.put("check", check);
+		
+		// 분기 - 멤버일 경우만 넣기
+		if(session.getAttribute("workMemberNo") != null) {
+			m.put("workMemberNo", (int)session.getAttribute("workMemberNo"));
+		}
 		
 		// 서비스호출
 		// 리턴값 List<Task>
@@ -168,9 +172,15 @@ public class RestTaskController {
 		// 디버깅
 		log.debug(TeamColor.CSH + "파싱 후 : " + copyTask);
         
+		// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("task", copyTask);
+		m.put("projectNo", session.getAttribute("projectNo"));
+		m.put("workMemberName", session.getAttribute("workMemberName"));
+				
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = taskService.addTaskForCopy(copyTask);
+		int row = taskService.addTaskForCopy(m);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		
@@ -194,9 +204,15 @@ public class RestTaskController {
 		// 세션값에 있는 작성자 task VO에 setter로 담기
 		task.setTaskWriter((String) session.getAttribute("login"));
 		
+		// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("task", task);
+		m.put("projectNo", session.getAttribute("projectNo"));
+		m.put("workMemberName", session.getAttribute("workMemberName"));
+		
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = taskService.addTask(task);
+		int row = taskService.addTask(m);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		
@@ -212,14 +228,21 @@ public class RestTaskController {
 	
 	// 업무 위치 변경
 	@PostMapping("/member/updateTaskLocation")
-	public String updateTaskLocation(int tasklistNo, int taskNo) {
+	public String updateTaskLocation(HttpSession session, int tasklistNo, int taskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 위치 변경");
 		// 디버깅
 		log.debug(TeamColor.CSH + "tasklistNo : " + tasklistNo + " taskNo : " + taskNo);
 		
+		// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("tasklistNo", tasklistNo);
+		m.put("taskNo", taskNo);
+		m.put("projectNo", session.getAttribute("projectNo"));
+		m.put("workMemberName", session.getAttribute("workMemberName"));
+		
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = taskService.modifyTaskLocation(tasklistNo, taskNo);
+		int row = taskService.modifyTaskLocation(m);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		
@@ -235,14 +258,20 @@ public class RestTaskController {
 	
 	// 업무 완료
 	@PostMapping("/member/completeTask")
-	public String completeTask(int taskNo) {
+	public String completeTask(HttpSession session, int taskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 완료");
 		// 디버깅
 		log.debug(TeamColor.CSH + taskNo);
 		
+		// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("taskNo", taskNo);
+		m.put("projectNo", session.getAttribute("projectNo"));
+		m.put("workMemberName", session.getAttribute("workMemberName"));
+		
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = taskService.modifyCompleteTask(taskNo);
+		int row = taskService.modifyCompleteTask(m);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		
@@ -258,14 +287,20 @@ public class RestTaskController {
 	
 	// 업무 완료취소
 	@PostMapping("/member/cancelEndTask")
-	public String cancelEndTask(int taskNo) {
+	public String cancelEndTask(HttpSession session, int taskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 취소");
 		// 디버깅
 		log.debug(TeamColor.CSH + taskNo);
 		
+		// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("taskNo", taskNo);
+		m.put("projectNo", session.getAttribute("projectNo"));
+		m.put("workMemberName", session.getAttribute("workMemberName"));
+		
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = taskService.modifyCancelEndTask(taskNo);
+		int row = taskService.modifyCancelEndTask(m);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		
@@ -281,14 +316,20 @@ public class RestTaskController {
 	
 	// 업무 삭제
 	@PostMapping("/member/deleteTask")
-	public String deleteTask(int taskNo) {
+	public String deleteTask(HttpSession session, int taskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 삭제");
 		// 디버깅
 		log.debug(TeamColor.CSH + taskNo);
 		
+		// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("taskNo", taskNo);
+		m.put("projectNo", session.getAttribute("projectNo"));
+		m.put("workMemberName", session.getAttribute("workMemberName"));
+				
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = taskService.removeTask(taskNo);
+		int row = taskService.removeTask(m);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		

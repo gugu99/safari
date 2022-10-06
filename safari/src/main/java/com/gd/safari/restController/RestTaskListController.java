@@ -1,7 +1,9 @@
 package com.gd.safari.restController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -113,6 +115,7 @@ public class RestTaskListController {
 					task.add(t);
 				}
 			}
+			
 			// 업무 객체에 담기
 			copy.setTask(task);
 			
@@ -120,14 +123,18 @@ public class RestTaskListController {
 			e.printStackTrace();	
 			throw new RuntimeException();
 		}
-		
 
 		// 디버깅
 		log.debug(TeamColor.CSH + "파싱 후 : " + copy);
         
+		// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("copyTaskList", copy);
+		m.put("workMemberName", session.getAttribute("workMemberName"));
+        
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = taskListService.addCopyTaskList(copy);
+		int row = taskListService.addCopyTaskList(m);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		
@@ -152,9 +159,14 @@ public class RestTaskListController {
 		// 프로젝트 번호 넣기
 		taskList.setProjectNo((int)session.getAttribute("projectNo"));
 		
+		// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("taskList", taskList);
+		m.put("workMemberName", session.getAttribute("workMemberName"));
+		
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = taskListService.addTaskList(taskList);
+		int row = taskListService.addTaskList(m);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		
@@ -170,14 +182,23 @@ public class RestTaskListController {
 	
 	// 업무리스트 수정
 	@PostMapping("/member/updateTaskList")
-	public String updateTaskList(TaskList taskList) {
+	public String updateTaskList(HttpSession session, TaskList taskList) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 수정");
+		
+		// 프로젝트 번호 넣기
+		taskList.setProjectNo((int)session.getAttribute("projectNo"));
+		
 		// 디버깅
 		log.debug(TeamColor.CSH + taskList);
+
+		// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("taskList", taskList);
+		m.put("workMemberName", session.getAttribute("workMemberName"));
 		
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = taskListService.modifyTaskList(taskList);
+		int row = taskListService.modifyTaskList(m);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		
@@ -193,14 +214,21 @@ public class RestTaskListController {
 
 	// 업무리스트 위치변경 - tasklistNo, projectNo가 필요하다
 	@PostMapping("/member/updateTaskListLocation")
-	public String updateTaskListLocation(int projectNo, int tasklistNo) {
-		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 수정");
+	public String updateTaskListLocation(HttpSession session, int projectNo, int tasklistNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 위치변경");
 		// 디버깅
 		log.debug(TeamColor.CSH + "projectNo : " + projectNo + " tasklistNo : " + tasklistNo);
 		
+		// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("oldProjectNo", session.getAttribute("projectNo"));
+		m.put("projectNo", projectNo);
+		m.put("tasklistNo", tasklistNo);
+		m.put("workMemberName", session.getAttribute("workMemberName"));
+		
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = taskListService.modifyTaskListLocation(projectNo, tasklistNo);
+		int row = taskListService.modifyTaskListLocation(m);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		
@@ -216,14 +244,20 @@ public class RestTaskListController {
 	
 	// 업무리스트 삭제
 	@PostMapping("/member/deleteTaskList")
-	public String deleteTaskList(int tasklistNo) {
+	public String deleteTaskList(HttpSession session, int tasklistNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무리스트 삭제");
 		// 디버깅
 		log.debug(TeamColor.CSH + tasklistNo);
 		
+		// 파라미터 파싱
+		Map<String, Object> m = new HashMap<>();
+		m.put("projectNo", session.getAttribute("projectNo"));
+		m.put("tasklistNo", tasklistNo);
+		m.put("workMemberName", session.getAttribute("workMemberName"));
+		
 		// 서비스 호출
 		// 리턴값 int - 0일 경우 실행되지 않음
-		int row = taskListService.removeTaskList(tasklistNo);
+		int row = taskListService.removeTaskList(m);
 		// json으로 만들 변수 초기화
 		String jsonStr = "";
 		

@@ -24,17 +24,17 @@ public interface ITaskService {
 	// 업무 복사를 위한 객체 받기
 	Task getTaskForCopy(int taskNo);
 	// 업무 복사
-	int addTaskForCopy(Task task);
+	int addTaskForCopy(Map<String, Object> m);
 	// 업무 생성
-	int addTask(Task task);
+	int addTask(Map<String, Object> m);
 	// 업무 수정
-	int modifyTask(Task task);
+	int modifyTask(Map<String, Object> m);
 	// 업무 위치변경 - taskNo, tasklistNo 필요함
-	int modifyTaskLocation(int tasklistNo, int taskNo);
+	int modifyTaskLocation(Map<String, Object> m);
 	// 업무 완료
-	int modifyCompleteTask(int taskNo);
+	int modifyCompleteTask(Map<String, Object> m);
 	// 업무 완료취소
-	int modifyCancelEndTask(int taskNo);
+	int modifyCancelEndTask(Map<String, Object> m);
 	// 업무 삭제
-	int removeTask(int taskNo);
+	int removeTask(Map<String, Object> m);
 }
