@@ -11,13 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 @Aspect
 @Component
 public class LogAspect {
-	@Before("execution(* com.gd.safari.controller.TaskController")
-	public void beforeMathod() {
-		log.debug(TeamColor.CSH + "***Before : LogAspect***");
-	}
-
-	@After("execution(* com.gd.safari.controller.TaskController")
-	public void afterMathod() {
-		log.debug(TeamColor.CSH + "***After : LogAspect***");
-	}
+//	@Before("execution(* com.gd.safari.controller.TaskController")
+//	public void beforeMathod() {
+//		log.debug(TeamColor.CSH + "***Before : LogAspect***");
+//	}
+//
+//	@After("execution(* com.gd.safari.controller.TaskController")
+//	public void afterMathod() {
+//		log.debug(TeamColor.CSH + "***After : LogAspect***");
+//	}
 }
