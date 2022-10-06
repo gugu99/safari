@@ -71,7 +71,8 @@ public class ProjectService implements IProjectService {
 		List<Map<String, Object>> projectList = projectMapper.selectProjectListByWorkspaceNo(paramMap);
 				
 		// 워크스페이스 멤버 리스트
-		List<WorkspaceMember> workspaceMemberList = workspaceMemberMapper.selectWorkspaceMemberList((int)paramMap.get("workNo"));
+		paramMap.put("active", "Y");
+		List<WorkspaceMember> workspaceMemberList = workspaceMemberMapper.selectWorkspaceMemberListByActive(paramMap);
 
 		// 프로젝트 그룹리스트
 		List<ProjectGroup> projectGroupList = projectGroupMapper.selectProjectGroupListByWorkspaceNo((int)paramMap.get("workNo"));
@@ -187,6 +188,7 @@ public class ProjectService implements IProjectService {
 	@Override
 	public Map<String, Object> getProjectSummary(int workNo) {
 		Map<String, Object> map = new HashMap<>();
+		List<Map<String, Object>> list = projectMapper.selectAverageProjectCompleteRateByWorkNo(workNo);
 		
 		// 해당 워크스페이스의 정보
 		map.put("workspaceOne", projectSummaryMapper.selectWorkspaceOne(workNo));
@@ -194,7 +196,9 @@ public class ProjectService implements IProjectService {
 		map.put("taskData", projectSummaryMapper.selectTaskCntAndTaskCompleteRateByWorkNo(workNo));
 		map.put("projectData", projectMapper.selectProjectCompleteRateByWorkNo(workNo));
 		map.put("taskPointStatistic", projectSummaryMapper.selectTaskCntPerTaskPointByWorkNo(workNo));
-		
+		map.put("avgProjectCompleteRate", list.get(list.size() - 1));
+		log.debug(TeamColor.CSK + "avgProjectCompleteRate: " + map.get("avgProjectCompleteRate"));
+
 		return map;
 	}
 	

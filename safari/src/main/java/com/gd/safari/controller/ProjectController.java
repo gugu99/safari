@@ -45,8 +45,6 @@ public class ProjectController {
 		model.addAttribute("projectList", map.get("projectList")); // 전체 프로젝트 리스트
 		model.addAttribute("workspaceMemberList", map.get("workspaceMemberList")); // 워크스페이스 멤버 리스트
 		model.addAttribute("projectGroupList", map.get("projectGroupList")); // 프로젝트 그룹리스트
-		// model.addAttribute("workMemberNo", (int)session.getAttribute("workMemberNo")); // 프로젝트 생성자가 프로젝트 멤버로 바로 삽입되게 하기 위함 /////
-		// TODO 프로젝트 생성자가 프로젝트 멤버로 바로 삽입되게 할 때 paramMap에서 꺼내기
 		model.addAttribute("title", map.get("title")); // 검색, 정렬 기준에 따른 부제목
 		model.addAttribute("paramMap", paramMap);
 		model.addAttribute("guest", map.get("guest"));
@@ -126,6 +124,7 @@ public class ProjectController {
 		model.addAttribute("projectData", map.get("projectData"));
 		model.addAttribute("taskPointStatistic", map.get("taskPointStatistic"));
 		model.addAttribute("taskPerDate", map.get("taskPerDate"));
+		model.addAttribute("avgProjectCompleteRate", map.get("avgProjectCompleteRate"));
 		
 		return "project/projectSummary";
 	}

@@ -73,7 +73,7 @@ $(document).ready(function(){
 			*/
 			console.log("contextPath: " + contextPath);
 					
-			form = "<form method='post' action='" + contextPath + "/projectGroup' id='projectGroupForm'>"
+			form = "<form method='post' action='/member/projectGroup' id='projectGroupForm'>"
 						+ '<fieldset>'
 							+'<div class="input-group">'
 								+'<input type="text" name="projectGroupName" id="projectGroupName" class="form-control" aria-describedby="button-addon4">'

@@ -241,6 +241,28 @@
 			p.work_no = #{workNo}
 	</select>
 	
+	<!-- 프로젝트의 평균 완성도 반환 -->
+	<select id="selectAverageProjectCompleteRateByWorkNo" resultType="java.util.Map" parameterType="int">
+		SELECT
+			p.project_no projectNo
+			, ROUND(COUNT(t.task_end) / COUNT(*) * 100, 1) as complete
+		FROM 
+			project p
+		INNER JOIN
+			task_list tl
+		ON
+			p.project_no = tl.project_no
+		INNER JOIN
+			task t
+		ON
+			tl.tasklist_no = t.tasklist_no
+		WHERE
+			p.work_no = #{workNo}
+		GROUP BY
+			p.project_no
+		WITH ROLLUP
+	</select>
+	
 	<!-- 프로젝트 추가 -->
 	<insert id="insertProject" parameterType="com.gd.safari.vo.ProjectForm">
 		<selectKey keyProperty="projectNo" resultType="int" order="AFTER">

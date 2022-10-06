@@ -113,7 +113,7 @@
                                         <div class="project-info-icon">
                                             <h2>${taskData.taskCnt}</h2>
                                             <div class="project-info-sub-icon">
-                                                <span class="fa fa-calendar-check-o"></span>
+                                                <span class="feather icon-feather"></span>
                                             </div>
                                         </div>
                                         <div class="project-info-text pt-1">
@@ -124,7 +124,7 @@
                                         <div class="project-info-icon">
                                             <h2>${projectData.projectCnt}</h2>
                                             <div class="project-info-sub-icon">
-                                                <span class="fa fa-bug"></span>
+                                                <span class="feather icon-clipboard"></span>
                                             </div>
                                         </div>
                                         <div class="project-info-text pt-1">
@@ -158,9 +158,9 @@
                                     <div class="row py-2">
                                         <div class="col-lg-6 col-md-12">
                                             <div class="insights px-2">
-                                                <div><span class="text-warning h3">68%</span> <span class="float-right">전체 프로젝트 진행도 평균</span></div>
+                                                <div><span class="text-warning h3">17.7%</span> <span class="float-right">전체 프로젝트 평균 진행도</span></div>
                                                 <div class="progress progress-md mt-1 mb-0">
-                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 68%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 17.7%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -184,14 +184,6 @@
                                 <div class="card-header">
                                     <h4 class="card-title">포인트별 업무</h4>
                                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                    <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li><a data-action="collapse"><i class="feather icon-minus"></i></a></li>
-                                            <li><a data-action="reload"><i class="feather icon-rotate-cw"></i></a></li>
-                                            <li><a data-action="expand"><i class="feather icon-maximize"></i></a></li>
-                                            <li><a data-action="close"><i class="feather icon-x"></i></a></li>
-                                        </ul>
-                                    </div>
                                 </div>
                                 <div class="card-content collapse show">
                                     <div class="card-body">
@@ -212,12 +204,6 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="card-title">일별 진행도</h4>
-                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                    <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li><a data-action="reload"><i class="feather icon-rotate-cw"></i></a></li>
-                                        </ul>
-                                    </div>
                                 </div>
                                 <div class="card-content collapse show">
                                     <div class="card-body">
@@ -240,17 +226,7 @@
                 <div class="sidebar">
                     <div class="project-sidebar-content">
                         <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Project Details</h4>
-                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                                <div class="heading-elements">
-                                    <ul class="list-inline mb-0">
-                                        <li><a data-action="collapse"><i class="feather icon-minus"></i></a></li>
-                                        <li><a data-action="reload"><i class="feather icon-rotate-cw"></i></a></li>
-                                        <li><a data-action="close"><i class="feather icon-x"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            
                             <div class="card-content collapse show">
                                 <!-- project search -->
                                 <div class="card-body border-top-blue-grey border-top-lighten-5">
@@ -258,7 +234,7 @@
                                         <div class="project-search-content">
                                             <form action="#">
                                                 <div class="position-relative">
-                                                    <input type="search" class="form-control" placeholder="Search project task, bug, users...">
+                                                    <input type="search" class="form-control" placeholder="검색어를 입력하세요">
                                                     <div class="form-control-position">
                                                         <i class="fa fa-search text-size-base text-muted"></i>
                                                     </div>
@@ -268,23 +244,12 @@
                                     </div>
                                 </div>
                                 <!-- /project search -->
-
-                                <!-- project progress -->
-                                <div class="card-body">
-                                    <div class="insights">
-                                        <p>Project Overall Progress <span class="float-right text-warning h3">72%</span></p>
-                                        <div class="progress progress-sm mt-1 mb-0">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 72%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- project progress -->
                             </div>
                         </div>
                         <!-- Project Overview -->
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Project Overview</h4>
+                                <h4 class="card-title">워크스페이스 설명</h4>
                                 <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">

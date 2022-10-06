@@ -33,6 +33,9 @@ public interface IProjectMapper {
 	// 프로젝트 완성률 반환 (Project Summary에서 사용)
 	Map<String, Object> selectProjectCompleteRateByWorkNo(int workNo);
 	
+	// 프로젝트 완성률 평균 반환
+	List<Map<String, Object>> selectAverageProjectCompleteRateByWorkNo(int workNo);
+	
 	// 프로젝트 추가 메소드
 	int insertProject(ProjectForm projectForm);
 	
