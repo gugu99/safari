@@ -9,5 +9,10 @@ import com.gd.safari.vo.Board;
 
 @Mapper
 public interface IBoardMapper {
-	List<Board> selectBoardList(Map<String,Object> map);  
+	
+	// boardList 띄우기
+	List<Board> selectBoardList(Map<String,Object> map);
+	
+	// board 추가
+	int insertBoard(Map<String,Object> map);
 }

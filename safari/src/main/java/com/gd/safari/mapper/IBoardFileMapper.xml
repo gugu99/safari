@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IBoardFileMapper">
+	
+	<!-- 보드파일 넣기 -->
+	<insert id="insertBoardFile" parameterType="map">
+		INSERT INTO board_file(
+				  board_no
+				, uploader
+				, filename
+				, file_ext
+				, origin_name
+				, file_type
+				, file_size
+				, create_date
+				, update_date
+			) VALUES(
+				  #{boardNo}
+				, #{uploader}
+				, #{filename}
+				, #{fileExt}
+				, #{originName}
+				, #{fileType}
+				, #{fileSize}
+				, NOW()
+				, NOW()
+			)
+	
+	</insert>
+
+
+
+</mapper>

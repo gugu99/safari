@@ -75,7 +75,7 @@
                                 </div>
                                  <a href="#" class="btn btn-sm btn-primary mr-25" data-toggle="modal" data-target="#inlineForm">파일올리기</a>
                             </div>
-                            <!--IMG Modal -->
+                            <!--file Modal -->
 							<div class="col-lg-4 col-md-6 col-sm-12">
 						        <div class="form-group">
 						            <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">

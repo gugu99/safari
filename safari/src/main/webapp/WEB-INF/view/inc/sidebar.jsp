@@ -24,7 +24,7 @@
             </li>
             <li class=" nav-item"><a href="${pageContext.request.contextPath}/member/workspaceMemberList"><i class="feather icon-users"></i><span class="menu-title" data-i18n="Contacts">Member</span></a>
             </li>
-            <li class=" nav-item"><a href="${pageContext.request.contextPath}/safari/boardList"><i class="fa fa-list-alt"></i><span class="menu-title" data-i18n="Contacts">board</span></a>
+            <li class=" nav-item"><a href="${pageContext.request.contextPath}/member/boardList"><i class="fa fa-pencil-square-o"></i><span class="menu-title" data-i18n="Contacts">board</span></a>
             </li>
             </c:if>
         </ul>

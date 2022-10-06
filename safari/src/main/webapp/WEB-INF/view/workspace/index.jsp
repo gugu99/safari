@@ -249,10 +249,10 @@
 							<div class="card text-center">
 								<div class="card-content">
 									<div class="card-body">
-										<h4 class="card-title danger">회원탈퇴</h4>
+										<h4 class="card-title danger">Withdrawal</h4>
 										<p class="card-text">
 										<div class="col-md-12 col-sm-12 col-12 fonticon-container">
-											<div class="fonticon-wrap">
+											<div class="fonticon-wrap" id="exitIcon">
 												<i class="fa fa-minus"></i>
 											</div>
 										</div>
@@ -260,7 +260,7 @@
 										<a
 											href="${pageContext.request.contextPath }/safari/getIndexWorkspaceMemberOne"><button
 												type="button" class="btn btn-outline-danger">
-												사파리 회원탈퇴</button></a>
+											   Safari Withdrawal</button></a>
 									</div>
 								</div>
 							</div>

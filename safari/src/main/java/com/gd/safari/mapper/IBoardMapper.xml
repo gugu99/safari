@@ -1,8 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.IBoardMapper">
-
-	<select id="selectBoardList" resultType="com.gd.safari.vo.Board" parameterType="map">
+	<resultMap type="com.gd.safari.vo.BoardList" id="resultBoardList">
+		<result column="board_no" property="boardNo"/>
+		<result column="work_no" property="workNo"/>
+		<result column="board_title" property="boardTitle"/>
+		<result column="board_content" property="boardContent"/>
+		<result column="board_location" property="boardLocation"/>
+		<result column="board_detail_location" property="boardDetailLocation"/>
+		<result column="board_auth" property="boardAuth"/>
+		<result column="board_fix" property="boardFix"/>
+		<result column="board_writer" property="boardWriter"/>
+		<result column="create_date" property="createDate"/>
+		<result column="update_date" property="updateDate"/>
+		<result column="writer_filename" property="writerFilename"/>
+		<result column="writer_fileExt" property="writerFileExt"/>
+		<result column="board_like_cnt" property="boardLikeCnt"/>
+		<collection property="boardFiles" ofType="com.gd.safari.vo.BoardFileList">
+			<id column="boardFile_no" property="boardFileNo"/>
+			<result column="boardN_no" property="boardNo"/>
+			<result column="uploader" property="uploader"/>
+			<result column="filename" property="filename"/>
+			<result column="origin_name" property="originName"/>
+			<result column="file_type" property="fileType"/>
+			<result column="file_size" property="fileSize"/>
+			<result column="create_date" property="createDate"/>
+			<result column="update_date" property="updateDate"/>
+		</collection>
+		<collection property="boardComments" ofType="com.gd.safari.vo.BoardCommentList">
+			<id column="board_cmt_no" property="boardCmtNo"/>
+			<result column="board_cmt_content" property="boardCmtContent"/>
+			<result column="board_cmt_writer" property="boardCmtWriter"/>
+			<result column="create_date" property="createDate"/>
+			<result column="update_date" property="updateDate"/>
+			<result column="board_no" property="boardNo"/>
+			<result column="cmt_filename" property="cmtFilename"/>
+			<result column="cmt_file_ext" property="cmtFileExt"/>
+		</collection>
+	</resultMap>
+	
+	
+	<!-- 보드리스트 조회 메서드 -->
+	<select id="selectBoardList" resultMap="resultBoardList" parameterType="map">
 		SELECT 
 				  board_no       boardNo
 				, work_no        workNo
@@ -18,9 +57,44 @@
 		FROM	board
 		
 		WHERE	work_no = #{workNo}
-				
-	
 	</select>
 
+
+
+
+
+
+
+
+
+	<!-- 보드 인서트 메서드 -->
+	<insert id="insertBoard" parameterType="map">
+		<selectKey keyProperty="boardNo" order="AFTER" resultType="int"> 
+			<!--  mariadb : SELECT LAST_INSERT_ID() -->
+			SELECT LAST_INSERT_ID() as boardNo
+		</selectKey>
+		INSERT INTO board(
+			  work_no
+			, board_title
+			, board_content
+			, board_location
+			, board_auth
+			, board_fix
+			, board_writer
+			, create_date
+			, update_date
+		) VALUES (
+			  #{workNo} 
+			, #{boardTitle}
+			, #{boardContent}
+			, #{boardLocation}
+			, #{boardAuth}
+			, 'Y'
+			, #{boardWriter}
+			, now()
+			, now()
+		)
+	</insert>
+	
 
 </mapper>
