@@ -10,6 +10,8 @@ public interface ITaskListService {
 	List<TaskList> getTaskList(int projectNo);
 	// 현재 프로젝트 이름 조회 (업무리스트 위치변경을 위해)
 	String getProjectNameByTasklistNo(int tasklistNo);
+	// 현재 프로젝트 이름 조회 (tasklist.jsp에서 보여주기 위해)
+	String getProjectName(int projectNo);
 	// 업무리스트 복사
 	CopyTaskList getTaskListAndTaskForCopy(int tasklistNo);
 	// 업무리스트 복사생성

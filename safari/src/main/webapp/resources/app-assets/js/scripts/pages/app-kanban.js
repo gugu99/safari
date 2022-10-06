@@ -1127,6 +1127,66 @@ $(document).ready(function () {
 	});
   
   
+  // 업무코멘트 회신하기 폼
+  $(document).on("click", ".taskCmtReplyBtn-modal", function () {
+	// 현재 위치한 업무코멘트 내용 받아오기
+	taskCmtNo = $(this)
+      .closest(".snow-container").attr("id");
+      
+	// 내용 가져오기
+  	$.ajax({
+		async : false,
+		type : 'GET',
+		data : { 
+			taskCmtNo : taskCmtNo
+		},
+		url : '/member/taskCommentOne',
+		success : function(json){
+			console.log(json);
+			var str = '<div class="snow-container border rounded p-1 mb-1" id="' + json.taskCmtNo + '">' +
+						'<div class="compose-editor">' +
+							'<div class="row">' +
+								'<div class="col-10">' +
+									'<div class="font-weight-bold">' +
+										json.workMemberName + 
+									'</div>' +
+									'<div class="small">' + dateFormat_show(new Date(json.createDate)) + '</div>' +
+				 				'</div>' + 
+							'</div>' +
+							'<hr>' +
+							'<div>' +
+								json.taskCmtContent + 
+							'</div>' +
+						'</div>' +
+					'</div>';
+					
+  			$('#toTaskComment').html(str);
+		}
+  	});
+  });
+  
+  // 업무코멘트 회신하기 액션
+  $('#taskCmtReplyBtn').click(function(){
+  	$.ajax({
+		async : false,
+		type : 'POST',
+		data : { 
+			taskCmtUpperNo : taskCmtNo,
+			taskNo : $('.edit-kanban-item-id').val(),
+			taskCmtContent : $('#fromTaskComment').val()
+		},
+		url : '/member/insertTaskComment',
+		success : function(json){
+			if(json != 'ok'){
+				alert('업무코멘트 회신하기 실패했습니다.');
+				return;
+			} else {
+				alert('업무코멘트 회신하기 성공했습니다.');
+			}
+		}
+  	});
+  });
+  
   
   // 칸반 보드 속성
   // ----------------------------------------------------------
@@ -1425,9 +1485,7 @@ $(document).ready(function () {
 									
 			str += 				'</div>' + 
 								'<div class="col-2">' + 
-									'<a href="#" class="btn btn-sm" id="taskCmtReplyBtn">' +
-										'<i class="feather icon-corner-up-left small"></i>' +
-									'</a>' +
+									'<a data-toggle="modal" class="taskCmtReplyBtn-modal btn btn-sm" id="taskCmtReplyBtn-modal" href="#taskCmtReplyModal"><i class="feather icon-corner-up-left small"></i></a>' +
 									'<a href="#" class="btn btn-sm" id="taskCmtLikeBtn">' +
 										'<i class="feather icon-thumbs-up small"></i>' +
 				 					'</a>' +

@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
+import com.gd.safari.mapper.IProjectMapper;
 import com.gd.safari.mapper.ITaskListMapper;
 import com.gd.safari.mapper.ITaskMapper;
 import com.gd.safari.mapper.ITaskMemberMapper;
 import com.gd.safari.vo.CopyTaskList;
+import com.gd.safari.vo.Project;
 import com.gd.safari.vo.Task;
 import com.gd.safari.vo.TaskList;
 import com.gd.safari.vo.TaskMember;
@@ -26,6 +28,7 @@ public class TaskListService implements ITaskListService {
 	@Autowired private ITaskListMapper taskListMapper;
 	@Autowired private ITaskMapper taskMapper;
 	@Autowired private ITaskMemberMapper taskMemberMapper;
+	@Autowired private IProjectMapper projectMapper;
 	
 	// 업무리스트 조회
 	@Override
@@ -37,10 +40,18 @@ public class TaskListService implements ITaskListService {
 	// 현재 프로젝트 이름 조회 (업무리스트 위치변경을 위해)
 	@Override
 	public String getProjectNameByTasklistNo(int tasklistNo) {
-		log.debug(TeamColor.CSH + this.getClass() + " 현재 프로젝트 이름 조회");
+		log.debug(TeamColor.CSH + this.getClass() + " 현재 프로젝트 이름 조회 (업무리스트 위치변경을 위해)");
 		return taskListMapper.selectProjectNameByTasklistNo(tasklistNo);
 	}
 
+	// 현재 프로젝트 이름 조회 (tasklist.jsp에서 보여주기 위해)
+	@Override
+	public String getProjectName(int projectNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 현재 프로젝트 이름 조회 (tasklist.jsp에서 보여주기 위해)");
+		Project project = projectMapper.selectProjectDetailByProjectNo(projectNo);
+		return project.getProjectName();
+	}
+	
 	// 업무리스트 복사
 	@Override
 	public CopyTaskList getTaskListAndTaskForCopy(int tasklistNo) {
