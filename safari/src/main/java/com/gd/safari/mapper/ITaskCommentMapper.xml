@@ -102,7 +102,7 @@
 			, 'N'
 			, NOW()
 			, NOW()
-			, #{taskCmtUpperNo}
+			, IF(#{taskCmtUpperNo} = 0, null, #{taskCmtUpperNo})
 		)
 	</insert>
 	<!-- 업무 코멘트 수정 -->

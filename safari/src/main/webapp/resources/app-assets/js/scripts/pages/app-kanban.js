@@ -851,16 +851,18 @@ $(document).ready(function () {
 				alert('업무 코멘트 생성을 실패했습니다.');
 				return;
 			} else {
-				alert('업무 코멘트 생성을 성공했습니다.');
+				// alert('업무 코멘트 생성을 성공했습니다.');
+				
+				
+				// 업무코멘트 리스트 보여주기
+				cmt_list();
+				  
+				$('.compose-editor').val('');
 			}
 		}	
     });
     
     
-	  // 업무코멘트 리스트 보여주기
-	  cmt_list();
-	  
-	  $('.compose-editor').val('');
   });
   
   // 업무코멘트 수정 Modal 띄우기
@@ -906,7 +908,7 @@ $(document).ready(function () {
 					alert('본인이 작성한 코멘트인지 확인해주시기 바랍니다.');
 					return;
 				} else {
-					alert('업무코멘트 수정을 성공했습니다.');
+					// alert('업무코멘트 수정을 성공했습니다.');
 					
 					// 리스트 띄우기
 					cmt_list();
@@ -942,7 +944,7 @@ $(document).ready(function () {
 				alert('본인이 작성한 코멘트인지 확인해주시기 바랍니다.');
 				return;
 			} else {
-				alert('업무코멘트 삭제를 성공했습니다.');
+				// alert('업무코멘트 삭제를 성공했습니다.');
 			}
 		}
   	});
@@ -977,15 +979,15 @@ $(document).ready(function () {
 				alert('좋아요를 실패했습니다.');
 				return;
 			} else if(json == 'insert ok') {
-				alert('업무코멘트 좋아요를 성공했습니다.');
+				// alert('업무코멘트 좋아요를 성공했습니다.');
 			} else if(json == 'delete ok') {
-				alert('업무코멘트 좋아요를 취소했습니다.');
+				// alert('업무코멘트 좋아요를 취소했습니다.');
+				
+			  	// 업무코멘트 리스트 보여주기
+				cmt_list();
 			}
 		}
   	});
-  	
-  	// 업무코멘트 리스트 보여주기
-	cmt_list();
   });
   
   
@@ -1009,13 +1011,14 @@ $(document).ready(function () {
 				alert('업무코멘트 고정을 실패했습니다.');
 				return;
 			} else {
-				alert('업무코멘트 고정을 성공했습니다.');
+				// alert('업무코멘트 고정을 성공했습니다.');
+				
+			  	// 업무코멘트 리스트 보여주기
+				cmt_list();
 			} 
 		}		
 	});
 	
-  	// 업무코멘트 리스트 보여주기
-	cmt_list();
   });
   
   
@@ -1181,10 +1184,17 @@ $(document).ready(function () {
 				alert('업무코멘트 회신하기 실패했습니다.');
 				return;
 			} else {
-				alert('업무코멘트 회신하기 성공했습니다.');
+				// alert('업무코멘트 회신하기 성공했습니다.');
+				
+				// 모달 닫고
+				$('.taskCmtReplyBtn-modal').click();
+				
+			  	// 업무코멘트 리스트 보여주기
+				cmt_list();
 			}
 		}
   	});
+  	
   });
   
   
@@ -1412,6 +1422,7 @@ $(document).ready(function () {
 					taskCmtWriter : item.taskCmtWriter,
 					workMemberName : item.workMemberName,
 					createDate : item.createDate,
+					taskCmtUpperNo : item.taskCmtUpperNo,
 					likeCnt : temp
 				});
 			});
@@ -1468,6 +1479,38 @@ $(document).ready(function () {
 	// 리스트를 반복문으로 보여준다.
 	  for(var i = 0; i < taskCommentList.length; i++) {
 		 	let createDate = dateFormat_show(new Date(taskCommentList[i].createDate));
+		 	var subCmt = '';
+		 	if(taskCommentList[i].taskCmtUpperNo != undefined){
+		 		console.log(taskCommentList[i].taskCmtUpperNo);
+				// 내용 가져오기
+			  	$.ajax({
+					async : false,
+					type : 'GET',
+					data : { 
+						taskCmtNo : taskCommentList[i].taskCmtUpperNo
+					},
+					url : '/member/taskCommentOne',
+					success : function(json){
+						console.log(json);
+						subCmt = '<div class="snow-container border rounded p-1 mb-1" id="' + json.taskCmtNo + '">' +
+									'<div class="compose-editor">' +
+										'<div class="row">' +
+											'<div class="col-10">' +
+												'<div class="font-weight-bold subCmt">' +
+													json.workMemberName + 
+												'</div>' +
+												'<div class="small subCmt">' + dateFormat_show(new Date(json.createDate)) + '</div>' +
+							 				'</div>' + 
+										'</div>' +
+										'<hr>' +
+										'<div class="subCmt">' +
+											json.taskCmtContent + 
+										'</div>' +
+									'</div>' +
+								'</div>';
+					}
+			  	});
+			}
 		 	
 			str += '<div class="snow-container border rounded p-1 mb-1" id="' + taskCommentList[i].taskCmtNo + '">' +
 						'<div class="compose-editor">' +
@@ -1508,8 +1551,14 @@ $(document).ready(function () {
 								'</div>' +
 							'</div>' +
 							'<hr>' +
-							'<div>' +
-								taskCommentList[i].taskCmtContent + 
+							subCmt +
+							'<div>';
+							
+								if(subCmt != ''){
+									str += '<i class="feather icon-corner-down-right mr-1"></i>';
+								}
+								
+			str += 				taskCommentList[i].taskCmtContent + 
 							'</div>' +
 						'</div>' +
 					'</div>';

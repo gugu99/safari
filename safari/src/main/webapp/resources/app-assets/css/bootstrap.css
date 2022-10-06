@@ -211,7 +211,7 @@ select,
 optgroup,
 textarea {
   margin: 0;
-  font-family: inherit;
+  font-family: 'GmarketSansMedium', inherit;
   font-size: inherit;
   line-height: inherit; }
 
@@ -258,6 +258,7 @@ input[type="month"] {
   -webkit-appearance: listbox; }
 
 textarea {
+  font-family: 'GmarketSansMedium';
   overflow: auto;
   resize: vertical; }
 
@@ -1646,6 +1647,7 @@ select.form-control[size], select.form-control[multiple] {
   height: auto; }
 
 textarea.form-control {
+  font-family: 'GmarketSansMedium';
   height: auto; }
 
 .form-group {

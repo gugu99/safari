@@ -14,3 +14,6 @@
 #taskComment .card-content .dropdown-toggle::after{
 	margin-left: 3px;
 }
+.subCmt{
+	color: #bebebe;
+}

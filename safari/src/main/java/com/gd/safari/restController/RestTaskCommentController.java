@@ -33,10 +33,10 @@ public class RestTaskCommentController {
 		return taskCommentList;
 	}
 	
-	// 수정하기 위한 업무 코멘트 가져오기
+	// 업무 코멘트 가져오기 (수정 / 상위코멘트)
 	@GetMapping("/member/taskCommentOne")
 	public Map<String, Object> taskCommentOne(int taskCmtNo) {
-		log.debug(TeamColor.CSH + this.getClass() + " 수정하기 위한 업무 코멘트 가져오기");
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 가져오기");
 		Map<String, Object> taskComment = taskCommentService.getTaskCommentByTaskCmtNo(taskCmtNo);
 
 		// 디버깅
@@ -76,7 +76,9 @@ public class RestTaskCommentController {
 	public String insertTaskComment(HttpSession session, TaskComment taskComment) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 생성");
 		
+		// 파라미터 파싱
 		taskComment.setTaskCmtWriter((String) session.getAttribute("login"));
+		
 		// 디버깅
 		log.debug(TeamColor.CSH + taskComment);
 		
