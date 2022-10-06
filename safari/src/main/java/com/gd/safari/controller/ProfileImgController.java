@@ -22,7 +22,7 @@ public class ProfileImgController {
 		@Autowired private IProfileImgService profileImgService;
 		@Autowired private Map<String,Object> map;
 			
-		// 워크스페이스생성
+		// 프로필 이미지 생성
 		@PostMapping("/member/addProfileImg")
 		public String addWorkspace (@RequestParam("imgFile") MultipartFile imgFile,
 									HttpSession session) {
@@ -51,9 +51,14 @@ public class ProfileImgController {
 			// 프로필 이미지 추가
 			profileImgService.addProfileImg(map);
 			
+			// profile정보담기
+			session.setAttribute("profileImg",profileImgService.getProfileImgOne(workMemberNo));
+			
 			// redirect 워크스페이스멤버 상세보기로
 			return "redirect:/safari/workspaceMemberOne";											  
 		}
+		
+		// 프로필 이미지 제거
 		@GetMapping("/member/removeProfileImg")
 		public String removeWorkspace (	HttpSession session) {
 								
@@ -66,6 +71,9 @@ public class ProfileImgController {
 			
 			// 이미지삭제
 			profileImgService.removeProfileImg(workMemberNo,path);
+			
+			// profile정보담기
+			session.setAttribute("profileImg",null);
 			
 			 // redirect 워크스페이스멤버 상세보기로
 			return "redirect:/safari/workspaceMemberOne";									 

@@ -19,7 +19,6 @@ import com.gd.safari.service.IMemberMailService;
 import com.gd.safari.service.IProfileImgService;
 import com.gd.safari.service.IWorkspaceMemberService;
 import com.gd.safari.service.IWorkspaceService;
-import com.gd.safari.service.WorkspaceService;
 import com.gd.safari.vo.Workspace;
 import com.gd.safari.vo.WorkspaceMember;
 

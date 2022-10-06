@@ -9,7 +9,16 @@
 				, board_title    boardTitle
 				, board_content  boardContent
 				, board_location boardLocation
-				, board_auth     board
+				, board_auth     boardAuth
+				, board_fix		 boardFix
+				, board_writer	 boardWriter
+				, create_date	 createDate
+				, update_date    updateDate
+				
+		FROM	board
+		
+		WHERE	work_no = #{workNo}
+				
 	
 	</select>
 
