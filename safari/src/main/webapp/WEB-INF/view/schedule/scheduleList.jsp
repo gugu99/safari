@@ -102,7 +102,7 @@
 	                        	 			<div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
 	                        	 		</c:when>
 	                        	 		<c:otherwise>
-	                        	 			<div class="avatar avatar-sm rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/${s.writerFilename}${s.writerFileExt}" alt="avatar"><i></i></div>
+	                        	 			<div class="avatar avatar-md rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/${s.writerFilename}${s.writerFileExt}" alt="avatar"></div>
 	                        	 		</c:otherwise>
 	                        	 	</c:choose>
 		                       	 	
@@ -110,8 +110,8 @@
 		                             <span class="blue-grey date">${s.createDate }</span>
 		                             <!-- 수정 삭제 버튼 -->
 		                             <c:if test="${s.scheduleWriter eq login || manager && guest eq null}">
-		                                <a href="${pageContext.request.contextPath }/safari/modifySchedule?scheduleNo=${s.scheduleNo }" class="addr"><span class="fa fa-pencil-square-o ml-2"></span>수정</a>
-	                          			<a href="${pageContext.request.contextPath }/safari/removeSchedule?scheduleNo=${s.scheduleNo }" class="addr"><span class="fa fa-trash-o ml-2"></span>삭제</a>
+		                                <a href="${pageContext.request.contextPath }/member/modifySchedule?scheduleNo=${s.scheduleNo }" class="addr"><span class="fa fa-pencil-square-o ml-2"></span>수정</a>
+	                          			<a href="${pageContext.request.contextPath }/member/removeSchedule?scheduleNo=${s.scheduleNo }" class="addr"><span class="fa fa-trash-o ml-2"></span>삭제</a>
 	                          		</c:if>	
 		                             
 		                       	 	<p class="h2 card-text mt-2 mb-1 ml-1">${s.scheduleTitle }</p>
@@ -132,7 +132,7 @@
 			                        	 			<span class="text-bold-600 mr-1">${sm.workMemberName }</span>
 			                        	 		</c:when>
 			                        	 		<c:otherwise>
-			                        	 			<div class="avatar avatar-sm rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/${sm.filename}${sm.fileExt}" alt="avatar"><i></i></div>
+			                        	 			<div class="avatar avatar-md rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/${sm.filename}${sm.fileExt}" alt="avatar"></div>
 			                        	 			<span class="text-bold-600 mr-1">${sm.workMemberName }</span>
 			                        	 		</c:otherwise>
 			                        	 	</c:choose>
@@ -198,7 +198,7 @@
 					                        	 			<div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
 					                        	 		</c:when>
 					                        	 		<c:otherwise>
-					                        	 			<div class="avatar avatar-sm rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/${c.cmtFilename}${c.cmtFileExt}" alt="avatar"><i></i></div>
+					                        	 			<div class="avatar avatar-sm rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/${c.cmtFilename}${c.cmtFileExt}" alt="avatar" class="height-30 width-30"><i></i></div>
 					                        	 		</c:otherwise>
 					                        	 	</c:choose>
 		                                        

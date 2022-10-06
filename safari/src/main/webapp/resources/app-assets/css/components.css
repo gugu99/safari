@@ -895,6 +895,9 @@ body.vertical-layout.vertical-menu.menu-expanded .main-menu-footer .content {
   
 .width-30 {
   width: 30px !important; }
+
+.width-32 {
+  width: 32px !important; }
   
 .width-35 {
   width: 35px !important; }
@@ -1000,9 +1003,15 @@ body.vertical-layout.vertical-menu.menu-expanded .main-menu-footer .content {
 
 .width-95-per {
   width: 95% !important; }
+ 
+.width-100-per {
+ width: 100% !important; }
 
 .height-30 {
   height: 30px !important; }
+
+.height-32 {
+  height: 32px !important; }
 
 .height-35 {
   height: 35px !important; }

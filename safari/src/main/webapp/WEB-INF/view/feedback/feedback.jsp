@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html>
@@ -73,7 +74,7 @@
 										</c:when>
 										<c:otherwise>
 											<div class="avatar height-100 width-100 rounded-circle">
-												<img src="${pageContext.request.contextPath}/resources/upload/${member.filename}${member.fileExt}" alt="avatar" class="height-100 width-100">
+												<img src="${pageContext.request.contextPath}/resources/upload/${member.filename}${member.fileExt}" alt="avatar">
 											</div>
 										</c:otherwise>
 									</c:choose>
@@ -108,8 +109,21 @@
 	<!-- 여기로 -->
 	<div class="content-overlay"></div>
             	<div class="content-wrapper">
-		            <div class="content-header row pt-2 pl-5">
-		            	<div class="content-header col-11">
+		            <div class="content-header row pt-5 pl-5">
+		            	<div class="content-header col-12">
+		            	<c:choose>
+		            		<c:when test="${fn:length(feedbackList) == 0}">
+		            			<section id="timeline" class="timeline-center col-md-10">
+				                    <div class="timeline-card card border-grey border-lighten-2">
+				                        <div class="card-content">
+				                        	 <div class="px-0 py-0 ml-1 mt-1 text-center">
+				                        	 	<p>피드백이 없습니다.</p>
+				                        	 </div>
+				                        </div>
+				                    </div>
+				                </section>
+		            		</c:when>
+		            		<c:otherwise>
 						<c:forEach var="fl" items="${feedbackList}">
 						<div class="timeline-card card border-grey border-lighten-2">
 							<div class="card-content">
@@ -122,7 +136,7 @@
 											</div>
 										</c:when>
 										<c:otherwise>
-											<div class="avatar avatar-sm rounded-circle">
+											<div class="avatar avatar-md rounded-circle">
 												<img src="${pageContext.request.contextPath}/resources/upload/${fl.senderFilename}${fl.senderFileExt}" alt="avatar" class="height-35 width-35">
 											</div>
 										</c:otherwise>
@@ -140,7 +154,7 @@
 												</div>
 											</c:when>
 											<c:otherwise>
-												<div class="avatar avatar-sm rounded-circle">
+												<div class="avatar avatar-md rounded-circle">
 													<img
 														src="${pageContext.request.contextPath}/resources/upload/${r.receiverFilename}${r.receiverFileExt}"
 														alt="avatar" class="height-35 width-35">
@@ -170,6 +184,8 @@
 							</div>
 						</div>
 						</c:forEach>
+						</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</div>
