@@ -6,6 +6,8 @@ import java.util.Map;
 import com.gd.safari.vo.TaskComment;
 
 public interface ITaskCommentService {
+	// 업무 코멘트리스트 개수 가져오기 - app-kanban.js 에서 사용할 것
+	List<Map<String, Object>> getTaskCommentCnt(int projectNo);
 	// 업무 코멘트리스트 가져오기
 	List<Map<String, Object>> getTaskComment(int taskNo);
 	// 수정하기 위한 업무 코멘트 가져오기

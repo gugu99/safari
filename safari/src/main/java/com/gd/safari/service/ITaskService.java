@@ -19,6 +19,8 @@ public interface ITaskService {
 	Map<String, Object> getTaskByTaskNo(int taskNo);
 	// 프로젝트 리스트 가져오기 (위치/하위업무 설정할 때 필요 - IProjectMapper에서 가져옴)
 	List<Project> getProjectTitleAndNoByWorkspaceNo(int workNo);
+	// 현재위치 제외 업무리스트 조회 (업무 복사를 위해 - ITaskListMapper에서 가져옴)
+	List<TaskList> getTaskListByCopy(int projectNo);
 	// 현재위치 제외 업무리스트 조회 (업무 위치 변경을 위해 - ITaskListMapper에서 가져옴 - projectNo, tasklistNo 필요함)
 	List<TaskList> getTaskListByUpdateLocation(Map<String, Integer> m);
 	// 업무 복사를 위한 객체 받기

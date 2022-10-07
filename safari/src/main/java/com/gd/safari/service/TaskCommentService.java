@@ -21,6 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 public class TaskCommentService implements ITaskCommentService {
 	@Autowired private ITaskCommentMapper taskCommentMapper;
 	@Autowired private ILogMapper logMapper;
+
+	// 업무 코멘트리스트 개수 가져오기 - app-kanban.js 에서 사용할 것
+	@Override
+	public List<Map<String, Object>> getTaskCommentCnt(int projectNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트리스트 가져오기 - app-kanban.js 에서 사용할 것");
+		return taskCommentMapper.selectTaskCommentCnt(projectNo);
+	}
 	
 	// 업무 코멘트리스트 가져오기
 	@Override

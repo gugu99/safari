@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.ITaskCommentMapper">
+	<!-- 업무 코멘트리스트 개수 가져오기 - app-kanban.js 에서 사용할 것 -->
+	<select id="selectTaskCommentCnt" parameterType="int" resultType="map">
+		SELECT
+			tc.task_no				taskNo
+			, COUNT(tc.task_no)		cmtCnt
+		FROM 
+			task_comment tc INNER JOIN task t 
+		ON 
+			tc.task_no = t.task_no INNER JOIN task_list tl
+		ON 
+			t.tasklist_no = tl.tasklist_no
+		WHERE 
+			tl.project_no = #{projectNo}
+		GROUP BY 
+			tc.task_no
+	</select>
 	<!-- 업무 코멘트리스트 가져오기 -->
 	<select id="selectTaskComment" parameterType="int" resultType="map">
 		SELECT 

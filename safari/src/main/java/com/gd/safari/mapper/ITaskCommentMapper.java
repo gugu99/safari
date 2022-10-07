@@ -9,7 +9,9 @@ import com.gd.safari.vo.TaskComment;
 
 @Mapper
 public interface ITaskCommentMapper {
-	// 업무 코멘트리스트 가져오기
+	// 업무 코멘트리스트 개수 가져오기 - app-kanban.js 에서 사용할 것
+	List<Map<String, Object>> selectTaskCommentCnt(int projectNo);
+	// 업무 코멘트리스트 가져오기 - 사이드바에서 나올 것
 	List<Map<String, Object>> selectTaskComment(int taskNo);
 	// 수정하기 위한 업무 코멘트 가져오기
 	Map<String, Object> selectTaskCommentByTaskCmtNo(int taskCmtNo);

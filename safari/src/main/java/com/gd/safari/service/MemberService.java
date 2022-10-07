@@ -163,10 +163,10 @@ public class MemberService implements IMemberService {
 		// 워크스페이스멤버 active N 설정하기
 		workspaceMemberMapper.updateWorkspaceMemberAllActvieN(memberEmail);
 		
-		// 워크스페이스게스트 active N 설정하기
-		workspaceGuestMapper.updateWorkspaceGuestAllActvieN(memberEmail);
+		// 워크스페이스게스트 삭제하기
+		workspaceGuestMapper.deleteWorkspaceGuest(memberEmail);
 		
-		// 마지막에 탈퇴
+		// 마지막에 탈퇴 - active X 설정하기
 		return memberMapper.updateMemberActiveXByDeleteAccount(memberEmail);
 	}
 }

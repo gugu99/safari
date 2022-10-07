@@ -27,6 +27,8 @@ $(document).ready(function () {
   var projectMember = new Array();
   // 업무 멤버 배열
   var user = new Array();
+  // 업무 코멘트 배열
+  var cmtCnt = new Array();
   // 서브스트링에 있는 값 꺼내기
   var str = window.location.search;
   // 프로젝트 번호
@@ -87,6 +89,18 @@ $(document).ready(function () {
   // ----------------------------------------------------------
   // Kanban Board and Item Data passed by json
   
+  // 업무코멘트 조회 - 멤버만 보임
+  $.ajax({
+	async : false,
+		type : 'GET',
+		url : '/member/taskCommentCnt',
+		success : function(json){
+			console.log(json);
+			cmtCnt = json;
+	}
+  });
+  
+  // 멤버 조회
   
   $.ajax({
 		async : false,
@@ -125,13 +139,22 @@ $(document).ready(function () {
 						
 						// console.log(temp);
 					}
-				}				
+				}
+				
+				var temp1 = new Array();
+				for(var i = 0; i < cmtCnt.length; i++) {
+					if(cmtCnt[i].taskNo == item.taskNo){
+						temp1.push(cmtCnt[i].cmtCnt)
+					}
+				}
+								
 				task_list.push({
 					id : item.taskNo,
 					title : item.taskTitle,
 					dueDate : item.taskDeadline,
 					tasklistNo : item.tasklistNo,
-					users : temp
+					users : temp,
+					comment : temp1
 				});
 			});
 			
@@ -1235,7 +1258,7 @@ $(document).ready(function () {
           "</div>";
       }
       // check if comment is defined or not 댓글이 정의되어 있는지 확인
-      if (typeof $(board_item_el).attr("data-comment") !== "undefined") {
+      if (typeof $(board_item_el).attr("data-comment") !== "undefined" && $(board_item_el).attr("data-comment") != "") {
         board_item_comment =
           '<div class="kanban-comment mr-50">' +
           '<i class="feather icon-message-square font-size-small mr-25"></i>' +

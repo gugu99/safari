@@ -22,6 +22,18 @@ import lombok.extern.slf4j.Slf4j;
 public class RestTaskCommentController {
 	@Autowired private ITaskCommentService taskCommentService;
 
+	// 업무 코멘트리스트 개수 가져오기 - app-kanban.js 에서 사용할 것
+	@GetMapping("/member/taskCommentCnt")
+	public List<Map<String, Object>> taskCommentCnt(HttpSession session) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트리스트 개수 가져오기 - app-kanban.js 에서 사용할 것");
+		List<Map<String, Object>> taskCommentCnt = taskCommentService.getTaskCommentCnt((int) session.getAttribute("projectNo"));
+		
+		// 디버깅
+		log.debug(TeamColor.CSH + taskCommentCnt);
+		
+		return taskCommentCnt;
+	}
+
 	// 업무 코멘트리스트 가져오기
 	@GetMapping("/member/taskCommentList")
 	public List<Map<String, Object>> taskCommentList(int taskNo) {

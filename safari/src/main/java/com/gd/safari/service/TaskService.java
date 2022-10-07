@@ -74,6 +74,13 @@ public class TaskService implements ITaskService {
 		return projectMapper.selectProjectTitleAndNoByWorkspaceNo(workNo);
 	}
 
+	// 현재위치 제외 업무리스트 조회 (업무 복사를 위해)
+	@Override
+	public List<TaskList> getTaskListByCopy(int projectNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 현재위치 제외 업무리스트 조회 (업무 복사를 위해)");
+		return taskListMapper.selectTaskListByCopy(projectNo);
+	}
+	
 	// 현재위치 제외 업무리스트 조회 (업무 위치 변경을 위해 - ITaskListMapper에서 가져옴 - projectNo, tasklistNo 필요함)
 	@Override
 	public List<TaskList> getTaskListByUpdateLocation(Map<String, Integer> m) {
