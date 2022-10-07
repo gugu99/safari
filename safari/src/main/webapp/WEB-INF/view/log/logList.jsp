@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-<title>Task</title>
+<title>Log</title>
 <link rel="apple-touch-icon"
 	href="${pageContext.request.contextPath }/resources/app-assets/images/ico/apple-icon-120.png">
 <link rel="shortcut icon" type="image/x-icon"
@@ -62,8 +62,8 @@
 <!-- BEGIN: Body-->
 
 <body
-	class="vertical-layout vertical-menu-modern 2-columns  menu-collapsed fixed-navbar"
-	data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+	class="vertical-layout vertical-menu-modern 2-columns  content-detached-right-sidebar fixed-navbar"
+	data-open="click" data-menu="vertical-menu-modern" data-col="content-detached-right-sidebar">
 
 	<%@ include file="/WEB-INF/view/inc/header.jsp"%>
 	<!-- header -->
@@ -76,9 +76,9 @@
 		<!-- taskHeader -->
 		<div class="content-overlay"></div>
 		<!-- BEGIN: Content-->
-		<div class="app-content content">
-			<div class="content-wrapper">
-				<div class="content-body mt-2">
+		<div class="app-content content pr-5">
+			<div class="content-wrapper pr-5">
+				<div class="content-body mt-2 pr-5">
 					<div class="container">
 						<div class="row">
 							<div class="col-12">

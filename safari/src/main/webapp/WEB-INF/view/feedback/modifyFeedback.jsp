@@ -99,7 +99,7 @@
                                                   </div>
                                                   <div class="form-actions text-right">
 	                                                <button type="reset" class="btn btn-outline-danger mr-1"><i class="feather icon-x"></i>취소</button>
-	                                                <button type="button" onclick="location.href='${pageContext.request.contextPath }/safari/feedback?workMemberNo=${workMemberNo }'" class="btn btn-outline-warning mr-1"><i class="feather icon-rotate-ccw"></i>목록으로</button>
+	                                                <button type="button" onclick="location.href='${pageContext.request.contextPath }/member/feedback?workMemberNo=${workMemberNo }'" class="btn btn-outline-warning mr-1"><i class="feather icon-rotate-ccw"></i>목록으로</button>
 	                                                <button type="button" id="modifyFeedbackBtn" class="btn btn-outline-primary"><i class="fa fa-check-square-o"></i>수정하기</button>
 	                                            </div>
                                               </form>
