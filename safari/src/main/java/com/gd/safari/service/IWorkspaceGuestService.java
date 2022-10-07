@@ -39,4 +39,7 @@ public interface IWorkspaceGuestService {
 	// 게스트 승인 인증 code 를 Null 바꿈
 	int updateWorkspaceGuestCodeNull(WorkspaceGuest workspaceGuest);
 	
+	// 워크스페이스 추방
+	int removeWorkspaceGuest(String memberEmail);
+	
 }

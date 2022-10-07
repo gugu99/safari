@@ -34,7 +34,7 @@ public class LogController {
 		}
 
 		// rowPerpage 5 로 초기화
-		int rowPerPage = 5;
+		int rowPerPage = 20;
 
 		// 현재페이지에 따른 시작페이지 설정
 		int beginRow = (currentPage - 1) * rowPerPage;
@@ -68,30 +68,18 @@ public class LogController {
 			lastPage += 1;
 		}
 
-		// 페이지 시작 넘버
-		int pageBegin = ((currentPage - 1) / rowPerPage) * rowPerPage + 1;
-
-		// 페이지 끝 구하기
-		int pageEnd = pageBegin + rowPerPage - 1;
-
-		// 시작페이지 와 마지막 페이지중 다른것이 마지막 페이지로
-		pageEnd = Math.min(pageEnd, lastPage);
 
 		// LogList 디버깅
 		log.debug(TeamColor.CJM + "noticeList" + list);
 
 		
 		log.debug(TeamColor.CJM + "lastPage" + lastPage);
-		log.debug(TeamColor.CJM + "pageBegin" + pageBegin);
-		log.debug(TeamColor.CJM + "pageEnd" + pageEnd);
 		log.debug(TeamColor.CJM + "rowPerPage" + rowPerPage);
 		log.debug(TeamColor.CJM + "currentPage" + currentPage);
 
 		// model에 LogList page 매핑
 		model.addAttribute("logList", list);
 		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("pageBegin", pageBegin);
-		model.addAttribute("pageEnd", pageEnd);
 		model.addAttribute("rowPerPage", rowPerPage);
 		model.addAttribute("currentPage", currentPage);
 

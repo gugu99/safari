@@ -151,4 +151,15 @@
 				member_email= #{memberEmail}
 	</update>
 	
+	<!-- guest 회원탈퇴하기 -->
+	<delete id ="deleteWorkspaceGuest" parameterType="string">
+		DELETE FROM workspace_guest
+		
+		WHERE 
+				member_email= #{memberEmail}
+		
+		
+	</delete>
+	
+	
 </mapper>

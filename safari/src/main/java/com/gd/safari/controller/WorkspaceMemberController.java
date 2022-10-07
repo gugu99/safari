@@ -13,9 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IMemberMailService;
+import com.gd.safari.service.IMemberService;
 import com.gd.safari.service.IProfileImgService;
 import com.gd.safari.service.IWorkspaceMemberService;
 import com.gd.safari.service.IWorkspaceService;
@@ -31,13 +33,15 @@ public class WorkspaceMemberController {
 	@Autowired private IProfileImgService profileImgService;
 	@Autowired private IMemberMailService memberMailService;
 	@Autowired private IWorkspaceService workspaceService;
+	@Autowired private IMemberService memberService;
 	
 
 	
 	// 워크스페이스멤버 리스트 띄우기
 	@GetMapping("/member/workspaceMemberList")
 	public String workspaceMemberList (Model model,HttpSession session,
-			@RequestParam Map<String,Object> map) {
+										@RequestParam Map<String,Object> map,
+										@RequestParam(value="errorMsg",required = false) String errorMsg) {
 		
 		// search 검색
 		log.debug(TeamColor.CJM+map.get("search") +"Controller search");
@@ -271,10 +275,21 @@ public class WorkspaceMemberController {
 	
 		// 워크스페이스 멤버 활동승인
 		@PostMapping("/member/modifyWorkspaceMemberActiveApprove")
-		public String modifyWorkspaceMemberActiveApprove (@RequestParam(value = "workMemberNo") int workMemberNo) {
+		public String modifyWorkspaceMemberActiveApprove (@RequestParam(value = "workMemberNo") int workMemberNo,
+														  @RequestParam(value = "memberEmail") String memberEmail,
+														  RedirectAttributes redirectAttributes) {
 			
 			// 워크스페이스 넘버 디버깅
 			log.debug(TeamColor.CJM+workMemberNo +"Controller workMemberNo"); 					  
+			
+			// 탈퇴된 아이디인지 검사
+			boolean result = memberService.getMemberEmailByCheck(memberEmail);
+			
+			if (result==false) {
+				redirectAttributes.addAttribute("errorMsg", "탈퇴한 회원입니다");
+				return "redirect:/member/workspaceMemberList";
+			}
+			
 			
 			// 워크멤버 레벨 수정메서드
 			workspaceMemberService.modifyWorkspaceMemberActiveApprove(workMemberNo);

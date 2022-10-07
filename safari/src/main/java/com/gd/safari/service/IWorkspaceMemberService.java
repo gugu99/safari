@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.gd.safari.commons.TeamColor;
 import com.gd.safari.vo.WorkspaceMember;
 
 

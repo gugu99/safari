@@ -82,6 +82,9 @@
 								<div class="card-head">
 									<div class="card-header">
 										<h4 class="card-title">워크스페이스 사원목록</h4>
+										<p class="card-subtitle text-muted text-center font-small-3 mx-2">
+						              		<c:if test="${errorMsg != null}"><strong class="text-center text-danger">${errorMsg}</strong></c:if>
+						              	</p>
 										<div class="heading-elements mt-0">
 											<button class="btn btn-primary btn-md" data-toggle="modal"
 												data-target="#addInviteMember">
@@ -395,7 +398,7 @@
 															<div class="modal-dialog" role="document">
 																<div class="modal-content">
 																	<section class="contact-form">
-																		<form id="updateWorkMemberApproveForm${i }"
+																		<form id="updateWorkMemberApproveForm${i}"
 																			name="updateWorkMemberApproveForm${i}"
 																			class="contact-input"
 																			action="${pageContext.request.contextPath }/member/modifyWorkspaceMemberActiveApprove"
@@ -435,13 +438,26 @@
 
 
 														<tr>
+															
+															<c:if test="${ r.active != 'N'}">
 															<td class="text-center">${r.workMemberPos }</td>
-															<c:if test="${r.workMemberName eq 'null' }">
+															</c:if>
+															<c:if test="${ r.active eq 'N'}">
+															<td></td>
+															</c:if>
+															
+															<c:if test="${r.workMemberName eq 'null' && r.active eq 'W'}">
 															<td>
 																승인대기중
 															</td>
 															</c:if>
-															<c:if test="${r.workMemberName != 'null' }"> 
+															<c:if test="${r.active eq 'N'}">
+															<td>
+																탈퇴회원
+															</td>
+															</c:if>
+															
+															<c:if test="${r.workMemberName != 'null' && r.active != 'N' }"> 
 															<td>
 																<div class="media">
 																	<div class="media-body media-middle">
@@ -458,8 +474,9 @@
 															<td class="phone">${r.workMemberPhone }</td>
 															<td class="text-center">
 																<div class="media-body media-middle">${r.active }
-																<c:if test="${r.workMemberCode == null}">(코드인증확인)</c:if>
-																<c:if test="${r.workMemberCode != null}">(코드인증안됨)</c:if>
+																<c:if test="${r.workMemberCode == null && r.active != 'N'}">(코드인증확인)</c:if>
+																<c:if test="${r.workMemberCode != null && r.active != 'N'}">(코드인증안됨)</c:if>
+																<c:if test="${ r.active == 'N'}">(탈퇴회원)</c:if>
 																</div>
 															</td>
 															<c:if test="${workMemberLevel > 1 }">
@@ -483,12 +500,18 @@
 																</c:if>
 																
 																<c:if test="${r.workMemberLevel != 4}">	
-																<span class="dropdown"> <a id="btnSearchDrop2"
+																<span class="dropdown"> 
+																<!--  화살표 -->
+																<c:if test="${ r.active == 'Y' || r.active eq 'W' && r.workMemberCode == null  }">
+																<a id="btnSearchDrop2"
 																	data-toggle="dropdown" aria-haspopup="true"
 																	aria-expanded="true"
-																	class="dropdown-toggle dropdown-menu-right"></a> <span
+																	class="dropdown-toggle dropdown-menu-right"></a> 
+																	</c:if>
+																	<span
 																	aria-labelledby="btnSearchDrop2"
 																	class="dropdown-menu mt-1 dropdown-menu-right">
+																		<!-- 레벨 4인사람이고 active가 Y인사람만 가능 -->
 																		<c:if test="${workMemberLevel eq 4 && r.active eq 'Y'}">
 																			<a data-toggle="modal"
 																				data-target="#workMemberLevelModal${i}"
@@ -505,6 +528,7 @@
 																				class="feather icon-refresh-ccw"></i>관리자양도
 																			</a>
 																		</c:if> 
+																		<!--   레벨 4인사람이고 active가 Y인사람만 가능 -->
 																		<c:if test="${r.active eq 'W' && r.workMemberCode == null }">
 																		<a data-toggle="modal"
 																		data-target="#updateWorkMemberApprove${i }"
@@ -581,9 +605,6 @@
 									<li class="list-group-item"><span
 										class="badge badge-info badge-pill float-right">${WGuestCount }</span> <a
 										href="${pageContext.request.contextPath }/member/workspaceGuestList?active=W">초대중인 게스트</a></li>
-									<li class="list-group-item"><span
-										class="badge badge-info badge-pill float-right">${NGuestCount }</span> <a
-										href="${pageContext.request.contextPath }/member/workspaceGuestList?active=N">삭제된 게스트</a></li>
 								</ul>
 							</div>
 							<!--/More-->
@@ -819,5 +840,6 @@ $(document).ready(function() {
 
 });
 </script>
+
 
 </html>

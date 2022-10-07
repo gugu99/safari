@@ -111,24 +111,18 @@
 													</table>
 													<ul class="pagination justify-content-center">
 
-														<c:if test="${pageBegin >rowPerPage }">
+														<c:if test="${currentPage>1 }">
 															<li class="page-item"><a class="page-link"
-																href="${pageContext.request.contextPath}/safari/logList?currentPage=${pageBegin - rowPerPage}"
+																href="${pageContext.request.contextPath}/safari/logList?currentPage=${currentPage-1}"
 																aria-label="Previous"> <span aria-hidden="true">이전</span>
 																	<span class="sr-only">Previous</span>
 															</a></li>
 														</c:if>
 
-														<c:forEach var="y" begin="${pageBegin }" end="${pageEnd }"
-															step="1">
-															<li class="page-item"><a class="page-link"
-																href="${pageContext.request.contextPath}/safari/logList?currentPage=${y}">${y}</a></li>
 
-														</c:forEach>
-
-														<c:if test="${pageEnd < lastPage}">
+														<c:if test="${currentPage<lastPage}">
 															<li class="page-item"><a class="page-link"
-																href="${pageContext.request.contextPath}/safari/logList?currentPage=${pageBegin + rowPerPage}"
+																href="${pageContext.request.contextPath}/safari/logList?currentPage=${currentPage +1}"
 																 aria-label="Next"> <span aria-hidden="true">다음</span>
 																	<span class="sr-only">Next</span>
 															</a></li>

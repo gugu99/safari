@@ -104,6 +104,11 @@ public class WorkspaceController {
 		// workspaceMember 디버깅
 		log.debug(TeamColor.CJM + workspaceMember + "Controller workspaceMember"); 
 		
+		// 게스트세션지우기
+		if(session.getAttribute("guest")!=null) {
+			session.removeAttribute("guest");
+		}
+		
 		// session email가져와서 workmember vo에 삽입
 		String memberEmail = ((String) session.getAttribute("login")); 
 		
@@ -160,6 +165,11 @@ public class WorkspaceController {
 	public String workspaceGuestMain(HttpSession session, WorkspaceGuest workspaceGuest, Model model,RedirectAttributes redirectAttributes) {
 			// workspaceMember 디버깅
 			log.debug(TeamColor.CJM + workspaceGuest + "Controller workspaceGuest"); 
+			
+			//
+			if(session.getAttribute("workMemberName")!=null) {
+				session.removeAttribute("workMemberName");
+			}
 			
 			// 세션 workNo 추가
 			session.setAttribute("workNo", workspaceGuest.getWorkNo()); 

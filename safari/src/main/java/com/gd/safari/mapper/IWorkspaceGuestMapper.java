@@ -52,4 +52,7 @@ public interface IWorkspaceGuestMapper {
 	
 	// 모든 게스트 활동 N으로바꾸기
 	int updateWorkspaceGuestAllActvieN(String memberEmail);
+	
+	// 워크스페이스게스트추방
+	int deleteWorkspaceGuest(String memberEmail);
 }

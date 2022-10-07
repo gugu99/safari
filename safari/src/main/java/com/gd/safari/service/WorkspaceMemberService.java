@@ -179,6 +179,9 @@ public class WorkspaceMemberService implements IWorkspaceMemberService {
 		// workMemberNo  디버깅
 		log.debug(TeamColor.CJM + workMemberNo + " Service workMemberNo");
 		
+		// 레벨 1로만들기
+		workspaceMemberMapper.updateWorkspaceMemberByAdminLevel(workMemberNo);
+		
 		// 워크스페이스 활동정지 하는메서드
 		return workspaceMemberMapper.updateWorkspaceMemberByActive(workMemberNo);
 	}

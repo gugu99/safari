@@ -122,10 +122,10 @@
 			work_member_name = #{workMemberName}
 			
 			,
-			<if test="workMemberAddr == ''">
+			<if test="workMemberAddr == '' or workMemberAddr==' '"  >
 				 work_member_addr = null
 			</if>
-			<if test="workMemberAddr != ''">
+			<if test="workMemberAddr != '' and workMemberAddr!=' '">
 				 work_member_addr = #{workMemberAddr}
 			</if>
 			,
@@ -219,10 +219,10 @@
 		SET 
 			work_member_name = #{workMemberName}
 			,
-			<if test="workMemberAddr == ''">
+			<if test="workMemberAddr == '' or workMemberAddr==' '"  >
 				 work_member_addr = null
 			</if>
-			<if test="workMemberAddr != ''">
+			<if test="workMemberAddr != '' and workMemberAddr!=' '">
 				 work_member_addr = #{workMemberAddr}
 			</if>
 			,

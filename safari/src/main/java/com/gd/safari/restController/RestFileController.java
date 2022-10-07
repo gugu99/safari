@@ -1,6 +1,8 @@
 package com.gd.safari.restController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,19 +39,19 @@ public class RestFileController {
 		
 		// 아이디에 맞는 Code 가져오기
 		@PostMapping("/member/taskFileList")
-		public @ResponseBody List<File> taskFileList(@RequestParam(value="taskNo") int taskNo) {
+		public @ResponseBody List<Map<String,Object>> taskFileList(@RequestParam(value="taskNo") int taskNo) {
 			
 			// 업무리스트번호 디버깅
 			log.debug(TeamColor.CJM+taskNo +"taskNo RestController");
 			
 			// code 불러오기
-			List<File> list = fileService.getTaskNoFileList(taskNo);	  
+			List<Map<String,Object>> list = fileService.getTaskNoFileList(taskNo);	  
 			
 			// task 리턴 코드
 			
 			if (list.size() == 0) {
-				File nullFile=new File();
-				nullFile.setFilename("널");
+				Map<String,Object> nullFile = new HashMap<String,Object>();
+				nullFile.put("filename", "널");
 				list.add(nullFile);
 				
 				return list;
@@ -59,19 +61,19 @@ public class RestFileController {
 		
 		// 아이디에 맞는 Code 가져오기
 		@PostMapping("/member/tasklistNoFileList")
-		public @ResponseBody List<File> tasklistNoFileList(@RequestParam(value="tasklistNo") int tasklistNo) {
+		public @ResponseBody List<Map<String,Object>> tasklistNoFileList(@RequestParam(value="tasklistNo") int tasklistNo) {
 			
 			// 업무리스트번호 디버깅
 			log.debug(TeamColor.CJM+tasklistNo +"tasklistNo RestController");
 			
 			// code 불러오기
-			List<File> list = fileService.getTasklistNoFileList(tasklistNo);	  
+			List<Map<String,Object>> list = fileService.getTasklistNoFileList(tasklistNo);	  
 			
 			// task 리턴 코드
 			
 			if (list.size() == 0) {
-				File nullFile=new File();
-				nullFile.setFilename("널");
+				Map<String,Object> nullFile = new HashMap<String,Object>();
+				nullFile.put("filename", "널");
 				list.add(nullFile);
 				
 				return list;

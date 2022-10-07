@@ -114,7 +114,7 @@ public class WorkspaceGuestController {
 		log.debug(TeamColor.CJM + workspaceGuest + "Controller workspaceGuest");
 		
 		// 워크스페이스 게스트 추방
-		workspaceGuestService.modifyWorkspaceGuestByActive(workspaceGuest);
+		workspaceGuestService.removeWorkspaceGuest(workspaceGuest.getMemberEmail());
 		
 		// 게스트리스트로 리다이렉트
 		return "redirect:/member/workspaceGuestList";

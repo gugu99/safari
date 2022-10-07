@@ -338,7 +338,7 @@
 																		data-target="#updateWorkGuestActive${i}"
 																		class="fa fa-trash-o"></i></a>
 																		</c:if>
-																	<c:if test="${workMemberLevel > 1 && r.active eq 'W'}">	 
+																	<c:if test="${workMemberLevel > 1 && r.active eq 'W' && r.workGuestCode == null}">	 
 																	<a class="danger delete mr-1"> <i data-toggle="modal"
 																		data-target="#updateWorkGuestApprove${i}"
 																		class="fa fa-check-square-o"></i></a>
@@ -358,7 +358,7 @@
 																				게스트추방</a> 
 																				</c:if>
 																				
-																				<c:if test="${workMemberLevel > 1 && r.active eq 'W'}">
+																				<c:if test="${workMemberLevel > 1 && r.active eq 'W' && r.workGuestCode == null}">
 																				<a data-toggle="modal"
 																			data-target="#updateWorkGuestApprove${i}"
 																			class="dropdown-item"><i
@@ -431,9 +431,6 @@
 									<li class="list-group-item"><span
 										class="badge badge-info badge-pill float-right">${WGuestCount }</span> <a
 										href="${pageContext.request.contextPath }/member/workspaceGuestList?active=W">초대중인 게스트</a></li>
-									<li class="list-group-item"><span
-										class="badge badge-info badge-pill float-right">${NGuestCount }</span> <a
-										href="${pageContext.request.contextPath }/member/workspaceGuestList?active=N">삭제된 게스트</a></li>
 								</ul>
 							</div>
 							<!--/More-->

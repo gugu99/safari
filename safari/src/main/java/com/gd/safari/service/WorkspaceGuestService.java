@@ -155,4 +155,14 @@ public class WorkspaceGuestService implements IWorkspaceGuestService{
 		return workspaceGuestMapper.updateWorkspaceGuestCodeNull(workspaceGuest);
 	}
 
+	@Override
+	public int removeWorkspaceGuest(String memberEmail) {
+		
+		// memberEmail 디버깅
+		log.debug(TeamColor.CJM + memberEmail + " Service memberEmail");
+		
+		// 워크스페이스게스트 삭제
+		return workspaceGuestMapper.deleteWorkspaceGuest(memberEmail);
+	}
+
 }
