@@ -38,8 +38,12 @@ public class RestProjectController {
 	
 	@PutMapping("/member/modifyProject")
 	public Project restModifyProject(HttpSession session, @RequestParam Map<String, Object> map){
-		log.debug(TeamColor.CSK + "map: " + map);
 		map.put("workNo", (int)session.getAttribute("workNo"));
+		map.put("workMemberName", (String)session.getAttribute("workMemberName"));
+		
+		log.debug(TeamColor.CSK + "프로젝트 수정");
+		log.debug(TeamColor.CSK + "map: " + map);
+		
 		return projectService.modifyProject(map);
 	}
 	

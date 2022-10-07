@@ -12,4 +12,6 @@ public class ProjectForm {
 	private String projectAuth;
 	private List<Integer> projectMemberList;
 	private int projManagerNo;
+	
+	private String workMemberName;
 }

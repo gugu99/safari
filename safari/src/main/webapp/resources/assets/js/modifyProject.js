@@ -6,6 +6,7 @@
     	let prevProjectManagerArr = new Array(); // 기존 관리자들의 번호를 저장해놓을 배열
 		let prevProjectMemberArr = new Array(); // 기존 멤버들의 번호를 저장해놓을 배열
 		let projectKeep = null;
+		let prevProjectName = "";
 
     	$.ajax({
     		type : 'get',
@@ -15,6 +16,7 @@
 				console.log(json);
     			$(json).each(function(index, item){
     				$('#projectName').val(item.project.projectName);
+    				prevProjectName = item.project.projectName;
     				$('#projectExpl').val(item.project.projectExpl);
     				$('#projectAuth').val(item.project.projectAuth);
     				$('#date1').val(item.project.projectStart);
@@ -90,10 +92,12 @@
 				type : 'put',
 				url : '/member/modifyProject',
 				data : {projectNo : $("#projectNo").val(),
-						projectName: $("#projectName").val()},
+						projectName: $("#projectName").val(),
+						prevProjectName: prevProjectName},
 				success : function(json){
 					$(json).each(function(index, item){
 						$('#projectName').val(item.projectName);
+						prevProjectName = item.project.projectName;
 						i++;
 					})
 				}, // end for success call back function
@@ -187,7 +191,8 @@
 				type : 'put',
 				url : '/member/modifyProject',
 				data : {projectNo : $("#projectNo").val(),
-						projectEnd: $("#date3").val()},
+						projectEnd: $("#date3").val(), 
+						prevProjectName: prevProjectName},
 				success : function(json){
 					$(json).each(function(index, item){
 						$('#date3').val(item.projectEnd);
@@ -321,7 +326,8 @@
 				type : 'put',
 				url : '/member/modifyProject',
 				data : {projectNo : $("#projectNo").val(),
-						projectKeep : (projectKeep == 'Y') ? "N" : "Y"},
+						projectKeep : (projectKeep == 'Y') ? "N" : "Y",
+						prevProjectName: prevProjectName},
 				success : function(json){
 					$(json).each(function(index, item){
 						projectKeep = item.projectKeep; // 변수에 재대입

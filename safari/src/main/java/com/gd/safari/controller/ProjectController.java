@@ -59,6 +59,7 @@ public class ProjectController {
 	@PostMapping("/member/project")
 	public String project(HttpSession session, ProjectForm projectForm) {
 		log.debug(TeamColor.CSK + "프로젝트 추가");
+		projectForm.setWorkMemberName((String) session.getAttribute("workMemberName"));
 		log.debug(TeamColor.CSK + "projectForm" + projectForm);
 		
 		projectService.addProject(projectForm);

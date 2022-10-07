@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gd.safari.commons.TeamColor;
+import com.gd.safari.mapper.ILogMapper;
 import com.gd.safari.mapper.IProjectBookmarkMapper;
 import com.gd.safari.mapper.IProjectGroupMapper;
 import com.gd.safari.mapper.IProjectMapper;
@@ -39,6 +40,8 @@ public class ProjectService implements IProjectService {
 	private IProjectBookmarkMapper projectBookmarkMapper;
 	@Autowired
 	private IProjectSummaryMapper projectSummaryMapper;
+	@Autowired
+	private ILogMapper logMapper;
 
 	// project 메인 페이지 정보 제공 메소드
 	@Override
@@ -73,6 +76,7 @@ public class ProjectService implements IProjectService {
 		// 워크스페이스 멤버 리스트
 		paramMap.put("active", "Y");
 		List<WorkspaceMember> workspaceMemberList = workspaceMemberMapper.selectWorkspaceMemberListByActive(paramMap);
+		// log.debug(TeamColor.CSK + "workspaceMemberList: " + workspaceMemberList);
 
 		// 프로젝트 그룹리스트
 		List<ProjectGroup> projectGroupList = projectGroupMapper.selectProjectGroupListByWorkspaceNo((int)paramMap.get("workNo"));
@@ -113,7 +117,7 @@ public class ProjectService implements IProjectService {
 		// 프로젝트 추가
 		projectMapper.insertProject(projectForm);
 		log.debug(TeamColor.CSK + "insert 후 projectForm: " + projectForm);
-
+		
 		// VO 객체 생성 후 프로젝트 정보 세팅
 		ProjectMember projectMember = new ProjectMember();
 		projectMember.setProjectNo(projectForm.getProjectNo());
@@ -132,6 +136,14 @@ public class ProjectService implements IProjectService {
 			// 아닐 시 멤버로 insert
 			projectMemberMapper.insertProjectMember(projectMember);
 		}
+		
+		// 로그 기록 남기기
+		// TODO private 프로젝트는..?
+		Map<String, Object> map = new HashMap<>();
+		map.put("logContent", projectForm.getWorkMemberName() + " 님이 '" + projectForm.getProjectName() + "' 프로젝트를 생성하였습니다.");
+		map.put("projectNo", projectForm.getProjectNo());
+		
+		logMapper.insertLog(map);
 	}
 	
 	// 프로젝트 수정 전 정보를 띄우기 위한 메소드
@@ -153,15 +165,30 @@ public class ProjectService implements IProjectService {
 	}
 	
 	@Override
-	public Project modifyProject(Map<String, Object> map) {
+	public Project modifyProject(Map<String, Object> map) {		
 		// 파라미터로 받은 정보를 사용하여 Project를 수정
 		projectMapper.updateProject(map);
 		
-		// map안의 projectNo를 추출
-		int projectNo = Integer.parseInt(String.valueOf(map.get("projectNo")));
+		// projectName, projectEnd, projectKeep 수정 시 로그 남기기
+		if(map.get("projectName") != null || map.get("projectEnd") != null || map.get("projectKeep") != null) {
+			String logContent = map.get("workMemberName") + "님이 '" + map.get("prevProjectName") + "' 프로젝트를 ";
+			
+			if(map.get("projectName") != null) {
+				logContent += "'" + map.get("projectName") + "'으로 수정하였습니다.";
+			} else if(map.get("projectEnd") != null) {
+				logContent += "종료하였습니다.";
+			} else {
+				logContent += "보관하였습니다.";
+			}
+			
+			map.put("logContent", logContent);
+			log.debug(TeamColor.CSK + "map: " + map);
+			
+			logMapper.insertLog(map);
+		}
 		
 		// 수정 후 project 정보를 반환
-		return projectMapper.selectProjectDetailByProjectNo(projectNo);
+		return projectMapper.selectProjectDetailByProjectNo(Integer.parseInt(String.valueOf(map.get("projectNo"))));
 	}
 	
 	// 프로젝트 삭제 메소드
