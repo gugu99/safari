@@ -33,7 +33,7 @@ public class TaskListController {
 	}
 	
 	// 게스트 업무리스트 페이지 이동
-	@GetMapping({"/safari/guestTaskList","/member/keepTaskList"})
+	@GetMapping({"/safari/readOnlyTaskList","/member/readOnlyTaskList"})
 	public String guestTaskList(HttpSession session, Model model, @RequestParam(value = "projectNo") int projectNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 게스트용 업무리스트 페이지 , 보관된 업무리스트 페이지");
 		

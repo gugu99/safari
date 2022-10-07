@@ -175,7 +175,7 @@
 	                        <div class="col-md-3 col-sm-12 pl-3 pr-2 pt-3">
 	                            <div class="card">
 	                                <div class="card-header">
-	                                	<h4 class="card-title"><a href="${pageContext.request.contextPath}/${(guest eq null)? 'member' : 'safari'}/${(guest eq null)? 'taskList' : 'guestTaskList'}?projectNo=${p.projectNo}">${p.projectName}</a></h4>
+	                                	<h4 class="card-title"><a href="${pageContext.request.contextPath}/${(guest eq null)? 'member' : 'safari'}/${(guest ne null || p.projectKeep eq 'Y') ? 'readOnlyTaskList' :  'taskList' }?projectNo=${p.projectNo}">${p.projectName}</a></h4>
 	                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
 	                                    <div class="heading-elements">
 	                                        <ul class="list-inline mb-0">

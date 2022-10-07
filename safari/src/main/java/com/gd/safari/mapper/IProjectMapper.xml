@@ -7,6 +7,7 @@
 			p.project_no projectNo 
 			, p.project_auth projectAuth
 			, p.project_name projectName 
+			, p.project_keep projectKeep
 			, DATE_FORMAT(p.create_date ,'%Y-%m-%d') createDate 
 			, IF(ISNULL(p.project_end), "진행중", "완료") projectEnd
 			, (SELECT 
@@ -135,6 +136,7 @@
 		</if>
 	</select>
 	
+	<!-- 게스트 페이지용 메소드 -->
 	<select id="selectPublicProjectListByWorkspaceNo" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			p.project_no projectNo 
