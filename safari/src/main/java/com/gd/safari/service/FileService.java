@@ -26,7 +26,7 @@ public class FileService implements IFileService {
 
 	// 프로젝트번호에 따른 파일 리스트
 	@Override
-	public List<com.gd.safari.vo.File> selectAllFileList(int ProjectNo) {
+	public List<Map<String,Object>> selectAllFileList(int ProjectNo) {
 
 		// ProjectNo 디버깅
 		log.debug(TeamColor.CJM + ProjectNo + "ProjectNo Service");
@@ -116,7 +116,7 @@ public class FileService implements IFileService {
 
 	// 업무 번호에 따른 업무리스
 	@Override
-	public List<com.gd.safari.vo.File> getTaskNoFileList(int taskNo) {
+	public List<Map<String,Object>> getTaskNoFileList(int taskNo) {
 		// taskNo 디버깅
 		log.debug(TeamColor.CJM + taskNo + "taskNo Service");
 
@@ -125,7 +125,7 @@ public class FileService implements IFileService {
 	}
 
 	@Override
-	public List<com.gd.safari.vo.File> getTasklistNoFileList(int tasklistNo) {
+	public List<Map<String,Object>> getTasklistNoFileList(int tasklistNo) {
 		// tasklistNo 디버깅
 		log.debug(TeamColor.CJM + tasklistNo + "tasklistNo Service");
 

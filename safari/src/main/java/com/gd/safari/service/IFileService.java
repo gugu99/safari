@@ -10,7 +10,7 @@ import com.gd.safari.vo.Task;
 public interface IFileService {
 	
 	// 프로젝트 전체에 따른 리스트
-	List<com.gd.safari.vo.File> selectAllFileList(int ProjectNo);
+	List<Map<String,Object>> selectAllFileList(int ProjectNo);
 	
 	// 파일 인서트
 	int addFile(Map<String, Object>map ,List<MultipartFile> file);
@@ -22,8 +22,8 @@ public interface IFileService {
 	List<Task>getTaskList(int tasklistNo);
 	
 	// 업무번호에 따른 리스트
-	List<com.gd.safari.vo.File>  getTaskNoFileList (int taskNo);
+	List<Map<String,Object>>  getTaskNoFileList (int taskNo);
 	
 	// 업무리스트번호에 따른 리스트
-	List<com.gd.safari.vo.File> getTasklistNoFileList(int tasklistNo);
+	List<Map<String,Object>> getTasklistNoFileList(int tasklistNo);
 }

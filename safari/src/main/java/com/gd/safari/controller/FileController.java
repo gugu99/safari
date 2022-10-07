@@ -39,7 +39,7 @@ public class FileController {
 		log.debug(TeamColor.CJM +projectNo+"Controller projectNo");
 		
 		// 프로젝트 리스트 뽑아오기
-		List<com.gd.safari.vo.File> list= fileService.selectAllFileList(projectNo);
+		List<Map<String,Object>> list= fileService.selectAllFileList(projectNo);
 		
 		// 업무 리스트 뽑아오기
 		List<TaskList> taskList = taskListService.getTaskList(projectNo);

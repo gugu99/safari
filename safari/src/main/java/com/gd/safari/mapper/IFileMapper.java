@@ -11,7 +11,7 @@ import com.gd.safari.vo.Task;
 public interface IFileMapper {
 	
 	// 프로젝트 전체 파일 리스트
-	List<com.gd.safari.vo.File> selectAllFileList(int ProjectNo);
+	List<Map<String,Object>> selectAllFileList(int ProjectNo);
 	
 	// 파일 삽입 
 	int insertFile(Map<String, Object> map);
@@ -26,8 +26,8 @@ public interface IFileMapper {
 	List<Task>selectTaskList(int tasklistNo);
 	
 	// 업무 번호에 따른 리스트
-	List<com.gd.safari.vo.File>  selectTaskNoFileList (int taskNo);
+	List<Map<String,Object>>  selectTaskNoFileList (int taskNo);
 	
 	// 업무리스트 번호에 따른 리스트
-	List<com.gd.safari.vo.File> selectTasklistNoFileList(int tasklistNo);
+	List<Map<String,Object>> selectTasklistNoFileList(int tasklistNo);
 }	

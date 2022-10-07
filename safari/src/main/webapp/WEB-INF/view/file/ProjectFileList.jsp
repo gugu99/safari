@@ -30,6 +30,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/css/pages/app-kanban.css">
     <!-- END: Page CSS-->
 
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/assets/css/ProjectFileList.css">
+
 </head>
 <!-- END: Head-->
 
@@ -126,13 +129,14 @@
 							<!-- IMG Modal END -->
                             <div class="card-content collapse show">
                                 <div class="table-responsive">
-                                    <table class="table table-xl mb-0">
+                                    <table class="table table-xl mb-0" id="tableAlign">
                                         <thead>
                                             <tr>
                                                 <th>파일이름</th>
                                                 <th>크기</th>
                                                 <th>공유날짜</th>
                                                 <th>공유한사람</th>
+                                                <th>업무명<th>
                                             </tr>
                                         </thead>
 										                           
@@ -149,6 +153,7 @@
                                                 <a href="${pageContext.request.contextPath}/member/removeFile?fileNo=${f.fileNo}"><button>파일삭제</button></a>
                                                 </c:if>
                                                 </td>
+                                                <td>${f.taskTitle}</td>
                                                  </tr>
                                                  </c:forEach>
                                             </tbody>
@@ -295,13 +300,14 @@ $(document).ready(function(){
 							html += "<a href='${pageContext.request.contextPath}/member/removeFile?fileNo="+item.fileNo+ "'>"+"<button>파일삭제</button></a>";
 							
 							html += "</td>"
+							html += "<td>"+item.taskTitle+"</td>";
 							html += "</tr>";
 							
 							
 							$('#fileInfo').append(html);
 							}else if (item.filename == '널'){
 								let html = '';
-								html += "<tr><th colspan='4'>파일이 없습니다.</th></tr>";
+								html += "<tr><th colspan='6'>파일이 없습니다.</th></tr>";
 								
 								$('#fileInfo').append(html);
 								
@@ -339,13 +345,14 @@ $(document).ready(function(){
 					html += "<a href='${pageContext.request.contextPath}/member/removeFile?fileNo="+item.fileNo+ "'>"+"<button>파일삭제</button></a>";
 					
 					html += "</td>"
+					html += "<td>"+item.taskTitle+"</td>";
 					html += "</tr>";
 					
 					
 					$('#fileInfo').append(html);
 					}else if (item.filename == '널'){
 						let html = '';
-						html += "<tr><th colspan='4'>파일이 없습니다.</th></tr>";
+						html += "<tr><th colspan='6'>파일이 없습니다.</th></tr>";
 						
 						$('#fileInfo').append(html);
 						

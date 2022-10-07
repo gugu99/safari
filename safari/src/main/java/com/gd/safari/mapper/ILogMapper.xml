@@ -26,6 +26,7 @@
 				
 		FROM	log
 		WHERE project_no = #{projectNo} 
+		ORDER BY createDate desc
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>
 	

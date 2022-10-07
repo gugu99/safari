@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.IFileMapper">
 	<!-- 파일리스트 -->
-	<select id="selectAllFileList" parameterType="int" resultType="com.gd.safari.vo.File">
+	<select id="selectAllFileList" parameterType="int" resultType="map">
 		SELECT 
 				f.file_no		fileNo
 				,f.task_no		taskNo
@@ -14,6 +14,7 @@
 				,f.file_size	fileSize
 				,f.create_date	createDate
 				,f.update_date	updateDate
+				,t.task_title	taskTitle
 
 		FROM project p inner join task_list tl
 		
@@ -86,7 +87,7 @@
 	</select>
 	
 	<!-- 업무번호에 따른 파일 리스트 -->
-	<select id="selectTaskNoFileList" parameterType="int" resultType="com.gd.safari.vo.File">
+	<select id="selectTaskNoFileList" parameterType="int" resultType="map">
 		SELECT 
 				f.file_no		fileNo
 				,f.task_no		taskNo
@@ -98,6 +99,7 @@
 				,f.file_size	fileSize
 				,f.create_date	createDate
 				,f.update_date	updateDate
+				,t.task_title	taskTitle
 
 		FROM project p inner join task_list tl
 		
@@ -112,7 +114,7 @@
 	</select>
 	
 	<!-- 업무리스트번호에 따른 파일 리스트 -->
-	<select id="selectTasklistNoFileList" parameterType="int" resultType="com.gd.safari.vo.File">
+	<select id="selectTasklistNoFileList" parameterType="int" resultType="map">
 		SELECT 
 				f.file_no		fileNo
 				,f.task_no		taskNo
@@ -124,6 +126,7 @@
 				,f.file_size	fileSize
 				,f.create_date	createDate
 				,f.update_date	updateDate
+				,t.task_title	taskTitle
 
 		FROM project p inner join task_list tl
 		
