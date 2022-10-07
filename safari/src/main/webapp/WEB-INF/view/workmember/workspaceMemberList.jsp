@@ -427,6 +427,8 @@
 																					</button>
 																					<input type="hidden" name="workMemberNo"
 																						value="${r.workMemberNo }">
+																					<input type="hidden" name="memberEmail"
+																						value="${r.workMemberEmail }">	
 																				</fieldset>
 																			</div>
 																		</form>
