@@ -5,6 +5,7 @@
 		<result column="board_no" property="boardNo"/>
 		<result column="work_no" property="workNo"/>
 		<result column="board_title" property="boardTitle"/>
+		<result column="work_member_name" property="workMemberName"/>
 		<result column="board_content" property="boardContent"/>
 		<result column="board_location" property="boardLocation"/>
 		<result column="board_detail_location" property="boardDetailLocation"/>
@@ -13,14 +14,15 @@
 		<result column="board_writer" property="boardWriter"/>
 		<result column="create_date" property="createDate"/>
 		<result column="update_date" property="updateDate"/>
-		<result column="writer_filename" property="writerFilename"/>
-		<result column="writer_fileExt" property="writerFileExt"/>
+		<result column="filename" property="filename"/>
+		<result column="file_ext" property="fileExt"/>
 		<result column="board_like_cnt" property="boardLikeCnt"/>
 		<collection property="boardFiles" ofType="com.gd.safari.vo.BoardFileList">
-			<id column="boardFile_no" property="boardFileNo"/>
-			<result column="boardN_no" property="boardNo"/>
+			<id column="board_file_no" property="boardFileNo"/>
+			<result column="board_no" property="boardNo"/>
 			<result column="uploader" property="uploader"/>
 			<result column="filename" property="filename"/>
+			<result column="file_ext" property="fileExt"/>
 			<result column="origin_name" property="originName"/>
 			<result column="file_type" property="fileType"/>
 			<result column="file_size" property="fileSize"/>
@@ -36,33 +38,151 @@
 			<result column="board_no" property="boardNo"/>
 			<result column="cmt_filename" property="cmtFilename"/>
 			<result column="cmt_file_ext" property="cmtFileExt"/>
+			<result column="cmt_work_member_name" property="cmtWorkMemberName"/>
 		</collection>
 	</resultMap>
 	
 	
 	<!-- 보드리스트 조회 메서드 -->
 	<select id="selectBoardList" resultMap="resultBoardList" parameterType="map">
-		SELECT 
-				  board_no       boardNo
-				, work_no        workNo
-				, board_title    boardTitle
-				, board_content  boardContent
-				, board_location boardLocation
-				, board_auth     boardAuth
-				, board_fix		 boardFix
-				, board_writer	 boardWriter
-				, create_date	 createDate
-				, update_date    updateDate
-				
-		FROM	board
 		
-		WHERE	work_no = #{workNo}
+		SELECT 
+						  b.board_no       
+						, b.work_no        
+						, b.board_title    
+						, b.board_content  
+						, b.board_location 
+						, b.board_detail_location
+						, b.work_member_name
+						, b.board_auth     
+						, b.board_fix		 
+						, b.board_writer	 
+						, b.create_date	 
+						, b.update_date    
+						, b.filename filename
+						, b.file_ext file_ext
+						,IFNULL(b.boardLikeCnt,0) board_like_cnt
+						
+						,bc.board_cmt_no
+						,bc.board_no
+						,bc.board_cmt_writer
+						,bc.board_cmt_content
+						,bc.create_date
+						,bc.cmt_filename
+						,bc.cmt_file_ext
+						,bc.cmt_work_member_name
+						
+						 ,bf.board_file_no
+						,bf.board_no
+						,bf.uploader
+						,bf.filename
+						,bf.file_ext
+						,bf.origin_name
+						,bf.file_type
+						,bf.file_size
+						,bf.create_date
+						,bf.update_date
+						
+		
+		 FROM	(
+		 SELECT
+				 		  b3.board_no       
+						, b3.work_no        
+						, b3.board_title    
+						, b3.board_content  
+						, b3.board_location 
+						, b3.work_member_name    
+						, b3.board_detail_location
+						, b3.board_auth     
+						, b3.board_fix		 
+						, b3.board_writer	 
+						, b3.create_date	 
+						, b3.update_date    
+						, b3.filename
+						, b3.file_ext
+						, blc.boardLikeCnt
+				FROM	
+					(
+					SELECT
+						  b1.board_no       
+						, b1.work_no        
+						, b1.board_title    
+						, b1.board_content  
+						, b1.board_location 
+						, b1.board_detail_location
+						, b1.board_auth     
+						, b1.board_fix		 
+						, b1.board_writer	 
+						, b1.create_date	 
+						, b1.update_date
+						, vwm1.work_member_name work_member_name 
+						, vwm1.filename filename
+						, vwm1.file_ext file_ext
+					FROM 
+						board b1
+					INNER JOIN
+						v_workspace_member vwm1
+					ON 
+						b1.board_writer	= vwm1.work_member_email
+					WHERE 
+						vwm1.work_no = #{workNo}
+					) b3 
+					LEFT OUTER JOIN
+					(
+					SELECT
+						board_no
+						, count(*) boardLikeCnt
+					FROM
+						board_like
+						GROUP BY
+							board_no
+						)blc
+					ON
+						b3.board_no = blc.board_no)
+		b
+		LEFT OUTER JOIN 						    
+		
+		(
+		SELECT	
+				bc1.board_cmt_no board_cmt_no
+				,bc1.board_no
+				,vwm2.work_member_name cmt_work_member_name
+				,bc1.board_cmt_writer board_cmt_writer
+				,bc1.board_cmt_content
+				,bc1.create_date
+				,vwm2.filename cmt_filename
+				,vwm2.file_ext cmt_file_ext
+			  FROM
+			  	board_comment bc1
+			  INNER JOIN
+			  	v_workspace_member vwm2
+			  ON bc1.board_cmt_writer = vwm2.work_member_email
+			  WHERE 
+			  	vwm2.work_no = #{workNo} 
+				) bc
+		ON 
+			b.board_no  = bc.board_no
+		LEFT OUTER JOIN 
+			(SELECT
+			bf1.board_file_no
+			,bf1.board_no
+			,bf1.uploader
+			,bf1.filename
+			,bf1.file_ext
+			,bf1.origin_name
+			,bf1.file_type
+			,bf1.file_size
+			,bf1.create_date
+			,bf1.update_date
+		FROM board_file bf1
+		
+		)bf
+		ON b.board_no =bf.board_no
+		
+		WHERE b.work_no  = #{workNo}
+
+		
 	</select>
-
-
-
-
-
 
 
 

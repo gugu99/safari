@@ -6,9 +6,10 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gd.safari.vo.Board;
+import com.gd.safari.vo.BoardList;
 
 public interface IBoardService {
-	List<Board> selectBoardList(Map<String, Object> map);
+	List<BoardList> selectBoardList(Map<String, Object> map);
 
 	int addBoard(Map<String, Object> map, List<MultipartFile> file);
 }

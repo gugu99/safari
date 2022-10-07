@@ -163,7 +163,10 @@ public class WorkspaceMemberController {
 		log.debug(TeamColor.CJM+workspaceMember +"Controller workspaceMember"); 					  
 		
 		// 워크스페이스 상세주소 디버깅
-		log.debug(TeamColor.CJM+detailWorkMemeberAddr +"Controller detailWorkMemeberAddr"); 		  
+		log.debug(TeamColor.CJM+workspaceMember.getWorkMemberAddr()+"Controller getWorkMemberAddr");
+		
+		// 워크스페이스 상세주소 디버깅
+		log.debug(TeamColor.CJM+detailWorkMemeberAddr +"Controller detailWorkMemeberAddr");  		  
 		
 		// 세션 workMemberNo 불러오기
 		int workMemberNo = (int)session.getAttribute("workMemberNo");
@@ -171,14 +174,17 @@ public class WorkspaceMemberController {
 		// 워크멤버에 workMemberNo넣기
 		workspaceMember.setWorkMemberNo(workMemberNo);
 		
-		// 워크멤버에 주소 + 상세주소넣기
-		workspaceMember.setWorkMemberAddr(workspaceMember.getWorkMemberAddr()+" "+detailWorkMemeberAddr);
+		// 상세주소 변경
+		workspaceMember.setWorkMemberAddr(workspaceMember.getWorkMemberAddr()+" "+detailWorkMemeberAddr); 
+		
+		// workspaceMember.getWorkMemberAddr()
+		
 		
 		// 워크멤버에수정메서드
 		workspaceMemberService.modifyWorkspaceMember(workspaceMember);
 		
 		  // 워크스페이스멤버 상세보기로 리다이렉트
-		return "redirect:/safari/workspaceMemberOne";  										    
+		return "redirect:/safari/workspaceMemberOne";  								    
 		
 	}
 	
@@ -187,8 +193,12 @@ public class WorkspaceMemberController {
 	public String modifyWorkspaceMemberByInvite (WorkspaceMember workspaceMember ,HttpSession session,
 										@RequestParam(value = "detailWorkMemeberAddr") String detailWorkMemeberAddr) {
 		
+		
 		// 워크스페이스 멤버 디버깅
 		log.debug(TeamColor.CJM+workspaceMember +"Controller workspaceMember"); 					  
+		
+		// 워크스페이스 상세주소 디버깅
+		log.debug(TeamColor.CJM+workspaceMember.getWorkMemberAddr() +"Controller getWorkMemberAddr");
 		
 		// 워크스페이스 상세주소 디버깅
 		log.debug(TeamColor.CJM+detailWorkMemeberAddr +"Controller detailWorkMemeberAddr"); 		  
@@ -199,8 +209,9 @@ public class WorkspaceMemberController {
 		// 워크멤버에 workMemberNo넣기
 		workspaceMember.setWorkMemberNo(workMemberNo);
 		
-		// 워크멤버에 주소 + 상세주소넣기
-		workspaceMember.setWorkMemberAddr(workspaceMember.getWorkMemberAddr()+" "+detailWorkMemeberAddr);
+		
+		// 주소와 상세주소 set
+		workspaceMember.setWorkMemberAddr(workspaceMember.getWorkMemberAddr()+" "+detailWorkMemeberAddr); 
 		
 		// 워크멤버에수정메서드
 		workspaceMemberService.modifyWorkspaceMemberByInvite(workspaceMember);

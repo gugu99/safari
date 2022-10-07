@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.gd.safari.commons.TeamColor;
 import com.gd.safari.service.IBoardService;
 import com.gd.safari.vo.Board;
+import com.gd.safari.vo.BoardList;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +37,10 @@ public class BoardController {
 		map.put("workNo", workNo);
 		
 		// 리스트 불러오기
-		List<Board> list = boardService.selectBoardList(map);
+		List<BoardList> list = boardService.selectBoardList(map);
+		
+		//
+		log.debug(TeamColor.CJM+list.get(0).getFilename() +"getFilename CONTROLLER");
 		
 		// model에 boardList 매핑
 		model.addAttribute("boardList", list);

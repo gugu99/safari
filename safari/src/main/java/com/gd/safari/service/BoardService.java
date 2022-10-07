@@ -14,6 +14,7 @@ import com.gd.safari.commons.TeamColor;
 import com.gd.safari.mapper.IBoardFileMapper;
 import com.gd.safari.mapper.IBoardMapper;
 import com.gd.safari.vo.Board;
+import com.gd.safari.vo.BoardList;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +29,7 @@ public class BoardService implements IBoardService {
 	private IBoardFileMapper boardFileMapper;
 
 	@Override
-	public List<Board> selectBoardList(Map<String, Object> map) {
+	public List<BoardList> selectBoardList(Map<String, Object> map) {
 
 		// 워크넘버 디버깅
 		log.debug(TeamColor.CJM + map.get("workNo") + "Controller workNo");

@@ -19,6 +19,7 @@ import com.gd.safari.service.IProfileImgService;
 import com.gd.safari.service.IWorkspaceGuestService;
 import com.gd.safari.service.IWorkspaceMemberService;
 import com.gd.safari.service.IWorkspaceService;
+import com.gd.safari.service.WorkspaceService;
 import com.gd.safari.vo.Member;
 import com.gd.safari.vo.Workspace;
 import com.gd.safari.vo.WorkspaceGuest;
@@ -67,7 +68,10 @@ public class WorkspaceController {
 		workspace.setAdminEmail(adminEmail); 												 
 		
 		// 주소와 상세주소 set
-		workspaceMember.setWorkMemberAddr(workspaceMember.getWorkMemberAddr()+" "+detailWorkMemeberAddr); 
+		
+			workspaceMember.setWorkMemberAddr(workspaceMember.getWorkMemberAddr()+" "+detailWorkMemeberAddr);
+		
+		
 		
 		// 워크스페이스 생성 메서드
 		int workNo = workspaceService.addWorkspace(workspace, workspaceMember); 			
@@ -121,17 +125,23 @@ public class WorkspaceController {
 		// workMemberLevel 불러오는 메서드
 		int workMemberLevel = workspaceMemberService.getWorkspaceMemberLevel(workspaceMember);
 		
+		// 워크스페이스명 가져오는 메서드
+		String workName = workspaceService.getMyWorkspaceByWorkNo(workspaceMember.getWorkNo()).getWorkName();
+		
+		// 활동여부 가져오기
+		String Active = workspaceMemberService.getWorkspaceMemberOneActive(workMemberNo);
+		
 		// 세션 workNo 추가
 		session.setAttribute("workNo", workspaceMember.getWorkNo()); 
 		
 		// 세션 workspaceMember 추가
 		session.setAttribute("workMemberNo", workMemberNo); 
 		
-		// 활동여부 가져오기
-		String Active = workspaceMemberService.getWorkspaceMemberOneActive(workMemberNo);
-		
 		// 세션 workspaceMemberLevel 추가
 		session.setAttribute("workMemberLevel", workMemberLevel);
+		
+		// 워크스페이스명 session에 보내기
+		session.setAttribute("workName", workName);
 		
 		// profile정보담기
 		session.setAttribute("profileImg",profileImgService.getProfileImgOne(workMemberNo));
@@ -169,6 +179,9 @@ public class WorkspaceController {
 			//
 			if(session.getAttribute("workMemberName")!=null) {
 				session.removeAttribute("workMemberName");
+			}
+			if(session.getAttribute("profileImg")!=null) {
+				session.removeAttribute("profileImg");
 			}
 			
 			// 세션 workNo 추가

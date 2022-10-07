@@ -116,13 +116,13 @@
 												<div class="row">
 													<div class="col-md-6">
 														<div class="form-group">
-															<label for="proposalTitle1">주소</label> <input
+															<label for="proposalTitle1">주소</label> <input readonly
 																type="text" class="form-control" id="workMemberAddr" name="workMemberAddr">
 														</div>
 													</div>
 													<div class="col-md-6">
 														<div class="form-group">
-															<label for="proposalTitle1">주소검색</label>  <button id="addrBtn" type="button" class="form-control btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">주소찾기</button>
+															<label for="proposalTitle1">주소검색</label>  <button id="addrBtn"  type="button" class="form-control btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">주소찾기</button>
 														</div>
 													</div>
 													<div class="col-md-6">

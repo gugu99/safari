@@ -51,187 +51,199 @@
 
     <%@ include file="/WEB-INF/view/inc/header.jsp" %> <!-- header -->
 	<%@ include file="/WEB-INF/view/inc/sidebar.jsp" %> <!-- sidebar -->
-
+     
      <!-- BEGIN: Content-->
     <div class="app-content content">
+
         <div class="content-overlay"></div>
+        
         <div class="content-wrapper">
+        
             <div class="content-header row">
-                
-            </div>
-            <div class="row" id="rowContent">
-                    <div class="col-10">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">게시판</h4>
-                                
-                                <div class="heading-elements">
-				                    <button class="btn btn-outline-primary ml-10" id="btnGroupDrop1" type="button" data-toggle="modal" data-target="#add-Board"><i class="feather icon-plus icon-left"></i>게시판추가하기</button>
-                                </div>
-                            </div>
-                            
-                            <!-- Modal -->
-                                    <div class="modal fade text-left" id="add-Board" tabindex="-1" role="dialog" aria-labelledby="myModalLabel17" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h3 class="modal-title" id="myModalLabel17">게시판 작성</h3>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-		                                                <form action="${pageContext.request.contextPath }/member/addBoard" enctype="multipart/form-data" method="post" id="addBoard">
-		                                                    <div class="row">
-		                                                        <div class="col-12">
-		                                                            <div class="form-group">
-		                                                                <label for="boardTitle"><span class="fa fa-pencil mr-1"></span>제목</label>
-		                                                                <input type="text" class="form-control" id="boardTitle" name="boardTitle" placeholder="제목을 입력하세요.">
-		                                                            </div>
-		                                                        </div>
-		                                                         <div class="col-12">
-		                                                            <div class="form-group">
-		                                                                <label for="boardContent"><span class="fa fa-pencil-square-o mr-1"></span>내용</label>
-		                                                                <textarea class="form-control" name="boardContent" id="boardContent" rows="7" placeholder="내용을 입력하세요."></textarea>
-		                                                            </div>
-		                                                        </div>
-		                                                        <div class="col-10">
-		                                                            <div class="form-group">
-		                                                                <label for="account-website"><span class="fa fa-map-marker mr-2"></span>장소</label>
-		                                                                <input type="text" class="form-control" name="boardLocation" id="addr" placeholder="주소를 입력하세요." readonly>
-		                                                            </div>
-		                                                        </div>
-		                                                        <div class="col-2">
-		                                                        	<div class="form-group">
-		                                                            	<button type="button" id="addrBtn" class="btn btn-secondary pull-right mt-2">주소 찾기</button>
-		                                                            </div>
-		                                                        </div>
-		                                                        <div class="col-12">
-		                                                            <div class="form-group">
-		                                                                <label for="detailAddr"><span class="fa fa-map-marker mr-2"></span>상세 장소</label>
-		                                                                <input type="text" class="form-control" name="boardDetailLocation" id="detailAddr" placeholder="주소를 입력하세요.">
-		                                                            </div>
-		                                                        </div>
-		                                                       <div class="col-12">
-												                    <div class="col-12 px-0 d-flex flex-sm-row flex-column justify-content-start">
-									                                    <input class="btn btn-sm btn-light ml-50 file" name="file" type="file" id="file" onchange="checkFile(this)">
-									                                </div>
-									                                 <div id="fileSection">      
-			     													 </div>
-									                                	<br>
-									                                <div class= "row"> 
-									                                  <div class="col-6">
-									                                    <input class="btn btn-sm btn-light ml-50" id="addFile" name="" type="button" value="파일추가">
-									                                     <input class="btn btn-sm btn-light ml-50" id="removeFile" name="" type="button" value="파일삭제">
-									                                </div>
-									                                </div>
-									                            </div>
-		                                                        <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
-		                                                        	<div class="form-group mt-1">
-		                                                                <label for="boardAuth"><span class="fa fa-lock mr-1"></span>공개설정</label>
-		                                                                <select class="form-control" id="boardAuth" name="boardAuth">
-		                                                                    <option value="N" selected>전체공개</option>
-		                                                                    <option value="Y">관리자, 작성자만 공개</option>
-		                                                                </select>
-		                                                            </div>
-		                                                            <div class="form-group">
-		                                                                <button type="reset" class="btn btn-light mt-3 ml-2">입력취소</button>
-		                                                            </div>
-		                                                            
-		                                                        </div>
-		                                                    </div>
-		                                                </form>
-	                                                <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
-														<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
+               <h4 class="card-title">게시판</h4>
+               	<div class="row" id="boardAddRow">
+               <div class="heading-elements">
+                  <button class="btn btn-outline-primary ml-10" id="btnGroupDrop1" type="button" data-toggle="modal" data-target="#add-Board"><i class="feather icon-plus icon-left"></i>게시판추가하기</button>
+               </div>
+                <!-- Modal -->
+		        <div class="modal fade text-left" id="add-Board" tabindex="-1" role="dialog" aria-labelledby="myModalLabel17" aria-hidden="true">
+		            <div class="modal-dialog modal-lg" role="document">
+		                <div class="modal-content">
+		                    <div class="modal-header">
+		                        <h3 class="modal-title" id="myModalLabel17">게시판 작성</h3>
+		                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		                            <span aria-hidden="true">&times;</span>
+		                        </button>
+		                    </div>
+		                    <div class="modal-body">
+		                      <form action="${pageContext.request.contextPath }/member/addBoard" enctype="multipart/form-data" method="post" id="addBoard">
+		                                <div class="row">
+		                                    <div class="col-12">
+		                                        <div class="form-group">
+		                                            <label for="boardTitle"><span class="fa fa-pencil mr-1"></span>제목</label>
+		                                            <input type="text" class="form-control" id="boardTitle" name="boardTitle" placeholder="제목을 입력하세요.">
+		                                        </div>
+		                                    </div>
+		                                     <div class="col-12">
+		                                        <div class="form-group">
+		                                            <label for="boardContent"><span class="fa fa-pencil-square-o mr-1"></span>내용</label>
+		                                            <textarea class="form-control" name="boardContent" id="boardContent" rows="7" placeholder="내용을 입력하세요."></textarea>
+		                                        </div>
+		                                    </div>
+		                                    <div class="col-10">
+		                                        <div class="form-group">
+		                                            <label for="account-website"><span class="fa fa-map-marker mr-2"></span>장소</label>
+		                                            <input type="text" class="form-control" name="boardLocation" id="addr" placeholder="주소를 입력하세요." readonly>
+		                                        </div>
+		                                    </div>
+		                                    <div class="col-2">
+		                                    	<div class="form-group">
+		                                        	<button type="button" id="addrBtn" class="btn btn-secondary pull-right mt-2">주소 찾기</button>
+		                                        </div>
+		                                    </div>
+		                                    <div class="col-12">
+		                                        <div class="form-group">
+		                                            <label for="detailAddr"><span class="fa fa-map-marker mr-2"></span>상세 장소</label>
+		                                            <input type="text" class="form-control" name="boardDetailLocation" id="detailAddr" placeholder="주소를 입력하세요.">
+		                                        </div>
+		                                    </div>
+		                                   <div class="col-12">
+								          <div class="col-12 px-0 d-flex flex-sm-row flex-column justify-content-start">
+								                       <input class="btn btn-sm btn-light ml-50 file" name="file" type="file" id="file" onchange="checkFile(this)">
+								                   </div>
+								                    <div id="fileSection">      
 													</div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">닫기</button>
-                                                    <button type="button" id="addBoardBtn" class="btn btn-outline-primary">올리기</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--  모달끝 -->
-                                    
-                                    <div class="content-body justify-content-center row mt-2">
-            			
-            		<!-- 일정이 전체공개인지, 관리자&작성자만 공개인지 확인 후 리스트 출력 -->
-            		<section id="timeline" class="timeline-center col-md-12">
-	                    <div class="timeline-card card border-grey border-lighten-2">
-	                        <div class="card-content">
-	                        	 <div class="px-0 py-0 ml-1 mt-1">
+								                   	<br>
+								                   <div class= "row"> 
+								                     <div class="col-6">
+								                       <input class="btn btn-sm btn-light ml-50" id="addFile" name="" type="button" value="파일추가">
+								                        <input class="btn btn-sm btn-light ml-50" id="removeFile" name="" type="button" value="파일삭제">
+								                   </div>
+								                   </div>
+								               </div>
+		                                    <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
+		                                    	<div class="form-group mt-1">
+		                                            <label for="boardAuth"><span class="fa fa-lock mr-1"></span>공개설정</label>
+		                                            <select class="form-control" id="boardAuth" name="boardAuth">
+		                                                <option value="N" selected>전체공개</option>
+		                                                <option value="Y">관리자, 작성자만 공개</option>
+		                                            </select>
+		                                        </div>
+		                                        <div class="form-group">
+		                                            <button type="reset" class="btn btn-light mt-3 ml-2">입력취소</button>
+		                                        </div>
+		                                        
+		                                    </div>
+		                                </div>
+		                            </form>
+		                           <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
+									<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
+									</div>
+		                                   </div>
+		                                   <div class="modal-footer">
+		                                       <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">닫기</button>
+		                                       <button type="button" id="addBoardBtn" class="btn btn-outline-primary">올리기</button>
+		                                   </div>
+		                               </div>
+		                           </div>
+		                       </div>
+		                       </div>
+                                <!--  모달끝 -->
+				            </div>
+				            <c:forEach var="b" items="${ boardList}" varStatus="i">
+				            <div class="row" id="rowContent">
+				                    <div class="col-10">
+				                        <div class="card">
+		                                    <div class="content-body justify-content-center row mt-2">
+		            		<section id="timeline" class="timeline-center col-md-12">
+			                    <div class="timeline-card card border-grey border-lighten-2">
+			                        <div class="card-content">
+			                        	 <div class="px-0 py-0 ml-1 mt-1">
 	                        	 <!-- 프로필 이미지 -->
-	                        	 			<div class="avatar avatar-md rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/51cddc67ca044e3e8ba4f23a2e42dd97.png" alt="avatar"></div>
+	                        	 	<div class="avatar avatar-md rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/" alt="avatar"></div>
 		                       	 	
-		                             <span class="text-bold-600 mr-1">등록자</span>
-		                             <span class="blue-grey date">등록일</span>
+		                             <span class="text-bold-600 mr-1">${b.workMemberName } </span>
+		                             <span class="blue-grey date">${b.createDate }</span>
 		                             <!-- 수정 삭제 버튼 -->
-		                             <c:if test="${s.scheduleWriter eq login || manager && guest eq null}">
-		                                <a href="${pageContext.request.contextPath }/member/modifySchedule?scheduleNo=${s.scheduleNo }" class="addr"><span class="fa fa-pencil-square-o ml-2"></span>수정</a>
-	                          			<a href="${pageContext.request.contextPath }/member/removeSchedule?scheduleNo=${s.scheduleNo }" class="addr"><span class="fa fa-trash-o ml-2"></span>삭제</a>
-	                          		</c:if>	
-		                             <p class="h2 card-text mt-2 mb-1 ml-1">창립기념</p>
+		                             <c:if test="">
+		                                <a href="${pageContext.request.contextPath }/member/modifySchedule?scheduleNo=" class="addr"><span class="fa fa-pencil-square-o ml-2"></span>수정</a>
+	                          			<a href="${pageContext.request.contextPath }/member/removeSchedule?scheduleNo=" class="addr"><span class="fa fa-trash-o ml-2"></span>삭제</a>
+	                          		</c:if>
+	                          			
+		                             <p class="h2 card-text mt-2 mb-1 ml-1">${b.boardTitle }</p>
 	                        	 </div>
-	                        	 	
+
 	                            <div class="card-footer px-0 py-0">
 	                             <div class="card-content">
 	                                 <div class="card-body">
-	                                     <p class="card-text ml-1 mt-2 mb-3">모두 참가해주시기바랍니다</p>
+	                                     <p class="card-text ml-1 mt-2 mb-3">${ b.boardContent}</p>
 	                                     <p class="card-text mb-2">
 	                                     <p class="card-text mb-2">
-		                                     <span class="blue-grey addr"><span class="fa fa-map-marker mr-1"></span>${s.scheduleLocation }</span>
-		                                     <span class="blue-grey addr">${s.scheduleDetailLocation }</span>
-	                                     	<div id="map" style="width:100%;height:300px;" ></div>
+	                                     <c:if test="${b.boardLocation ne ''}">
+		                                     <span class="blue-grey addr"><span class="fa fa-map-marker mr-1"></span>${b.boardLocation }</span>
+		                                     <span class="blue-grey addr"></span>
+	                                     	<div id="map${i.index }" style="width:100%;height:300px;" ></div>
 	                                     	<script>
-	                                     		locationMap('map', '경기 가평군 설악면 가마소길 7');
+	                                     		locationMap('map${i.index }', '${b.boardLocation }');
 	                                     	</script>
+	                                     </c:if>
 	                                 </div>
 	                             </div>
 	                            </div>
-	                            
+	                            <c:forEach var="bf" items="${b.boardFiles}">
 	                           		 <div class="card-footer px-0 py-0">
 			                             <div class="card-content">
-			                                 <div class="card-body text-center">
+			                                 <div class="card-body text-left">
 			                                 	<div class="form-group mt-1">
-	                                 				<button type="button" onclick="location.href='${pageContext.request.contextPath }/member/modifyScheduleAttend?scheduleNo=${s.scheduleNo }&scheduleAttend=Y&workMemberName=${sm.workMemberName}'" class="btn btn-primary round btn-min-width ml-1 mr-1">참석</button>
-	                                 				<button type="button" onclick="location.href='${pageContext.request.contextPath }/member/modifyScheduleAttend?scheduleNo=${s.scheduleNo }&scheduleAttend=N&workMemberName=${sm.workMemberName}'" class="btn btn-danger round btn-min-width ml-1 mr-1">불참</button>
+			                                 	 <span class="fa fa-file mr-1">  파일목록</span> <a href="${pageContext.request.contextPath}/resources/fileupload/${bf.filename}${bf.fileExt}"
+                                               download="${bf.originName}">${bf.originName}</a>
 			                                     </div>
 			                                 </div>
 			                             </div>
 	                           		 </div>
+	                           	</c:forEach>
 	                            <ul class="list-inline mb-0">
 	                            	<c:if test="${guest eq null }">
-                                    	<li class="pr-1 ml-1"><a href="${pageContext.request.contextPath }/member/addScheduleLike?scheduleNo=${s.scheduleNo}" class=""><span class="fa fa-thumbs-o-up ml-1"></span> Like ${s.scheduleLikeCnt }</a></li>
+                                    	<li class="pr-1 ml-1"><a href="${pageContext.request.contextPath }/member/addScheduleLike?scheduleNo=" class=""><span class="fa fa-thumbs-o-up ml-1"></span> Like </a></li>
                                     </c:if>
                                     <li class="pr-1 ml-1"><span class="fa fa-commenting-o"></span> Comment</li>
                                 </ul>
 	                            
 	                            <!-- 댓글 -->
-			                            <div class="card-footer px-0 py-0">
+	                             <c:forEach var="bc" items="${b.boardComments }">
+	                             	<c:if test="${bc.boardCmtWriter ne null }">
+			                          <div class="card-footer px-0 py-0">
 			                                <div class="card-body">
 			                                    <div class="media">
 			                                    	<!-- 프로필 이미지 -->
+			                                    	<c:choose>
+			                                    		<c:when test="${bc.cmtFilename eq null }">
 					                        	 			<div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
-					                        	 			<div class="avatar avatar-sm rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/${c.cmtFilename}${c.cmtFileExt}" alt="avatar" class="height-30 width-30"><i></i></div>
-		                                        
+					                        	 		</c:when>
+					                        	 		<c:otherwise>
+					                        	 			<div class="avatar avatar-sm rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/${bc.cmtFilename}${bc.cmtFileExt}" alt="avatar" class="height-30 width-30"><i></i></div>
+					                        	 		</c:otherwise>
+		                                        	</c:choose>
+		                                        	
 		                                        	<div class="media-body ml-1">
-		                                        		<p class="text-bold-600 mb-0">${c.cmtWorkMemberName } <span class="blue-grey date ml-1">${c.cmtCreateDate }</span>
-			                                            		<a href="${pageContext.request.contextPath }/member/addScheduleCommentLike?scheduleCmtNo=${c.scheduleCmtNo}" class="addr"><span class="fa fa-thumbs-o-up ml-1 addr"></span> Like ${c.cmtLikeCnt }</a>
-			                                            			<a href="${pageContext.request.contextPath }/member/removeScheduleComment?scheduleCmtNo=${c.scheduleCmtNo }" class="addr"><span class="fa fa-trash-o ml-2"></span>삭제</a>
+		                                        		<p class="text-bold-600 mb-0">${bc.cmtWorkMemberName } <span class="blue-grey date ml-1">${bc.createDate }</span>
+			                                            		<a href="${pageContext.request.contextPath }/member/addScheduleCommentLike?scheduleCmtNo=" class="addr"><span class="fa fa-thumbs-o-up ml-1 addr"></span> Like 좋아요</a>
+			                                            			<a href="${pageContext.request.contextPath }/member/removeScheduleComment?scheduleCmtNo=$" class="addr"><span class="fa fa-trash-o ml-2"></span>삭제</a>
 			                                            </p>
-			                                            <p class="m-0">${c.scheduleCmtContent }</p>
+			                                            <p class="m-0">${bc.boardCmtContent } </p>
 			                                       </div>
 			                                    </div>
 			                                </div>
 			                            </div>
-	                            
+			                         </c:if>
+	                            </c:forEach>
 	                            <!-- comment input -->
+	                            
 		                            <div class="card-footer px-0 py-0">
 		                             <div class="card-body">
 		                                 <fieldset class="form-group position-relative has-icon-left mb-0">
 			                                <form action="${pageContext.request.contextPath }/member/addScheduleComment" method="post" id="commentForm">
-			                                	<input type="hidden" name="scheduleNo" value="${s.scheduleNo }">
+			                                	<input type="hidden" name="scheduleNo" value="ㅇ">
 			                                	<input type="hidden" name="cmtMemberEmail" value="${login }">
 			                                     <input type="text" class="form-control" name="scheduleCmtContent" id="comment" onkeyup="insertComment(this)" placeholder="입력 Enter입니다.">
 			                                     <div class="form-control-position">
@@ -248,10 +260,10 @@
             </div>
                             
                             
-                            
                         </div>
                     </div>
                 </div>
+                </c:forEach>
         </div>
     </div>
     <!-- END: Content-->

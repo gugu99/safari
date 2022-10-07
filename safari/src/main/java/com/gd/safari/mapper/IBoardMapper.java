@@ -5,13 +5,14 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.gd.safari.vo.Board;
+import com.gd.safari.vo.BoardList;
+
 
 @Mapper
 public interface IBoardMapper {
 	
 	// boardList 띄우기
-	List<Board> selectBoardList(Map<String,Object> map);
+	List<BoardList>selectBoardList(Map<String,Object> map);
 	
 	// board 추가
 	int insertBoard(Map<String,Object> map);

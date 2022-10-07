@@ -125,6 +125,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                  <div class="col-sm-1">
+                                                     <div class="form-group">
+                                                        <div class="controls">
+                                                            <button id="removeAddr" type="button" class="form-control btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">주소제거</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                
                                                 <div class="col-12">
                                                      <div class="form-group">
                                                         <div class="controls">
@@ -328,5 +337,12 @@ $(function(){
         element_layer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width)/2 - borderWidth) + 'px';
         element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
     }
+</script>
+
+<script>
+$('#removeAddr').click(function(){
+	$('#workMemberAddr').val('');
+});
+
 </script>
 </html>
