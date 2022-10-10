@@ -27,6 +27,9 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/fonts/simple-line-icons/style.min.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/app-assets/css/pages/app-chat.css">
     <!-- END: Page CSS-->
+    
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
 
 </head>
 <!-- END: Head-->
@@ -36,7 +39,7 @@
 <body class="vertical-layout vertical-menu-modern content-left-sidebar chat-application  fixed-navbar" data-open="click" data-menu="vertical-menu-modern" data-col="content-left-sidebar">
 	<%@ include file="/WEB-INF/view/inc/header.jsp" %> <!-- header -->
 	<%@ include file="/WEB-INF/view/inc/sidebar.jsp" %> <!-- sidebar -->
-
+	
     <!-- BEGIN: Content-->
     <div class="app-content content">
         <div class="sidebar-left">
@@ -519,7 +522,9 @@
     <!-- BEGIN: Page JS-->
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/pages/app-chat.js"></script>
     <!-- END: Page JS-->
-
+	
+	<script src="${pageContext.request.contextPath}/resources/assets/js/chat.js"></script>
+	
 </body>
 <!-- END: Body-->
 
