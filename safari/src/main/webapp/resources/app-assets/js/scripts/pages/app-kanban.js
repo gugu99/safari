@@ -505,6 +505,28 @@ $(document).ready(function () {
 		data : { taskNo : kanban_curr_item_id },
 		url : '/safari/taskDetail',
 		success : function(json){
+			// 상위업무 초기화
+			$('#upperTask').html('');
+			
+			// 상위업무 받아오기
+			if(json.taskUpperNo != null){
+				 var upperTaskTitle = "";
+				 
+				 $.ajax({
+					async : false,
+					type : 'GET',
+					url : '/safari/getUpperTaskTitle',
+					data : {
+						taskNo : json.taskUpperNo
+					},
+					success : function(json){
+						upperTaskTitle = json;
+					}
+			 	 }); 
+				
+				// 상위업무 받기
+				$('#upperTask').html(upperTaskTitle + '<i class="feather icon-corner-right-down ml-1"></i>');
+			}
 			// 디버깅
 			// console.log("json");
 			// console.log(json);
@@ -515,10 +537,6 @@ $(document).ready(function () {
 			let date = dateFormat_show(new Date(json.taskDeadline));
 			let end = dateFormat_show(new Date(json.taskEnd));
 			
-			// 클래스에 맞는 value 값 넣어주기
-			//if(json.taskUpperNo != null){
-			//	$('#upperTask').html('<i class="feather icon-corner-down-right"></i>' + json.upperTaskTitle);
-			//}
 			$('.edit-kanban-item-tasklistNo').val(json.tasklistNo);
 			$('.edit-kanban-item-tasklistTitle').val(json.tasklistTitle);
 			$('.edit-kanban-item-id').val(kanban_curr_item_id);
@@ -568,7 +586,7 @@ $(document).ready(function () {
 		 	  // 하위업무 리스트 보여주기
 		 	  var str = "";
 		 	  for(var i = 0; i < lowerTask_list.length; i++) {
-					str += '<li><a href="/member/taskList?projectNo=' + lowerTask_list[i].projectNo + '">' + lowerTask_list[i].taskTitle + ' </a></li>';
+					str += '<li>' + lowerTask_list[i].taskTitle + '</li>';
 			  }
 			  
 			  $('.edit-kanban-item-task').html(str);
@@ -1005,12 +1023,12 @@ $(document).ready(function () {
 				// alert('업무코멘트 좋아요를 성공했습니다.');
 			} else if(json == 'delete ok') {
 				// alert('업무코멘트 좋아요를 취소했습니다.');
-				
-			  	// 업무코멘트 리스트 보여주기
-				cmt_list();
 			}
 		}
   	});
+  	
+  	// 업무코멘트 리스트 보여주기
+	cmt_list();
   });
   
   
@@ -1036,12 +1054,11 @@ $(document).ready(function () {
 			} else {
 				// alert('업무코멘트 고정을 성공했습니다.');
 				
-			  	// 업무코멘트 리스트 보여주기
-				cmt_list();
 			} 
 		}		
 	});
-	
+  	// 업무코멘트 리스트 보여주기
+	cmt_list();
   });
   
   
@@ -1098,7 +1115,7 @@ $(document).ready(function () {
 					projectNo : value_str.options[value_str.selectedIndex].value,
 					tasklistNo : $('.edit-kanban-item-tasklistNo').val()
 				},
-				url : '/safari/taskListByTask',
+				url : '/safari/taskListByTaskForCopy',
 				success : function(json){
 					var str = "<option value=''></option>";
 					// console.log(json);
@@ -1519,14 +1536,14 @@ $(document).ready(function () {
 									'<div class="compose-editor">' +
 										'<div class="row">' +
 											'<div class="col-10">' +
-												'<div class="font-weight-bold subCmt">' +
+												'<div class="font-weight-bold bebebe">' +
 													json.workMemberName + 
 												'</div>' +
-												'<div class="small subCmt">' + dateFormat_show(new Date(json.createDate)) + '</div>' +
+												'<div class="small bebebe">' + dateFormat_show(new Date(json.createDate)) + '</div>' +
 							 				'</div>' + 
 										'</div>' +
 										'<hr>' +
-										'<div class="subCmt">' +
+										'<div class="bebebe">' +
 											json.taskCmtContent + 
 										'</div>' +
 									'</div>' +
@@ -1849,5 +1866,5 @@ $(document).ready(function () {
       .addClass($(":selected", this).attr("class") + " form-control text-white");
   });
   
-  
+
 });

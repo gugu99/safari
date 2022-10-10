@@ -142,7 +142,7 @@ public class RestTaskCommentController {
 	// 업무 코멘트 고정하기
 	@PostMapping("/member/fixTaskComment")
 	public String fixTaskComment(HttpSession session, int taskCmtNo) {
-		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 고정하기");
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 고정하기 / 취소하기");
 		
 		// 디버깅
 		log.debug(TeamColor.CSH + "taskCmtNo : " + taskCmtNo);

@@ -19,6 +19,8 @@ public interface ITaskCommentMapper {
 	Map<String, Object> selectFixTaskCommentByTaskNo(int taskNo);
 	// 업무 코멘트를 업무로 만들기 위해 내용 가져오기
 	String selectTaskCommentToTask(int taskCmtNo);
+	// 코멘트 고정 여부 가져오기
+	String selectIsFixTaskComment(int taskCmtNo);
 	// 업무 코멘트 생성
 	int insertTaskComment(TaskComment taskComment);
 	// 업무 코멘트 수정
@@ -28,6 +30,8 @@ public interface ITaskCommentMapper {
 	int updateFixTaskComment(int taskCmtNo);
 	// 업무 코멘트 해제하기
 	int updateUnfixedTaskComment(int taskCmtNo);
+	// 업무 코멘트 고정 취소하기
+	int updateCancleFixTaskComment(int taskCmtNo);
 	// 업무 코멘트 삭제
 	int deleteTaskComment(TaskComment taskComment);
 }

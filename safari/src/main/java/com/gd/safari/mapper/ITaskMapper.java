@@ -24,7 +24,7 @@ public interface ITaskMapper {
 	Map<String, Object> selectTaskByTaskNo(int taskNo);
 	// 업무 복사를 위한 객체 받기
 	Task selectTaskForCopy(int taskNo);
-	// 업무 이름 가져오기 (로그를 위해)
+	// 업무 이름 가져오기 (로그를 위해 / 상위업무 표시에도 사용)
 	String selectTaskTitleForLog(int taskNo);
 	// 업무 복사
 	int insertTaskForCopy(Task task);

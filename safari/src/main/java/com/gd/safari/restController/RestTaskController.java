@@ -102,10 +102,26 @@ public class RestTaskController {
 		return projectList;
 	}
 	
+	// 현재위치 포함 업무리스트 조회 - 복사를 위해
+	@PostMapping("/safari/taskListByTaskForCopy")
+	public List<TaskList> taskListByTaskForCopy(int projectNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 현재위치 포함 업무리스트");
+		// 디버깅
+		log.debug(TeamColor.CSH + "projectNo : " + projectNo);
+		
+		// 서비스호출
+		// 리턴값 List<Project>
+		List<TaskList> taskList = taskService.getTaskListByCopy(projectNo);
+		
+		log.debug(TeamColor.CSH + "조회에 따른 업무리스트 개수 : " + taskList.size());
+		
+		return taskList;
+	}
+	
 	// 현재위치 제외 업무리스트 조회
 	@PostMapping("/safari/taskListByTask")
 	public List<TaskList> taskListByTask(int projectNo, int tasklistNo) {
-		log.debug(TeamColor.CSH + this.getClass() + " 프로젝트 리스트");
+		log.debug(TeamColor.CSH + this.getClass() + " 현재위치 제외 업무리스트");
 		// 디버깅
 		log.debug(TeamColor.CSH + "tasklistNo : " + tasklistNo + " projectNo : " + projectNo);
 		
@@ -122,14 +138,26 @@ public class RestTaskController {
 		
 		return taskList;
 	}
-	
+
+	// 업무 이름 가져오기 (로그를 위해 / 상위업무 표시에도 사용)
+	@GetMapping("/safari/getUpperTaskTitle")
+	public String getUpperTaskTitle(int taskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 이름 가져오기");
+		
+		String upperTaskTitle = taskService.getTaskTitleForUpperTask(taskNo);
+		// 디버깅
+		log.debug(TeamColor.CSH + "상위업무 : " + upperTaskTitle);
+		
+		return upperTaskTitle;
+	}
+		
 	// 업무 복사를 위한 객체 받기
 	@GetMapping("/safari/getTask")
 	public Task getTask(int taskNo) {
 		log.debug(TeamColor.CSH + this.getClass() + " 업무 복사를 위한 객체 받기");
 		
 		Task task = taskService.getTaskForCopy(taskNo);
-		
+		// 디버깅
 		log.debug(TeamColor.CSH + "복사할 객체 : " + task);
 		
 		return task;

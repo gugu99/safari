@@ -50,7 +50,7 @@ $(document).on("click", ".copyBtn-modal", function () {
 				projectNo : value_str.options[value_str.selectedIndex].value,
 				tasklistNo : $('.edit-kanban-item-tasklistNo').val()
 			},
-			url : '/safari/taskListByTask',
+			url : '/safari/taskListByTaskForCopy',
 			success : function(json){
 				var str = "<option value=''></option>";
 				// console.log(json);

@@ -164,7 +164,7 @@
 	</select>
 	<!-- 상세 보기 -->
 	<select id="selectTaskByTaskNo" parameterType="int" resultType="map">
-				SELECT
+		SELECT
 			t.task_title taskTitle
 			, t.task_content 	taskContent
 			, t.task_writer 	taskWriter
@@ -197,7 +197,7 @@
 		WHERE 
 			task_no 			= #{taskNo}
 	</select>
-	<!-- 업무 이름 가져오기 (로그를 위해) -->
+	<!-- 업무 이름 가져오기 (로그를 위해 / 상위업무 표시에도 사용) -->
 	<select id="selectTaskTitleForLog" parameterType="int" resultType="string">
 		SELECT
 			task_title 			taskTitle

@@ -72,26 +72,45 @@ public class TaskCommentService implements ITaskCommentService {
 	}
 
 	// 업무 코멘트 고정하기
-	@Transactional
 	@Override
 	public int modifyFixTaskComment(Map<String, Object> m) {
-		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 고정하기");
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 코멘트 고정하기 / 취소하기");
 		
-		// 로그 파라미터 만들기
+		// 결과값 변수
+		int row;
+		// 로그 객체
 		Map<String, Object> logM = new HashMap<>();
-		logM.put("logContent", m.get("workMemberName") + " 님이 '" + taskCommentMapper.selectTaskCommentToTask((int) m.get("taskCmtNo")) + "' 코멘트를 고정했습니다.");
-		logM.put("projectNo", m.get("projectNo"));
 		
+		// 업무 코멘트 고정여부 확인 (null이면 고정안되어 있음)
+		String taskCmtNo = taskCommentMapper.selectIsFixTaskComment((int) m.get("taskCmtNo"));
+		// 디버깅
+		log.debug(TeamColor.CSH + taskCmtNo);
+		
+		if(taskCmtNo == null) {
+
+			// 로그 파라미터 만들기
+			logM.put("logContent", m.get("workMemberName") + " 님이 '" + taskCommentMapper.selectTaskCommentToTask((int) m.get("taskCmtNo")) + "' 코멘트를 고정했습니다.");
+			logM.put("projectNo", m.get("projectNo"));
+
+			// 지정한 업무 코멘트 외의 것은 업무코멘트 해제하기 (하나만 고정가능)
+			taskCommentMapper.updateUnfixedTaskComment((int) m.get("taskCmtNo"));
+			// 해제한 후 고정하기
+			row = taskCommentMapper.updateFixTaskComment((int) m.get("taskCmtNo"));
+		} else {
+			// 로그 파라미터 만들기
+			logM.put("logContent", m.get("workMemberName") + " 님이 '" + taskCommentMapper.selectTaskCommentToTask((int) m.get("taskCmtNo")) + "' 코멘트를 고정을 취소했습니다.");
+			logM.put("projectNo", m.get("projectNo"));
+			
+			// 고정 취소
+			row = taskCommentMapper.updateCancleFixTaskComment((int) m.get("taskCmtNo"));
+		}
+
 		// 디버깅
 		log.debug(TeamColor.CSH + logM);
 		// 로그 처리하기
 		logMapper.insertLog(logM);
-
 		
-		// 지정한 업무 코멘트 외의 것은 업무코멘트 해제하기 (하나만 고정가능)
-		taskCommentMapper.updateUnfixedTaskComment((int) m.get("taskCmtNo"));
-		// 해제한 후 고정하기
-		return taskCommentMapper.updateFixTaskComment((int) m.get("taskCmtNo"));
+		return row;
 	}
 	
 	// 업무 코멘트 삭제

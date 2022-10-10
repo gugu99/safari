@@ -28,6 +28,7 @@ public class TaskListController {
 		
 		// 현재 프로젝트이름 가져오기
 		model.addAttribute("projectName", taskListService.getProjectName(projectNo));
+		session.setAttribute("projectKeep", null);
 		
 		return "task/taskList";
 	}
@@ -42,6 +43,7 @@ public class TaskListController {
 
 		// 현재 프로젝트이름 가져오기
 		model.addAttribute("projectName", taskListService.getProjectName(projectNo));
+		session.setAttribute("projectKeep", "Y");
 		
 		return "task/guestTaskList";
 	}

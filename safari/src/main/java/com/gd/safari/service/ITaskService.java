@@ -23,6 +23,8 @@ public interface ITaskService {
 	List<TaskList> getTaskListByCopy(int projectNo);
 	// 현재위치 제외 업무리스트 조회 (업무 위치 변경을 위해 - ITaskListMapper에서 가져옴 - projectNo, tasklistNo 필요함)
 	List<TaskList> getTaskListByUpdateLocation(Map<String, Integer> m);
+	// 업무 이름 가져오기 (로그를 위해 / 상위업무 표시에도 사용)
+	String getTaskTitleForUpperTask(int taskNo);
 	// 업무 복사를 위한 객체 받기
 	Task getTaskForCopy(int taskNo);
 	// 업무 복사

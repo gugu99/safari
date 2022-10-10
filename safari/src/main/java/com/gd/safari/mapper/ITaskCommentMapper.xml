@@ -101,6 +101,17 @@
 		WHERE
 			task_cmt_no = #{taskCmtNo}
 	</select>
+	<!-- 코멘트 고정 여부 가져오기 -->
+	<select id="selectIsFixTaskComment" parameterType="int" resultType="string">
+		SELECT 
+			task_cmt_no		taskCmtNo
+		FROM
+			task_comment
+		WHERE
+			task_cmt_no = #{taskCmtNo}
+		AND 
+			task_cmt_fix = 'Y'
+	</select>
 	<!-- 업무 코멘트 생성 -->
 	<insert id="insertTaskComment" parameterType="com.gd.safari.vo.TaskComment">
 		INSERT INTO task_comment (
@@ -147,6 +158,14 @@
 			task_cmt_fix = 'N'
 		WHERE 
 			task_cmt_no != #{taskCmtNo}
+	</update>
+	<!-- 업무 코멘트 고정 취소하기 -->
+	<update id="updateCancleFixTaskComment" parameterType="int">
+		UPDATE task_comment
+		SET 
+			task_cmt_fix = 'N'
+		WHERE 
+			task_cmt_no = #{taskCmtNo}
 	</update>
 	<!-- 업무 코멘트 삭제 -->
 	<delete id="deleteTaskComment" parameterType="com.gd.safari.vo.TaskComment">

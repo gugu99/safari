@@ -54,23 +54,8 @@
                         <div class="col-2">
                             <input type="button" class="btn btn-primary mb-1" value="GUEST ver" readonly>
                         </div>
-                        <div class="col-2">
-                            <select class="form-control text-write" id="sort">
-								<option value="0" class="bg-primary">전체 업무</option>   
-								<option value="3" class="bg-primary">포인트가 있는 업무</option>   
-								<option value="4" class="bg-primary">포인트가 없는 업무</option>   
-                            </select>
-                        </div>
-                        <div class="col-2 mr-1">
-                            <input type="text" class="form-control" placeholder="검색" id="search">
-                        </div>
-                        <div class="col-2">
-                            <button type="button" id="searchBtn" class="btn"><i class="fa fa-search"></i></button>
-                            <p class="mycheckbox"><input type="checkbox" id="completeTaskCheck"><span> 완료된 업무 보기 </span></p>
-                        </div>
                         <div id="kanban-app"></div>
                     </div>
-
                     <%@ include file="/WEB-INF/view/task/guestTaskDetail.jsp" %> <!-- taskDatail -->
                 </section>
                 <!--/ Sample Project kanban -->

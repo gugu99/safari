@@ -32,7 +32,7 @@
 		               		<input type="hidden" class="edit-kanban-item-tasklistTitle" name="tasklistTitle">
 		                    <div class="form-group">
 		                        <label>업무 제목</label>
-		                        <div id="upperTask"></div>
+		                        <div id="upperTask" class="bebebe mb-1"></div>
 		                        <input type="text" class="form-control edit-kanban-item-title" placeholder="업무 제목" name="taskTitle">
 		                    </div>
 		                    <div class="form-group">

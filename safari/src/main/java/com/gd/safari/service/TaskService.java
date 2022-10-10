@@ -88,6 +88,13 @@ public class TaskService implements ITaskService {
 		return taskListMapper.selectTaskListByUpdateLocation(m);
 	}
 
+	// 업무 이름 가져오기 (로그를 위해 / 상위업무 표시에도 사용)
+	@Override
+	public String getTaskTitleForUpperTask(int taskNo) {
+		log.debug(TeamColor.CSH + this.getClass() + " 업무 이름 가져오기");
+		return taskMapper.selectTaskTitleForLog(taskNo);
+	}
+	
 	// 업무 복사를 위한 객체 받기
 	@Override
 	public Task getTaskForCopy(int taskNo) {
