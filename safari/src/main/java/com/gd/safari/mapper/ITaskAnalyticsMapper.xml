@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.ITaskAnalyticsMapper">
+	<!-- 프로젝트 시작일/마감일/완료일/경과시간/남은시간/완료됨/남은업무 가져오기 -->
+	<select id="selectTaskAnalytics" parameterType="int" resultType="map">
+		SELECT
+			p.project_start																projectStart
+			, p.project_deadline														projectDeadline
+			, p.project_end																projectEnd
+			, DATEDIFF(NOW(), p.project_start)											nowMinusStart
+			, DATEDIFF(p.project_deadline, NOW()) 										deadlineMinusNow
+			, COUNT(t.task_end)															endTaskCnt
+			, COUNT(t.task_no) - COUNT(t.task_end) 										notEndTaskCnt
+			, ROUND((COUNT(t.task_end) / COUNT(t.task_no)) * 100) 						endTaskPer
+			, ROUND(((COUNT(t.task_no) - COUNT(t.task_end)) / COUNT(t.task_no)) * 100) 	notEndTaskPer
+		FROM 
+			project p INNER JOIN task_list tl 
+		ON 
+			p.project_no = tl.project_no INNER JOIN task t 
+		ON 
+			tl.tasklist_no = t.tasklist_no 
+		WHERE 
+			p.project_no = #{projectNo}
+	</select>
+	<!-- 프로젝트 개요 완료됨/마감일지남/계획됨/마감일없음 가져오기 -->
+	<select id="selectAllTaskByProjectNo" parameterType="int" resultType="map">
+		SELECT
+			COUNT(t.task_end)																				endTaskCnt
+			, COUNT(IF(SIGN(DATEDIFF(t.task_deadline, NOW())) = -1 AND t.task_end IS NULL, -1, NULL)) 		missDeadlineCnt
+			, COUNT(IF(t.task_deadline IS NOT NULL AND t.task_end IS NULL, 1, NULL)) 
+				- COUNT(IF(SIGN(DATEDIFF(t.task_deadline, NOW())) = -1 AND t.task_end IS NULL, -1, NULL))	deadlineTaskCnt
+			, COUNT(IF(t.task_deadline IS NULL AND t.task_end IS NULL, 1, NULL))							notDeadlineTaskCnt
+		FROM 
+			project p INNER JOIN task_list tl 
+		ON 
+			p.project_no = tl.project_no INNER JOIN task t 
+		ON 
+			tl.tasklist_no = t.tasklist_no 
+		WHERE 
+			p.project_no = #{projectNo}
+	</select>
+	<!-- 나에게 배정된 업무 완료됨/마감일지남/계획됨/마감일없음 가져오기 -->
+	<select id="selectTaskByTaskMemberIsMe" parameterType="map" resultType="map">
+		SELECT
+			COUNT(t.task_end)																				endTaskCnt
+			, COUNT(IF(SIGN(DATEDIFF(t.task_deadline, NOW())) = -1 AND t.task_end IS NULL, -1, NULL)) 		missDeadlineCnt
+			, COUNT(IF(t.task_deadline IS NOT NULL AND t.task_end IS NULL, 1, NULL)) 
+				- COUNT(IF(SIGN(DATEDIFF(t.task_deadline, NOW())) = -1 AND t.task_end IS NULL, -1, NULL))	deadlineTaskCnt
+			, COUNT(IF(t.task_deadline IS NULL AND t.task_end IS NULL, 1, NULL))							notDeadlineTaskCnt
+		FROM 
+			project p INNER JOIN task_list tl 
+		ON 
+			p.project_no = tl.project_no INNER JOIN task t 
+		ON 
+			tl.tasklist_no = t.tasklist_no INNER JOIN task_member tm
+		ON
+			t.task_no = tm.task_no INNER JOIN project_member pm
+		ON
+			tm.project_member_no = pm.project_member_no INNER JOIN workspace_member wm
+		ON
+			pm.work_member_no = wm.work_member_no
+		WHERE 
+			p.project_no = #{projectNo}
+		AND 
+			wm.work_member_email = #{memberEmail}
+	</select>
+	<!-- 내가 작성한 업무 완료됨/마감일지남/계획됨/마감일없음 가져오기 -->
+	<select id="selectTaskByWriterIsMe" parameterType="map" resultType="map">
+		SELECT
+			COUNT(t.task_end)																				endTaskCnt
+			, COUNT(IF(SIGN(DATEDIFF(t.task_deadline, NOW())) = -1 AND t.task_end IS NULL, -1, NULL)) 		missDeadlineCnt
+			, COUNT(IF(t.task_deadline IS NOT NULL AND t.task_end IS NULL, 1, NULL)) 
+				- COUNT(IF(SIGN(DATEDIFF(t.task_deadline, NOW())) = -1 AND t.task_end IS NULL, -1, NULL))	deadlineTaskCnt
+			, COUNT(IF(t.task_deadline IS NULL AND t.task_end IS NULL, 1, NULL))							notDeadlineTaskCnt
+		FROM 
+			project p INNER JOIN task_list tl 
+		ON 
+			p.project_no = tl.project_no INNER JOIN task t 
+		ON 
+			tl.tasklist_no = t.tasklist_no 
+		WHERE 
+			p.project_no = #{projectNo}
+		AND 
+			t.task_writer = #{memberEmail}
+	</select>
+	<!-- 업무리스트 개요 완료됨/마감일지남/계획됨/마감일없음 가져오기 -->
+	<select id="selectTastListByProjectNo" parameterType="int" resultType="map">
+		SELECT
+			tl.tasklist_title																				tasklistTitle
+			, COUNT(t.task_end)																				endTaskCnt
+			, COUNT(IF(SIGN(DATEDIFF(t.task_deadline, NOW())) = -1 AND t.task_end IS NULL, -1, NULL)) 		missDeadlineCnt
+			, COUNT(IF(t.task_deadline IS NOT NULL AND t.task_end IS NULL, 1, NULL)) 
+				- COUNT(IF(SIGN(DATEDIFF(t.task_deadline, NOW())) = -1 AND t.task_end IS NULL, -1, NULL))	deadlineTaskCnt
+			, COUNT(IF(t.task_deadline IS NULL AND t.task_end IS NULL, 1, NULL))							notDeadlineTaskCnt
+		FROM 
+			project p INNER JOIN task_list tl 
+		ON 
+			p.project_no = tl.project_no INNER JOIN task t 
+		ON 
+			tl.tasklist_no = t.tasklist_no 
+		WHERE 
+			p.project_no = #{projectNo}
+		GROUP BY
+			tl.tasklist_no
+	</select>
+</mapper>
