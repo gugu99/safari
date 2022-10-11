@@ -265,8 +265,11 @@
 			, schedule_start
 			, schedule_end
 			, schedule_title
-			, schedule_location
-			, schedule_detail_location
+			
+			<if test="!''.equals(scheduleLocation)">
+				, schedule_location
+				, schedule_detail_location
+			</if>
 			, schedule_content
 			, schedule_auth
 			, create_date
@@ -277,8 +280,10 @@
 			, #{scheduleStart}
 			, #{scheduleEnd}
 			, #{scheduleTitle}
-			, #{scheduleLocation}
-			, #{scheduleDetailLocation}
+			<if test="!''.equals(scheduleLocation)">
+				, #{scheduleLocation}
+				, #{scheduleDetailLocation}
+			</if>
 			, #{scheduleContent}
 			, #{scheduleAuth}
 			, NOW()

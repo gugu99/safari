@@ -57,10 +57,16 @@
 				project_member pm1
 			ON
 				vwm.work_member_no = pm1.work_member_no
+			INNER JOIN
+				member m
+			ON
+				vwm.work_member_email = m.member_email
 			WHERE
 				vwm.work_no = #{workNo}
 			AND
 				pm1.project_no = #{projectNo}
+			AND
+				m.active = 'Y'
 			) pm
 		LEFT OUTER JOIN
 			(

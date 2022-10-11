@@ -153,7 +153,7 @@
 		                                     </c:forEach>
 		                                 </p>
 	                                     <p class="card-text mb-2">
-	                                     <c:if test="${s.scheduleLocation ne ''}">
+	                                     <c:if test="${s.scheduleLocation ne null}">
 		                                     <span class="blue-grey addr"><span class="fa fa-map-marker mr-1"></span>${s.scheduleLocation }</span>
 		                                     <span class="blue-grey addr">${s.scheduleDetailLocation }</span>
 	                                     	<div id="map${i.index }" style="width:100%;height:300px;" ></div>
@@ -198,7 +198,7 @@
 					                        	 			<div class="avatar avatar-offline bg-info m-0 mr-50"><span class="fa fa-user"></span></div>
 					                        	 		</c:when>
 					                        	 		<c:otherwise>
-					                        	 			<div class="avatar avatar-sm rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/${c.cmtFilename}${c.cmtFileExt}" alt="avatar" class="height-30 width-30"><i></i></div>
+					                        	 			<div class="avatar avatar-md rounded-circle"><img src="${pageContext.request.contextPath }/resources/upload/${c.cmtFilename}${c.cmtFileExt}" alt="avatar"></div>
 					                        	 		</c:otherwise>
 					                        	 	</c:choose>
 		                                        
