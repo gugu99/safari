@@ -73,9 +73,9 @@ $('#copyTaskList').click(function(){
 			if(json != 'ok'){
 				alert('업무리스트 복사를 실패했습니다.');
 				return;
-			} else {
-				alert('업무리스트 복사를 성공했습니다.');
-			}
+			} // else {
+				// alert('업무리스트 복사를 성공했습니다.');
+			// }
 		}
     });
     

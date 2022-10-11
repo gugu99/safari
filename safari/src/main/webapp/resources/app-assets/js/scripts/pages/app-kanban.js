@@ -95,7 +95,7 @@ $(document).ready(function () {
 		type : 'GET',
 		url : '/member/taskCommentCnt',
 		success : function(json){
-			console.log(json);
+			// console.log(json);
 			cmtCnt = json;
 	}
   });
@@ -387,7 +387,7 @@ $(document).ready(function () {
 				// console.log($("#deleteMember").val());
 				$('.edit-kanban-item-member').val(str.replace("undefined ", ""));
 				
-				alert('멤버 추가를 성공했습니다.');
+				// alert('멤버 추가를 성공했습니다.');
 			}
 		 }
   	   }); 
@@ -464,14 +464,14 @@ $(document).ready(function () {
 				// 배정된 멤버를 넣어주기
 				$('.edit-kanban-item-member').val(str.replace("undefined ", ""));
 				
-				alert('멤버 삭제를 성공했습니다.');
+				// alert('멤버 삭제를 성공했습니다.');
 			}
 		 }
   	   });
   });
   // 디버깅
   // console.log("전체 데이터");
-  console.log(kanban_board_data);
+  // console.log(kanban_board_data);
   
   
   // 업무
@@ -644,9 +644,9 @@ $(document).ready(function () {
 				if(json != 'ok'){
 					alert('업무 추가를 실패했습니다.');
 					return;
-				} else {
-					alert('업무 추가를 성공했습니다.');
-				}
+				} // else {
+					// alert('업무 추가를 성공했습니다.');
+				// }
 			}
 	     });
 		 window.location.reload();
@@ -675,9 +675,9 @@ $(document).ready(function () {
 			if(json != 'ok'){
 				alert('업무완료를 실패했습니다.');
 				return;
-			} else {
-				alert('업무완료를 성공했습니다.');
-			}
+			} // else {
+				// alert('업무완료를 성공했습니다.');
+			// }
 		}
      });
      
@@ -699,9 +699,9 @@ $(document).ready(function () {
 			if(json != 'ok'){
 				alert('업무완료취소를 실패했습니다.');
 				return;
-			} else {
-				alert('업무완료취소를 성공했습니다.');
-			}
+			} // else {
+				// alert('업무완료취소를 성공했습니다.');
+			// }
 		}
      });
      
@@ -817,7 +817,7 @@ $(document).ready(function () {
 							  
 							$('.edit-kanban-item-task').html(str);
 							
-							alert('하위업무 생성을 성공했습니다.');
+							// alert('하위업무 생성을 성공했습니다.');
 					}
 				}	
 			});
@@ -842,9 +842,9 @@ $(document).ready(function () {
 			if(json != 'ok'){
 				alert('하위업무 전환을 실패했습니다.');
 				return;
-			} else {
-				alert('하위업무 전환을 성공했습니다.');
-			}
+			} // else {
+				// alert('하위업무 전환을 성공했습니다.');
+			// }
 		}	
     });
   });
@@ -863,9 +863,9 @@ $(document).ready(function () {
 			if(json != 'ok'){
 				alert('메인업무 전환을 실패했습니다.');
 				return;
-			} else {
-				alert('메인업무 전환을 성공했습니다.');
-			}
+			} // else {
+				// alert('메인업무 전환을 성공했습니다.');
+			// }
 		}	
     });
   });
@@ -920,7 +920,7 @@ $(document).ready(function () {
 		url : '/member/taskCommentOne',
 		success : function(json){
 			// console.log("업무코멘트 수정");
-			console.log(json);
+			// console.log(json);
 			
   			$('#updateTaskCmtContent').val(json.taskCmtContent);
 		}
@@ -984,9 +984,9 @@ $(document).ready(function () {
 			if(json != 'ok'){
 				alert('본인이 작성한 코멘트인지 확인해주시기 바랍니다.');
 				return;
-			} else {
+			} // else {
 				// alert('업무코멘트 삭제를 성공했습니다.');
-			}
+			// }
 		}
   	});
   	
@@ -1019,11 +1019,11 @@ $(document).ready(function () {
 			if(json == 'not ok'){
 				alert('좋아요를 실패했습니다.');
 				return;
-			} else if(json == 'insert ok') {
+			} // else if(json == 'insert ok') {
 				// alert('업무코멘트 좋아요를 성공했습니다.');
-			} else if(json == 'delete ok') {
+			// } else if(json == 'delete ok') {
 				// alert('업무코멘트 좋아요를 취소했습니다.');
-			}
+			// }
 		}
   	});
   	
@@ -1051,10 +1051,10 @@ $(document).ready(function () {
 			if(json == 'not ok'){
 				alert('업무코멘트 고정을 실패했습니다.');
 				return;
-			} else {
+			} // else {
 				// alert('업무코멘트 고정을 성공했습니다.');
 				
-			} 
+			// } 
 		}		
 	});
   	// 업무코멘트 리스트 보여주기
@@ -1159,9 +1159,9 @@ $(document).ready(function () {
 				if(json != 'ok'){
 					alert('업무로 만들기를 실패했습니다.');
 					return;
-				} else {
-					alert('업무로 만들기를 성공했습니다.');
-				}
+				} // else {
+					// alert('업무로 만들기를 성공했습니다.');
+				// }
 			}
 	    });
 	    
@@ -1390,9 +1390,9 @@ $(document).ready(function () {
 			if(json != 'ok'){
 				alert('업무리스트 추가를 실패했습니다.');
 				return;
-			} else {
-				alert('업무리스트 추가를 성공했습니다.');
-			}
+			} // else {
+				// alert('업무리스트 추가를 성공했습니다.');
+			// }
 		}
      });
      window.location.reload();
@@ -1418,7 +1418,7 @@ $(document).ready(function () {
 			url : '/member/memberEmail',
 			success : function(json){
 				memberEmail = json;
-				console.log(memberEmail);
+				// console.log(memberEmail);
 		    }
 	  }); 
 	
@@ -1432,7 +1432,7 @@ $(document).ready(function () {
 			url : '/member/taskCommentLikeList',
 			success : function(json){
 				taskCommentLikeList = json;
-	 			console.log(taskCommentLikeList);
+	 			// console.log(taskCommentLikeList);
 		    }
 	  }); 
 	
@@ -1674,9 +1674,9 @@ $(document).ready(function () {
 			if(json != 'ok'){
 				alert('업무 삭제를 실패했습니다.');
 				return;
-			} else {
-				alert('업무 삭제를 성공했습니다.');
-			}
+			} // else {
+				// alert('업무 삭제를 성공했습니다.');
+			// }
 		}
     });
     
@@ -1699,12 +1699,7 @@ $(document).ready(function () {
   $(".kanban-title-board").on("click", function () {
 	$(this).attr("contenteditable", "true");
     $(this).addClass("line-ellipsis");
-    // js에서 사용할 id 추가하기
-    $(this).attr("id", "kanban-title-board");
-    // 선택한 id를 변수에 담기 (이 id는 업무리스트의 데이터베이스 PK이다)
-   	$id = $(this)
-      .closest(".kanban-board")
-      .attr("data-id");
+    
     // 디버깅
 	// console.log("data-id : " + $id);
   });
@@ -1718,16 +1713,24 @@ $(document).ready(function () {
 		if(!event.shiftKey){
 			event.preventDefault();
 		}
-		// 디버깅
-		// alert('엔터키 이벤트');
+    	// js에서 사용할 id 추가하기
+		$(this).attr("id", "kanban-title-board");
 		
+	    // 선택한 id를 변수에 담기 (이 id는 업무리스트의 데이터베이스 PK이다)
+	   	$id = $(this)
+	      .closest(".kanban-board")
+	      .attr("data-id");
+	      
 		// 엔터를 누르는 동시에 현재 안에 값을 value로 저장한다.
     	$(this).attr("value", document.getElementById('kanban-title-board').innerHTML);
+    	
     	// value를 변수에 담는다.
     	$value = $(this)
 	  	  .attr("value");
+	  	  
         // 디버깅
-	  	// console.log("value : " + $value);
+	  	// console.log("id : " + $id);
+	  	// alert($value);
 	  	
 		$.ajax({
 			async : false,
@@ -1742,9 +1745,9 @@ $(document).ready(function () {
 				if(json != 'ok'){
 					alert('업무리스트 수정을 실패했습니다.');
 					return;
-				} else {
-					alert('업무리스트 수정을 성공했습니다.');
-				}
+				} // else {
+					// alert('업무리스트 수정을 성공했습니다.');
+				// }
 			}
 		});	
 		
@@ -1775,7 +1778,7 @@ $(document).ready(function () {
 					alert('업무리스트 삭제를 실패했습니다.');
 					return;
 				} else {
-					alert('업무리스트 삭제를 성공했습니다.');
+					// alert('업무리스트 삭제를 성공했습니다.');
 					
     				KanbanExample.removeBoard($id);
     				

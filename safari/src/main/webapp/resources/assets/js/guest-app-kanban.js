@@ -21,62 +21,19 @@ $(document).ready(function () {
   var member_list = new Array();
   // 프로젝트 멤버 담을 배열
   var projectMember = new Array();
-  // 업무 멤버 이미지 배열
+  // 업무 멤버 배열
   var user = new Array();
   
   // 서브스트링에 있는 값 꺼내기
   var str = window.location.search;
   // 프로젝트 번호
-  var projectNo;
+  var projectNo = str.substring(str.indexOf('projectNo=') + 10);
   // 정렬
   var sort;
   // 검색
   var search;
   // 완료
   var check;
-  
-  // 프로젝트 번호 가져오기
-  if(str.indexOf('&') == -1){
-	projectNo = str.substring(str.indexOf('projectNo=') + 10);
-  } else {
-	projectNo = str.substring(str.indexOf('projectNo=') + 10, str.indexOf('&'));
-  }
-  // 정렬에 관한 설정
-  if(str.indexOf('sort') == -1){
-	sort = "0";
-  } else {
-	sort = str.substring(str.lastIndexOf('=') + 1);
-  
- 	$('#sort > option[value=' + sort + ']').attr('selected', true);
-  }
-  
-  // 검색에 관한 설정
-  if(str.indexOf('search') == -1){
-	search = null;
-  } else {
-	if(str.indexOf('&sort=') == -1){
-		search = decodeURIComponent(str.substring(str.indexOf('search=') + 7));	
-	} else {
-		search = decodeURIComponent(str.substring(str.indexOf('search=') + 7, str.lastIndexOf('&')));
-	}
-	
-	$('#search').val(search);
-  }
-  
-  // 완료에 관한 설정 || str.substring(str.indexOf('check=') + 6) == 'false'
-  // check에 관한 것이 없으면 check = false
-  if(str.indexOf('check') == -1){
-	check = false;
-	// check에 관한 것이 있다면 분기
-  } else {
-	if(str.indexOf('&s') == -1){
-		check = str.substring(str.indexOf('check=') + 6) == 'false' ? false : true;
-	} else {
-		check = str.substring(str.indexOf('check=') + 6, str.indexOf('&s')) == 'false' ? false : true;
-	}
-  }
-  
-  $('#completeTaskCheck').prop('checked', check);
   
   // 리스트를 위한 조회
   // ----------------------------------------------------------
@@ -88,7 +45,7 @@ $(document).ready(function () {
 		type : 'GET',
 		url : '/safari/taskMember',
 		success : function(json){
-			console.log(json);
+			// console.log(json);
 			user = json;
 		}
 	});
@@ -171,93 +128,6 @@ $(document).ready(function () {
 		}
   });
   
-  // 정렬
-  // ---------------------------------------------
-  
-  $('#sort').on("change", function(){
-		// 선택된 정렬 받아오기
-		var value_str = document.getElementById('sort');
-		sort = value_str.options[value_str.selectedIndex].value;
-		
-		if(sort == "0"){
-			// 전체업무
-		    window.location.replace('/safari/guestTaskList?projectNo=' + projectNo);
-		} else {
-		    if(search != null && check == null){
-				// 검색과 정렬 같이 있을 경우
-				window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&search=" + search + "&sort=" + sort);
-			} else if(search == null && check != null){
-				// 정렬과 체크 같이 있을 경우
-				window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check + "&sort=" + sort);
-			} else if(search != null && check != null) {
-				// 모두 다 있을 경우
-				window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search + "&sort=" + sort);
-			} else {
-				// 조회 있는 경우
-		    	window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&sort=" + sort);
-			}
-		}
-		
-  });
-  
-  
-  // 검색
-  // ----------------------------------------------------------
-  
-  $('#searchBtn').click(function(){
-	search = $('#search').val();
-	console.log(search);
-		
-	if(search == null){
-		// 전체업무
-	    window.location.replace('/safari/guestTaskList?projectNo=' + projectNo);
-	} else {
-		if(sort != "0" && check == null){
-			// 검색과 조회가 같이 있을 경우
-			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&search=" + search + "&sort=" + sort);
-		} else if(sort == "0" && check != null){
-			// 검색과 체크 같이 있을 경우
-			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search);
-		} else if(sort != "0" && check != null) {
-			// 모두 다 있을 경우
-			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search + "&sort=" + sort);
-		} else {
-			// 검색만 있을 경우
-			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&search=" + search);
-		}
-	}
-  });
-  
-  // 완료된 업무
-  // ----------------------------------------------------------
-  
-  $('#completeTaskCheck').on('change', function(){
-	
-  	// check가 되어있으면 완료된 업무 보기 - true
-  	// 안되어있으면 완료된 업무 안보기 - false
-  	// console.log($('#completeTaskCheck').is(':checked'));
-	check = $('#completeTaskCheck').is(':checked');
-	
-	if(check == null){
-		// 전체업무
-	    window.location.replace('/safari/guestTaskList?projectNo=' + projectNo);
-	} else {
-		if(sort != "0" && search == null){
-			// 체크와 정렬 같이 있을 경우
-			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check + "&sort=" + sort);
-		} else if(sort == "0" && search != null){
-			// 검색과 체크 같이 있을 경우
-			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search);
-		} else if(sort != "0" && search != null) {
-			// 모두 다 있을 경우
-			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check + "&search=" + search + "&sort=" + sort);
-		} else {
-			// 체크만 있을 경우
-			window.location.replace('/safari/guestTaskList?projectNo=' + projectNo + "&check=" + check);
-		}
-	}
-	
-  });
   
   
   // 업무 멤버

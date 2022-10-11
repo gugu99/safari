@@ -122,6 +122,7 @@
                 </div>
                 <!--/ Analytics spakline & chartjs  -->
                 
+                <!-- 프로젝트 개요 session -->
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-12">
                         <div class="card">
@@ -147,8 +148,9 @@
                         </div>
                     </div>
                 </div>
+                <!-- END : 프로젝트 개요 session -->
 
-                <!-- Audience by country & users visit -->
+                <!-- 나에게 배정된 업무 / 내가 작성한 업무 session -->
                	<section id="chartjs-pie-charts">
 	                <div class="row match-height">
 	                    <div class="col-xl-6 col-lg-12"> 
@@ -201,9 +203,9 @@
 	                    </div>
 	                </div>
                 </section>
-                <!--/ Audience by country  & users visit -->
+                <!-- END : 나에게 배정된 업무 / 내가 작성한 업무 session -->
 
-                <!-- Analytics map based session -->
+                <!-- 업무리스트 개요 session -->
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-12">
                         <div class="card">
@@ -229,7 +231,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Analytics map based session -->
+                <!-- END : 업무리스트 개요 session -->
 			</div>
 		</div>
     </div>
@@ -255,13 +257,7 @@
     <script src="${pageContext.request.contextPath }/resources/app-assets/js/core/app.js"></script>
     <!-- END: Theme JS-->
 
-    <!-- BEGIN: Page JS
-    <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/charts/chartjs/bar/bar.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/charts/chartjs/bar/bar-stacked.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/charts/chartjs/bar/bar-multi-axis.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/charts/chartjs/bar/column.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/charts/chartjs/bar/column-stacked.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/app-assets/js/scripts/charts/chartjs/bar/column-multi-axis.js"></script>-->
+    <!-- BEGIN: Page JS -->
     <script src="${pageContext.request.contextPath }/resources/assets/js/taskAnalytics.js"></script>
     <!-- END: Page JS-->
 
