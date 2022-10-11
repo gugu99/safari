@@ -56,6 +56,7 @@
                             <div class="card-header">
                                 <h4 class="card-title">프로젝트 파일리스트</h4>
                                	<a href="${pageContext.request.contextPath}/member/fileList" class="btn btn-sm btn-primary mr-25">전체목록</a>
+                               	<a href="${pageContext.request.contextPath}/member/fileList?uploader=${workMemberName}" class="btn btn-sm btn-primary mr-25">내가올린파일</a>
                                 <div class="heading-elements">
                                     <ul class="list-inline mb-0">
                                    		 <li>
@@ -71,12 +72,12 @@
 										</select>
                                    		 </li>
                                         <li><a data-action="collapse"><i class="feather icon-minus"></i></a></li>
-                                        <li><a data-action="reload"><i class="feather icon-rotate-cw"></i></a></li>
                                         <li><a data-action="expand"><i class="feather icon-maximize"></i></a></li>
-                                        <li><a data-action="close"><i class="feather icon-x"></i></a></li>
                                     </ul>
                                 </div>
-                                 <a href="#" class="btn btn-sm btn-primary mr-25" data-toggle="modal" data-target="#inlineForm">파일올리기</a>
+                                <p>
+                                 <a href="#" id ="addFileButton"  class="btn btn-sm btn-success mr-25" data-toggle="modal" data-target="#inlineForm">파일올리기</a>
+                                 </p>
                             </div>
                             <!--file Modal -->
 							<div class="col-lg-4 col-md-6 col-sm-12">
@@ -149,8 +150,8 @@
                                                 <td>${f.fileSize}</td>
                                                 <td>${f.createDate}</td>
                                                 <td>${f.uploader} 
-                                                <c:if test="${login eq f.uploader}">
-                                                <a href="${pageContext.request.contextPath}/member/removeFile?fileNo=${f.fileNo}"><button>파일삭제</button></a>
+                                                <c:if test="${workMemberName eq f.uploader}">
+                                                <a href="${pageContext.request.contextPath}/member/removeFile?fileNo=${f.fileNo}"><button class="btn btn-sm btn-danger mr-25">파일삭제</button></a>
                                                 </c:if>
                                                 </td>
                                                 <td>${f.taskTitle}</td>
@@ -238,6 +239,7 @@ $(document).ready(function(){
 <script>
 $(document).ready(function(){
 	
+	
 	// 파일 업로드 업무 번호조회
 	$('#tasklistNo').change(function() {
 		if($('#tasklistNo').val() == '') {
@@ -269,6 +271,7 @@ $(document).ready(function(){
 			$('#selectTaskNo').append('<option value="">::: 업무선택 :::</option>')
 			
 			$.ajax({
+				
 				url : '/member/tasklist',
 				type : 'post',
 				data : {tasklistNo : $('#selectTasklistNo').val()},
@@ -279,6 +282,7 @@ $(document).ready(function(){
 				}
 			});
 			$.ajax({
+				async : false,
 				url : '/member/tasklistNoFileList',
 				type : 'post',
 				data : {tasklistNo : $('#selectTasklistNo').val()},
@@ -288,6 +292,8 @@ $(document).ready(function(){
 						if(item.filename != '널'){
 							let html = '';
 							console.log(json);
+							var uploader=item.uploader;
+							console.log(uploader);
 							html += "<tr><th scope='row'><a href='${pageContext.request.contextPath}/resources/fileupload/"+item.filename+item.fileExt+"'";
 							html += " download='"+item.originName+"'";
 							html += ">";
@@ -296,10 +302,8 @@ $(document).ready(function(){
 							
 							html += "<td>"+item.fileSize+"</td>";
 							html += "<td>"+item.createDate+"</td>";
-							html += "<td>"+item.uploader + "    ";
-							html += "<a href='${pageContext.request.contextPath}/member/removeFile?fileNo="+item.fileNo+ "'>"+"<button>파일삭제</button></a>";
-							
-							html += "</td>"
+							html += "<td>"+item.uploader;
+							html += "</td>";
 							html += "<td>"+item.taskTitle+"</td>";
 							html += "</tr>";
 							
@@ -323,6 +327,7 @@ $(document).ready(function(){
 	// 업무 번호에 따른 리스트 조회
 	$('#selectTaskNo').change(function() {
 		$.ajax({
+			async : false,
 			url : '/member/taskFileList',
 			type : 'post',
 			data : {taskNo : $('#selectTaskNo').val()},
@@ -342,8 +347,6 @@ $(document).ready(function(){
 					html += "<td>"+item.fileSize+"</td>";
 					html += "<td>"+item.createDate+"</td>";
 					html += "<td>"+item.uploader + "    ";
-					html += "<a href='${pageContext.request.contextPath}/member/removeFile?fileNo="+item.fileNo+ "'>"+"<button>파일삭제</button></a>";
-					
 					html += "</td>"
 					html += "<td>"+item.taskTitle+"</td>";
 					html += "</tr>";

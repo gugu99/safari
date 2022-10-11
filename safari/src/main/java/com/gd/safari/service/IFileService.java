@@ -10,7 +10,7 @@ import com.gd.safari.vo.Task;
 public interface IFileService {
 	
 	// 프로젝트 전체에 따른 리스트
-	List<Map<String,Object>> selectAllFileList(int ProjectNo);
+	List<Map<String,Object>> selectAllFileList(Map<String,Object> map);
 	
 	// 파일 인서트
 	int addFile(Map<String, Object>map ,List<MultipartFile> file);

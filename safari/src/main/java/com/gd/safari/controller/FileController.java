@@ -30,7 +30,8 @@ public class FileController {
 	
 	// 파일 리스트
 	@GetMapping("/member/fileList")
-	public String index(HttpSession session ,Model model) {
+	public String index(HttpSession session ,Model model, @RequestParam Map<String,Object> map,
+							@RequestParam(value="uploader",required = false) String uploader) {
 		
 		// 세션 가져오기 projectNo
 		int projectNo=(int)session.getAttribute("projectNo");
@@ -38,8 +39,14 @@ public class FileController {
 		// 세션 프로젝트 No 
 		log.debug(TeamColor.CJM +projectNo+"Controller projectNo");
 		
+		map.put("projectNo", projectNo);
+		
+		if(uploader!=null) {
+			map.put("uploader", uploader);
+		}
+		
 		// 프로젝트 리스트 뽑아오기
-		List<Map<String,Object>> list= fileService.selectAllFileList(projectNo);
+		List<Map<String,Object>> list= fileService.selectAllFileList(map);
 		
 		// 업무 리스트 뽑아오기
 		List<TaskList> taskList = taskListService.getTaskList(projectNo);
@@ -70,7 +77,7 @@ public class FileController {
 		}
 		
 		// 어드민 이메일
-		String adminEmail = ((String) session.getAttribute("login"));
+		String workMemberName = ((String) session.getAttribute("workMemberName"));
 		
 		// path 설정
 		String path = session.getServletContext().getRealPath("/resources/fileupload/");			
@@ -79,7 +86,7 @@ public class FileController {
 		map.put("path", path);	
 		
 		// upload 추가
-		map.put("uploader", adminEmail);
+		map.put("uploader", workMemberName);
 		
 		// 프로필 이미지 추가
 		fileService.addFile(map,file);

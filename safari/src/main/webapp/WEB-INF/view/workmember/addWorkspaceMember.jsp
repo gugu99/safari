@@ -152,12 +152,18 @@
 															<label for="proposalTitle1">주소검색</label><button id="addrBtn" type="button" class="form-control btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">주소찾기</button>
 														</div>
 													</div>
-													<div class="col-md-12">
+													<div class="col-md-6">
 														<div class="form-group">
 															<label for="proposalTitle1">상세주소</label> <input
 																type="text" class="form-control" id="detailWorkMemeberAddr" name="detailWorkMemeberAddr">
 														</div>
 													</div>
+													<div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="date1">전화번호</label>
+                                                            <input type="text" class="form-control" id="workMemberPhone" name="workMemberPhone">
+                                                        </div>
+                                                    </div>
 												</div>
 											</fieldset>
 										</form>

@@ -343,10 +343,22 @@
 																		data-target="#updateWorkGuestApprove${i}"
 																		class="fa fa-check-square-o"></i></a>
 																		</c:if> 
+																		
 																		<span class="dropdown">
+																		
+																		<c:if test="${ workMemberLevel == 3 && r.active eq 'W' && r.workGuestCode == null  }">
 																		<a id="btnSearchDrop2" data-toggle="dropdown"
 																		aria-haspopup="true" aria-expanded="true"
-																		class="dropdown-toggle dropdown-menu-right"></a> <span
+																		class="dropdown-toggle dropdown-menu-right"></a> 
+																		</c:if>
+																		<c:if test="${ workMemberLevel ==4  }">
+																		<a id="btnSearchDrop2" data-toggle="dropdown"
+																		aria-haspopup="true" aria-expanded="true"
+																		class="dropdown-toggle dropdown-menu-right"></a> 
+																		</c:if>
+																		
+																		
+																		<span
 																		aria-labelledby="btnSearchDrop2"
 																		class="dropdown-menu mt-1 dropdown-menu-right">
 																			<c:if test="${workMemberLevel eq 4 }">

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.IFileMapper">
 	<!-- 파일리스트 -->
-	<select id="selectAllFileList" parameterType="int" resultType="map">
+	<select id="selectAllFileList" parameterType="map" resultType="map">
 		SELECT 
 				f.file_no		fileNo
 				,f.task_no		taskNo
@@ -12,7 +12,8 @@
 				,f.origin_name	originName
 				,f.file_type	fileType
 				,f.file_size	fileSize
-				,f.create_date	createDate
+				,DATE_FORMAT(f.create_date, '%Y-%m-%d') createDate   
+
 				,f.update_date	updateDate
 				,t.task_title	taskTitle
 
@@ -24,7 +25,17 @@
 		
 		ON t.task_no = f.task_no
 		
-		WHERE p.project_no = #{projectNo}
+		
+		<where>
+			<if test="uploader == null">
+				p.project_no = #{projectNo}	
+			</if>
+			<if test="uploader != null">
+				p.project_no = #{projectNo}	AND uploader =#{uploader}	
+			</if>
+			
+		</where>
+		
 	
 	</select>
 	
@@ -97,7 +108,7 @@
 				,f.origin_name	originName
 				,f.file_type	fileType
 				,f.file_size	fileSize
-				,f.create_date	createDate
+				,DATE_FORMAT(f.create_date, '%Y-%m-%d') createDate
 				,f.update_date	updateDate
 				,t.task_title	taskTitle
 
@@ -124,7 +135,7 @@
 				,f.origin_name	originName
 				,f.file_type	fileType
 				,f.file_size	fileSize
-				,f.create_date	createDate
+				,DATE_FORMAT(f.create_date, '%Y-%m-%d') createDate
 				,f.update_date	updateDate
 				,t.task_title	taskTitle
 

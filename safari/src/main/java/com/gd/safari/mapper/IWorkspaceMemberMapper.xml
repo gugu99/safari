@@ -20,33 +20,38 @@
 		VALUES(
 			#{workMemberName}
 			,
-			 work_member_addr = #{workMemberAddr}
+			 <if test='workMemberAddr ==  " "' >
+				 null
+			</if>
+			<if test='workMemberAddr !=  " "' >
+				 #{workMemberAddr}
+			</if>
 			,
 			<if test="workMemberBirth == ''">
-				 work_member_birth = null
+				null
 			</if>
 			<if test="workMemberBirth != ''">
-				 work_member_birth = #{workMemberBirth}
+				 #{workMemberBirth}
 			</if>
 			,
 			<if test="workMemberPhone == ''">
-			work_member_phone = null
+			 null
 			</if>
 			<if test="workMemberPhone != ''">
-			work_member_phone = #{workMemberPhone}
+			#{workMemberPhone}
 			</if>
 			,<if test="workMemberDept == ''">
-			work_member_dept = null
+			 null
 			</if>
 			<if test="workMemberDept != ''">
-			work_member_dept = #{workMemberDept}
+			#{workMemberDept}
 			</if>
 			,
 			<if test="workMemberPos == ''">
-			work_member_pos = null
+			null
 			</if>
 			<if test="workMemberPos != ''">
-			work_member_pos = #{workMemberPos}
+			#{workMemberPos}
 			</if>
 			, 'Y'
 			, 4

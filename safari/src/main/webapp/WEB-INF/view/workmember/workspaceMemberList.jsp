@@ -504,12 +504,20 @@
 																<c:if test="${r.workMemberLevel != 4}">	
 																<span class="dropdown"> 
 																<!--  화살표 -->
-																<c:if test="${ r.active == 'Y' || r.active eq 'W' && r.workMemberCode == null  }">
+																<c:if test="${ r.active == 'Y' and workMemberLevel == 4 || r.active eq 'W' && r.workMemberCode == null  }">
 																<a id="btnSearchDrop2"
 																	data-toggle="dropdown" aria-haspopup="true"
 																	aria-expanded="true"
 																	class="dropdown-toggle dropdown-menu-right"></a> 
 																	</c:if>
+																	<c:if test="${ workMemberLevel >1 and workMemberLevel > 4  && r.active eq 'W' && r.workMemberCode == null  }">
+																<a id="btnSearchDrop2"
+																	data-toggle="dropdown" aria-haspopup="true"
+																	aria-expanded="true"
+																	class="dropdown-toggle dropdown-menu-right"></a> 
+																	</c:if>
+																	
+																	
 																	<span
 																	aria-labelledby="btnSearchDrop2"
 																	class="dropdown-menu mt-1 dropdown-menu-right">

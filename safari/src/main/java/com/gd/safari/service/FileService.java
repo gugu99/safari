@@ -26,12 +26,12 @@ public class FileService implements IFileService {
 
 	// 프로젝트번호에 따른 파일 리스트
 	@Override
-	public List<Map<String,Object>> selectAllFileList(int ProjectNo) {
+	public List<Map<String,Object>> selectAllFileList(Map<String,Object> map) {
 
 		// ProjectNo 디버깅
-		log.debug(TeamColor.CJM + ProjectNo + "ProjectNo Service");
+		log.debug(TeamColor.CJM + map.get("ProjectNo") + "ProjectNo Service");
 
-		return fileMapper.selectAllFileList(ProjectNo);
+		return fileMapper.selectAllFileList(map);
 	}
 
 	// 파일 인서트 메서드
@@ -114,13 +114,13 @@ public class FileService implements IFileService {
 		return fileMapper.selectTaskList(tasklistNo);
 	}
 
-	// 업무 번호에 따른 업무리스
+	// 업무 번호에 따른 업무리스트
 	@Override
 	public List<Map<String,Object>> getTaskNoFileList(int taskNo) {
 		// taskNo 디버깅
 		log.debug(TeamColor.CJM + taskNo + "taskNo Service");
 
-		// 업무 번호에 따른 업무리스
+		// 업무 번호에 따른 업무리스트
 		return fileMapper.selectTaskNoFileList(taskNo);
 	}
 

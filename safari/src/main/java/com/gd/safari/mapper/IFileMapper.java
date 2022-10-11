@@ -11,7 +11,7 @@ import com.gd.safari.vo.Task;
 public interface IFileMapper {
 	
 	// 프로젝트 전체 파일 리스트
-	List<Map<String,Object>> selectAllFileList(int ProjectNo);
+	List<Map<String,Object>> selectAllFileList(Map<String,Object> map);
 	
 	// 파일 삽입 
 	int insertFile(Map<String, Object> map);

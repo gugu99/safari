@@ -138,6 +138,14 @@
                                                             <input type="date" class="form-control" id="workMemberBirth" name="workMemberBirth">
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="date1">전화번호</label>
+                                                            <input type="text" class="form-control" id="workMemberPhone" name="workMemberPhone">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                    </div>
 												</div>
 											</fieldset>
 
