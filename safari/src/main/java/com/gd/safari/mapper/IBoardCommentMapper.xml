@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.safari.mapper.IBoardCommentMapper">
+	<!-- 게시글 댓글 작성하기 -->
+	<insert id="insertBoardComment" parameterType="com.gd.safari.vo.BoardComment">
+		INSERT INTO
+			board_comment
+			(
+				board_cmt_content
+				, board_cmt_writer
+				, board_no
+				, create_date 
+			)
+		VALUES
+			(
+				#{boardCmtContent}
+				, #{boardCmtWriter}
+				, #{boardNo}
+				, NOW()
+			)
+	</insert>
+	
+	<!-- 게시글 댓글 삭제하기 -->
+	<delete id="deleteBoardComment" parameterType="int">
+		DELETE FROM
+			board_comment
+		WHERE
+			board_cmt_no = #{boardCmtNo}
+	</delete>
+</mapper>

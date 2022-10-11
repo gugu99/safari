@@ -5,183 +5,160 @@
 		<result column="board_no" property="boardNo"/>
 		<result column="work_no" property="workNo"/>
 		<result column="board_title" property="boardTitle"/>
-		<result column="work_member_name" property="workMemberName"/>
 		<result column="board_content" property="boardContent"/>
 		<result column="board_location" property="boardLocation"/>
 		<result column="board_detail_location" property="boardDetailLocation"/>
 		<result column="board_auth" property="boardAuth"/>
 		<result column="board_fix" property="boardFix"/>
 		<result column="board_writer" property="boardWriter"/>
-		<result column="create_date" property="createDate"/>
-		<result column="update_date" property="updateDate"/>
-		<result column="filename" property="filename"/>
-		<result column="file_ext" property="fileExt"/>
+		<result column="board_create_date" property="boardCreateDate"/>
+		<result column="writer_name" property="writerName"/>
+		<result column="writer_filename" property="writerFilename"/>
+		<result column="writer_file_ext" property="writerFileExt"/>
 		<result column="board_like_cnt" property="boardLikeCnt"/>
-		<collection property="boardFiles" ofType="com.gd.safari.vo.BoardFileList">
+		<collection property="boardFiles" ofType="com.gd.safari.vo.BoardFile">
 			<id column="board_file_no" property="boardFileNo"/>
-			<result column="board_no" property="boardNo"/>
-			<result column="uploader" property="uploader"/>
 			<result column="filename" property="filename"/>
 			<result column="file_ext" property="fileExt"/>
 			<result column="origin_name" property="originName"/>
 			<result column="file_type" property="fileType"/>
 			<result column="file_size" property="fileSize"/>
-			<result column="create_date" property="createDate"/>
-			<result column="update_date" property="updateDate"/>
 		</collection>
 		<collection property="boardComments" ofType="com.gd.safari.vo.BoardCommentList">
 			<id column="board_cmt_no" property="boardCmtNo"/>
 			<result column="board_cmt_content" property="boardCmtContent"/>
 			<result column="board_cmt_writer" property="boardCmtWriter"/>
-			<result column="create_date" property="createDate"/>
-			<result column="update_date" property="updateDate"/>
-			<result column="board_no" property="boardNo"/>
-			<result column="cmt_filename" property="cmtFilename"/>
-			<result column="cmt_file_ext" property="cmtFileExt"/>
-			<result column="cmt_work_member_name" property="cmtWorkMemberName"/>
+			<result column="cmt_create_date" property="cmtCreateDate"/>
+			<result column="cmt_writer_filename" property="cmtWriterFilename"/>
+			<result column="cmt_writer_file_ext" property="cmtWriterFileExt"/>
+			<result column="cmt_writer_name" property="cmtWriterName"/>
 		</collection>
 	</resultMap>
 	
 	
 	<!-- 보드리스트 조회 메서드 -->
-	<select id="selectBoardList" resultMap="resultBoardList" parameterType="map">
+	<select id="selectBoardList" resultMap="resultBoardList" parameterType="int">
 		
-		SELECT 
-						  b.board_no       
-						, b.work_no        
-						, b.board_title    
-						, b.board_content  
-						, b.board_location 
-						, b.board_detail_location
-						, b.work_member_name
-						, b.board_auth     
-						, b.board_fix		 
-						, b.board_writer	 
-						, b.create_date	 
-						, b.update_date    
-						, b.filename filename
-						, b.file_ext file_ext
-						,IFNULL(b.boardLikeCnt,0) board_like_cnt
-						
-						,bc.board_cmt_no
-						,bc.board_no
-						,bc.board_cmt_writer
-						,bc.board_cmt_content
-						,bc.create_date
-						,bc.cmt_filename
-						,bc.cmt_file_ext
-						,bc.cmt_work_member_name
-						
-						 ,bf.board_file_no
-						,bf.board_no
-						,bf.uploader
-						,bf.filename
-						,bf.file_ext
-						,bf.origin_name
-						,bf.file_type
-						,bf.file_size
-						,bf.create_date
-						,bf.update_date
-						
-		
-		 FROM	(
-		 SELECT
-				 		  b3.board_no       
-						, b3.work_no        
-						, b3.board_title    
-						, b3.board_content  
-						, b3.board_location 
-						, b3.work_member_name    
-						, b3.board_detail_location
-						, b3.board_auth     
-						, b3.board_fix		 
-						, b3.board_writer	 
-						, b3.create_date	 
-						, b3.update_date    
-						, b3.filename
-						, b3.file_ext
-						, blc.boardLikeCnt
-				FROM	
-					(
-					SELECT
-						  b1.board_no       
-						, b1.work_no        
-						, b1.board_title    
-						, b1.board_content  
-						, b1.board_location 
-						, b1.board_detail_location
-						, b1.board_auth     
-						, b1.board_fix		 
-						, b1.board_writer	 
-						, b1.create_date	 
-						, b1.update_date
-						, vwm1.work_member_name work_member_name 
-						, vwm1.filename filename
-						, vwm1.file_ext file_ext
-					FROM 
-						board b1
-					INNER JOIN
-						v_workspace_member vwm1
-					ON 
-						b1.board_writer	= vwm1.work_member_email
-					WHERE 
-						vwm1.work_no = #{workNo}
-					) b3 
-					LEFT OUTER JOIN
-					(
-					SELECT
-						board_no
-						, count(*) boardLikeCnt
-					FROM
-						board_like
-						GROUP BY
-							board_no
-						)blc
-					ON
-						b3.board_no = blc.board_no)
-		b
-		LEFT OUTER JOIN 						    
-		
-		(
-		SELECT	
-				bc1.board_cmt_no board_cmt_no
-				,bc1.board_no
-				,vwm2.work_member_name cmt_work_member_name
-				,bc1.board_cmt_writer board_cmt_writer
-				,bc1.board_cmt_content
-				,bc1.create_date
-				,vwm2.filename cmt_filename
-				,vwm2.file_ext cmt_file_ext
-			  FROM
-			  	board_comment bc1
-			  INNER JOIN
-			  	v_workspace_member vwm2
-			  ON bc1.board_cmt_writer = vwm2.work_member_email
-			  WHERE 
-			  	vwm2.work_no = #{workNo} 
-				) bc
-		ON 
-			b.board_no  = bc.board_no
-		LEFT OUTER JOIN 
-			(SELECT
-			bf1.board_file_no
-			,bf1.board_no
-			,bf1.uploader
-			,bf1.filename
-			,bf1.file_ext
-			,bf1.origin_name
-			,bf1.file_type
-			,bf1.file_size
-			,bf1.create_date
-			,bf1.update_date
-		FROM board_file bf1
-		
-		)bf
-		ON b.board_no =bf.board_no
-		
-		WHERE b.work_no  = #{workNo}
-
-		
+		SELECT
+			b.board_no
+			, b.work_no
+			, b.board_title
+			, b.board_content
+			, b.board_location
+			, b.board_detail_location
+			, b.board_auth
+			, b.board_fix
+			, b.board_writer
+			, b.board_create_date
+			, b.writer_name
+			, b.writer_filename
+			, b.writer_file_ext
+			, IFNULL(b.board_like_cnt,0) board_like_cnt
+			
+			, bf.board_file_no
+			, bf.filename
+			, bf.file_ext
+			, bf.origin_name
+			, bf.file_type
+			, bf.file_size
+			
+			, bc.board_cmt_no
+			, bc.board_cmt_content
+			, bc.board_cmt_writer
+			, bc.cmt_create_date	
+			, bc.cmt_writer_name
+			, bc.cmt_writer_filename
+			, bc.cmt_writer_file_ext
+		FROM
+			(
+			SELECT
+				b1.board_no
+				, b1.work_no
+				, b1.board_title
+				, b1.board_content
+				, b1.board_location
+				, b1.board_detail_location
+				, b1.board_auth
+				, b1.board_fix
+				, b1.board_writer
+				, b1.board_create_date
+				
+				, b1.writer_name
+				, b1.writer_filename
+				, b1.writer_file_ext
+				
+				, bl.board_like_cnt
+			FROM
+				(
+				SELECT
+					b2.board_no
+					, b2.work_no
+					, b2.board_title
+					, b2.board_content
+					, b2.board_location
+					, b2.board_detail_location
+					, b2.board_auth
+					, b2.board_fix
+					, b2.board_writer
+					, b2.create_date board_create_date
+					
+					, vwm1.work_member_name writer_name
+					, vwm1.filename writer_filename
+					, vwm1.file_ext writer_file_ext
+				FROM
+					board b2
+				INNER JOIN
+					v_workspace_member vwm1
+				ON
+					b2.board_writer = vwm1.work_member_email
+				WHERE
+					vwm1.work_no = #{workNo}
+				) b1
+			LEFT OUTER JOIN
+				(
+				SELECT
+					board_no
+					, COUNT(*) board_like_cnt
+				FROM
+					board_like
+				GROUP BY
+					board_no
+				) bl
+			ON
+				b1.board_no = bl.board_no
+			) b
+		LEFT OUTER JOIN
+			board_file bf
+		ON
+			b.board_no = bf.board_no
+		LEFT OUTER JOIN
+			(
+			SELECT
+				bc1.board_cmt_no
+				, bc1.board_no
+				, bc1.board_cmt_content
+				, bc1.board_cmt_writer
+				, bc1.create_date cmt_create_date
+				
+				, vwm2.work_member_name cmt_writer_name
+				, vwm2.filename cmt_writer_filename
+				, vwm2.file_ext cmt_writer_file_ext
+			FROM
+				board_comment bc1
+			INNER JOIN
+				v_workspace_member vwm2
+			ON
+				bc1.board_cmt_writer = vwm2.work_member_email
+			WHERE
+				vwm2.work_no = #{workNo}
+			) bc
+		ON
+			b.board_no = bc.board_no
+		WHERE
+			b.work_no = #{workNo}
+		ORDER BY
+			b.board_fix
+			, b.board_create_date DESC
 	</select>
 
 
@@ -197,7 +174,12 @@
 			  work_no
 			, board_title
 			, board_content
-			, board_location
+			
+			<if test="!''.equals(boardLocation)">
+				, board_location
+				, board_detail_location
+			</if>
+			
 			, board_auth
 			, board_fix
 			, board_writer
@@ -207,14 +189,68 @@
 			  #{workNo} 
 			, #{boardTitle}
 			, #{boardContent}
-			, #{boardLocation}
+			
+			<if test="!''.equals(boardLocation)">
+				, #{boardLocation}
+				, #{boardDetailLocation}
+			</if>
 			, #{boardAuth}
-			, 'Y'
+			, 'N'
 			, #{boardWriter}
 			, now()
 			, now()
 		)
 	</insert>
 	
+	<!--게시글 고정 여부 변경 -->
+	<insert id="updateBoardFixByBoardNo" parameterType="com.gd.safari.vo.Board">
+		UPDATE
+			board
+		SET
+			board_fix = #{boardFix}
+		WHERE
+			board_no = #{boardNo}
+	</insert>
+	
+	<!-- 게시글 삭제하기 -->
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM
+			board
+		WHERE
+			board_no = #{boardNo}
+	</delete>
+	
+	<!-- 게시글 한개 조회하기 -->
+	<select id="selectBoardOne" resultType="com.gd.safari.vo.Board" parameterType="int">
+		SELECT
+			board_no boardNO
+			, board_title boardTitle
+			, board_content boardContent
+			, board_location boardLocation
+			, board_detail_location boardDetailLocation
+			, board_auth boardAuth
+			, board_writer boardWriter
+		FROM
+			board
+		WHERE
+			board_no = #{boardNo}
+	</select>
+	
+	<!-- 게시글 수정하기 -->
+	<update id="updateBoard" parameterType="map">
+		UPDATE
+			board
+		SET
+			board_title = #{boardTitle}
+			, board_content = #{boardContent}
+			<if test="!''.equals(boardLocation)">
+				, board_location = #{boardLocation}
+				, board_detail_location = #{boardDetailLocation}
+			</if>
+			, board_auth = #{boardAuth}
+			, update_date = NOW()
+		WHERE
+			board_no = #{boardNo}
+	</update>
 
 </mapper>

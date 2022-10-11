@@ -13,7 +13,6 @@
 				, file_type
 				, file_size
 				, create_date
-				, update_date
 			) VALUES(
 				  #{boardNo}
 				, #{uploader}
@@ -23,11 +22,32 @@
 				, #{fileType}
 				, #{fileSize}
 				, NOW()
-				, NOW()
 			)
 	
 	</insert>
+	
+	<!-- 게시글 수정을 위한 파일 조회 -->
+	<select id="selectBoardFileByBoardNo" resultType="com.gd.safari.vo.BoardFile" parameterType="int">
+		SELECT
+			board_file_no boardFileNo
+			, board_no boardNo
+			, filename filename
+			, file_ext fileExt
+			, origin_name originName
+			, file_type fileType
+			, file_size fileSize
+		FROM
+			board_file
+		WHERE
+			board_no = #{boardNo}
+	</select>
 
-
+	<!-- 게시글 수정을 위한 파일 삭제 -->
+	<delete id="deleteBoardFile" parameterType="map">
+		DELETE FROM
+			board_file
+		WHERE
+			board_file_no = #{boardFileNo}
+	</delete>
 
 </mapper>

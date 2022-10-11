@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Board { 				// 보드(게시판)를 위한 vo
 	private int boardNo; 			// 보드 번호(PK)
-	private int projectNo;			// 프로젝트 번호(FK)
+	private int workNo;			// 워크스페이스 번호(FK)
 	private String boardTitle;		// 보드 제목
 	private String boardContent;	// 보드 내용
 	private String boardLocation;	// 보드 장소(api로 지도를 보여준다.)
