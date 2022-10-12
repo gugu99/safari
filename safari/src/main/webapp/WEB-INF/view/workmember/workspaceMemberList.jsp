@@ -739,7 +739,7 @@ $(document).ready(function() {
 				data : {workMemberEmail : $("input[name='workMemberEmail']").eq(i).val()},
 				success : function(data) {
 						if (data != '존재하는이메일') {
-							alert(i+ 1+ '번쨰칸은 가입하지 않는 아이디 이거나 탈퇴한 아이디입니다.');
+							alert(i+ 1+ '번째 칸은 가입하지 않는 아이디 이거나 탈퇴한 아이디입니다.');
 							i = grpl+1;
 							console.log(data);
 							return;
@@ -751,7 +751,7 @@ $(document).ready(function() {
 								data : {workMemberEmail : $("input[name='workMemberEmail']").eq(i).val()},
 								success : function(json) {
 										if (json == '이미사용') {
-											alert(i+ 1+ '칸은 이미가입된 이메일입니다.');
+											alert(i+ 1+ '번째 칸은 이미가입된 이메일입니다.');
 											i = grpl+1;
 											return;
 										} else if (json == '사용하지않음'&& i == grpl - 1) {
@@ -799,7 +799,7 @@ $(document).ready(function() {
 					data : {workMemberEmail : $("input[name='memberEmail1']").eq(i).val()},
 					success : function(data) {
 							if (data != '존재하는이메일') {
-								alert(i+ 1+ '번쨰칸은 가입하지 않는 아이디 이거나 탈퇴한 아이디입니다.');
+								alert(i+ 1+ '번째 칸은 가입하지 않는 아이디 이거나 탈퇴한 아이디입니다.');
 								console.log(data);
 								i = grpl+1;
 								return;
@@ -811,7 +811,7 @@ $(document).ready(function() {
 									data : {workMemberEmail : $("input[name='memberEmail1']").eq(i).val()},
 									success : function(json) {
 											if (json == '이미사용') {
-												alert(i+ 1+ '칸은 이미가입된 이메일입니다.');
+												alert(i+ 1+ '번째 칸은 이미가입된 이메일입니다.');
 												i = grpl+1;
 												return;
 											} 
@@ -823,7 +823,7 @@ $(document).ready(function() {
 													data : {memberEmail : $("input[name='memberEmail1']").eq(i).val()},
 													success : function(email) {
 															if (email == '이미사용') {
-																alert(i+ 1+ '칸은 이미가입된 게스트입니다.');
+																alert(i+ 1+ '번째 칸은 이미가입된 게스트입니다.');
 																i = grpl+1;
 																return;
 															} else if (json == '사용하지않음'&& i == grpl - 1) {
