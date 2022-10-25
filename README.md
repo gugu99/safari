@@ -51,6 +51,9 @@ Final Project
   - 검색
 - 프로젝트 통계 (Project Summary)
   - ![10  프로젝트 통계](https://user-images.githubusercontent.com/104309118/197676257-ad5a15bf-73cb-4298-8ae0-89903dfe156b.png)
+- 피드백
+  - R/D
+  - ![피드백 리스트](https://user-images.githubusercontent.com/104309118/197679032-88254af4-7560-421a-bece-4537cdc8693c.png)
   
 ## [조승현](https://github.com/choseunghyun33)
 - 로그인 (Login)
