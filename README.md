@@ -22,7 +22,7 @@ Final Project
   - 좋아요
   - 댓글
   - 검색
-  ![일정](https://user-images.githubusercontent.com/104309118/197677758-6e117a82-346d-48c9-9e62-3483b7163001.png)
+  - ![일정](https://user-images.githubusercontent.com/104309118/197677758-6e117a82-346d-48c9-9e62-3483b7163001.png)
 
 - 피드백 (Feedback)
   - C/U
