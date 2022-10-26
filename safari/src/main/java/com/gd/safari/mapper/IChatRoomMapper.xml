@@ -2,7 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.IChatRoomMapper">
 	<!-- 채팅방 생성하기 -->
-	<insert id="insertChatRoom" parameterType="com.gd.safari.vo.ChatRoom">
+	<insert id="insertChatRoom" parameterType="java.util.Map">
+		<selectKey keyProperty="chatRoomNo" resultType="int" order="AFTER">
+			<!-- 방금 생성한 키값을 받아옴 -->
+			SELECT LAST_INSERT_ID() as chatRoomNo
+		</selectKey>
+		
 		INSERT INTO
 			chat_room
 			(
@@ -19,4 +24,21 @@
 				, #{workNo}
 			)
 	</insert>
+	
+	<!-- 채팅방 리스트 -->
+	<select id="selectChatRoomListByWorkMemberEmail" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			cr.chat_room_name chatRoomName
+			, cr.chat_room_no chatRoomNo
+		FROM
+			chat_room cr
+		INNER JOIN
+			chat_member cm
+		ON
+			cr.chat_room_no = cm.chat_room_no
+		WHERE
+			cm.chat_member_email = #{workMemberEmail}
+		AND
+			cr.work_no = #{workNo}
+	</select>
 </mapper>

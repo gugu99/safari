@@ -17,4 +17,40 @@
 				, NOW()
 			)
 	</insert>
+	
+	<!-- 채팅 메시지 리스트 -->
+	<select id="selectMsgListByChatRoomNo" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			chat_msg chatMsg
+			, cm.create_date createDate
+			, cr.chat_room_no chatRoomNo
+			, wm.work_member_name workMemberName
+		FROM
+			chat_msg msg
+		INNER JOIN
+			chat_member cm
+		ON
+			msg.chat_member_no = cm.chat_member_no
+		INNER JOIN
+			chat_room cr
+		ON
+			cr.chat_room_no = cm.chat_room_no
+		INNER JOIN
+			workspace_member wm
+		ON
+			chat_member_email = work_member_email
+		WHERE
+			wm.work_no = #{workNo}
+		AND
+			msg.chat_member_no
+		IN
+			(
+			SELECT
+				chat_member_no
+			FROM
+				chat_member
+			WHERE
+				chat_room_no = #{chatRoomNo}
+			)	
+	</select>
 </mapper>
