@@ -32,6 +32,32 @@
 		    <artifactId>jstl</artifactId>
 		</dependency>
 		
+		<!-- CHATTING -->
+		<!-- SOCK-JS -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>sockjs-client</artifactId>
+		    <version>1.5.1</version>
+		</dependency>
+
+		<!-- webstomp-client -->
+		<dependency>
+   			<groupId>org.webjars.npm</groupId>
+		    <artifactId>webstomp-client</artifactId>
+		    <version>1.2.6</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/webjars-locator-core -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>webjars-locator-core</artifactId>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

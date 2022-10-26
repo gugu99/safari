@@ -1,6 +1,4 @@
-/* 프로젝트 수정폼을 띄우는 ajax
- * 
- */
+// 프로젝트 수정폼을 띄우는 ajax
  
  $(document).ready(function(){
     	let prevProjectManagerArr = new Array(); // 기존 관리자들의 번호를 저장해놓을 배열
