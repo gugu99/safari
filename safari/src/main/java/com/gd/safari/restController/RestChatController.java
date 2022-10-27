@@ -10,14 +10,15 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.gd.safari.commons.TeamColor;
-import com.gd.safari.mapper.ChatRoomRepository;
 import com.gd.safari.service.IChatService;
-import com.gd.safari.vo.ChatMsg;
-import com.gd.safari.vo.ChatRoom;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,16 +27,39 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class StompChatController {
+@RequestMapping("/member/chat")
+public class RestChatController {
 	@Autowired
 	private SimpMessagingTemplate template; // 특정 브로커로 메시지 전달
 	@Autowired
 	private IChatService chatService;
 	
+	@GetMapping("")
+    public ModelAndView chat(ModelAndView mv, HttpSession session, Map<String, Object> paramMap) {
+	    log.debug(TeamColor.CSK + "채팅방 메인 페이지");
+        // log.debug(TeamColor.CSK + (String)session.getAttribute("login"));
+        
+        paramMap.put("workNo", (int)session.getAttribute("workNo"));
+        paramMap.put("workMemberEmail", (String)session.getAttribute("login"));
+        
+        Map<String, Object> map = chatService.getChatListByWorkNo(paramMap);
+        
+        // ModelAndView 세팅 
+        mv.setViewName("chat/chat");
+        mv.addObject("chatRoomList", map.get("chatRoomList"));
+        mv.addObject("workspaceMemberList", map.get("workspaceMemberList"));
+	    
+	   return mv;
+    }
+	
 	// 채팅방 입장
-    @GetMapping("/member/chatRoom")
-    public List<Map<String, Object>> getChatRoom(@RequestParam Map<String, Object> map, Model model, HttpSession session){
-    	map.put("workNo", (int)session.getAttribute("workNo"));
+	// @RequestMapping(value="/chat", method= RequestMethod.GET)
+	@GetMapping("/{chatRoomNo}")
+    public List<Map<String, Object>> getChatRoom(ModelAndView mv, @RequestParam Map<String, Object> map, @PathVariable int chatRoomNo, HttpSession session){
+	    log.debug(TeamColor.CSK + "getChatRoom1 : " + map);
+	    
+	    map.put("workNo", (int)session.getAttribute("workNo"));
+    	map.put("chatRoomNo", chatRoomNo);
     	map.put("workMemberName", (String)session.getAttribute("workMemberName")); // 방 이름 만들기
     	map.put("workMemberEmail", (String)session.getAttribute("login")); // 스스로의 이름
     	

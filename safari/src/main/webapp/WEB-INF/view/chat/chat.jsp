@@ -267,7 +267,6 @@
 							        </div><!-- end for card-content -->
 							        <div class="card-footer chat-footer px-2 py-1 pb-0">
 							                <i class="feather icon-user cursor-pointer"></i>
-							                <i class="feather icon-paperclip ml-1 cursor-pointer"></i>
 							                <input type="text" id="msg" class="form-control chat-message-send mx-1" placeholder="Type your message here...">
 							                <button type="button" id="button-send" class="btn btn-primary glow send d-lg-flex"><i class="feather icon-play"></i>
 							                    <span class="d-none d-lg-block mx-50">Send</span>
