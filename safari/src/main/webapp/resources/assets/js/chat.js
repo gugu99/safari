@@ -27,6 +27,7 @@ $(document).ready(function () {
 	
 	// 채팅 유저 리스트에 active 클래스를 주고 AJAX로 정보 받아오기
 	$(".chat-sidebar-list-wrapper ul li").on("click", function () {
+		// 메시지 출력 부분의 하위 요소 제거
 		$("#msgArea").empty();
 		
 		if ($(".chat-sidebar-list-wrapper ul li").hasClass("active")) {
@@ -42,22 +43,34 @@ $(document).ready(function () {
 			chatArea.removeClass("d-none");
 			
 			console.log("selected!!!");
-			
-			let chatRoomName = $("#roomName").text();
-			let chatRoomNo = $(".chatRoomNo").val();
+		} else {
+			// 채팅방에서 나간 경우
+			chatStart.removeClass("d-none");
+			chatArea.addClass("d-none");
+		}
+		
+		let chatRoomName = $("#roomName").text();
 			let login = $("#login").val();
-			let workMemberName = $("#workMemberName").val();		
+			let workMemberName = $("#workMemberName").val();
+			// 자식요소 중 class 이름이 chatRoomNo인 요소를 찾는다.
+			let chatRoomNo = $(this).find('.chatRoomNo').val();
 				
+			/*
 			console.log("chatRoomName: " + chatRoomName);
-			console.log("chatRoomNo: " + chatRoomNo);
 			console.log("login: " + login);
 			console.log("workMemberName: " + workMemberName);
+			
+			console.log("===================================");
+			console.log("chatRoomNo: " + $(this).find('.chatRoomNo').val());
+			console.log("===================================");
+			*/
 			
 			// ajax로 방 정보 받아오기
 			$.ajax({
 				type : 'get',
-				url : '/member/chatRoom',
-				data: {chatRoomNo : $(".chatRoomNo").val(), workMemberNo : $('#workMemberNo').val()},
+				url : '/member/chat/' + $(this).find('.chatRoomNo').val(),
+				// 채팅 방 번호와 자기 자신의 workMemberNo를 전송
+				data: { chatRoomNo : chatRoomNo, workMemberNo : $('#workMemberNo').val()},
 				success : function(json){
 					console.log(json);
 					
@@ -91,7 +104,10 @@ $(document).ready(function () {
 		                    str = '<div class="chat chat-left">'
 		                    str += '<div class="chat-avatar">'
 		                    str += '<a class="avatar m-0">'
-		                        str += '<img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-11.png" alt="avatar" height="36" width="36"/>'
+		                        str += '<div class="avatar avatar-busy m-0 mr-50 bg-info">'
+										str += '<span class="fa fa-user"></span>'
+								str += '</div>'
+		                        // str += '<img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-11.png" alt="avatar" height="36" width="36"/>'
 		                    	str += '<p>' + item.workMemberName + '<p>'
 		                    str += '</a>'
 		                    str += '</div>'
@@ -111,6 +127,7 @@ $(document).ready(function () {
 					console.log("ERROR");
 				}
 			})
+			
 			
 			// STOMP 통신 시작
 			
@@ -150,7 +167,11 @@ $(document).ready(function () {
 	                    str = '<div class="chat">'
 	                    str += '<div class="chat-avatar">'
 	                    str += '<a class="avatar m-0">'
-	                        str += '<img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-11.png" alt="avatar" height="36" width="36"/>'
+	                    	str += '<div class="avatar avatar-busy m-0 mr-50 bg-info">'
+								str += '<span class="fa fa-user"></span>'
+							str += '</div>'
+	                        // str += '<img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-11.png" alt="avatar" height="36" width="36"/>'
+	                    	str += '<p>' + content.workMemberName + '<p>'
 	                    str += '</a>'
 	                    str += '</div>'
 	                    	str += '<div class="chat-body">'
@@ -164,7 +185,11 @@ $(document).ready(function () {
 	                    str = '<div class="chat chat-left">'
 	                    str += '<div class="chat-avatar">'
 	                    str += '<a class="avatar m-0">'
-	                        str += '<img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-11.png" alt="avatar" height="36" width="36"/>'
+	                    	str += '<div class="avatar avatar-busy m-0 mr-50 bg-info">'
+								str += '<span class="fa fa-user"></span>'
+							str += '</div>'
+	                        // str += '<img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-11.png" alt="avatar" height="36" width="36"/>'
+	                    	str += '<p>' + content.workMemberName + '<p>'
 	                    str += '</a>'
 	                    str += '</div>'
 	                    	str += '<div class="chat-body">'
@@ -188,13 +213,7 @@ $(document).ready(function () {
 			                stomp.send('/pub/chat/message', JSON.stringify({chatRoomNo: chatRoomNo, chatMsg: msg, workMemberName: workMemberName, chatMemberEmail: login}));
 			                $("#msg").val('');
 			            });
-			        });
-		        
-		} else {
-			// 채팅방에서 나간 경우
-			chatStart.removeClass("d-none");
-			chatArea.addClass("d-none");
-		}
+			        }); // end for stomp
 	});
 	
 	
