@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,7 @@ import com.gd.safari.mapper.IChatRoomMapper;
 import com.gd.safari.mapper.IProjectSummaryMapper;
 import com.gd.safari.mapper.IWorkspaceMemberMapper;
 import com.gd.safari.vo.ChatMember;
+import com.gd.safari.vo.ChatMsg;
 import com.gd.safari.vo.ChatRoom;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,15 +49,12 @@ public class ChatService implements IChatService {
 		return map;
 	}
 	
-	// 채팅 내역 리턴
-	
-
-	// 하나의 채팅방 정보 리턴
+	// 하나의 채팅방 정보 리턴 (기존 채팅 내역, 채팅방 정보)
 	@Override
 	@Transactional
-	public List<Map<String, Object>> getChatRoom(Map<String, Object> map) {
+	public Map<String, Object> getChatRoom(Map<String, Object> paramMap) {
 		log.debug(TeamColor.CSK + "getChatRoom");
-		log.debug(TeamColor.CSK + map);
+		log.debug(TeamColor.CSK + paramMap);
 		
 //		if(map.get("workMemberNo") != null) {
 //			// INSERT 대상
@@ -89,7 +89,26 @@ public class ChatService implements IChatService {
 //		}
 		
 		// 기존 채팅 메시지 정보 불러오기
+		Map<String, Object> map = new HashMap<>();
 		
-		return chatMsgMapper.selectMsgListByChatRoomNo(map);
+		// 기존 메시지 리스트
+		List<Map<String, Object>> msgList = chatMsgMapper.selectMsgListByChatRoomNo(paramMap);
+		map.put("msgList", msgList);
+		
+		int chatMemberNo = chatMemberMapper.selectChatMemberNoByWorkMemberEmail(paramMap);
+		map.put("chatMemberNo", chatMemberNo);
+		
+		return map;
+	}
+	
+	// 채팅 메시지 저장
+	@Override
+	@Transactional
+	public void addChatMsg(Map<String, Object> map) {
+	    int result = chatMsgMapper.insertChatMsg(map);
+	    
+	    if(result != 1) {
+	        throw new RuntimeException();
+	    }
 	}
 }

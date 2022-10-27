@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gd.safari.mapper.IChatMsgMapper">
-	<!-- 채팅 메세지 보내가 -->
-	<insert id="insertChatMsg" parameterType="com.gd.safari.vo.ChatMsg">
-		INSERT INTO
-			chat_msg
-			(
-				chat_member_no
-				, chat_msg
-				, create_date
-			)
-		VALUES
-			(
-				#{chatMemberNo}
-				, #{chatMsg}
-				, NOW()
-			)
+	<!-- 채팅 메세지 저장 -->
+	<insert id="insertChatMsg" parameterType="java.util.Map">
+		INSERT INTO chat_msg (
+			chat_member_no
+			, chat_msg
+			, create_date
+		) VALUES (
+			#{chatMemberNo}
+			, #{chatMsg}
+			, NOW()
+		)
 	</insert>
 	
 	<!-- 채팅 메시지 리스트 -->
 	<select id="selectMsgListByChatRoomNo" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
 			chat_msg chatMsg
-			, cm.create_date createDate
+			, msg.create_date createDate
 			, cr.chat_room_no chatRoomNo
 			, wm.work_member_name workMemberName
 		FROM

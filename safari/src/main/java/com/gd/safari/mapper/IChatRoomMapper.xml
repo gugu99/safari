@@ -30,6 +30,24 @@
 		SELECT
 			cr.chat_room_name chatRoomName
 			, cr.chat_room_no chatRoomNo
+			, (SELECT
+					chat_msg
+				FROM
+					chat
+				WHERE
+					chat_room_no = chatRoomNo
+				AND
+					chat_msg_no
+				IN
+					(
+					SELECT
+						MAX(chat_msg_no)
+					FROM
+						chat
+					GROUP BY
+						chat_room_no
+					)
+			) lastMsg
 		FROM
 			chat_room cr
 		INNER JOIN

@@ -148,8 +148,8 @@
 										</c:otherwise>
 									</c:choose>
 	                                    <div class="chat-sidebar-name pl-1">
-	                                        <h6 class="mb-0">${cr.chatRoomName}</h6><span class="text-muted">마지막 메시지 보여줄 자리</span>
-	                                    	<input type="text" class="chatRoomNo" value="${cr.chatRoomNo}">
+	                                        <h6 class="mb-0">${cr.chatRoomName}</h6><span class="text-muted">${cr.lastMsg}</span>
+	                                    	<input type="hidden" class="chatRoomNo" value="${cr.chatRoomNo}">
 	                                    </div>
 	                                </div>
 	                            </li>
@@ -285,7 +285,7 @@
 							        </span>
 							        <div class="my-2">
 							
-							            <img src="${pageContext.request.contextPath }/resources/app-assets/images/portrait/small/avatar-s-26.png" class="round mb-1" alt="chat avatar" height="100" width="100">
+							            <img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-26.png" class="round mb-1" alt="chat avatar" height="100" width="100">
 							
 							        <h5 class="app-chat-user-name mb-0">Elizabeth Elliott</h5>
 							        <span>Devloper</span>

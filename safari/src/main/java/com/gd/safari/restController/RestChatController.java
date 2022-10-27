@@ -1,5 +1,6 @@
 package com.gd.safari.restController;
 
+import java.time.LocalTime;
 import java.util.*;
 
 import javax.servlet.http.HttpSession;
@@ -8,16 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gd.safari.commons.TeamColor;
+import com.gd.safari.mapper.IChatMsgMapper;
 import com.gd.safari.service.IChatService;
 
 import lombok.RequiredArgsConstructor;
@@ -55,23 +55,22 @@ public class RestChatController {
 	// 채팅방 입장
 	// @RequestMapping(value="/chat", method= RequestMethod.GET)
 	@GetMapping("/{chatRoomNo}")
-    public List<Map<String, Object>> getChatRoom(ModelAndView mv, @RequestParam Map<String, Object> map, @PathVariable int chatRoomNo, HttpSession session){
+    public Map<String, Object> getChatRoom(ModelAndView mv, @RequestParam Map<String, Object> map, @PathVariable int chatRoomNo, HttpSession session){
 	    log.debug(TeamColor.CSK + "getChatRoom1 : " + map);
 	    
 	    map.put("workNo", (int)session.getAttribute("workNo"));
     	map.put("chatRoomNo", chatRoomNo);
-    	map.put("workMemberName", (String)session.getAttribute("workMemberName")); // 방 이름 만들기
-    	map.put("workMemberEmail", (String)session.getAttribute("login")); // 스스로의 이름
+    	map.put("workMemberEmail", session.getAttribute("login"));
     	
     	log.debug(TeamColor.CSK + "getChatRoom: " + map);
     	
-    	List<Map<String, Object>> msgList = chatService.getChatRoom(map);
-    	log.debug(TeamColor.CSK + "msgList: " + msgList);
+    	Map<String, Object> chatRoom = chatService.getChatRoom(map);
+    	log.debug(TeamColor.CSK + "chatRoom: " + chatRoom);
     	
     	// 없으면 insert한 뒤 return 해줌
     	// log.debug(TeamColor.CSK + chatRoom);
     	
-        return msgList;
+        return chatRoom;
     }
 	
 	// Client가 send할 수 있는 경로
@@ -83,7 +82,7 @@ public class RestChatController {
 //		// 클라이언트에서 "/pub/chat/enter"로 발행 요청을 하면 /sub/chat?chatRoomno=로 메시지가 전송됨
 //		
 //		log.debug(TeamColor.CSK + "환영 인사!!!");
-//		
+//		w
 //		map.put("chatMsg", map.get("workMemberName") + "님이 입장하였습니다." );
 //		map.put("option", "notice" );
 //		template.convertAndSend("/sub/chat?chatRoomNo=" + map.get("chatRoomNo"), map);
@@ -93,8 +92,13 @@ public class RestChatController {
 	// 일반 메시지 매핑
 	@MessageMapping(value="/chat/message")
 	public void message(Map<String, Object> map) {
-		log.debug(TeamColor.CSK + "일반 메시지");
-		template.convertAndSend("/sub/chat?chatRoomNo=" + map.get("chatRoomNo"), map);
-		log.debug(TeamColor.CSK + "message: " + map);
+		// message: {chatRoomNo=1, chatMsg=반갑습니다, workMemberName=서경, chatMemberEmail=stringbuckwheat@gmail.com}
+	    log.debug(TeamColor.CSK + "message: " + map);
+	    map.put("time", LocalTime.now());
+		
+	   // DB에 저장
+	   chatService.addChatMsg(map);
+	    
+	   template.convertAndSend("/sub/chat/" + map.get("chatRoomNo"), map);
 	}
 }

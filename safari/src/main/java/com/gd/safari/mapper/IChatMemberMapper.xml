@@ -17,4 +17,15 @@
 				, NOW()
 			)
 	</insert>
+	
+	<select id="selectChatMemberNoByWorkMemberEmail" parameterType="java.util.Map" resultType="int">
+		SELECT 
+			chat_member_no 
+		FROM 
+			chat_member 
+		WHERE 
+			chat_room_no = #{chatRoomNo} 
+		AND 
+			chat_member_email = #{workMemberEmail}
+	</select>
 </mapper>
