@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.management.RuntimeErrorException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +15,6 @@ import com.gd.safari.mapper.IChatRoomMapper;
 import com.gd.safari.mapper.IProjectSummaryMapper;
 import com.gd.safari.mapper.IWorkspaceMemberMapper;
 import com.gd.safari.vo.ChatMember;
-import com.gd.safari.vo.ChatMsg;
-import com.gd.safari.vo.ChatRoom;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -56,38 +52,6 @@ public class ChatService implements IChatService {
 		log.debug(TeamColor.CSK + "getChatRoom");
 		log.debug(TeamColor.CSK + paramMap);
 		
-//		if(map.get("workMemberNo") != null) {
-//			// INSERT 대상
-//			// chatRoomName 만들기: '승현,다은' 모양의 채팅방 이름 생성
-//			Map<String, Object> workMember = workspaceMemberMapper.selectWorkspaceMemberOne(Integer.parseInt((String)map.get("workMemberNo")));
-//			
-//			String chatRoomName = (String) map.get("workMemberName");
-//			chatRoomName += "," + workMember.get("workMemberName");
-//			
-//			log.debug(TeamColor.CSK + chatRoomName);
-//			map.put("chatRoomName", chatRoomName);
-//			
-//			// 채팅 방 만들기
-//			chatRoomMapper.insertChatRoom(map);
-//			log.debug(TeamColor.CSK + map);
-//			
-//			// 채팅방에 멤버 추가
-//			// #{chatRoomNo} , #{chatMemberEmail}
-//			ChatMember chatMember = new ChatMember();
-//			chatMember.setChatRoomNo((int)map.get("chatRoomNo"));
-//			
-//			// 자기 자신
-//			chatMember.setChatMemberEmail(String.valueOf(workMember.get("workMemberEmail")));
-//			chatMemberMapper.insertChatMember(chatMember);
-//			
-//			// 상대
-//			chatMember.setChatMemberEmail(String.valueOf(map.get("workMemberEmail")));
-//			chatMemberMapper.insertChatMember(chatMember);
-//			
-//			return null;
-//					// chatMsgMapper.selectMsgListByChatRoomNo((int)map.get("chatRoomNo"));
-//		}
-		
 		// 기존 채팅 메시지 정보 불러오기
 		Map<String, Object> map = new HashMap<>();
 		
@@ -99,6 +63,42 @@ public class ChatService implements IChatService {
 		map.put("chatMemberNo", chatMemberNo);
 		
 		return map;
+	}
+	
+	@Override
+	@Transactional
+	public Map<String, Object> addChatRoom(Map<String, Object> paramMap) {
+	    // 채팅방 만들기
+	    // 채팅 상대의 정보 불러오기
+        Map<String, Object> workMember = workspaceMemberMapper.selectWorkspaceMemberOne(Integer.parseInt((String)paramMap.get("workMemberNo")));
+        log.debug(TeamColor.CSK + "workMember: " + workMember);
+        
+        // TODO 멀티채팅 구현 시 방 이름 바꾸기
+        // String chatRoomName = String.valueOf(workMember.get("workMemberName"));
+        paramMap.put("chatRoomName", workMember.get("workMemberName"));  // 상대 이름
+        paramMap.put("workNo", workMember.get("workNo"));
+        
+        // chat_room_name, work_no (chat_room)
+        // chat_room_no, chat_member_email(chat_member)
+
+        // 채팅 방 만들기
+        chatRoomMapper.insertChatRoom(paramMap);
+        log.debug(TeamColor.CSK + paramMap);
+       
+        // 채팅방에 멤버 추가
+        // #{chatRoomNo} , #{chatMemberEmail}
+        ChatMember chatMember = new ChatMember();
+        chatMember.setChatRoomNo((int)paramMap.get("chatRoomNo")); // select key로 받아온 채팅방 번호 세팅
+        
+        // 자기 자신
+        chatMember.setChatMemberEmail(String.valueOf(paramMap.get("login")));
+        chatMemberMapper.insertChatMember(chatMember);
+        
+        // 상대
+        chatMember.setChatMemberEmail(String.valueOf(workMember.get("workMemberEmail")));
+        chatMemberMapper.insertChatMember(chatMember);
+        
+	    return paramMap;
 	}
 	
 	// 채팅 메시지 저장

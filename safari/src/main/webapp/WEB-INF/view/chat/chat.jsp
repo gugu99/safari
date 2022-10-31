@@ -129,7 +129,7 @@
                          
                         <!-- 채팅방 목록 -->
                         <h6 class="px-2 pt-2 pb-25 mb-0">CHATS</h6>
-                        <ul class="chat-sidebar-list">
+                        <ul class="chat-sidebar-list" id="chat-list">
                         	<c:forEach var="cr" items="${chatRoomList}">
 	                            <li>
 	                            	<div class="d-flex align-items-center">
@@ -158,33 +158,32 @@
                         
                         <!-- 친구 리스트 -->
                         <h6 class="px-2 pt-2 pb-25 mb-0">CONTACTS<i class="feather icon-plus float-right cursor-pointer"></i></h6>
-                        <ul class="chat-sidebar-list">
+                        <ul class="chat-sidebar-list" id="contact-list">
                         	<!-- 반복문 -->
                         	<c:forEach var="wm" items="${workspaceMemberList}">
                         		<c:if test="${sessionScope.workMemberNo ne wm.workMemberNo}">
-			                       <a href="${pageContext.request.contextPath}/member/chatRoom?workMemberNo=${wm.workMemberNo}">    
-			                           <li>
-			                                <div class="d-flex align-items-center">
-				                                <c:choose>
-													<c:when test="${wm.filename eq null}">
-														<div class="avatar avatar-offline bg-info m-0 mr-50">
-															<span class="fa fa-user"></span>
-															<i></i>
-														</div>
-													</c:when>
-													<c:otherwise>
-														<div class="avatar avatar-away m-0 mr-50">
-															<img src="${pageContext.request.contextPath}/resources/upload/${wm.filename}${wm.fileExt}" alt="avatar">
-															<i></i>
-														</div>
-													</c:otherwise>
-												</c:choose>
-			                                    <div class="chat-sidebar-name pl-1">
-			                                        <h6 class="mb-0" id="chatMemberName">${wm.workMemberName}</h6><span class="text-muted">${wm.workMemberPos}</span>
-			                                    </div>
-			                                </div>
-			                            </li>
-			                        </a>
+		                           <li>
+		                                <div class="d-flex align-items-center">
+			                                <c:choose>
+												<c:when test="${wm.filename eq null}">
+													<div class="avatar avatar-offline bg-info m-0 mr-50">
+														<span class="fa fa-user"></span>
+														<i></i>
+													</div>
+												</c:when>
+												<c:otherwise>
+													<div class="avatar avatar-away m-0 mr-50">
+														<img src="${pageContext.request.contextPath}/resources/upload/${wm.filename}${wm.fileExt}" alt="avatar">
+														<i></i>
+													</div>
+												</c:otherwise>
+											</c:choose>
+		                                    <div class="chat-sidebar-name pl-1">
+		                                        <h6 class="mb-0" id="chatMemberName">${wm.workMemberName}</h6><span class="text-muted">${wm.workMemberPos}</span>
+		                                    	<input type="hidden" class="workMemberNo" value="${wm.workMemberNo}">
+		                                    </div>
+		                                </div>
+		                            </li>
 			                    </c:if>
                             </c:forEach>
                             <!-- 반복문 -->
@@ -258,7 +257,6 @@
 							                    <!-- APPEND -->                                            
 							                    <!-- APPEND -->
 							
-							                    <!-- 가짜 데이터 -->
 												<input type="hidden" value="${sessionScope.login}" id="login">
 												<input type="hidden" value="${sessionScope.workMemberName}" id="workMemberName">
 							                    <!-- 가짜 데이터 -->
@@ -322,6 +320,7 @@
     <!-- END: Theme JS-->
 	
 	<script src="${pageContext.request.contextPath}/resources/assets/js/chat.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/assets/js/addChatRoom.js"></script>
 	
 </body>
 <!-- END: Body-->

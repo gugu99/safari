@@ -11,6 +11,9 @@ public interface IChatService {
 	// 채팅방 하나의 정보 리턴 (기존 채팅 메시지 리스트, 방 이름, chatMemberNo...)
 	Map<String, Object> getChatRoom(Map<String, Object> map);
 	
+	// 채팅방 생성
+	Map<String, Object> addChatRoom(Map<String, Object> paramMap);
+	
 	// 채팅 메시지 저장
 	void addChatMsg(Map<String, Object> map);
 }
