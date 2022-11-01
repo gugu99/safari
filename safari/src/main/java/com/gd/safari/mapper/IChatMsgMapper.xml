@@ -47,6 +47,6 @@
 				chat_member
 			WHERE
 				chat_room_no = #{chatRoomNo}
-			)	
+			)
 	</select>
 </mapper>

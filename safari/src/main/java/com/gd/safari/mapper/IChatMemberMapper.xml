@@ -28,4 +28,25 @@
 		AND 
 			chat_member_email = #{workMemberEmail}
 	</select>
+	
+	<select id="selectChatRoomNoByWorkMemberEmail" parameterType="java.util.Map" resultType="Integer">
+		SELECT
+			cm.chat_room_no chatRoomNo
+		FROM
+			chat_member cm
+		INNER JOIN
+			chat_member cm2
+		ON
+			cm.chat_room_no = cm2.chat_room_no
+		INNER JOIN
+			chat_room cr
+		ON
+			cm.chat_room_no = cr.chat_room_no
+		WHERE
+			cm.chat_member_email = #{login}
+		AND
+			cm2.chat_member_email = #{workMemberEmail}
+		AND
+			cr.work_no = #{workNo};
+	</select>
 </mapper>

@@ -30,8 +30,9 @@ $(document).ready(function () {
 	// 아래처럼 조건을 바꾸어 이벤트를 선택자가 아니라 document에 위임
 	$(document).on("click",".chat-sidebar-list-wrapper ul li",function(){
 		console.log('$(".chat-sidebar-list-wrapper ul li").on("click",');
-		// 메시지 출력 부분의 하위 요소 제거
+		// 메시지 출력 부분의 하위 요소와 메시지 입력창 초기화
 		$("#msgArea").empty();
+		$("#msg").val(null);
 		
 		if ($(".chat-sidebar-list-wrapper ul li").hasClass("active")) {
 			$(".chat-sidebar-list-wrapper ul li").removeClass("active");

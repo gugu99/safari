@@ -73,6 +73,21 @@ public class ChatService implements IChatService {
         Map<String, Object> workMember = workspaceMemberMapper.selectWorkspaceMemberOne(Integer.parseInt((String)paramMap.get("workMemberNo")));
         log.debug(TeamColor.CSK + "workMember: " + workMember);
         
+        paramMap.put("workMemberEmail", workMember.get("workMemberEmail"));
+        log.debug(TeamColor.CSK + "paramMap: " + paramMap);
+        
+        // 기존 채팅방이 존재하는지 확인
+        // TODO 여기서 chatMemberNo까지 받아오면 좀 더 효율적
+        Integer chatRoomNo = chatMemberMapper.selectChatRoomNoByWorkMemberEmail(paramMap);
+        log.debug(TeamColor.CSK + "chatRoomNo: " + chatRoomNo);
+        
+        // 기존 채팅방이 존재하면
+        if(chatRoomNo != null) {
+            paramMap.put("chatRoomNo", chatRoomNo);
+            paramMap.put("insert", "");
+            return paramMap;
+        }
+        
         // TODO 멀티채팅 구현 시 방 이름 바꾸기
         // String chatRoomName = String.valueOf(workMember.get("workMemberName"));
         paramMap.put("chatRoomName", workMember.get("workMemberName"));  // 상대 이름

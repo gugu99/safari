@@ -13,4 +13,7 @@ public interface IChatMemberMapper {
 	
 	// email과 chatRoomNo를 통해 chatMemberNo를 리턴
 	int selectChatMemberNoByWorkMemberEmail(Map<String, Object> paramMap);
+	
+	// 기존 1:1 채팅방이 있는지 리턴하는 메소드
+	Integer selectChatRoomNoByWorkMemberEmail(Map<String, Object> paramMap);
 }

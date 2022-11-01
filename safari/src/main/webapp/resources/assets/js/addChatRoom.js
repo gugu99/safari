@@ -11,6 +11,18 @@
 				console.log('success!');
 				console.log(json);
 				
+				///////////////////////////
+				// 이미 채팅방이 개설된 경우에 해당 채팅방을 클릭한다
+				if(json.insert != null){
+					console.log("NO INSERT");
+					
+					// selector뒤에 빈칸을 넣고 selector를 쓰면, 하위를 찾겠다는 말
+					// chat-list에서 해당 채팅방을 찾은 다음 클릭 trigger
+					$('#chat-list [value="' + json.chatRoomNo + '"]').trigger('click');
+
+					return;
+				}
+				
 				let str = "";
 				
 				// 채팅방 목록에 append

@@ -59,8 +59,11 @@ public class RestChatController {
     public Map<String, Object> chat(HttpSession session, @RequestParam Map<String, Object> paramMap){
         // 필요한 data: chat_room_name, work_no(chat_room) / chat_room_no(select key로 받아오기), chat_member_email(내 이메일 - 세션, 상대 이메일) - (chat_member)
         paramMap.put("login", (String)session.getAttribute("login"));
+        paramMap.put("workNo", (int)session.getAttribute("workNo"));
         log.debug(TeamColor.CSK + "paramMap: " + paramMap);
         
+        // 이미 1:1 채팅방이 개설되어 있으면 그 채팅방을 return 하고,
+        // 해당 유저와의 1:1 채팅방이 없을 시 새 채팅방을 만든 뒤 return한다.
         Map<String, Object> chatRoom = chatService.addChatRoom(paramMap);
         log.debug(TeamColor.CSK + "chatRoom: " + chatRoom);
         
