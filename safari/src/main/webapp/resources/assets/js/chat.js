@@ -53,8 +53,10 @@ $(document).ready(function () {
 		}
 	});
 	
+	let chatMemberNo = 0;
+	
 	// 채팅 유저 리스트에 active 클래스를 주고 AJAX로 정보 받아오기
-	$(document).on("click","#chat-list li",function(){
+	$(document).on("click","#chat-list li", function(){
 	// $("#chat-list li").on("click", function () {
 		console.log("chatlist selected");
 		
@@ -63,7 +65,7 @@ $(document).ready(function () {
 		let workMemberName = $("#workMemberName").val(); //?
 		// 자식요소 중 class 이름이 chatRoomNo인 요소를 찾는다.
 		let chatRoomNo = $(this).find('.chatRoomNo').val();
-		let chatMemberNo = -1; // 초기화
+		
 			
 		/*
 		console.log("chatRoomName: " + chatRoomName);
@@ -89,7 +91,9 @@ $(document).ready(function () {
 					console.log(item);
 					
 					chatMemberNo = item.chatMemberNo;
+					console.log("===================================");
 					console.log("chatMemberNo: " + chatMemberNo);
+					console.log("===================================");
 					
 					for(let i = 0; i < item.msgList.length; i++){
 					
@@ -137,16 +141,11 @@ $(document).ready(function () {
 		                }
 					
 						$("#msgArea").append(str);
-					}
-				});
-			},
-			error : function(){
-				console.log("ERROR");
-			}
-		})
-			
-		///////////////////////////
+						
+						///////////////////////////
 		// STOMP 통신 시작
+		
+		console.log(chatMemberNo);
 		
 		let sockJs = new SockJS("/stomp/chat"); 
 		// registerStompEndpoints - registry.addEndpoint("/stomp/chat")
@@ -182,6 +181,8 @@ $(document).ready(function () {
                 if(content.chatMemberEmail == null){
                     str = '<div class="badge badge-pill badge-light-secondary my-1">' + msg + '</div>';
                 } else if(chatMemberEmail === login){
+					console.log("chatMemberEmail === login");
+	
                     str = '<div class="chat">'
                     str += '<div class="chat-avatar">'
                     str += '<a class="avatar m-0">'
@@ -200,6 +201,8 @@ $(document).ready(function () {
                 	str += '</div>'
             		str += '</div>';
                 } else {
+					console.log("else");
+	
                     str = '<div class="chat chat-left">'
                     str += '<div class="chat-avatar">'
                     str += '<a class="avatar m-0">'
@@ -219,13 +222,19 @@ $(document).ready(function () {
             		str += '</div>';
                 }
                 
-                	// console.log(str);
+                	console.log(str);
 		           $("#msgArea").append(str);
 		           str = '';
 				}); 
 				
 		        $("#button-send").on("click", function(e){
 	                var msg = $("#msg").val();
+	               	
+	               	if(msg == "" || msg == null){
+						return;
+					}
+	                
+	                console.log("STOMP SEND")
 	                console.log(workMemberName + "(" + chatMemberNo + "):" + msg);
 	                
 	                stomp.send('/pub/chat/message', JSON.stringify({chatRoomNo: chatRoomNo, chatMemberNo: chatMemberNo, chatMsg: msg, workMemberName: workMemberName, chatMemberEmail: login}));
@@ -236,9 +245,17 @@ $(document).ready(function () {
 		        $("#msg").keyup(function(event) {
     				if (event.which === 13) {
         				$("#button-send").click();
-    			}
-    		});
+    				}
+    			});
 		}); // end for stomp subscribe
+					}
+				});
+			},
+			error : function(){
+				console.log("ERROR");
+			}
+		})
+			
 	});
 	
 	
