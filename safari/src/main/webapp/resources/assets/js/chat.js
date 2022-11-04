@@ -45,8 +45,6 @@ $(document).ready(function () {
 			// 클래스 값 변경
 			chatStart.addClass("d-none");
 			chatArea.removeClass("d-none");
-			
-			console.log("selected!!!");
 		} else {
 			chatStart.removeClass("d-none");
 			chatArea.addClass("d-none");
@@ -66,7 +64,6 @@ $(document).ready(function () {
 		// 자식요소 중 class 이름이 chatRoomNo인 요소를 찾는다.
 		let chatRoomNo = $(this).find('.chatRoomNo').val();
 		
-			
 		/*
 		console.log("chatRoomName: " + chatRoomName);
 		console.log("login: " + login);
@@ -77,19 +74,27 @@ $(document).ready(function () {
 		console.log("===================================");
 		*/
 			
-		// ajax로 방 정보 받아오기
-		$.ajax({
-			type : 'get',
-			url : '/member/chat/' + $(this).find('.chatRoomNo').val(),
-			// 채팅 방 번호와 자기 자신의 workMemberNo를 전송
-			data: { chatRoomNo : chatRoomNo},
-			success : function(json){
-				console.log(json);
+		// ajax로 방 정보와 기존 채팅 메시지 목록 받아오기
+		function chatRoomInfo(){
+			return new Promise(function(resolve, reject){
+				$.ajax({
+					type : 'get',
+					url : '/member/chat/' + chatRoomNo,
+					// 채팅 방 번호와 자기 자신의 workMemberNo를 전송
+					data: { chatRoomNo : chatRoomNo},
+					success: function(json){
+						resolve(json);
+					}
+				}); // end for ajax
+			})
+		}
+		
+		// return 받은 json을 메시지 영역에 append
+		function append(json){
+			return new Promise(function(resolve, reject){
+				console.log("APPEND");
 				
 				$(json).each(function(index, item){
-					console.log("item");
-					console.log(item);
-					
 					chatMemberNo = item.chatMemberNo;
 					console.log("===================================");
 					console.log("chatMemberNo: " + chatMemberNo);
@@ -101,35 +106,31 @@ $(document).ready(function () {
 						
 						// 접속자의 이름과 메시지 보낸 이의 이름이 같은 경우
 						if(workMemberName === item.msgList[i].workMemberName){
-							console.log("나" + item.chatMsg);
+							console.log("나: " + item.msgList[i].chatMsg);
 							
 		                    str = '<div class="chat">'
 		                    str += '<div class="chat-avatar">'
-		                    str += '<a class="avatar m-0">'
 		                    	str += '<div class="avatar avatar-busy m-0 mr-50 bg-info">'
 									str += '<span class="fa fa-user"></span>'
-								str += '</div>'
+								str += '</div>' // end for avatar
 		                        // str += '<img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-11.png" alt="avatar" height="36" width="36"/>'
 		                    	str += '<p>' + item.msgList[i].workMemberName + '<p>'
-		                    str += '</a>'
-		                    str += '</div>'
+		                    str += '</div>' // end for chat-avatar
 		                    	str += '<div class="chat-body">'
 		                    		str += '<div class="chat-message">'
-		                        str += '<p>' + item.msgList[i].chatMsg + '</p>'
-		                        str += '<span class="chat-time">' + item.msgList[i].createDate + '</span>'
-		                    str += '</div>'
-		                	str += '</div>'
-		            		str += '</div>';
+		                        		str += '<p>' + item.msgList[i].chatMsg + '</p>'
+		                        		str += '<span class="chat-time">' + item.msgList[i].createDate + '</span>'
+		                    		str += '</div>' // end for chat-message
+		                		str += '</div>' // end for chat-message
+		            		str += '</div>'; // end for chat
 		                } else {
 		                    str = '<div class="chat chat-left">'
 		                    str += '<div class="chat-avatar">'
-		                    str += '<a class="avatar m-0">'
 		                        str += '<div class="avatar avatar-busy m-0 mr-50 bg-info">'
 									str += '<span class="fa fa-user"></span>'
 								str += '</div>'
 		                        // str += '<img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-11.png" alt="avatar" height="36" width="36"/>'
 		                    	str += '<p>' + item.msgList[i].workMemberName + '<p>'
-		                    str += '</a>'
 		                    str += '</div>'
 		                    	str += '<div class="chat-body">'
 		                    		str += '<div class="chat-message">'
@@ -139,124 +140,127 @@ $(document).ready(function () {
 		                	str += '</div>'
 		            		str += '</div>';
 		                }
-					
-						$("#msgArea").append(str);
 						
-						///////////////////////////
-		// STOMP 통신 시작
-		
-		console.log(chatMemberNo);
-		
-		let sockJs = new SockJS("/stomp/chat"); 
-		// registerStompEndpoints - registry.addEndpoint("/stomp/chat")
-		// var sockJs = new SockJS("http://localhost:80/ws/chat", null, {transports: ["websocket", "xhr-streaming", "xhr-polling"]});
-		console.log("sockJs");
-		console.log(sockJs);
-		
-		var stomp = webstomp.over(sockJs);
-		console.log(stomp);
-		
-		// 2. connection 성공 시 콜백함수
-		stomp.connect({}, function(){
-			console.log("STOMP connected!");
-			//3. send(path, header, message)로 메세지를 보낼 수 있음
-            // stomp.send('/pub/chat/enter', JSON.stringify({chatRoomNo: chatRoomNo, workMemberName: workMemberName}));
-			
-			//4. subscribe(path, callback)으로 메세지를 받을 수 있음
-            stomp.subscribe("/sub/chat/" + chatRoomNo, function (chat) {
-            	console.log("subscribe!!!");
-            	console.log("chat");
-            	console.log(chat.body);
-            	
-                var content = JSON.parse(chat.body);
-            	console.log("content");
-            	console.log(content);
-
-                var chatMemberEmail = content.chatMemberEmail;
-                let msg = content.chatMsg;
-                console.log("SUBSCRIBE")
-                console.log(chatMemberEmail + ": " + msg); 
-                let str = '';
-                
-                if(content.chatMemberEmail == null){
-                    str = '<div class="badge badge-pill badge-light-secondary my-1">' + msg + '</div>';
-                } else if(chatMemberEmail === login){
-					console.log("chatMemberEmail === login");
-	
-                    str = '<div class="chat">'
-                    str += '<div class="chat-avatar">'
-                    str += '<a class="avatar m-0">'
-                    	str += '<div class="avatar avatar-busy m-0 mr-50 bg-info">'
-							str += '<span class="fa fa-user"></span>'
-						str += '</div>'
-                        // str += '<img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-11.png" alt="avatar" height="36" width="36"/>'
-                    	str += '<p>' + content.workMemberName + '<p>'
-                    str += '</a>'
-                    str += '</div>'
-                    	str += '<div class="chat-body">'
-                    		str += '<div class="chat-message">'
-                        str += '<p>' + msg + '</p>'
-                        str += '<span class="chat-time">'+ content.time + '</span>'
-                    str += '</div>'
-                	str += '</div>'
-            		str += '</div>';
-                } else {
-					console.log("else");
-	
-                    str = '<div class="chat chat-left">'
-                    str += '<div class="chat-avatar">'
-                    str += '<a class="avatar m-0">'
-                    	str += '<div class="avatar avatar-busy m-0 mr-50 bg-info">'
-							str += '<span class="fa fa-user"></span>'
-						str += '</div>'
-                        // str += '<img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-11.png" alt="avatar" height="36" width="36"/>'
-                    	str += '<p>' + content.workMemberName + '<p>'
-                    str += '</a>'
-                    str += '</div>'
-                    	str += '<div class="chat-body">'
-                    		str += '<div class="chat-message">'
-                        str += '<p>' + msg + '</p>'
-                        str += '<span class="chat-time">' + content.time + '</span>'
-                    str += '</div>'
-                	str += '</div>'
-            		str += '</div>';
-                }
-                
-                	console.log(str);
-		           $("#msgArea").append(str);
-		           str = '';
-				}); 
+						$("#msgArea").append(str);
+					} // end for 반복문
+				}) // end for json 함수
 				
-		        $("#button-send").on("click", function(e){
-	                var msg = $("#msg").val();
-	               	
-	               	if(msg == "" || msg == null){
-						return;
-					}
+				resolve();
+			})
+		}
+		
+		// STOMP 통신 시작
+		function stompConnection(){
+			const sockJs = new SockJS("/stomp/chat"); 
+			// registerStompEndpoints - registry.addEndpoint("/stomp/chat")
+			// var sockJs = new SockJS("http://localhost:80/ws/chat", null, {transports: ["websocket", "xhr-streaming", "xhr-polling"]});
+		
+			const stomp = webstomp.over(sockJs);
+		
+			// 2. connection 성공 시 콜백함수
+			stomp.connect({}, function(){
+				console.log("STOMP connected!");
+				//3. send(path, header, message)로 메세지를 보낼 수 있음
+	            // stomp.send('/pub/chat/enter', JSON.stringify({chatRoomNo: chatRoomNo, workMemberName: workMemberName}));
+				
+				//4. subscribe(path, callback)으로 메세지를 받을 수 있음
+	            stomp.subscribe("/sub/chat/" + chatRoomNo, function (chat) {
+	            	console.log("subscribe!!!");
+	            	
+	                let content = JSON.parse(chat.body);
+	                let chatMemberEmail = content.chatMemberEmail;
+	                let msg = content.chatMsg;
+	                console.log(chatMemberEmail + ": " + msg); 
+	                let str = '';
 	                
-	                console.log("STOMP SEND")
-	                console.log(workMemberName + "(" + chatMemberNo + "):" + msg);
+	                if(content.chatMemberEmail == null){
+	                    str = '<div class="badge badge-pill badge-light-secondary my-1">' + msg + '</div>';
+	                } else if(chatMemberEmail === login){
+						console.log("chatMemberEmail === login");
+		
+	                    str = '<div class="chat">'
+	                    str += '<div class="chat-avatar">'
+	                    	str += '<div class="avatar avatar-busy m-0 mr-50 bg-info">'
+								str += '<span class="fa fa-user"></span>'
+							str += '</div>'
+	                        // str += '<img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-11.png" alt="avatar" height="36" width="36"/>'
+	                    	str += '<p>' + content.workMemberName + '<p>'
+	                    str += '</div>'
+	                    	str += '<div class="chat-body">'
+	                    		str += '<div class="chat-message">'
+	                        str += '<p>' + msg + '</p>'
+	                        str += '<span class="chat-time">'+ content.time + '</span>'
+	                    str += '</div>'
+	                	str += '</div>'
+	            		str += '</div>';
+	                } else {
+						console.log("else");
+		
+	                    str = '<div class="chat chat-left">'
+	                    str += '<div class="chat-avatar">'
+	                    	str += '<div class="avatar avatar-busy m-0 mr-50 bg-info">'
+								str += '<span class="fa fa-user"></span>'
+							str += '</div>'
+	                        // str += '<img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-11.png" alt="avatar" height="36" width="36"/>'
+	                    	str += '<p>' + content.workMemberName + '<p>'
+	                    str += '</div>'
+	                    	str += '<div class="chat-body">'
+	                    		str += '<div class="chat-message">'
+	                        str += '<p>' + msg + '</p>'
+	                        str += '<span class="chat-time">' + content.time + '</span>'
+	                    str += '</div>'
+	                	str += '</div>'
+	            		str += '</div>';
+	                }
 	                
-	                stomp.send('/pub/chat/message', JSON.stringify({chatRoomNo: chatRoomNo, chatMemberNo: chatMemberNo, chatMsg: msg, workMemberName: workMemberName, chatMemberEmail: login}));
-	                $("#msg").val(null);
-		        });
-		        
-		        // 엔터키를 누르면 submit 버튼이 눌리도록
-		        $("#msg").keyup(function(event) {
-    				if (event.which === 13) {
-        				$("#button-send").click();
-    				}
-    			});
-		}); // end for stomp subscribe
-					}
-				});
-			},
-			error : function(){
-				console.log("ERROR");
-			}
-		})
-			
-	});
+	                // 	console.log(str);
+	                	console.log(" === STOMP append === ");
+			           $("#msgArea").append(str);
+			           str = '';
+					}); 
+					
+			        $("#button-send").off("click.").on("click", function(e){
+						console.log("#button-send on click!!");
+		                var msg = $("#msg").val();
+		               	
+		               	if(msg == "" || msg == null){
+							console.log("빈칸");
+							return;
+						}
+						
+						if (e.isComposing || e.keyCode === 229) {
+							console.log("e.isComposing || e.keyCode === 229");
+							return;
+						}
+		                
+		                console.log("STOMP SEND")
+		                console.log(workMemberName + "(" + chatMemberNo + "):" + msg);
+		                
+		                stomp.send('/pub/chat/message', JSON.stringify({chatRoomNo: chatRoomNo, chatMemberNo: chatMemberNo, chatMsg: msg, workMemberName: workMemberName, chatMemberEmail: login}));
+		                $("#msg").val(null);
+			        });
+			        
+			        // 엔터키를 누르면 submit 버튼이 눌리도록
+			        
+			        $("#msg").keyup(function(event) {
+	    				if (event.which === 13) {
+							console.log("enter key pressed!");
+	        				$("#button-send").click();
+	    				}
+	    			});
+	    			
+				}); // end for stomp subscribe
+		}
+		
+		// 체이닝!!!!
+		// 채팅방 정보와 메시지 리스트를 받아온 다음
+		// 메시지를 특정 영역에 append 한 뒤
+		// stomp 연결을 시작한다.
+		chatRoomInfo()
+		.then(append)
+		.then(stompConnection);
+		
+	}); // end for chat-list click
 	
 	
 	// menu user list perfect scrollbar initialization
