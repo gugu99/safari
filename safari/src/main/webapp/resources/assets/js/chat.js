@@ -51,7 +51,7 @@ $(document).ready(function () {
 		}
 	});
 	
-	let chatMemberNo = 0;
+	
 	
 	// 채팅 유저 리스트에 active 클래스를 주고 AJAX로 정보 받아오기
 	$(document).on("click","#chat-list li", function(){
@@ -62,6 +62,10 @@ $(document).ready(function () {
 		let workMemberName = $("#workMemberName").val(); //?
 		// 자식요소 중 class 이름이 chatRoomNo인 요소를 찾는다.
 		let chatRoomNo = $(this).find('.chatRoomNo').val();
+		let chatMemberNo = 0;
+		
+		let sockJs = null;
+		let stomp = null;
 		
 		/*
 		console.log("chatRoomName: " + chatRoomName);
@@ -96,7 +100,7 @@ $(document).ready(function () {
 				
 				$(json).each(function(index, item){
 					// $("#chatRoomName").text(item.chatRoomName);
-					
+					$('.chat-container').scrollTop(0);
 					chatMemberNo = item.chatMemberNo;
 					/*
 					console.log("===================================");
@@ -151,17 +155,22 @@ $(document).ready(function () {
 					} // end for 반복문
 				}) // end for json 함수
 				
+				// 자동 스크롤
+				chatContainer.animate({
+					scrollTop: chatContainer[0].scrollHeight
+				}, 400)				
+				
 				resolve();
 			})
 		}
 		
 		// STOMP 통신 시작
 		function stompConnection(){
-			const sockJs = new SockJS("/stomp/chat"); 
+			sockJs = new SockJS("/stomp/chat"); 
 			// registerStompEndpoints - registry.addEndpoint("/stomp/chat")
 			// var sockJs = new SockJS("http://localhost:80/ws/chat", null, {transports: ["websocket", "xhr-streaming", "xhr-polling"]});
 		
-			const stomp = webstomp.over(sockJs);
+			stomp = webstomp.over(sockJs);
 		
 			// 2. connection 성공 시 콜백함수
 			stomp.connect({}, function(){
@@ -221,9 +230,14 @@ $(document).ready(function () {
 	            		str += '</div>';
 	                }
 	                
-	                //	console.log(" === STOMP append === ");
+	                	//	console.log(" === STOMP append === ");
 			           $("#msgArea").append(str);
 			           str = '';
+			           
+			           // 자동스크롤
+			          chatContainer.animate({
+							scrollTop: chatContainer[0].scrollHeight
+						}, 400)	
 					});
 					
 			        $("#button-send").off("click").on("click", function(e){
