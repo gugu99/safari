@@ -1,5 +1,6 @@
 package com.gd.safari.restController;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -96,7 +97,7 @@ public class RestChatController {
     public void message(Map<String, Object> map) {
        // message: {chatRoomNo=1, chatMsg=반갑습니다, workMemberName=서경, chatMemberEmail=stringbuckwheat@gmail.com}
        log.debug(TeamColor.CSK + "message: " + map);
-       map.put("time", LocalTime.now());
+       map.put("time", LocalDateTime.now());
        
        // DB에 저장
        chatService.addChatMsg(map);

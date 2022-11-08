@@ -58,7 +58,6 @@ $(document).ready(function () {
 	// $("#chat-list li").on("click", function () {
 		console.log("chatlist selected");
 		
-		let chatRoomName = $("#roomName").text();
 		let login = $("#login").val();
 		let workMemberName = $("#workMemberName").val(); //?
 		// 자식요소 중 class 이름이 chatRoomNo인 요소를 찾는다.
@@ -83,6 +82,7 @@ $(document).ready(function () {
 					// 채팅 방 번호와 자기 자신의 workMemberNo를 전송
 					data: { chatRoomNo : chatRoomNo},
 					success: function(json){
+						console.log(json);
 						resolve(json);
 					}
 				}); // end for ajax
@@ -95,6 +95,8 @@ $(document).ready(function () {
 				console.log("APPEND");
 				
 				$(json).each(function(index, item){
+					// $("#chatRoomName").text(item.chatRoomName);
+					
 					chatMemberNo = item.chatMemberNo;
 					console.log("===================================");
 					console.log("chatMemberNo: " + chatMemberNo);
@@ -103,6 +105,8 @@ $(document).ready(function () {
 					for(let i = 0; i < item.msgList.length; i++){
 					
 						let str = "";
+						let msgTime = timeForToday(item.msgList[i].createDate);
+						console.log(msgTime);
 						
 						// 접속자의 이름과 메시지 보낸 이의 이름이 같은 경우
 						if(workMemberName === item.msgList[i].workMemberName){
@@ -119,7 +123,7 @@ $(document).ready(function () {
 		                    	str += '<div class="chat-body">'
 		                    		str += '<div class="chat-message">'
 		                        		str += '<p>' + item.msgList[i].chatMsg + '</p>'
-		                        		str += '<span class="chat-time">' + item.msgList[i].createDate + '</span>'
+		                        		str += '<span class="chat-time">' + msgTime + '</span>'
 		                    		str += '</div>' // end for chat-message
 		                		str += '</div>' // end for chat-message
 		            		str += '</div>'; // end for chat
@@ -135,7 +139,7 @@ $(document).ready(function () {
 		                    	str += '<div class="chat-body">'
 		                    		str += '<div class="chat-message">'
 		                       str += '<p>' + item.msgList[i].chatMsg + '</p>'
-		                        str += '<span class="chat-time">' + item.msgList[i].createDate + '</span>'
+		                        str += '<span class="chat-time">' + msgTime + '</span>'
 		                    str += '</div>'
 		                	str += '</div>'
 		            		str += '</div>';
@@ -173,6 +177,8 @@ $(document).ready(function () {
 	                console.log(chatMemberEmail + ": " + msg); 
 	                let str = '';
 	                
+	                let msgTime = timeForToday(content.time);
+	                
 	                if(content.chatMemberEmail == null){
 	                    str = '<div class="badge badge-pill badge-light-secondary my-1">' + msg + '</div>';
 	                } else if(chatMemberEmail === login){
@@ -189,7 +195,7 @@ $(document).ready(function () {
 	                    	str += '<div class="chat-body">'
 	                    		str += '<div class="chat-message">'
 	                        str += '<p>' + msg + '</p>'
-	                        str += '<span class="chat-time">'+ content.time + '</span>'
+	                        str += '<span class="chat-time">'+ msgTime + '</span>'
 	                    str += '</div>'
 	                	str += '</div>'
 	            		str += '</div>';
@@ -207,7 +213,7 @@ $(document).ready(function () {
 	                    	str += '<div class="chat-body">'
 	                    		str += '<div class="chat-message">'
 	                        str += '<p>' + msg + '</p>'
-	                        str += '<span class="chat-time">' + content.time + '</span>'
+	                        str += '<span class="chat-time">' + msgTime + '</span>'
 	                    str += '</div>'
 	                	str += '</div>'
 	            		str += '</div>';
@@ -251,6 +257,34 @@ $(document).ready(function () {
 	    			
 				}); // end for stomp subscribe
 		}
+		
+		// 메시지 시간 계산 함수
+		function timeForToday(value) {
+	        const today = new Date();
+	        const timeValue = new Date(value);
+	
+	        const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+	        
+	        if (betweenTime < 1) return '방금전';
+	        
+	        if (betweenTime < 60) {
+	            return `${betweenTime}분전`;
+	        }
+	
+	        const betweenTimeHour = Math.floor(betweenTime / 60);
+	        
+	        if (betweenTimeHour < 24) {
+	            return `${betweenTimeHour}시간전`;
+	        }
+	
+	        const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+	        
+	        if (betweenTimeDay < 365) {
+	            return `${betweenTimeDay}일전`;
+	        }
+	
+	        return `${Math.floor(betweenTimeDay / 365)}년전`;
+ 		}
 		
 		// 체이닝!!!!
 		// 채팅방 정보와 메시지 리스트를 받아온 다음

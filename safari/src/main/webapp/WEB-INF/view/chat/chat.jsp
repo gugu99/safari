@@ -45,6 +45,7 @@
         <div class="sidebar-left">
             <div class="sidebar">
                 <!-- app chat user profile left sidebar start -->
+                <!-- 
                 <div class="chat-user-profile">
                     <header class="chat-user-profile-header text-center border-bottom">
                         <span class="chat-profile-close">
@@ -93,6 +94,7 @@
                         </div>
                     </div>
                 </div>
+                -->
                 <!-- app chat user profile left sidebar ends -->
                 <!-- app chat sidebar start -->
                 <div class="chat-sidebar card">
@@ -101,11 +103,13 @@
                     </span>
                     <div class="chat-sidebar-search">
                         <div class="d-flex align-items-center">
+                        	<!-- 
                             <div class="chat-sidebar-profile-toggle">
                                 <div class="avatar">
                                     <img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-11.png" alt="user_avatar" height="36" width="36">
                                 </div>
                             </div>
+                            -->
                             <fieldset class="form-group position-relative has-icon-left mx-75 mb-0">
                                 <input type="text" class="form-control round" id="chat-search" placeholder="Search">
                                 <div class="form-control-position">
@@ -134,7 +138,7 @@
 	                            <li>
 	                            	<div class="d-flex align-items-center">
 		                             <c:choose>
-										<c:when test="${wm.filename eq null}">
+										<c:when test="${cr.filename eq null}">
 											<div class="avatar avatar-busy m-0 mr-50 bg-info">
 												<span class="fa fa-user"></span>
 												<i></i>
@@ -142,7 +146,7 @@
 										</c:when>
 										<c:otherwise>
 											<div class="avatar avatar-away m-0 mr-50">
-												<img src="${pageContext.request.contextPath}/resources/upload/${wm.filename}${wm.fileExt}" alt="avatar">
+												<img src="${pageContext.request.contextPath}/resources/upload/${cr.filename}${cr.fileExt}" alt="avatar">
 												<i></i>
 											</div>
 										</c:otherwise>
@@ -210,6 +214,7 @@
 	                            <button class="btn btn-light-primary chat-start-text chat-sidebar-toggle d-block d-lg-none py-50 px-1">대화하기</button>
 	                        </div>
 							<div class="chat-area d-none">
+								<!-- 
 							    <div class="chat-header">
 							        <header class="d-flex justify-content-between align-items-center px-1 py-75">
 							            <div class="d-flex align-items-center">
@@ -220,7 +225,7 @@
 							                    <img src="${pageContext.request.contextPath}/resources/app-assets/images/portrait/small/avatar-s-26.png" alt="avatar" height="36" width="36" />
 							                    <i></i>
 							                </div>
-							                <!-- chatRoomName -->
+							               
 							                <h6 class="mb-0" id="chatRoomName"></h6>
 							            </div>
 							            <div class="chat-header-icons">
@@ -230,9 +235,7 @@
 							                <span class="dropdown">
 							                    <i class="feather icon-more-vertical font-medium-4 ml-25 cursor-pointer dropdown-toggle nav-hide-arrow cursor-pointer" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu">
 							                    </i>
-							                    <!-- bar -->
-							                    <!-- bar -->
-							                    <!-- bar -->
+							                    
 							                    <span class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
 							                        <a class="dropdown-item" href="JavaScript:void(0);"><i class="feather icon-tag mr-25"></i> Pin to top</a>
 							                        <a class="dropdown-item" href="JavaScript:void(0);"><i class="feather icon-trash-2 mr-25"></i> Delete
@@ -243,6 +246,7 @@
 							            </div>
 							        </header>
 							    </div>
+							    -->
 							    <!-- chat card start -->
 							    <div class="card chat-wrapper shadow-none mb-0">
 							        <div class="card-content">
@@ -264,11 +268,16 @@
 							            </div><!-- end for card-body chat-container -->
 							        </div><!-- end for card-content -->
 							        <div class="card-footer chat-footer px-2 py-1 pb-0">
-							                <i class="feather icon-user cursor-pointer"></i>
-							                <input type="text" id="msg" class="form-control chat-message-send mx-1" placeholder="Type your message here...">
-							                <button type="button" id="button-send" class="btn btn-primary glow send d-lg-flex"><i class="feather icon-play"></i>
-							                    <span class="d-none d-lg-block mx-50">Send</span>
-							                </button>
+								        <div class="row">
+								        <!-- 
+							                <i class="feather icon-user cursor-pointer"></i> -->
+							                <div class="col-md-10">
+							                	<input type="text" id="msg" class="form-control chat-message-send mx-1">
+							                </div>
+							                 <div class="col-md-2">
+							               		<button type="button" id="button-send" class="btn btn-primary glow send"><i class="feather icon-play"></i>전송</button>
+							                </div>
+								        </div>
 							        </div>
 							    </div>
 							    <!-- chat card ends -->
@@ -276,6 +285,7 @@
 							</section>
 							<!-- app chat window ends -->
 							<!-- app chat profile right sidebar start -->
+							<!-- 
 							<section class="chat-profile">
 							    <header class="chat-profile-header text-center border-bottom">
 							        <span class="chat-profile-close">
@@ -299,6 +309,7 @@
 							    </ul>
 							</div>
                     </section>
+                     -->
                 </div>
             </div>
         </div>
@@ -308,7 +319,7 @@
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
 
-   <%@ include file="/WEB-INF/view/inc/footer.jsp" %> <!-- footer -->
+   <%@ include file="/WEB-INF/view/inc/footer.jsp"%> <!-- footer -->
 
     <!-- BEGIN: Vendor JS-->
     <script src="${pageContext.request.contextPath}/resources/app-assets/vendors/js/vendors.min.js"></script>

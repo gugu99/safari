@@ -28,8 +28,10 @@
 	<!-- 채팅방 리스트 -->
 	<select id="selectChatRoomListByWorkMemberEmail" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
-			cr.chat_room_name chatRoomName
-			, cr.chat_room_no chatRoomNo
+			cr.chat_room_no chatRoomNo
+			, work_member_name chatRoomName
+			, filename
+			, file_ext fileExt
 			, (SELECT
 					chat_msg
 				FROM
@@ -54,9 +56,32 @@
 			chat_member cm
 		ON
 			cr.chat_room_no = cm.chat_room_no
+		INNER JOIN
+			(SELECT
+				cr.chat_room_no 
+				, work_member_name
+				, filename
+				, file_ext
+			FROM 
+				chat_member cm
+			INNER JOIN
+				v_workspace_member v
+			ON
+				cm.chat_member_email = v.work_member_email
+			INNER JOIN
+				chat_room cr
+			ON
+				cr.chat_room_no = cm.chat_room_no
+			WHERE
+				v.work_no = #{workNo}
+			AND
+				chat_member_email != #{workMemberEmail}) crn
+		ON
+			crn.chat_room_no = cr.chat_room_no
 		WHERE
 			cm.chat_member_email = #{workMemberEmail}
 		AND
-			cr.work_no = #{workNo}
+			cr.work_no = #{workNo};
+
 	</select>
 </mapper>
