@@ -48,5 +48,7 @@
 			WHERE
 				chat_room_no = #{chatRoomNo}
 			)
+		ORDER BY
+			msg.create_date
 	</select>
 </mapper>
