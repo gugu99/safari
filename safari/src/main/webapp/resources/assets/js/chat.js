@@ -62,7 +62,6 @@ $(document).ready(function () {
 		let workMemberName = $("#workMemberName").val(); //?
 		// 자식요소 중 class 이름이 chatRoomNo인 요소를 찾는다.
 		let chatRoomNo = $(this).find('.chatRoomNo').val();
-		let chatMemberNo = 0;
 		
 		let sockJs = null;
 		let stomp = null;
@@ -97,6 +96,7 @@ $(document).ready(function () {
 		function append(json){
 			return new Promise(function(resolve, reject){
 				// console.log("APPEND");
+				let chatMemberNo;
 				
 				$(json).each(function(index, item){
 					// $("#chatRoomName").text(item.chatRoomName);
@@ -160,12 +160,12 @@ $(document).ready(function () {
 					scrollTop: chatContainer[0].scrollHeight
 				}, 400)				
 				
-				resolve();
+				resolve(chatMemberNo);
 			})
 		}
 		
 		// STOMP 통신 시작
-		function stompConnection(){
+		function stompConnection(chatMemberNo){
 			sockJs = new SockJS("/stomp/chat"); 
 			// registerStompEndpoints - registry.addEndpoint("/stomp/chat")
 			// var sockJs = new SockJS("http://localhost:80/ws/chat", null, {transports: ["websocket", "xhr-streaming", "xhr-polling"]});
